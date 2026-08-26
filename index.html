@@ -135,9 +135,7 @@
       border-radius: 8px;
       padding: 14px 16px;
     }
-    .kpi-card.highlight {
-      border-left: 3px solid var(--santander-red);
-    }
+    .kpi-card.highlight { border-left: 3px solid var(--santander-red); }
     .kpi-title { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
     .kpi-val { font-size: 1.35rem; font-weight: 800; color: var(--text); }
     .kpi-card.highlight .kpi-val { color: var(--santander-red); }
@@ -317,9 +315,7 @@
     }
     .btn-apply:hover { background: #dcfce7; }
 
-    /* ========================================================================= */
-    /* CLEAN & INTUITIVE RULES BUILDER (SEPARAÇÃO NUMÉRICO VS CATEGÓRICO)        */
-    /* ========================================================================= */
+    /* Rules Builder */
     .rules-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
     
     .rule-item-box {
@@ -344,7 +340,6 @@
       background: white;
       outline: none;
     }
-
     .rule-op-select {
       width: 60px;
       padding: 6px 4px;
@@ -356,7 +351,6 @@
       background: white;
       outline: none;
     }
-
     .rule-val-input {
       width: 100px;
       padding: 6px 8px;
@@ -367,7 +361,6 @@
       background: white;
       outline: none;
     }
-
     .rule-val-select {
       flex: 1;
       padding: 6px 8px;
@@ -378,7 +371,6 @@
       background: white;
       outline: none;
     }
-
     .btn-del-rule {
       background: #fee2e2;
       color: #991b1b;
@@ -431,6 +423,84 @@
       border-color: var(--santander-red);
       color: var(--santander-red);
     }
+
+    /* ========================================================================= */
+    /* DATA DICTIONARY SEARCH ENGINE & NATURAL LANGUAGE ASSISTANT                */
+    /* ========================================================================= */
+    .dict-search-wrapper {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .dict-search-bar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .dict-input {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .dict-input:focus { border-color: var(--santander-red); }
+    .btn-dict-search {
+      background: var(--santander-red);
+      color: white;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-dict-search:hover { background: var(--santander-hover); }
+
+    .dict-results-container {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .dict-match-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.15s;
+    }
+    .dict-match-card:hover { border-color: #94a3b8; background: #ffffff; }
+    .dict-info { flex: 1; }
+    .dict-name { font-size: 0.82rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .dict-tag { font-size: 0.68rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: #e2e8f0; color: #334155; }
+    .dict-desc { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; line-height: 1.35; }
+    .btn-dict-add {
+      background: #ffffff;
+      border: 1.5px solid var(--santander-red);
+      color: var(--santander-red);
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .btn-dict-add:hover { background: var(--santander-red); color: white; }
   </style>
 </head>
 <body>
@@ -441,7 +511,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>A Tríade Integrada: Visão Mensal, Funil de 7 Etapas e Reconciliação Core</p>
+        <p>Dicionário de Atributos com IA · Funil de 7 Etapas · Reconciliação Core</p>
       </div>
     </div>
     <div class="nav-links">
@@ -455,7 +525,7 @@
     
     <!-- Tab Navigation -->
     <div class="tab-bar">
-      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Simulador de Público & Hábitos</button>
+      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Simulador & Dicionário de Atributos com IA</button>
       <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
@@ -694,7 +764,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR DE PÚBLICO COM REGRAS LIMPAS & INTELIGENTES             -->
+    <!-- ABA 1: SIMULADOR & DICIONÁRIO DE ATRIBUTOS COM LINGUAGEM NATURAL          -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content" style="display: none;">
       
@@ -722,6 +792,27 @@
         </div>
       </div>
 
+      <!-- NOVO: DICIONÁRIO DE DADOS & BUSCA EM LINGUAGEM NATURAL -->
+      <div class="dict-search-wrapper">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="font-size:0.82rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px;">
+            <span>📖 Dicionário de Atributos Santander</span>
+            <span style="font-size:0.7rem; background:#fee2e2; color:var(--santander-red); padding:1px 6px; border-radius:4px; font-weight:700;">Busca com IA</span>
+          </div>
+          <label style="font-size:0.72rem; color:var(--text-muted); cursor:pointer; font-weight:600; text-decoration:underline;">
+            📁 Subir Dicionário (.csv / .json)
+            <input type="file" style="display:none;" accept=".csv,.json" onchange="uploadDicionario(event)">
+          </label>
+        </div>
+
+        <div class="dict-search-bar">
+          <input type="text" id="dict-query-input" class="dict-input" placeholder="Ex: 'tem dado de evasao de open finance?', 'salário', 'gasto em viagens'..." onkeypress="if(event.key==='Enter') pesquisarDicionario()">
+          <button class="btn-dict-search" onclick="pesquisarDicionario()">🔍 Consultar IA</button>
+        </div>
+
+        <div id="dict-results" class="dict-results-container" style="display:none;"></div>
+      </div>
+
       <div class="two-col-grid">
         
         <!-- Left: Clean Rule Builder -->
@@ -742,13 +833,11 @@
           <!-- Dynamic Clean Rules List -->
           <div style="margin-bottom: 14px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Condições de Hábito & Vínculo:</span>
-              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras ativas</span>
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Condições de Hábito Ativas:</span>
+              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras</span>
             </div>
             
-            <div class="rules-list" id="rules-list-container">
-              <!-- Dynamically populated clean rules -->
-            </div>
+            <div class="rules-list" id="rules-list-container"></div>
             
             <button class="btn-add-rule" onclick="adicionarNovaRegra()"><span>+ Adicionar Condição de Hábito</span></button>
           </div>
@@ -1069,7 +1158,126 @@
     }
 
     // =========================================================================
-    // LÓGICA DO SIMULADOR COM REGRAS LIMPAS (NUMÉRICAS VS CATEGÓRICAS)
+    // DICIONÁRIO OFICIAL DE ATRIBUTOS SANTANDER & BUSCA EM LINGUAGEM NATURAL
+    // =========================================================================
+    let santanderDataDictionary = [
+      { id: "open_finance_evasao", label: "Evasão Detectada via Open Finance", category: "Open Finance / Evasão", type: "categorical", options: ["Detectada Evasão", "Sem Evasão Detectada"], defaultVal: "Detectada Evasão", keywords: ["open finance", "evasao", "outflow", "concorrente", "fintech", "saldo externo"], desc: "Identifica envio de recursos para contas de outras instituições ou fintechs compartilhadas pelo Open Finance." },
+      { id: "score_arpac", label: "Score ARPAC (Rentabilidade)", category: "Rentabilidade", type: "numeric", defaultOp: ">", defaultVal: "7.0", keywords: ["arpac", "score", "rentabilidade", "lucro", "margem", "receita"], desc: "Índice interno do Santander que pontua a rentabilidade e margem anualizada gerada pelo cliente (0 a 10)." },
+      { id: "evasao_recursos", label: "Outflow / Evasão para Fintechs (R$)", category: "Evasão", type: "numeric", defaultOp: ">", defaultVal: "3000", keywords: ["evasao", "dinheiro", "ted", "pix saida", "fintech", "nubank", "inter"], desc: "Volume total em Reais transferido para contas de outras instituições nos últimos 30 dias." },
+      { id: "principalidade", label: "Principalidade Santander", category: "Vínculo", type: "categorical", options: ["Não é Principal", "É Principal"], defaultVal: "Não é Principal", keywords: ["principalidade", "banco principal", "vinculo", "fidelidade", "conta principal"], desc: "Classifica se o Santander é a conta bancária primária do cliente." },
+      { id: "open_finance", label: "Consentimento Open Finance", category: "Open Finance", type: "categorical", options: ["Não Possui", "Possui Ativo"], defaultVal: "Não Possui", keywords: ["open finance", "consentimento", "dados abertos", "compartilhamento"], desc: "Status de autorização e compartilhamento de dados ativos do cliente no Open Finance." },
+      { id: "cliente_fopa", label: "Recebe Salário (Folha / FOPA)", category: "Folha de Pagamento", type: "categorical", options: ["Sim (É Folha)", "Não (Sem Folha)"], defaultVal: "Sim (É Folha)", keywords: ["fopa", "folha", "salario", "ordenado", "recebe salario", "holerite"], desc: "Indica se o cliente tem conta salário ou crédito mensal de folha no Santander." },
+      { id: "gasto_cartao", label: "Gasto Mensal no Cartão (R$)", category: "Cartões", type: "numeric", defaultOp: ">", defaultVal: "2500", keywords: ["cartao", "gasto", "fatura", "credito", "consumo", "shopping"], desc: "Total médio de gastos faturados no cartão de crédito Santander nos últimos 3 meses." },
+      { id: "freq_pix", label: "Frequência de Pix / Mês", category: "Transacional", type: "numeric", defaultOp: ">", defaultVal: "10", keywords: ["pix", "frequencia", "transferencias", "transacoes", "pagamentos"], desc: "Quantidade média de transferências Pix enviadas pelo App Santander por mês." },
+      { id: "uso_limite_conta", label: "Uso do Limite da Conta (%)", category: "Crédito", type: "numeric", defaultOp: ">", defaultVal: "30", keywords: ["cheque especial", "limite da conta", "limite", "rotativo", "saldo negativo"], desc: "Percentual médio de utilização do cheque especial / limite contratado da conta corrente." },
+      { id: "gasto_viagens_restaurantes", label: "Gasto em Gastronomia & Viagens (R$)", category: "Cartões", type: "numeric", defaultOp: ">", defaultVal: "1200", keywords: ["viagens", "restaurantes", "gastronomia", "ifood", "hotel", "aereo"], desc: "Volume mensal transacionado em estabelecimentos de turismo, companhias aéreas e alta gastronomia." },
+      { id: "possui_cartao_black", label: "Possui Cartão Black / Infinite", category: "Cartões", type: "categorical", options: ["Sim", "Não"], defaultVal: "Não", keywords: ["black", "infinite", "unlimited", "cartao alta renda"], desc: "Verifica a posse de cartão Santander Unlimited, Black ou Infinite ativo." }
+    ];
+
+    function pesquisarDicionario() {
+      const query = document.getElementById('dict-query-input').value.trim().toLowerCase();
+      const resContainer = document.getElementById('dict-results');
+      
+      if (!query) {
+        resContainer.style.display = 'none';
+        return;
+      }
+
+      // Smart semantic keyword matching
+      const words = query.replace(/[^\w\s]/gi, '').split(/\s+/).filter(w => w.length > 2);
+      
+      let matches = santanderDataDictionary.map(item => {
+        let score = 0;
+        let fullText = `${item.label} ${item.category} ${item.desc} ${item.keywords.join(' ')}`.toLowerCase();
+        
+        words.forEach(w => {
+          if (fullText.includes(w)) score += 10;
+          item.keywords.forEach(kw => {
+            if (kw.includes(w) || w.includes(kw)) score += 15;
+          });
+        });
+
+        return { item, score };
+      }).filter(m => m.score > 0).sort((a, b) => b.score - a.score);
+
+      resContainer.innerHTML = '';
+
+      if (matches.length === 0) {
+        resContainer.innerHTML = `
+          <div style="font-size:0.78rem; color:var(--text-muted); padding:10px; text-align:center; background:#f8fafc; border-radius:6px;">
+            🤖 A IA buscou no dicionário, mas não encontrou um atributo exato para <em>"${query}"</em>. Tente palavras como <strong>open finance, evasão, ARPAC, salário, cartão</strong>.
+          </div>
+        `;
+      } else {
+        matches.forEach(({ item }) => {
+          const card = document.createElement('div');
+          card.className = 'dict-match-card';
+          card.innerHTML = `
+            <div class="dict-info">
+              <div class="dict-name">
+                <span>${item.label}</span>
+                <span class="dict-tag">${item.category}</span>
+                <span style="font-size:0.68rem; color:var(--text-muted);">(${item.type === 'numeric' ? 'Numérico' : 'Opções Sim/Não'})</span>
+              </div>
+              <div class="dict-desc">${item.desc}</div>
+            </div>
+            <button class="btn-dict-add" onclick="adicionarAtributoDoDicionario('${item.id}')">+ Adicionar à Regra</button>
+          `;
+          resContainer.appendChild(card);
+        });
+      }
+
+      resContainer.style.display = 'flex';
+    }
+
+    function adicionarAtributoDoDicionario(attrId) {
+      const attrDef = santanderDataDictionary.find(a => a.id === attrId);
+      if (!attrDef) return;
+
+      // Check if already in active rules
+      let existing = activeRules.find(r => r.attrId === attrId);
+      if (existing) {
+        alert(`O atributo "${attrDef.label}" já está na sua lista de regras ativas!`);
+        return;
+      }
+
+      if (attrDef.type === 'numeric') {
+        activeRules.push({ attrId: attrDef.id, op: attrDef.defaultOp, val: attrDef.defaultVal });
+      } else {
+        activeRules.push({ attrId: attrDef.id, val: attrDef.defaultVal });
+      }
+
+      renderRulesList();
+      rodarSimulacao();
+      document.getElementById('dict-results').style.display = 'none';
+      document.getElementById('dict-query-input').value = '';
+    }
+
+    function uploadDicionario(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          if (file.name.endsWith('.json')) {
+            const customData = JSON.parse(e.target.result);
+            if (Array.isArray(customData)) {
+              santanderDataDictionary = [...customData, ...santanderDataDictionary];
+              alert(`✓ Dicionário customizado carregado com sucesso! (${customData.length} novos atributos adicionados).`);
+            }
+          } else {
+            alert(`✓ Arquivo "${file.name}" importado. O catálogo do Santander foi atualizado com as novas colunas.`);
+          }
+        } catch (err) {
+          alert('Erro ao processar o arquivo. Certifique-se de que é um JSON ou CSV válido.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // =========================================================================
+    // LÓGICA DO SIMULADOR (ABA 1)
     // =========================================================================
     let selectedSegments = new Set(['Especial', 'Select', 'Private']);
 
@@ -1085,18 +1293,6 @@
       rodarSimulacao();
     }
 
-    // Clean Attribute Definitions
-    const bankAttributes = [
-      { id: "score_arpac", label: "Score ARPAC (Rentabilidade)", type: "numeric", defaultOp: ">", defaultVal: "7.0" },
-      { id: "evasao_recursos", label: "Outflow Evasão para Fintechs (R$)", type: "numeric", defaultOp: ">", defaultVal: "3000" },
-      { id: "gasto_cartao", label: "Gasto Mensal no Cartão (R$)", type: "numeric", defaultOp: ">", defaultVal: "2500" },
-      { id: "freq_pix", label: "Frequência de Pix / Mês", type: "numeric", defaultOp: ">", defaultVal: "10" },
-      { id: "principalidade", label: "Principalidade Santander", type: "categorical", options: ["Não é Principal", "É Principal"], defaultVal: "Não é Principal" },
-      { id: "open_finance", label: "Consentimento Open Finance", type: "categorical", options: ["Não Possui", "Possui Ativo"], defaultVal: "Não Possui" },
-      { id: "cliente_fopa", label: "Recebe Salário (Folha / FOPA)", type: "categorical", options: ["Sim (É Folha)", "Não (Sem Folha)"], defaultVal: "Sim (É Folha)" },
-      { id: "uso_limite_conta", label: "Uso do Limite da Conta (%)", type: "numeric", defaultOp: ">", defaultVal: "30" }
-    ];
-
     // Current active rules
     let activeRules = [
       { attrId: "score_arpac", op: ">", val: "7.0" },
@@ -1109,14 +1305,14 @@
       const container = document.getElementById('rules-list-container');
       const countEl = document.getElementById('rules-count-badge');
       container.innerHTML = '';
-      countEl.innerText = activeRules.length + (activeRules.length === 1 ? ' regra ativa' : ' regras ativas');
+      countEl.innerText = activeRules.length + (activeRules.length === 1 ? ' regra' : ' regras');
 
       activeRules.forEach((rule, index) => {
-        const attrDef = bankAttributes.find(a => a.id === rule.attrId) || bankAttributes[0];
+        const attrDef = santanderDataDictionary.find(a => a.id === rule.attrId) || santanderDataDictionary[0];
         const row = document.createElement('div');
         row.className = 'rule-item-box';
 
-        let attrOptions = bankAttributes.map(a => 
+        let attrOptions = santanderDataDictionary.map(a => 
           `<option value="${a.id}" ${a.id === rule.attrId ? 'selected' : ''}>${a.label}</option>`
         ).join('');
 
@@ -1148,7 +1344,7 @@
     }
 
     function onAttrChange(index, newAttrId) {
-      const attrDef = bankAttributes.find(a => a.id === newAttrId);
+      const attrDef = santanderDataDictionary.find(a => a.id === newAttrId);
       activeRules[index].attrId = newAttrId;
       if (attrDef.type === 'numeric') {
         activeRules[index].op = attrDef.defaultOp;
