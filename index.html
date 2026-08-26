@@ -187,11 +187,11 @@
     }
 
     /* Geometric Width Hierarchy */
-    .tier-w1 { width: 100%; border-left: 6px solid #1e293b; }
-    .tier-w2 { width: 93%; border-left: 6px solid #0284c7; }
-    .tier-w3 { width: 86%; border-left: 6px solid #f59e0b; }
-    .tier-w4 { width: 79%; border-left: 6px solid #475569; }
-    .tier-w5 { width: 72%; border-left: 6px solid #8b5cf6; }
+    .tier-w1 { width: 100%; border-left: 6px solid #0284c7; }
+    .tier-w2 { width: 93%; border-left: 6px solid #f59e0b; }
+    .tier-w3 { width: 86%; border-left: 6px solid #475569; }
+    .tier-w4 { width: 79%; border-left: 6px solid #8b5cf6; }
+    .tier-w5 { width: 72%; border-left: 6px solid #6366f1; }
     .tier-w6 { width: 65%; border-left: 6px solid #7c3aed; background: #faf5ff; }
     .tier-w7 { width: 58%; border-left: 6px solid var(--santander-red); background: var(--santander-light); border-color: #fca5a5; }
 
@@ -395,7 +395,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Jornadas & Previsor da Tríade com IA</h1>
-        <p>Funil Executivo: Decomposição Orgânico vs Campanha, Forecast (YoY/MoM) e Acompanhamento MTD</p>
+        <p>Funil Executivo: Visualização ➔ Cliques ➔ Topo ➔ Steps do Meio (Simulação & ID) ➔ Fechamento ➔ Produção</p>
       </div>
     </div>
     <div class="nav-links">
@@ -410,13 +410,13 @@
     <!-- Navigation Tabs -->
     <div class="tab-bar">
       <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Previsor de Funil & Hábitos de Consumo</button>
-      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Funil Orgânico vs Campanha & Comparativos</button>
+      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Funil da Jornada & Comparativos</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD & Forecast</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE COM FUNIL EXECUTIVO APRIMORADO                            -->
+    <!-- ABA 2: A TRÍADE COM TAXONOMIA EXATA DO FUNIL BANCÁRIO                     -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content">
       
@@ -459,128 +459,128 @@
         <!-- LEFT COLUMN: ULTRA-PREMIUM 7-STAGE FUNNEL -->
         <div class="card">
           <div class="card-header">
-            <h2>🔻 Funil de Conversão: Decomposição Orgânico vs Campanha</h2>
+            <h2>🔻 Funil da Jornada: Visualizações ➔ Cliques ➔ Topo ➔ Meio ➔ Fundo</h2>
             <div style="font-size: 0.78rem; display:flex; gap:8px;">
               <span class="badge-org">🟦 Orgânico</span>
               <span class="badge-camp">🟥 Campanha CRM</span>
             </div>
           </div>
           <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
-            Afunilamento geométrico com proporção visual e taxas de passagem entre etapas:
+            Afunilamento de 7 etapas da jornada digital no Santander com divisão de origem:
           </p>
 
           <div class="funnel-executive-wrapper">
             
-            <!-- Etapa 1 -->
+            <!-- Etapa 1: Visualização da Campanha / Exposição -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w1">
                 <div class="capsule-header-row">
-                  <span class="capsule-title">👥 1. Base Elegível (Sizing CRM)</span>
-                  <span class="capsule-total" id="fn-tot-1">5.800.000</span>
+                  <span class="capsule-title">👁️ 1. Visualização da Campanha (Views nos Espaços)</span>
+                  <span class="capsule-total" id="fn-tot-1">5.000.000</span>
                 </div>
                 <div class="capsule-bar-track">
                   <div class="bar-seg-org s-bar-org" id="bar-org-1" style="width: 62%;">
-                    <span id="txt-bar-org-1">🟦 Orgânico: 3.596.000 (62%)</span>
+                    <span id="txt-bar-org-1">🟦 Orgânico: 3.100.000 (62%)</span>
                   </div>
                   <div class="bar-seg-camp s-bar-camp" id="bar-camp-1" style="width: 38%;">
-                    <span id="txt-bar-camp-1">🟥 Campanha: 2.204.000 (38%)</span>
+                    <span id="txt-bar-camp-1">🟥 Campanha: 1.900.000 (38%)</span>
                   </div>
                 </div>
               </div>
               <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-1">86.2%</strong> visualizam a oferta</div>
+                <div class="connector-badge">↓ <strong id="fn-pass-1">24.0%</strong> clicam na comunicação (CTR)</div>
               </div>
             </div>
 
-            <!-- Etapa 2 -->
+            <!-- Etapa 2: Cliques / Interação -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w2">
                 <div class="capsule-header-row">
-                  <span class="capsule-title">👁️ 2. Visualização no Espaço Comercial</span>
-                  <span class="capsule-total" id="fn-tot-2">5.000.000</span>
+                  <span class="capsule-title">🖱️ 2. Cliques / Engajamento com a Peça</span>
+                  <span class="capsule-total" id="fn-tot-2">1.200.000</span>
                 </div>
                 <div class="capsule-bar-track">
                   <div class="bar-seg-org s-bar-org" id="bar-org-2" style="width: 62%;">
-                    <span id="txt-bar-org-2">3.100.000 (62%)</span>
+                    <span id="txt-bar-org-2">744.000 (62%)</span>
                   </div>
                   <div class="bar-seg-camp s-bar-camp" id="bar-camp-2" style="width: 38%;">
-                    <span id="txt-bar-camp-2">1.900.000 (38%)</span>
+                    <span id="txt-bar-camp-2">456.000 (38%)</span>
                   </div>
                 </div>
               </div>
               <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-2">24.0%</strong> CTR de engajamento</div>
+                <div class="connector-badge">↓ <strong id="fn-pass-2">83.3%</strong> entram no fluxo do App</div>
               </div>
             </div>
 
-            <!-- Etapa 3 -->
+            <!-- Etapa 3: Topo de Funil / Entrada na Jornada -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w3">
                 <div class="capsule-header-row">
-                  <span class="capsule-title">🖱️ 3. Clique / Interação</span>
-                  <span class="capsule-total" id="fn-tot-3">1.200.000</span>
+                  <span class="capsule-title">🚀 3. Topo de Funil (Entrada na Jornada do App)</span>
+                  <span class="capsule-total" id="fn-tot-3">1.000.000</span>
                 </div>
                 <div class="capsule-bar-track">
                   <div class="bar-seg-org s-bar-org" id="bar-org-3" style="width: 62%;">
-                    <span id="txt-bar-org-3">744.000 (62%)</span>
+                    <span id="txt-bar-org-3">620.000 (62%)</span>
                   </div>
                   <div class="bar-seg-camp s-bar-camp" id="bar-camp-3" style="width: 38%;">
-                    <span id="txt-bar-camp-3">456.000 (38%)</span>
+                    <span id="txt-bar-camp-3">380.000 (38%)</span>
                   </div>
                 </div>
               </div>
               <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-3">83.3%</strong> entram no fluxo do App</div>
+                <div class="connector-badge">↓ <strong id="fn-pass-3">78.0%</strong> iniciam simulação</div>
               </div>
             </div>
 
-            <!-- Etapa 4 -->
+            <!-- Etapa 4: Step do Meio - Simulação & Condições -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w4">
                 <div class="capsule-header-row">
-                  <span class="capsule-title">📱 4. Entrada na Jornada (App Santander)</span>
-                  <span class="capsule-total" id="fn-tot-4">1.000.000</span>
+                  <span class="capsule-title">⚙️ 4. Step do Meio: Simulação & Configuração</span>
+                  <span class="capsule-total" id="fn-tot-4">780.000</span>
                 </div>
                 <div class="capsule-bar-track">
                   <div class="bar-seg-org s-bar-org" id="bar-org-4" style="width: 62%;">
-                    <span id="txt-bar-org-4">620.000 (62%)</span>
+                    <span id="txt-bar-org-4">483.600 (62%)</span>
                   </div>
                   <div class="bar-seg-camp s-bar-camp" id="bar-camp-4" style="width: 38%;">
-                    <span id="txt-bar-camp-4">380.000 (38%)</span>
+                    <span id="txt-bar-camp-4">296.400 (38%)</span>
                   </div>
                 </div>
               </div>
               <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-4">78.0%</strong> iniciam simulação</div>
+                <div class="connector-badge">↓ <strong id="fn-pass-4">82.1%</strong> autenticam ID Santander</div>
               </div>
             </div>
 
-            <!-- Etapa 5 -->
+            <!-- Etapa 5: Step do Meio - Autenticação ID Santander -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w5">
                 <div class="capsule-header-row">
-                  <span class="capsule-title">⚙️ 5. Simulação de Condições</span>
-                  <span class="capsule-total" id="fn-tot-5">780.000</span>
+                  <span class="capsule-title">🔐 5. Step do Meio: Autenticação ID / Termos</span>
+                  <span class="capsule-total" id="fn-tot-5">640.000</span>
                 </div>
                 <div class="capsule-bar-track">
                   <div class="bar-seg-org s-bar-org" id="bar-org-5" style="width: 62%;">
-                    <span id="txt-bar-org-5">483.600 (62%)</span>
+                    <span id="txt-bar-org-5">396.800 (62%)</span>
                   </div>
                   <div class="bar-seg-camp s-bar-camp" id="bar-camp-5" style="width: 38%;">
-                    <span id="txt-bar-camp-5">296.400 (38%)</span>
+                    <span id="txt-bar-camp-5">243.200 (38%)</span>
                   </div>
                 </div>
               </div>
               <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-5">65.4%</strong> concluem no App</div>
+                <div class="connector-badge">↓ <strong id="fn-pass-5">79.7%</strong> concluem no App</div>
               </div>
             </div>
 
-            <!-- Etapa 6 -->
+            <!-- Etapa 6: Fechamento de Funil no App -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w6">
                 <div class="capsule-header-row">
-                  <span class="capsule-title" style="color: #6d28d9;">📱 6. Fechamento de Funil (App)</span>
+                  <span class="capsule-title" style="color: #6d28d9;">📱 6. Fechamento de Funil (Conclusão App)</span>
                   <span class="capsule-total" id="fn-tot-6" style="color: #6d28d9;">510.000</span>
                 </div>
                 <div class="capsule-bar-track">
@@ -597,11 +597,11 @@
               </div>
             </div>
 
-            <!-- Etapa 7 -->
+            <!-- Etapa 7: Fundo de Funil / Produção Efetiva Core -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w7">
                 <div class="capsule-header-row">
-                  <span class="capsule-title" style="color:var(--santander-red);">🏦 7. Produção Efetiva (Core)</span>
+                  <span class="capsule-title" style="color:var(--santander-red);">🏦 7. Fundo de Funil: Produção Efetiva (Core)</span>
                   <span class="capsule-total" id="fn-tot-7" style="color:var(--santander-red);">478.900</span>
                 </div>
                 <div class="capsule-bar-track">
@@ -886,13 +886,13 @@
         mixOrganico: 0.62,
         metaMes: 467500,
         stages7: [
-          { name: "1. Base Elegível (Sizing CRM)", vMTD: 4350000, vForecast: 5800000, passRate: 86.2 },
-          { name: "2. Visualização no Espaço Comercial", vMTD: 3750000, vForecast: 5000000, passRate: 24.0 },
-          { name: "3. Clique / Engajamento (CTR)", vMTD: 900000, vForecast: 1200000, passRate: 83.3 },
-          { name: "4. Entrada na Jornada (App)", vMTD: 750000, vForecast: 1000000, passRate: 78.0 },
-          { name: "5. Simulação de Condições", vMTD: 585000, vForecast: 780000, passRate: 65.4 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 382500, vForecast: 510000, passRate: 93.9 },
-          { name: "7. Produção Efetiva (Core)", vMTD: 362400, vForecast: 478900, passRate: 100.0 }
+          { name: "1. Visualização da Campanha (Views)", vMTD: 3750000, vForecast: 5000000, passRate: 24.0 },
+          { name: "2. Cliques / Engajamento com a Peça", vMTD: 900000, vForecast: 1200000, passRate: 83.3 },
+          { name: "3. Topo de Funil (Entrada no App)", vMTD: 750000, vForecast: 1000000, passRate: 78.0 },
+          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 585000, vForecast: 780000, passRate: 82.1 },
+          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 480000, vForecast: 640000, passRate: 79.7 },
+          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 382500, vForecast: 510000, passRate: 93.9 },
+          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 362400, vForecast: 478900, passRate: 100.0 }
         ],
         losses: { antifraude: 14200, saldo: 9800, timeout: 7100 }
       },
@@ -904,13 +904,13 @@
         mixOrganico: 0.72,
         metaMes: 265000,
         stages7: [
-          { name: "1. Base Elegível (Sizing CRM)", vMTD: 3100000, vForecast: 4200000, passRate: 82.0 },
-          { name: "2. Visualização no Espaço Comercial", vMTD: 2542000, vForecast: 3444000, passRate: 21.5 },
-          { name: "3. Clique / Engajamento (CTR)", vMTD: 546500, vForecast: 740460, passRate: 85.0 },
-          { name: "4. Entrada na Jornada (App)", vMTD: 464500, vForecast: 629390, passRate: 72.0 },
-          { name: "5. Simulação de Condições", vMTD: 334400, vForecast: 453160, passRate: 64.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 214000, vForecast: 290000, passRate: 94.5 },
-          { name: "7. Produção Efetiva (Core)", vMTD: 202200, vForecast: 274100, passRate: 100.0 }
+          { name: "1. Visualização da Campanha (Views)", vMTD: 2542000, vForecast: 3444000, passRate: 21.5 },
+          { name: "2. Cliques / Engajamento com a Peça", vMTD: 546500, vForecast: 740460, passRate: 85.0 },
+          { name: "3. Topo de Funil (Entrada no App)", vMTD: 464500, vForecast: 629390, passRate: 72.0 },
+          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 334400, vForecast: 453160, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 267500, vForecast: 362500, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 214000, vForecast: 290000, passRate: 94.5 },
+          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 202200, vForecast: 274100, passRate: 100.0 }
         ],
         losses: { antifraude: 6200, saldo: 5800, timeout: 3900 }
       },
@@ -922,13 +922,13 @@
         mixOrganico: 0.42,
         metaMes: 180000,
         stages7: [
-          { name: "1. Base Elegível (Sizing CRM)", vMTD: 1850000, vForecast: 2500000, passRate: 88.0 },
-          { name: "2. Visualização no Espaço Comercial", vMTD: 1628000, vForecast: 2200000, passRate: 28.0 },
-          { name: "3. Clique / Engajamento (CTR)", vMTD: 455800, vForecast: 616000, passRate: 79.0 },
-          { name: "4. Entrada na Jornada (App)", vMTD: 360000, vForecast: 486640, passRate: 68.0 },
-          { name: "5. Simulação de Condições", vMTD: 244800, vForecast: 330910, passRate: 60.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 146800, vForecast: 198500, passRate: 93.8 },
-          { name: "7. Produção Efetiva (Core)", vMTD: 137800, vForecast: 186300, passRate: 100.0 }
+          { name: "1. Visualização da Campanha (Views)", vMTD: 1628000, vForecast: 2200000, passRate: 28.0 },
+          { name: "2. Cliques / Engajamento com a Peça", vMTD: 455800, vForecast: 616000, passRate: 79.0 },
+          { name: "3. Topo de Funil (Entrada no App)", vMTD: 360000, vForecast: 486640, passRate: 68.0 },
+          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 244800, vForecast: 330910, passRate: 75.0 },
+          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 183600, vForecast: 248180, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 146800, vForecast: 198500, passRate: 93.8 },
+          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 137800, vForecast: 186300, passRate: 100.0 }
         ],
         losses: { antifraude: 4800, saldo: 4500, timeout: 2900 }
       },
@@ -940,13 +940,13 @@
         mixOrganico: 0.48,
         metaMes: 160000,
         stages7: [
-          { name: "1. Base Elegível (Sizing CRM)", vMTD: 2100000, vForecast: 2850000, passRate: 84.0 },
-          { name: "2. Visualização no Espaço Comercial", vMTD: 1764000, vForecast: 2394000, passRate: 22.0 },
-          { name: "3. Clique / Engajamento (CTR)", vMTD: 388000, vForecast: 526680, passRate: 82.0 },
-          { name: "4. Entrada na Jornada (App)", vMTD: 318000, vForecast: 431870, passRate: 64.0 },
-          { name: "5. Simulação de Condições", vMTD: 203500, vForecast: 276400, passRate: 64.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 130200, vForecast: 176800, passRate: 92.4 },
-          { name: "7. Produção Efetiva (Core)", vMTD: 120200, vForecast: 163400, passRate: 100.0 }
+          { name: "1. Visualização da Campanha (Views)", vMTD: 1764000, vForecast: 2394000, passRate: 22.0 },
+          { name: "2. Cliques / Engajamento com a Peça", vMTD: 388000, vForecast: 526680, passRate: 82.0 },
+          { name: "3. Topo de Funil (Entrada no App)", vMTD: 318000, vForecast: 431870, passRate: 64.0 },
+          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 203500, vForecast: 276400, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 162800, vForecast: 221120, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 130200, vForecast: 176800, passRate: 92.4 },
+          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 120200, vForecast: 163400, passRate: 100.0 }
         ],
         losses: { antifraude: 6400, saldo: 4200, timeout: 2800 }
       },
@@ -958,13 +958,13 @@
         mixOrganico: 0.32,
         metaMes: 34000,
         stages7: [
-          { name: "1. Base Elegível (Sizing CRM)", vMTD: 980000, vForecast: 1320000, passRate: 80.0 },
-          { name: "2. Visualização no Espaço Comercial", vMTD: 784000, vForecast: 1056000, passRate: 16.5 },
-          { name: "3. Clique / Engajamento (CTR)", vMTD: 129360, vForecast: 174240, passRate: 76.0 },
-          { name: "4. Entrada na Jornada (App)", vMTD: 98300, vForecast: 132420, passRate: 58.0 },
-          { name: "5. Simulação de Condições", vMTD: 57000, vForecast: 76800, passRate: 48.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 27360, vForecast: 36860, passRate: 93.6 },
-          { name: "7. Produção Efetiva (Core)", vMTD: 25600, vForecast: 34500, passRate: 100.0 }
+          { name: "1. Visualização da Campanha (Views)", vMTD: 784000, vForecast: 1056000, passRate: 16.5 },
+          { name: "2. Cliques / Engajamento com a Peça", vMTD: 129360, vForecast: 174240, passRate: 76.0 },
+          { name: "3. Topo de Funil (Entrada no App)", vMTD: 98300, vForecast: 132420, passRate: 58.0 },
+          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 57000, vForecast: 76800, passRate: 65.0 },
+          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 37050, vForecast: 49920, passRate: 73.8 },
+          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 27360, vForecast: 36860, passRate: 93.6 },
+          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 25600, vForecast: 34500, passRate: 100.0 }
         ],
         losses: { antifraude: 1200, saldo: 600, timeout: 560 }
       },
@@ -976,13 +976,13 @@
         mixOrganico: 0.38,
         metaMes: 145000,
         stages7: [
-          { name: "1. Base Elegível (Sizing CRM)", vMTD: 2600000, vForecast: 3500000, passRate: 82.0 },
-          { name: "2. Visualização no Espaço Comercial", vMTD: 2132000, vForecast: 2870000, passRate: 19.0 },
-          { name: "3. Clique / Engajamento (CTR)", vMTD: 405000, vForecast: 545300, passRate: 74.0 },
-          { name: "4. Entrada na Jornada (App)", vMTD: 299700, vForecast: 403520, passRate: 62.0 },
-          { name: "5. Simulação de Condições", vMTD: 185800, vForecast: 250180, passRate: 64.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 118900, vForecast: 160100, passRate: 93.4 },
-          { name: "7. Produção Efetiva (Core)", vMTD: 111000, vForecast: 149500, passRate: 100.0 }
+          { name: "1. Visualização da Campanha (Views)", vMTD: 2132000, vForecast: 2870000, passRate: 19.0 },
+          { name: "2. Cliques / Engajamento com a Peça", vMTD: 405000, vForecast: 545300, passRate: 74.0 },
+          { name: "3. Topo de Funil (Entrada no App)", vMTD: 299700, vForecast: 403520, passRate: 62.0 },
+          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 185800, vForecast: 250180, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 148640, vForecast: 200140, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 118900, vForecast: 160100, passRate: 93.4 },
+          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 111000, vForecast: 149500, passRate: 100.0 }
         ],
         losses: { antifraude: 5200, saldo: 3100, timeout: 2300 }
       },
@@ -994,13 +994,13 @@
         mixOrganico: 0.55,
         metaMes: 65000,
         stages7: [
-          { name: "1. Base Elegível (Sizing CRM)", vMTD: 1500000, vForecast: 2050000, passRate: 84.0 },
-          { name: "2. Visualização no Espaço Comercial", vMTD: 1260000, vForecast: 1722000, passRate: 20.0 },
-          { name: "3. Clique / Engajamento (CTR)", vMTD: 252000, vForecast: 344400, passRate: 78.0 },
-          { name: "4. Entrada na Jornada (App)", vMTD: 196500, vForecast: 268630, passRate: 60.0 },
-          { name: "5. Simulação de Condições", vMTD: 117900, vForecast: 161180, passRate: 44.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 51870, vForecast: 70920, passRate: 93.9 },
-          { name: "7. Produção Efetiva (Core)", vMTD: 48700, vForecast: 66600, passRate: 100.0 }
+          { name: "1. Visualização da Campanha (Views)", vMTD: 1260000, vForecast: 1722000, passRate: 20.0 },
+          { name: "2. Cliques / Engajamento com a Peça", vMTD: 252000, vForecast: 344400, passRate: 78.0 },
+          { name: "3. Topo de Funil (Entrada no App)", vMTD: 196500, vForecast: 268630, passRate: 60.0 },
+          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 117900, vForecast: 161180, passRate: 65.0 },
+          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 76600, vForecast: 104760, passRate: 67.7 },
+          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 51870, vForecast: 70920, passRate: 93.9 },
+          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 48700, vForecast: 66600, passRate: 100.0 }
         ],
         losses: { antifraude: 2100, saldo: 1300, timeout: 920 }
       }
