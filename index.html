@@ -96,6 +96,41 @@
     .tab-btn:hover { color: var(--text); background: #f1f5f9; }
     .tab-btn.active { color: var(--santander-red); background: var(--santander-light); font-weight: 700; }
 
+    /* Strategic Mode Selector */
+    .obj-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .obj-pills { display: flex; gap: 8px; }
+    .obj-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-muted);
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .obj-btn:hover { background: #f1f5f9; }
+    .obj-btn.active {
+      background: var(--santander-light);
+      border-color: var(--santander-red);
+      color: var(--santander-red);
+    }
+
     /* Unified Control Bar */
     .control-strip {
       background: #ffffff;
@@ -227,7 +262,7 @@
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* Dynamic Lateral AI Suggestions Panel */
+    /* Dynamic Lateral AI Suggestions Panel com Toggle Ativo/Desativo */
     .sug-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -241,10 +276,15 @@
       gap: 10px;
       transition: all 0.25s ease;
     }
-    .sug-card.optimized {
+    .sug-card.is-active {
       border-left-color: var(--success);
       background: #f0fdf4;
       border-color: #bbf7d0;
+    }
+    .sug-card.is-inactive {
+      border-left-color: #94a3b8;
+      background: #f8fafc;
+      opacity: 0.85;
     }
     .sug-text { font-size: 0.77rem; color: var(--text); line-height: 1.4; flex: 1; }
     .sug-text strong { color: #0f172a; }
@@ -259,23 +299,36 @@
     }
     .tag-gain { color: #15803d; background: #dcfce7; }
     .tag-ok { color: #0369a1; background: #e0f2fe; }
+    .tag-muted { color: #475569; background: #e2e8f0; }
 
     .sug-actions-area { display: flex; align-items: center; gap: 6px; }
 
-    .btn-apply {
-      background: #ffffff;
-      color: #166534;
-      border: 1.5px solid #86efac;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.74rem;
-      font-weight: 700;
+    /* Interactive Switch Pill */
+    .switch-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 800;
       cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+      border: 1.5px solid transparent;
       white-space: nowrap;
-      transition: all 0.15s;
     }
-    .btn-apply:hover { background: #dcfce7; border-color: #22c55e; }
-    .btn-apply.active { background: #dcfce7; color: #15803d; border-color: #15803d; cursor: default; }
+    .switch-pill.on {
+      background: #dcfce7;
+      color: #15803d;
+      border-color: #86efac;
+    }
+    .switch-pill.off {
+      background: #f1f5f9;
+      color: #64748b;
+      border-color: #cbd5e1;
+    }
+    .switch-pill:hover { transform: scale(1.03); }
 
     .btn-dismiss-sug {
       background: #ffffff;
@@ -387,7 +440,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Torre de Pacing Comparativa</p>
+        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Modos Conversão & Awareness</p>
       </div>
     </div>
     <div class="nav-links">
@@ -408,35 +461,52 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR COM CÁLCULO INSTANTÂNEO AO DISPENSAR                     -->
+    <!-- ABA 1: SIMULADOR COM MODOS DE CONVERSÃO vs AWARENESS E TOGGLES ATIVO/DESAT -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
-      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
+      <!-- SELETOR DE OBJETIVO ESTRATÉGICO: CONVERSÃO vs AWARENESS / ALCANCE -->
+      <div class="obj-bar">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--text);">🎯 Objetivo da Campanha:</span>
+          <span style="font-size:0.72rem; color:var(--text-muted);" id="obj-sub-desc">Foco em Vendas e Produção Core</span>
+        </div>
+        <div class="obj-pills">
+          <button class="obj-btn active" id="btn-obj-conversao" onclick="mudarObjetivoCampanha('conversao')">
+            <span>🎯 Conversão & Vendas (Fundo de Funil)</span>
+          </button>
+          <button class="obj-btn" id="btn-obj-awareness" onclick="mudarObjetivoCampanha('awareness')">
+            <span>📢 Awareness & Alcance de Marca (Topo de Funil)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 5 KPIS ADAPTÁVEIS (MUDAM ENTRE CONVERSÃO E AWARENESS) -->
+      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;" id="sim-kpi-container">
         <div class="kpi-card" id="card-sim-1" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">1. Views nos Espaços</div>
-          <div class="kpi-val" style="font-size:1.15rem; color:var(--org-blue);" id="sim-kpi-views">2.394.000</div>
-          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-views-tx">70% exibição</div>
+          <div class="kpi-title" id="kpi-label-1">1. Views nos Espaços</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:var(--org-blue);" id="sim-kpi-1">2.394.000</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-sub-1">70% exibição</div>
         </div>
         <div class="kpi-card" id="card-sim-2" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">2. Cliques / Interação</div>
-          <div class="kpi-val" style="font-size:1.15rem; color:#f59e0b;" id="sim-kpi-cliques">430.920</div>
-          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-cliques-tx">18% CTR</div>
+          <div class="kpi-title" id="kpi-label-2">2. Cliques / Interação</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:#f59e0b;" id="sim-kpi-2">430.920</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-sub-2">18% CTR</div>
         </div>
         <div class="kpi-card" id="card-sim-3" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">3. Topo App Santander</div>
-          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-topo">344.736</div>
-          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-topo-tx">80% entrada</div>
+          <div class="kpi-title" id="kpi-label-3">3. Topo App Santander</div>
+          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-3">344.736</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-sub-3">80% entrada</div>
         </div>
         <div class="kpi-card" id="card-sim-4" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">4. Simulação & ID</div>
-          <div class="kpi-val" style="font-size:1.15rem; color:#8b5cf6;" id="sim-kpi-meio">282.683</div>
-          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-meio-tx">82% avanço</div>
+          <div class="kpi-title" id="kpi-label-4">4. Simulação & ID</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:#8b5cf6;" id="sim-kpi-4">282.683</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-sub-4">82% avanço</div>
         </div>
         <div class="kpi-card highlight" id="card-sim-5" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">5. Produção Final Core</div>
-          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-fundo">255.794</div>
-          <div style="font-size:0.68rem; color:var(--santander-red); font-weight:700;" id="sim-kpi-fundo-tx">74.2% conversão</div>
+          <div class="kpi-title" id="kpi-label-5">5. Produção Final Core</div>
+          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-5">255.794</div>
+          <div style="font-size:0.68rem; color:var(--santander-red); font-weight:700;" id="sim-kpi-sub-5">74.2% conversão</div>
         </div>
       </div>
 
@@ -517,10 +587,10 @@
           </button>
         </div>
 
-        <!-- Right: Real-Time Dynamic AI Suggestions & Dynamic Volume Chart -->
+        <!-- Right: Real-Time Dynamic AI Suggestions with Ativo/Desativo Toggle -->
         <div class="card" id="card-ai-sug">
           <div class="card-header">
-            <h2>💡 Sugestões Calculadas pela IA (Lateral)</h2>
+            <h2>💡 Sugestões da IA (Ativar/Desativar Altera o Público)</h2>
             <div style="display:flex; align-items:center; gap:8px;">
               <button onclick="restaurarSugestoes()" style="background:none; border:none; color:var(--org-blue); font-size:0.72rem; font-weight:700; cursor:pointer; text-decoration:underline;" title="Restaurar sugestões dispensadas">↺ Restaurar</button>
               <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;" id="ai-sug-prod-tag">Pix Ativo</span>
@@ -528,7 +598,7 @@
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:0.74rem; color:var(--text-muted); font-weight:600;">Diretrizes estratégicas para este público:</span>
+            <span style="font-size:0.74rem; color:var(--text-muted); font-weight:600;">Ligue ou desligue as alavancas para simular o impacto:</span>
             <span style="font-size:0.7rem; color:var(--santander-red); font-weight:700;" id="ai-calc-status">● Pronto</span>
           </div>
 
@@ -536,7 +606,7 @@
 
           <div style="margin-top:14px; border-top:1px solid var(--border-subtle); padding-top:10px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Volume Estimado por Canal (Contratos Finais):</span>
+              <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;" id="chart-espacos-label">Volume Estimado por Canal (Contratos Finais):</span>
               <span style="font-size:0.7rem; color:var(--org-blue); font-weight:600;">(Clique nas barras para alternar)</span>
             </div>
             <div style="height: 140px;">
@@ -974,12 +1044,13 @@
   </div>
 
   <script>
-    // GLOBAL STATE
+    // GLOBAL STATE COM OBJETIVO E ESTADOS DE TOGGLE DAS SUGESTÕES
     const appState = {
       product: "Pix",
       monthIdx: 7, // 7 = Agosto (0 a 11)
       year: 2026,
       focoEspaco: "Lightbox",
+      objetivoCampanha: "conversao", // 'conversao' ou 'awareness'
       selectedSegments: new Set(['Especial', 'Select', 'Private']),
       activeRules: [
         { attrId: "score_arpac", op: ">", val: "7.0" },
@@ -988,6 +1059,13 @@
         { attrId: "open_finance", val: "Não Possui" }
       ],
       dismissedSuggestions: new Set(),
+      suggestionToggles: {
+        "sug_open_finance": false, // false = trava ativa (não expandido) / true = expandido
+        "sug_arpac": true,         // true = ARPAC > 7.0 ativo
+        "sug_espaco": true,        // true = Lightbox ativo
+        "sug_fopa": false,         // false = sem FOPA
+        "sug_cartao": false        // false = sem filtro de cartão
+      },
       currentAudienceSize: 3420000
     };
 
@@ -1080,6 +1158,25 @@
       "7. Fundo de Funil: Produção Core"
     ];
 
+    // SELETOR ESTRATÉGICO: CONVERSÃO vs AWARENESS
+    function mudarObjetivoCampanha(novoObj) {
+      appState.objetivoCampanha = novoObj;
+      document.getElementById('btn-obj-conversao').classList.toggle('active', novoObj === 'conversao');
+      document.getElementById('btn-obj-awareness').classList.toggle('active', novoObj === 'awareness');
+      
+      const subDesc = document.getElementById('obj-sub-desc');
+      if (novoObj === 'conversao') {
+        subDesc.innerText = 'Foco em Vendas e Produção Core';
+        document.getElementById('chart-espacos-label').innerText = 'Volume Estimado por Canal (Contratos Finais):';
+      } else {
+        subDesc.innerText = 'Foco em Alcance, Pessoas Impactadas e Frequência de Marca';
+        document.getElementById('chart-espacos-label').innerText = 'Alcance Potencial por Canal (Pessoas Únicas Impactadas):';
+      }
+
+      clicarCalcularMaster();
+      showToast(`🎯 Modo de campanha alterado para: ${novoObj === 'conversao' ? 'Conversão & Vendas' : 'Awareness & Alcance de Marca'}`);
+    }
+
     function mudarProdutoGlobal(novoProd) {
       appState.product = novoProd;
       document.getElementById('sim-produto').value = novoProd;
@@ -1105,12 +1202,12 @@
     function mudarEspacoFoco(novoEspaco) {
       appState.focoEspaco = novoEspaco;
       document.getElementById('sim-espaco-foco').value = novoEspaco;
+      appState.suggestionToggles["sug_espaco"] = (novoEspaco === 'Lightbox');
       rodarSimulacao();
       calcularSugestoesLateralIA();
       showToast(`🎯 Espaço comercial alterado para ${novoEspaco}.`);
     }
 
-    // BOTÃO PRINCIPAL & RECALCULO DE EVENTOS
     function clicarCalcularMaster() {
       rodarSimulacao();
 
@@ -1148,7 +1245,6 @@
       atualizarPacingView();
     }
 
-    // DISPENSAR SUGESTÃO COM RECÁLCULO IMEDIATO
     function descartarSugestao(sugId) {
       appState.dismissedSuggestions.add(sugId);
       clicarCalcularMaster();
@@ -1161,143 +1257,172 @@
       showToast('✓ Todas as sugestões foram restauradas e recalculadas!');
     }
 
-    // ENGINE DE SUGESTÕES DINÂMICAS COM POOL DE ALTERNATIVAS
+    // TOGGLE ATIVO / DESATIVO NAS SUGESTÕES QUE MODIFICA AS REGRAS E O PÚBLICO
+    function alternarToggleSugestao(sugKey) {
+      let currentState = appState.suggestionToggles[sugKey] || false;
+      let newState = !currentState;
+      appState.suggestionToggles[sugKey] = newState;
+
+      if (sugKey === 'sug_open_finance') {
+        if (newState === true) {
+          // Ativa otimização de alcance: remove a trava
+          appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'open_finance');
+          showToast('🟢 Otimização de Alcance Ativada: Restrição de Open Finance removida (+28% de público)!');
+        } else {
+          // Desativa otimização: recoloca a restrição
+          if (!appState.activeRules.some(r => r.attrId === 'open_finance')) {
+            appState.activeRules.push({ attrId: "open_finance", val: "Não Possui" });
+          }
+          showToast('⚪ Otimização Desativada: Restrição de Open Finance aplicada (Público mais restrito).');
+        }
+      } else if (sugKey === 'sug_arpac') {
+        if (newState === true) {
+          let r = appState.activeRules.find(x => x.attrId === 'score_arpac');
+          if (!r) appState.activeRules.push({ attrId: "score_arpac", op: ">", val: "7.0" });
+          else { r.op = ">"; r.val = "7.0"; }
+          showToast('🟢 Qualificação ARPAC Ativada: Conversão Core garantida em 93.9%.');
+        } else {
+          appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'score_arpac');
+          showToast('⚪ Filtro ARPAC Desativado: Público expandido para maior alcance.');
+        }
+      } else if (sugKey === 'sug_espaco') {
+        if (newState === true) {
+          mudarEspacoFoco('Lightbox');
+        } else {
+          mudarEspacoFoco('Banner');
+        }
+      } else if (sugKey === 'sug_fopa') {
+        if (newState === true) {
+          if (!appState.activeRules.some(r => r.attrId === 'cliente_fopa')) {
+            appState.activeRules.push({ attrId: "cliente_fopa", val: "Sim (É Folha)" });
+          }
+          showToast('🟢 Filtro Conta Salário (FOPA) Ativado.');
+        } else {
+          appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'cliente_fopa');
+          showToast('⚪ Filtro Conta Salário Desativado.');
+        }
+      }
+
+      renderRulesList();
+      clicarCalcularMaster();
+    }
+
+    // ENGINE DE SUGESTÕES DINÂMICAS COM BOTÃO ATIVO / DESATIVO
     function calcularSugestoesLateralIA() {
       const container = document.getElementById('ai-suggestions-list');
       const tag = document.getElementById('ai-sug-prod-tag');
       const prod = appState.product;
       const focoEspaco = appState.focoEspaco;
       const publicoAtual = appState.currentAudienceSize;
+      const isAwareness = (appState.objetivoCampanha === 'awareness');
 
-      tag.innerText = `${prod} Ativo`;
+      tag.innerText = `${prod} · ${isAwareness ? 'Awareness' : 'Conversão'}`;
 
       let hasOpenFinance = appState.activeRules.some(r => r.attrId === 'open_finance');
       let hasArpac = appState.activeRules.some(r => r.attrId === 'score_arpac');
-      let arpacRule = appState.activeRules.find(r => r.attrId === 'score_arpac') || { val: "7.0" };
+      let isLightbox = (focoEspaco === 'Lightbox');
       let hasFopa = appState.activeRules.some(r => r.attrId === 'cliente_fopa');
-      let hasCartao = appState.activeRules.some(r => r.attrId === 'gasto_cartao');
+
+      // Sincroniza os estados internos dos toggles
+      appState.suggestionToggles["sug_open_finance"] = !hasOpenFinance;
+      appState.suggestionToggles["sug_arpac"] = hasArpac;
+      appState.suggestionToggles["sug_espaco"] = isLightbox;
+      appState.suggestionToggles["sug_fopa"] = hasFopa;
 
       let suggestionsPool = [];
 
-      // 1. OPEN FINANCE
-      if (hasOpenFinance) {
-        let ganhoEstimado = Math.round(publicoAtual * 0.28);
-        suggestionsPool.push({
-          id: "sug_open_finance",
-          icon: "💡",
-          title: "Alavanca de Alcance (Open Finance):",
-          text: `Você possui um filtro restritivo de <em>'Consentimento Open Finance'</em>. Remover essa trava adiciona <strong>+${ganhoEstimado.toLocaleString('pt-BR')} clientes (+28%)</strong> ao público elegível.`,
-          impact: `+${ganhoEstimado.toLocaleString('pt-BR')} novos clientes`,
-          tagClass: "tag-gain",
-          action: "remover_open_finance",
-          btn: "Desbloquear Alcance",
-          isOptimized: false
-        });
-      } else {
-        suggestionsPool.push({
-          id: "sug_open_finance",
-          icon: "✓",
-          title: "Alcance Máximo de Público Ativo:",
-          text: `Seu público está sem travas de Open Finance, atingindo o <strong>potencial máximo de ${publicoAtual.toLocaleString('pt-BR')} clientes</strong>.`,
-          impact: "Amplo Alcance",
-          tagClass: "tag-ok",
-          action: "none",
-          btn: "✓ Otimizado",
-          isOptimized: true
-        });
-      }
+      // 1. OPEN FINANCE / ALAVANCA DE ALCANCE
+      let stOpenFinance = appState.suggestionToggles["sug_open_finance"];
+      let ganhoOF = Math.round(publicoAtual * (stOpenFinance ? 0.28 : 0.38));
+      suggestionsPool.push({
+        id: "sug_open_finance",
+        icon: stOpenFinance ? "🟢" : "💡",
+        title: "Alavanca de Alcance (Open Finance):",
+        text: stOpenFinance 
+          ? `Alavanca <strong>ATIVA</strong>: Restrições removidas, atingindo o <strong>potencial máximo de ${publicoAtual.toLocaleString('pt-BR')} clientes</strong>.`
+          : `Alavanca <strong>DESATIVADA</strong>: Desbloqueie <strong>+${ganhoOF.toLocaleString('pt-BR')} clientes (+28%)</strong> ao ligar este switch.`,
+        impact: stOpenFinance ? "✓ Amplo Alcance Ativo" : `+${ganhoOF.toLocaleString('pt-BR')} público`,
+        tagClass: stOpenFinance ? "tag-ok" : "tag-gain",
+        isActive: stOpenFinance
+      });
 
-      // 2. ARPAC / RENTABILIDADE
-      if (hasArpac && parseFloat(arpacRule.val) >= 7.0) {
+      // 2. QUALIFICAÇÃO ARPAC (OU COBERTURA DE MASSA NO AWARENESS)
+      let stArpac = appState.suggestionToggles["sug_arpac"];
+      if (isAwareness) {
         suggestionsPool.push({
           id: "sug_arpac",
-          icon: "✓",
-          title: "Qualificação de Rentabilidade Ativa:",
-          text: `Regra <strong>'Score ARPAC > ${arpacRule.val}'</strong> aplicada. Garante taxa de liquidação de <strong>93.9% no Core Bancário</strong>.`,
-          impact: "Alta Rentabilidade",
-          tagClass: "tag-ok",
-          action: "none",
-          btn: "✓ Otimizado",
-          isOptimized: true
+          icon: stArpac ? "🎯" : "📢",
+          title: "Modo Awareness: Cobertura de Marca vs Rentabilidade:",
+          text: stArpac
+            ? `ARPAC > 7.0 <strong>ATIVO</strong>: Segmenta a marca no público de maior valor patrimonial.`
+            : `Filtro ARPAC <strong>DESATIVADO</strong>: Público 100% aberto para maximizar impressões e lembrança de marca.`,
+          impact: stArpac ? "Qualificação Alta Renda" : "Máxima Cobertura Santander",
+          tagClass: stArpac ? "tag-ok" : "tag-gain",
+          isActive: stArpac
         });
       } else {
         suggestionsPool.push({
           id: "sug_arpac",
-          icon: "⭐",
-          title: "Alavanca de Rentabilidade (ARPAC):",
-          text: `Ajustar <strong>'Score ARPAC > 7.0'</strong> qualifica os clientes para contratos com menor inadimplência.`,
-          impact: "+5.2% na conversão final",
-          tagClass: "tag-gain",
-          action: "manter_arpac",
-          btn: "Priorizar ARPAC > 7.0",
-          isOptimized: false
+          icon: stArpac ? "🟢" : "⭐",
+          title: "Qualificação de Fundo (Score ARPAC > 7.0):",
+          text: stArpac 
+            ? `ARPAC > 7.0 <strong>ATIVO</strong>: Rentabilidade garantida com taxa de liquidação de <strong>93.9% no Core</strong>.`
+            : `ARPAC <strong>DESATIVADO</strong>: Ligue o switch para qualificar os contratos e elevar o ticket médio em <strong>+5.2%</strong>.`,
+          impact: stArpac ? "✓ Core 93.9% Liquidação" : "+5.2% Conversão Core",
+          tagClass: stArpac ? "tag-ok" : "tag-gain",
+          isActive: stArpac
         });
       }
 
-      // 3. ESPAÇO COMERCIAL
-      if (focoEspaco === 'Lightbox') {
+      // 3. ESPAÇO COMERCIAL (LIGHTBOX vs CANAL DE MASSA)
+      let stEspaco = appState.suggestionToggles["sug_espaco"];
+      if (isAwareness) {
         suggestionsPool.push({
           id: "sug_espaco",
-          icon: "✓",
-          title: "Espaço Comercial de Alta Performance:",
-          text: `O <strong>Lightbox contextual</strong> está ativo e é o canal com maior taxa de conversão final para <em>${prod}</em>.`,
-          impact: "Maior Eficiência",
+          icon: stEspaco ? "🟥" : "🟦",
+          title: "Espaço Comercial para Notoriedade:",
+          text: stEspaco 
+            ? `Lightbox <strong>ATIVO</strong>: 70% de view rate no momento em que o cliente abre o App.`
+            : `Banner & Push <strong>ATIVO</strong>: Distribuição multicanal para maior frequência de exibição.`,
+          impact: stEspaco ? "Alto Impacto Visual" : "Maior Frequência de Exibição",
           tagClass: "tag-ok",
-          action: "none",
-          btn: "✓ Canal Recomendado",
-          isOptimized: true
+          isActive: stEspaco
         });
       } else {
-        let diff = (focoEspaco === 'Banner') ? "2.8x" : (focoEspaco === 'Push') ? "1.9x" : "3.4x";
         suggestionsPool.push({
           id: "sug_espaco",
-          icon: "🎯",
-          title: "Otimização de Canal Comercial:",
-          text: `O canal <em>${focoEspaco}</em> está selecionado. Mudar para <strong>Lightbox Contextual</strong> converte <strong>${diff} mais</strong> no App.`,
-          impact: `${diff} mais conversão`,
-          tagClass: "tag-gain",
-          action: "trocar_lightbox",
-          btn: "Mudar para Lightbox",
-          isOptimized: false
+          icon: stEspaco ? "🟢" : "🎯",
+          title: "Otimização de Canal Comercial (Lightbox):",
+          text: stEspaco 
+            ? `Lightbox Contextual <strong>ATIVO</strong>: Maior taxa de conversão final para <em>${prod}</em>.`
+            : `Canal Secundário (<em>${focoEspaco}</em>): Ligue para migrar para Lightbox e converter <strong>2.8x mais</strong>.`,
+          impact: stEspaco ? "✓ Maior ROI Ativo" : "2.8x mais conversão",
+          tagClass: stEspaco ? "tag-ok" : "tag-gain",
+          isActive: stEspaco
         });
       }
 
-      // SUGESTÕES COMPLEMENTARES (Aparecem quando o usuário descarta as anteriores)
-      if (!hasFopa) {
-        suggestionsPool.push({
-          id: "sug_fopa_alternativa",
-          icon: "💼",
-          title: "Alavanca de Vínculo (Conta Salário / FOPA):",
-          text: `Filtrar clientes <em>'Recebe Salário (FOPA)'</em> eleva a retenção do produto <em>${prod}</em> em <strong>+18.4%</strong>.`,
-          impact: "+18.4% retenção",
-          tagClass: "tag-gain",
-          action: "adicionar_fopa",
-          btn: "+ Adicionar FOPA",
-          isOptimized: false
-        });
-      }
+      // 4. ALAVANCA CONTA SALÁRIO (FOPA)
+      let stFopa = appState.suggestionToggles["sug_fopa"];
+      suggestionsPool.push({
+        id: "sug_fopa",
+        icon: stFopa ? "🟢" : "💼",
+        title: "Alavanca de Vínculo (Conta Salário / FOPA):",
+        text: stFopa 
+          ? `Conta Salário <strong>ATIVA</strong>: Foco exclusivo em clientes com folha no Santander (+18.4% retenção).`
+          : `Filtro FOPA <strong>DESLIGADO</strong>: Ligue para direcionar benefícios exclusivos a quem recebe salário.`,
+        impact: stFopa ? "✓ Foco em Folha Ativo" : "+18.4% Retenção",
+        tagClass: stFopa ? "tag-ok" : "tag-gain",
+        isActive: stFopa
+      });
 
-      if (!hasCartao) {
-        suggestionsPool.push({
-          id: "sug_cartao_alternativa",
-          icon: "💳",
-          title: "Qualificação por Gasto em Cartão:",
-          text: `Adicionar <em>'Gasto Cartão > R$ 2.500'</em> direciona a oferta para o público de maior poder de liquidação.`,
-          impact: "Ticket Médio +24%",
-          tagClass: "tag-gain",
-          action: "adicionar_cartao",
-          btn: "+ Adicionar Gasto Cartão",
-          isOptimized: false
-        });
-      }
-
-      // Filtra apenas as que não foram dispensadas
+      // Filtra as dispensadas e exibe até 3
       let activeSugList = suggestionsPool.filter(s => !appState.dismissedSuggestions.has(s.id)).slice(0, 3);
 
       if (activeSugList.length === 0) {
         container.innerHTML = `
           <div style="background:#f8fafc; border:1.5px dashed var(--border); border-radius:6px; padding:16px; text-align:center; color:var(--text-muted); font-size:0.78rem;">
-            ✨ Você revisou ou dispensou todas as sugestões ativas.
+            ✨ Todas as sugestões foram dispensadas.
             <div style="margin-top:8px;">
               <button onclick="restaurarSugestoes()" style="background:#ffffff; border:1.5px solid var(--border); padding:5px 12px; border-radius:5px; font-size:0.75rem; font-weight:700; color:var(--santander-red); cursor:pointer;">↺ Restaurar Todas as Sugestões</button>
             </div>
@@ -1307,52 +1432,21 @@
       }
 
       container.innerHTML = activeSugList.map(s => `
-        <div class="sug-card ${s.isOptimized ? 'optimized' : ''}">
+        <div class="sug-card ${s.isActive ? 'is-active' : 'is-inactive'}">
           <div class="sug-text">
             <div>${s.icon} <strong>${s.title}</strong> ${s.text}</div>
             <div class="sug-impact-tag ${s.tagClass}">${s.impact}</div>
           </div>
           <div class="sug-actions-area">
-            ${s.isOptimized 
-              ? `<span style="font-size:0.75rem; color:#15803d; font-weight:800; padding:5px 8px; background:#dcfce7; border-radius:5px; white-space:nowrap;">✓ Ativo</span>`
-              : `<button class="btn-apply" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>`
-            }
+            <button class="switch-pill ${s.isActive ? 'on' : 'off'}" onclick="alternarToggleSugestao('${s.id}')" title="Clique para Ativar / Desativar e recalcular o público">
+              <span>${s.isActive ? '🟢 Ativo' : '⚪ Desativo'}</span>
+            </button>
             <button class="btn-dismiss-sug" onclick="descartarSugestao('${s.id}')" title="Dispensar / Tirar esta sugestão">✕</button>
           </div>
         </div>
       `).join('');
     }
 
-    function executarSugestaoIA(action) {
-      if (action === 'remover_open_finance') {
-        appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'open_finance');
-        renderRulesList();
-        clicarCalcularMaster();
-        showToast('✓ Restrição de Open Finance removida. Público e KPIs recalculados!');
-      } else if (action === 'manter_arpac') {
-        let r = appState.activeRules.find(x => x.attrId === 'score_arpac');
-        if (!r) appState.activeRules.push({ attrId: "score_arpac", op: ">", val: "7.0" });
-        else { r.op = ">"; r.val = "7.0"; }
-        renderRulesList();
-        clicarCalcularMaster();
-        showToast('✓ ARPAC ajustado para > 7.0 (Qualificação prioritária).');
-      } else if (action === 'trocar_lightbox') {
-        mudarEspacoFoco('Lightbox');
-        clicarCalcularMaster();
-      } else if (action === 'adicionar_fopa') {
-        appState.activeRules.push({ attrId: "cliente_fopa", val: "Sim (É Folha)" });
-        renderRulesList();
-        clicarCalcularMaster();
-        showToast('✓ Condição de Folha/FOPA adicionada e calculada!');
-      } else if (action === 'adicionar_cartao') {
-        appState.activeRules.push({ attrId: "gasto_cartao", op: ">", val: "2500" });
-        renderRulesList();
-        clicarCalcularMaster();
-        showToast('✓ Condição de Gasto no Cartão adicionada e calculada!');
-      }
-    }
-
-    // EXCLUIR REGRA COM RECÁLCULO IMEDIATO
     function deletarRegra(index) {
       appState.activeRules.splice(index, 1);
       renderRulesList();
@@ -1434,16 +1528,17 @@
     }
 
     const spaceProfiles = {
-      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, meioRate: 0.82, fundoRate: 0.742 },
-      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, meioRate: 0.80, fundoRate: 0.685 },
-      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, meioRate: 0.75, fundoRate: 0.420 },
-      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, meioRate: 0.70, fundoRate: 0.380 },
-      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220 }
+      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, meioRate: 0.82, fundoRate: 0.742, freq: 2.2 },
+      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, meioRate: 0.80, fundoRate: 0.685, freq: 2.8 },
+      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, meioRate: 0.75, fundoRate: 0.420, freq: 3.5 },
+      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, meioRate: 0.70, fundoRate: 0.380, freq: 1.5 },
+      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220, freq: 1.2 }
     };
 
     function rodarSimulacao() {
       const prod = appState.product;
       const focoEspaco = appState.focoEspaco;
+      const isAwareness = (appState.objetivoCampanha === 'awareness');
 
       let baseUniverse = 0;
       if (appState.selectedSegments.has('Especial')) baseUniverse += 5500000;
@@ -1496,29 +1591,73 @@
       let meio = Math.round(topo * prof.meioRate);
       let fundo = Math.round(meio * (prof.fundoRate * prodFundoMult));
 
-      document.getElementById('sim-kpi-views').innerText = views.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-views-tx').innerText = `${Math.round(prof.viewRate*100)}% exibição`;
+      // 5 KPIS ADAPTADOS (SE FOR AWARENESS OU CONVERSÃO)
+      if (isAwareness) {
+        let totalImpressoes = Math.round(views * prof.freq);
+        let coberturaBasePct = ((alcanceTotal / 8500000) * 100).toFixed(1);
 
-      document.getElementById('sim-kpi-cliques').innerText = cliques.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-cliques-tx').innerText = `${Math.round(prof.ctr*100)}% CTR`;
+        document.getElementById('kpi-label-1').innerText = '1. Público Elegível Único';
+        document.getElementById('sim-kpi-1').innerText = alcanceTotal.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-1').innerText = `${coberturaBasePct}% da base correntista`;
 
-      document.getElementById('sim-kpi-topo').innerText = topo.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-topo-tx').innerText = `${Math.round(prof.topoRate*100)}% entrada`;
+        document.getElementById('kpi-label-2').innerText = '2. Impactos / Views Totais';
+        document.getElementById('sim-kpi-2').innerText = totalImpressoes.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-2').innerText = `${prof.freq}x frequência média`;
 
-      document.getElementById('sim-kpi-meio').innerText = meio.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-meio-tx').innerText = `${Math.round(prof.meioRate*100)}% avanço`;
+        document.getElementById('kpi-label-3').innerText = '3. Pessoas Únicas Alcançadas';
+        document.getElementById('sim-kpi-3').innerText = views.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-3').innerText = `${Math.round(prof.viewRate*100)}% taxa exibição`;
 
-      document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-fundo-tx').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
+        document.getElementById('kpi-label-4').innerText = '4. Cliques & Engajamento';
+        document.getElementById('sim-kpi-4').innerText = cliques.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-4').innerText = `${(prof.ctr*100).toFixed(1)}% CTR de interação`;
 
+        document.getElementById('kpi-label-5').innerText = '5. Eficiência de Alcance (CPM)';
+        document.getElementById('sim-kpi-5').innerText = 'R$ 4,80 CPM';
+        document.getElementById('sim-kpi-sub-5').innerText = 'Custo por 1.000 impactos';
+      } else {
+        document.getElementById('kpi-label-1').innerText = '1. Views nos Espaços';
+        document.getElementById('sim-kpi-1').innerText = views.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-1').innerText = `${Math.round(prof.viewRate*100)}% exibição`;
+
+        document.getElementById('kpi-label-2').innerText = '2. Cliques / Interação';
+        document.getElementById('sim-kpi-2').innerText = cliques.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-2').innerText = `${Math.round(prof.ctr*100)}% CTR`;
+
+        document.getElementById('kpi-label-3').innerText = '3. Topo App Santander';
+        document.getElementById('sim-kpi-3').innerText = topo.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-3').innerText = `${Math.round(prof.topoRate*100)}% entrada`;
+
+        document.getElementById('kpi-label-4').innerText = '4. Simulação & ID';
+        document.getElementById('sim-kpi-4').innerText = meio.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-4').innerText = `${Math.round(prof.meioRate*100)}% avanço`;
+
+        document.getElementById('kpi-label-5').innerText = '5. Produção Final Core';
+        document.getElementById('sim-kpi-5').innerText = fundo.toLocaleString('pt-BR');
+        document.getElementById('sim-kpi-sub-5').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
+      }
+
+      // ATUALIZAÇÃO DO GRÁFICO (CONTRATOS OU ALCANCE DE PESSOAS)
       if (chartEspacosInst) {
         const bgColors = ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'].map(s => s === focoEspaco ? '#ec0000' : '#cbd5e1');
         
-        let estLightbox = Math.round(alcanceTotal * 0.70 * 0.18 * 0.80 * 0.82 * (0.742 * prodFundoMult));
-        let estAlert = Math.round(alcanceTotal * 0.82 * 0.14 * 0.76 * 0.80 * (0.685 * prodFundoMult));
-        let estBanner = Math.round(alcanceTotal * 0.50 * 0.08 * 0.70 * 0.75 * (0.420 * prodFundoMult));
-        let estPush = Math.round(alcanceTotal * 0.38 * 0.06 * 0.65 * 0.70 * (0.380 * prodFundoMult));
-        let estEmail = Math.round(alcanceTotal * 0.25 * 0.035 * 0.58 * 0.65 * (0.220 * prodFundoMult));
+        let estLightbox, estAlert, estBanner, estPush, estEmail;
+
+        if (isAwareness) {
+          estLightbox = Math.round(alcanceTotal * 0.70);
+          estAlert = Math.round(alcanceTotal * 0.82);
+          estBanner = Math.round(alcanceTotal * 0.50);
+          estPush = Math.round(alcanceTotal * 0.38);
+          estEmail = Math.round(alcanceTotal * 0.25);
+          chartEspacosInst.data.datasets[0].label = 'Pessoas Únicas Alcançadas';
+        } else {
+          estLightbox = Math.round(alcanceTotal * 0.70 * 0.18 * 0.80 * 0.82 * (0.742 * prodFundoMult));
+          estAlert = Math.round(alcanceTotal * 0.82 * 0.14 * 0.76 * 0.80 * (0.685 * prodFundoMult));
+          estBanner = Math.round(alcanceTotal * 0.50 * 0.08 * 0.70 * 0.75 * (0.420 * prodFundoMult));
+          estPush = Math.round(alcanceTotal * 0.38 * 0.06 * 0.65 * 0.70 * (0.380 * prodFundoMult));
+          estEmail = Math.round(alcanceTotal * 0.25 * 0.035 * 0.58 * 0.65 * (0.220 * prodFundoMult));
+          chartEspacosInst.data.datasets[0].label = 'Contratos Finais Estimados';
+        }
 
         chartEspacosInst.data.datasets[0].backgroundColor = bgColors;
         chartEspacosInst.data.datasets[0].data = [estLightbox, estAlert, estBanner, estPush, estEmail];
@@ -1861,7 +2000,7 @@
       { id: "gasto_cartao", label: "Gasto Mensal no Cartão (R$)", category: "Cartões", type: "numeric", defaultOp: ">", defaultVal: "2500", keywords: ["cartao", "gasto", "fatura", "credito", "consumo", "shopping"], desc: "Total médio de gastos faturados no cartão de crédito Santander nos últimos 3 meses." },
       { id: "freq_pix", label: "Frequência de Pix / Mês", category: "Transacional", type: "numeric", defaultOp: ">", defaultVal: "10", keywords: ["pix", "frequencia", "transferencias", "transacoes", "pagamentos"], desc: "Quantidade média de transferências Pix enviadas pelo App Santander por mês." },
       { id: "uso_limite_conta", label: "Uso do Limite da Conta (%)", category: "Crédito", type: "numeric", defaultOp: ">", defaultVal: "30", keywords: ["cheque especial", "limite da conta", "limite", "rotativo", "saldo negativo"], desc: "Percentual médio de utilização do cheque especial / limite contratado da conta corrente." },
-      { id: "gasto_viagens_restaurantes", label: "Gasto em Gastronomia & Viagens (R$)", category: "Cartões", type: "numeric", defaultOp: ">", defaultVal: "1200", keywords: ["viagens", "restaurantes", "gastronomia", "ifood", "hotel", "aereo"], desc: "Volume mensal transacionado em estabelecimentos de turismo, companhias aéreas e alta gastronomia." },
+      { id: "gasto_viagens_restaurantes", label: "Gasto em Gastronomia & Viagens (R$)", category: "Cartões", type: "numeric", defaultOp: ">", defaultVal: "1200", keywords: ["viagens", "restaurantes", "gastronomia", "ifood", "hotel", "aereo"], desc: "Volume mensal transacionado em estabelecimentos de提urismo, companhias aéreas e alta gastronomia." },
       { id: "possui_cartao_black", label: "Possui Cartão Black / Infinite", category: "Cartões", type: "categorical", options: ["Sim", "Não"], defaultVal: "Não", keywords: ["black", "infinite", "unlimited", "cartao alta renda"], desc: "Verifica a posse de cartão Santander Unlimited, Black ou Infinite ativo." }
     ];
 
@@ -2010,7 +2149,7 @@
             legend: { display: false },
             tooltip: {
               callbacks: {
-                label: (ctx) => ` Estimativa: ${ctx.raw.toLocaleString('pt-BR')} contratos finais`
+                label: (ctx) => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString('pt-BR')}`
               }
             }
           },
