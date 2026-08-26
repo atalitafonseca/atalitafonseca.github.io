@@ -24,6 +24,9 @@
       --camp-red: #e11d48;
       --camp-light: #fff1f2;
       --success: #10b981;
+      --success-bg: #dcfce7;
+      --danger: #ef4444;
+      --danger-bg: #fee2e2;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
@@ -170,13 +173,13 @@
     @media (max-width: 1050px) { .two-col-grid { grid-template-columns: 1fr; } }
 
     /* ========================================================================= */
-    /* CLEAN & MINIMALIST 7-STAGE FUNNEL                                         */
+    /* CLEAN 7-STAGE FUNNEL COM EVOLUÇÃO E QUEDA MÊS A MÊS (MoM)                 */
     /* ========================================================================= */
     .clean-funnel-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       width: 100%;
     }
 
@@ -212,9 +215,23 @@
       justify-content: space-between;
       align-items: center;
     }
-    .funnel-step-name { font-size: 0.78rem; font-weight: 700; color: var(--text); }
+    .funnel-step-name { font-size: 0.78rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .funnel-step-vol-area { display: flex; align-items: center; gap: 8px; }
     .funnel-step-total { font-size: 0.92rem; font-weight: 800; color: var(--text); }
     .w-step-7 .funnel-step-total { color: var(--santander-red); }
+
+    /* MoM Evolution / Drop Badges */
+    .badge-mom {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .badge-mom.up { background: var(--success-bg); color: #15803d; }
+    .badge-mom.down { background: var(--danger-bg); color: #b91c1c; }
 
     .funnel-bar-track {
       height: 14px;
@@ -256,6 +273,22 @@
     }
     .pass-rate-indicator strong { color: var(--text); }
 
+    /* Diagnostic Box */
+    .mom-diagnostics-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 800px) { .mom-diagnostics-box { grid-template-columns: 1fr; } }
+    .diag-item { display: flex; flex-direction: column; gap: 2px; }
+    .diag-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+    .diag-desc { font-size: 0.76rem; color: var(--text-muted); }
+
     /* Side Stack */
     .side-stack { display: flex; flex-direction: column; gap: 12px; }
     
@@ -285,6 +318,12 @@
     }
     .loss-line { display: flex; justify-content: space-between; color: var(--text-muted); }
     .loss-line strong { color: #dc2626; }
+
+    /* Monthly Matrix Table */
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 10px; }
+    .matrix-table th, .matrix-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+    .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
+    .matrix-table tr:hover { background: #f8fafc; }
 
     /* AI Suggestions Panel */
     .sug-card {
@@ -317,7 +356,6 @@
 
     /* Rules Builder */
     .rules-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-    
     .rule-item-box {
       display: flex;
       align-items: center;
@@ -329,79 +367,13 @@
       transition: all 0.15s;
     }
     .rule-item-box:hover { border-color: #cbd5e1; }
-
-    .rule-attr-select {
-      flex: 1.4;
-      padding: 6px 8px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: white;
-      outline: none;
-    }
-    .rule-op-select {
-      width: 60px;
-      padding: 6px 4px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-align: center;
-      background: white;
-      outline: none;
-    }
-    .rule-val-input {
-      width: 100px;
-      padding: 6px 8px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: white;
-      outline: none;
-    }
-    .rule-val-select {
-      flex: 1;
-      padding: 6px 8px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: white;
-      outline: none;
-    }
-    .btn-del-rule {
-      background: #fee2e2;
-      color: #991b1b;
-      border: none;
-      width: 26px;
-      height: 26px;
-      border-radius: 4px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .rule-attr-select { flex: 1.4; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 600; background: white; outline: none; }
+    .rule-op-select { width: 60px; padding: 6px 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 700; text-align: center; background: white; outline: none; }
+    .rule-val-input { width: 100px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 600; background: white; outline: none; }
+    .rule-val-select { flex: 1; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 600; background: white; outline: none; }
+    .btn-del-rule { background: #fee2e2; color: #991b1b; border: none; width: 26px; height: 26px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .btn-del-rule:hover { background: #fecaca; }
-
-    .btn-add-rule {
-      background: white;
-      border: 1.5px dashed #cbd5e1;
-      color: #475569;
-      padding: 8px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
+    .btn-add-rule { background: white; border: 1.5px dashed #cbd5e1; color: #475569; padding: 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-add-rule:hover { background: #f8fafc; border-color: #94a3b8; }
 
     /* Segment Pills */
@@ -418,123 +390,38 @@
       user-select: none;
       transition: all 0.15s;
     }
-    .seg-pill.active {
-      background: var(--santander-light);
-      border-color: var(--santander-red);
-      color: var(--santander-red);
-    }
+    .seg-pill.active { background: var(--santander-light); border-color: var(--santander-red); color: var(--santander-red); }
 
-    /* DATA DICTIONARY SEARCH ENGINE */
-    .dict-search-wrapper {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px;
-      margin-bottom: 16px;
-    }
-    .dict-search-bar {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .dict-input {
-      flex: 1;
-      padding: 9px 12px;
-      border: 1.5px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.84rem;
-      font-weight: 500;
-      outline: none;
-      transition: border-color 0.15s;
-    }
+    /* Dictionary */
+    .dict-search-wrapper { background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 16px; }
+    .dict-search-bar { display: flex; gap: 8px; align-items: center; }
+    .dict-input { flex: 1; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.84rem; font-weight: 500; outline: none; }
     .dict-input:focus { border-color: var(--santander-red); }
-    .btn-dict-search {
-      background: var(--santander-red);
-      color: white;
-      border: none;
-      padding: 9px 16px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
+    .btn-dict-search { background: var(--santander-red); color: white; border: none; padding: 9px 16px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
     .btn-dict-search:hover { background: var(--santander-hover); }
-
-    .dict-results-container {
-      margin-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 280px;
-      overflow-y: auto;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px;
-    }
-    .dict-match-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      transition: all 0.15s;
-    }
-    .dict-match-card:hover { border-color: #94a3b8; }
+    .dict-results-container { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 10px; }
+    .dict-match-card { background: #ffffff; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
     .dict-info { flex: 1; }
     .dict-name { font-size: 0.82rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px; }
     .dict-tag { font-size: 0.68rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: #e2e8f0; color: #334155; }
     .dict-desc { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; line-height: 1.35; }
-    .btn-dict-add {
-      background: #ffffff;
-      border: 1.5px solid var(--santander-red);
-      color: var(--santander-red);
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.74rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.15s;
-    }
+    .btn-dict-add { background: #ffffff; border: 1.5px solid var(--santander-red); color: var(--santander-red); padding: 5px 10px; border-radius: 5px; font-size: 0.74rem; font-weight: 700; cursor: pointer; }
     .btn-dict-add:hover { background: var(--santander-red); color: white; }
 
-    /* Subtle Toast */
-    .toast-msg {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #0f172a;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      z-index: 100;
-      display: none;
-      align-items: center;
-      gap: 8px;
-    }
+    .toast-msg { position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: white; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 100; display: none; align-items: center; gap: 8px; }
   </style>
 </head>
 <body>
 
-  <!-- Toast Confirmation -->
-  <div id="toast" class="toast-msg">✓ Atributo adicionado! Números recalculados em tempo real.</div>
+  <div id="toast" class="toast-msg">✓ Atualizado com sucesso!</div>
 
-  <!-- Minimal Header -->
+  <!-- Header -->
   <header>
     <div class="brand-area">
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>Recálculo Responsivo em Tempo Real · Dicionário Inteligente · Funil Executivo</p>
+        <p>A Tríade Integrada: Evolução & Quedas Mês a Mês (MoM) em Cada Etapa do Funil</p>
       </div>
     </div>
     <div class="nav-links">
@@ -548,166 +435,18 @@
     
     <!-- Tab Navigation -->
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Dicionário Reativo</button>
-      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
+      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Simulador & Dicionário Reativo</button>
+      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Evoluções e Quedas Mês a Mês</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR & DICIONÁRIO TOTALMENTE REATIVO EM TEMPO REAL           -->
+    <!-- ABA 2: A TRÍADE (COM EVOLUÇÕES & QUEDAS MÊS A MÊS EXPLÍCITAS)              -->
     <!-- ========================================================================= -->
-    <div id="tab-simulador" class="tab-content">
+    <div id="tab-triade" class="tab-content">
       
-      <!-- Top Forecast KPI Bar for Simulator (Calculado Dinamicamente) -->
-      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">1. Views nos Espaços</div>
-          <div class="kpi-val" style="font-size:1.15rem; color:var(--org-blue);" id="sim-kpi-views">2.394.000</div>
-          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-views-tx">70% exibição</div>
-        </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">2. Cliques / Interação</div>
-          <div class="kpi-val" style="font-size:1.15rem; color:#f59e0b;" id="sim-kpi-cliques">430.920</div>
-          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-cliques-tx">18% CTR</div>
-        </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">3. Topo App Santander</div>
-          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-topo">344.736</div>
-          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-topo-tx">80% entrada</div>
-        </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">4. Simulação & ID</div>
-          <div class="kpi-val" style="font-size:1.15rem; color:#8b5cf6;" id="sim-kpi-meio">282.683</div>
-          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-meio-tx">82% avanço</div>
-        </div>
-        <div class="kpi-card highlight" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">5. Produção Final Core</div>
-          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-fundo">255.794</div>
-          <div style="font-size:0.68rem; color:var(--santander-red); font-weight:700;" id="sim-kpi-fundo-tx">74.2% conversão</div>
-        </div>
-      </div>
-
-      <!-- DICIONÁRIO DE DADOS & BUSCA INTELIGENTE -->
-      <div class="dict-search-wrapper">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <div style="font-size:0.82rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px;">
-            <span>📖 Dicionário de Atributos Santander</span>
-            <span style="font-size:0.7rem; background:#fee2e2; color:var(--santander-red); padding:1px 6px; border-radius:4px; font-weight:700;">Busca com IA</span>
-          </div>
-          <label style="font-size:0.72rem; color:var(--text-muted); cursor:pointer; font-weight:600; text-decoration:underline;">
-            📁 Subir Dicionário (.csv / .json)
-            <input type="file" style="display:none;" accept=".csv,.json" onchange="uploadDicionario(event)">
-          </label>
-        </div>
-
-        <div class="dict-search-bar">
-          <input type="text" id="dict-query-input" class="dict-input" placeholder="Ex: 'tem dado de evasao de open finance?', 'salário', 'gasto cartão'..." oninput="pesquisarDicionario()" onkeypress="if(event.key==='Enter') pesquisarDicionario()">
-          <button class="btn-dict-search" onclick="pesquisarDicionario()">🔍 Consultar IA</button>
-        </div>
-
-        <!-- Resultados da Busca (com botão fechar manual + auto-fechamento ao adicionar) -->
-        <div id="dict-results" class="dict-results-container" style="display:none;"></div>
-      </div>
-
-      <div class="two-col-grid">
-        
-        <!-- Left: Clean Rule Builder -->
-        <div class="card">
-          <div class="card-header">
-            <h2>🎯 Montagem de Público & Hábitos de Consumo</h2>
-            <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted);" id="rules-alcance-badge">Público: 3.420.000 elegíveis</span>
-          </div>
-
-          <div style="margin-bottom: 14px;">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">Segmentos Elegíveis:</div>
-            <div class="seg-pills">
-              <span class="seg-pill active" onclick="toggleSegment(this, 'Especial')">⭐ Especial</span>
-              <span class="seg-pill active" onclick="toggleSegment(this, 'Select')">👑 Select</span>
-              <span class="seg-pill active" onclick="toggleSegment(this, 'Private')">💎 Private</span>
-            </div>
-          </div>
-
-          <!-- Dynamic Clean Rules List -->
-          <div style="margin-bottom: 14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Condições de Hábito Ativas:</span>
-              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras</span>
-            </div>
-            
-            <div class="rules-list" id="rules-list-container"></div>
-            
-            <button class="btn-add-rule" onclick="adicionarNovaRegra()"><span>+ Adicionar Condição de Hábito</span></button>
-          </div>
-
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; border-top:1px solid var(--border); padding-top:12px;">
-            <div>
-              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Produto:</span>
-              <select id="sim-produto" onchange="rodarSimulacao()" class="control-select" style="width:100%;">
-                <option value="Pix" selected>⚡ Pix</option>
-                <option value="Boleto">📄 Boleto</option>
-                <option value="Pix Automatico">🔄 Pix Automático</option>
-                <option value="Pix Parcelado">💳 Pix Parcelado</option>
-                <option value="Upgrade">📈 Upgrade</option>
-                <option value="Cartao de Credito">💳 Cartão de Crédito</option>
-                <option value="Limite da Conta">🏦 Limite da Conta</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Espaço Comercial:</span>
-              <select id="sim-espaco-foco" onchange="rodarSimulacao()" class="control-select" style="width:100%;">
-                <option value="Lightbox" selected>🟥 Lightbox</option>
-                <option value="Alert">🟨 Alert</option>
-                <option value="Banner">🟦 Banner</option>
-                <option value="Push">⬛ Push</option>
-                <option value="Email">⬜ Email</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: AI Prescriptive Suggestions -->
-        <div class="card">
-          <div class="card-header">
-            <h2>💡 Assistente Prescritivo de IA</h2>
-            <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;">Recomendações Vivas</span>
-          </div>
-
-          <div class="sug-card">
-            <div class="sug-text">
-              📈 <strong>Aumentar Alcance:</strong> Remover a restrição <em>"Consentimento Open Finance"</em> aumenta o público elegível em <strong>+840.000 clientes (+24.5%)</strong>.
-            </div>
-            <button class="btn-apply" onclick="aplicarSugestao('remover_open_finance')">Aplicar</button>
-          </div>
-
-          <div class="sug-card">
-            <div class="sug-text">
-              ⭐ <strong>Qualificar Fundo:</strong> Manter <strong>"Score ARPAC > 7.0"</strong> eleva a conversão final em <strong>+5.2%</strong> com clientes mais rentáveis.
-            </div>
-            <button class="btn-apply" onclick="aplicarSugestao('manter_arpac')">Priorizar</button>
-          </div>
-
-          <div class="sug-card">
-            <div class="sug-text">
-              🎯 <strong>Espaço Recomendado:</strong> O <strong>Lightbox contextual</strong> converte <strong>2.8x mais</strong> que Banner para clientes com evasão.
-            </div>
-            <button class="btn-apply" onclick="aplicarSugestao('trocar_lightbox')">Usar</button>
-          </div>
-
-          <div style="height: 160px; margin-top: 10px;">
-            <canvas id="chartEspacos"></canvas>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE                                                           -->
-    <!-- ========================================================================= -->
-    <div id="tab-triade" class="tab-content" style="display: none;">
-      
+      <!-- Control Strip -->
       <div class="control-strip">
         <div class="control-item">
           <label>📦 Produto:</label>
@@ -725,14 +464,14 @@
         <div class="control-item">
           <label>📅 Mês de Análise:</label>
           <select id="triade-mes-foco" class="control-select" onchange="atualizarTriade()">
-            <option value="7" selected>Agosto / 2026 (Mês em Andamento)</option>
-            <option value="6">Julho / 2026</option>
-            <option value="5">Junho / 2026</option>
+            <option value="7" selected>Agosto / 2026 (vs Julho / 2026)</option>
+            <option value="6">Julho / 2026 (vs Junho / 2026)</option>
+            <option value="5">Junho / 2026 (vs Maio / 2026)</option>
           </select>
         </div>
 
         <div class="control-item">
-          <label>⏱️ Visão:</label>
+          <label>⏱️ Comparativo Gráfico:</label>
           <select id="triade-visao-tempo" class="control-select" onchange="atualizarTriade()">
             <option value="yoy" selected>Ano contra Ano (YoY 2025 vs 2026)</option>
             <option value="mom">Mês a Mês (MoM) + Forecast</option>
@@ -740,6 +479,19 @@
         </div>
       </div>
 
+      <!-- DIAGNÓSTICO EXECUTIVO DE GANHOS E GARGALOS MÊS A MÊS -->
+      <div class="mom-diagnostics-box">
+        <div class="diag-item">
+          <span class="diag-title" style="color:#15803d;">🚀 Maior Evolução do Funil no Mês:</span>
+          <span class="diag-desc" id="diag-best-step"><strong>Etapa 2 (Cliques / Interações)</strong> subiu <strong>+15.0% MoM</strong> impulsionada pelas peças de Lightbox.</span>
+        </div>
+        <div class="diag-item">
+          <span class="diag-title" style="color:#b91c1c;">⚠️ Ponto de Atenção / Queda:</span>
+          <span class="diag-desc" id="diag-drop-step"><strong>Etapa 4 (Simulação de Condições)</strong> recuou <strong>-1.8% MoM</strong> na taxa de conversão intermediária.</span>
+        </div>
+      </div>
+
+      <!-- 4 Essential KPI Cards -->
       <div class="kpi-row">
         <div class="kpi-card">
           <div class="kpi-title">📍 Realizado MTD (Dia 20)</div>
@@ -766,24 +518,30 @@
         </div>
       </div>
 
+      <!-- Two-Column Layout -->
       <div class="two-col-grid">
         
+        <!-- Clean Funnel Column com Badges MoM em cada Etapa -->
         <div class="card">
           <div class="card-header">
-            <h2>🔻 Funil de 7 Etapas (Orgânico vs Campanha)</h2>
+            <h2>🔻 Funil de 7 Etapas com Variação MoM (Subiu / Caiu)</h2>
             <div style="font-size:0.75rem; display:flex; gap:8px;">
-              <span style="color:var(--org-blue); font-weight:700;">🟦 Orgânico (62%)</span>
-              <span style="color:var(--camp-red); font-weight:700;">🟥 Campanha (38%)</span>
+              <span style="color:var(--org-blue); font-weight:700;">🟦 Orgânico</span>
+              <span style="color:var(--camp-red); font-weight:700;">🟥 Campanha</span>
             </div>
           </div>
 
           <div class="clean-funnel-container">
             
+            <!-- Etapa 1 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-1">
                 <div class="funnel-row-top">
                   <span class="funnel-step-name">1. Visualização nos Espaços</span>
-                  <span class="funnel-step-total" id="fn-tot-1">5.000.000</span>
+                  <div class="funnel-step-vol-area">
+                    <span class="badge-mom up" id="fn-mom-1">↑ +12.5% MoM</span>
+                    <span class="funnel-step-total" id="fn-tot-1">5.000.000</span>
+                  </div>
                 </div>
                 <div class="funnel-bar-track">
                   <div class="funnel-bar-org s-bar-org" id="bar-org-1" style="width: 62%;">3.100.000</div>
@@ -793,11 +551,15 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-1">24.0%</strong> CTR de engajamento</div>
             </div>
 
+            <!-- Etapa 2 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-2">
                 <div class="funnel-row-top">
                   <span class="funnel-step-name">2. Cliques / Interações</span>
-                  <span class="funnel-step-total" id="fn-tot-2">1.200.000</span>
+                  <div class="funnel-step-vol-area">
+                    <span class="badge-mom up" id="fn-mom-2">↑ +15.0% MoM</span>
+                    <span class="funnel-step-total" id="fn-tot-2">1.200.000</span>
+                  </div>
                 </div>
                 <div class="funnel-bar-track">
                   <div class="funnel-bar-org s-bar-org" id="bar-org-2" style="width: 62%;">744.000</div>
@@ -807,11 +569,15 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-2">83.3%</strong> entram no fluxo do App</div>
             </div>
 
+            <!-- Etapa 3 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-3">
                 <div class="funnel-row-top">
                   <span class="funnel-step-name">3. Topo de Funil (Entrada no App)</span>
-                  <span class="funnel-step-total" id="fn-tot-3">1.000.000</span>
+                  <div class="funnel-step-vol-area">
+                    <span class="badge-mom up" id="fn-mom-3">↑ +14.2% MoM</span>
+                    <span class="funnel-step-total" id="fn-tot-3">1.000.000</span>
+                  </div>
                 </div>
                 <div class="funnel-bar-track">
                   <div class="funnel-bar-org s-bar-org" id="bar-org-3" style="width: 62%;">620.000</div>
@@ -821,11 +587,15 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-3">78.0%</strong> iniciam simulação</div>
             </div>
 
+            <!-- Etapa 4 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-4">
                 <div class="funnel-row-top">
                   <span class="funnel-step-name">4. Step do Meio: Simulação</span>
-                  <span class="funnel-step-total" id="fn-tot-4">780.000</span>
+                  <div class="funnel-step-vol-area">
+                    <span class="badge-mom down" id="fn-mom-4">↓ -1.8% MoM</span>
+                    <span class="funnel-step-total" id="fn-tot-4">780.000</span>
+                  </div>
                 </div>
                 <div class="funnel-bar-track">
                   <div class="funnel-bar-org s-bar-org" id="bar-org-4" style="width: 62%;">483.600</div>
@@ -835,11 +605,15 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-4">82.1%</strong> autenticam ID Santander</div>
             </div>
 
+            <!-- Etapa 5 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-5">
                 <div class="funnel-row-top">
                   <span class="funnel-step-name">5. Step do Meio: Autenticação ID</span>
-                  <span class="funnel-step-total" id="fn-tot-5">640.000</span>
+                  <div class="funnel-step-vol-area">
+                    <span class="badge-mom up" id="fn-mom-5">↑ +4.1% MoM</span>
+                    <span class="funnel-step-total" id="fn-tot-5">640.000</span>
+                  </div>
                 </div>
                 <div class="funnel-bar-track">
                   <div class="funnel-bar-org s-bar-org" id="bar-org-5" style="width: 62%;">396.800</div>
@@ -849,11 +623,15 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-5">79.7%</strong> concluem no App</div>
             </div>
 
+            <!-- Etapa 6 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-6">
                 <div class="funnel-row-top">
                   <span class="funnel-step-name" style="color:#6d28d9;">6. Fechamento de Funil (App)</span>
-                  <span class="funnel-step-total" id="fn-tot-6" style="color:#6d28d9;">510.000</span>
+                  <div class="funnel-step-vol-area">
+                    <span class="badge-mom up" id="fn-mom-6">↑ +8.2% MoM</span>
+                    <span class="funnel-step-total" id="fn-tot-6" style="color:#6d28d9;">510.000</span>
+                  </div>
                 </div>
                 <div class="funnel-bar-track">
                   <div class="funnel-bar-org s-bar-org" id="bar-org-6" style="width: 62%;">316.200</div>
@@ -863,11 +641,15 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-6">93.9%</strong> liquidação efetiva Core</div>
             </div>
 
+            <!-- Etapa 7 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-7">
                 <div class="funnel-row-top">
-                  <span class="funnel-step-name" style="color:var(--santander-red);">7. Fundo de Funil: Produção (Core)</span>
-                  <span class="funnel-step-total" id="fn-tot-7">478.900</span>
+                  <span class="funnel-step-name" style="color:var(--santander-red);">7. Fundo de Funil: Produção Core</span>
+                  <div class="funnel-step-vol-area">
+                    <span class="badge-mom up" id="fn-mom-7">↑ +13.9% MoM</span>
+                    <span class="funnel-step-total" id="fn-tot-7">478.900</span>
+                  </div>
                 </div>
                 <div class="funnel-bar-track">
                   <div class="funnel-bar-org s-bar-org" id="bar-org-7" style="width: 62%;">296.918</div>
@@ -879,6 +661,7 @@
           </div>
         </div>
 
+        <!-- Right Side: Reconciliação & Evolução Temporal -->
         <div class="side-stack">
           
           <div class="card" style="margin-bottom:0;">
@@ -917,6 +700,170 @@
             </div>
           </div>
 
+        </div>
+
+      </div>
+
+      <!-- NOVO: TABELA DE EVOLUÇÃO MÊS A MÊS DO FUNIL (HISTÓRICO RECENTE) -->
+      <div class="card">
+        <div class="card-header">
+          <h2>📊 Matriz Comparativa Mês a Mês do Funil (Junho, Julho e Agosto)</h2>
+          <span style="font-size:0.74rem; color:var(--text-muted);">Valores em milhares de contratos / acessos</span>
+        </div>
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Etapa do Funil</th>
+              <th>Jun/26</th>
+              <th>Jul/26</th>
+              <th>Ago/26 (Forecast)</th>
+              <th>Variação MoM (Ago vs Jul)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="matrix-table-body">
+            <!-- Populated dynamically by JS -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- ABA 1: SIMULADOR & DICIONÁRIO REATIVO                                     -->
+    <!-- ========================================================================= -->
+    <div id="tab-simulador" class="tab-content" style="display: none;">
+      
+      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">1. Views nos Espaços</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:var(--org-blue);" id="sim-kpi-views">2.394.000</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-views-tx">70% exibição</div>
+        </div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">2. Cliques / Interação</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:#f59e0b;" id="sim-kpi-cliques">430.920</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-cliques-tx">18% CTR</div>
+        </div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">3. Topo App Santander</div>
+          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-topo">344.736</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-topo-tx">80% entrada</div>
+        </div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">4. Simulação & ID</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:#8b5cf6;" id="sim-kpi-meio">282.683</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-meio-tx">82% avanço</div>
+        </div>
+        <div class="kpi-card highlight" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">5. Produção Final Core</div>
+          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-fundo">255.794</div>
+          <div style="font-size:0.68rem; color:var(--santander-red); font-weight:700;" id="sim-kpi-fundo-tx">74.2% conversão</div>
+        </div>
+      </div>
+
+      <div class="dict-search-wrapper">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="font-size:0.82rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px;">
+            <span>📖 Dicionário de Atributos Santander</span>
+            <span style="font-size:0.7rem; background:#fee2e2; color:var(--santander-red); padding:1px 6px; border-radius:4px; font-weight:700;">Busca com IA</span>
+          </div>
+          <label style="font-size:0.72rem; color:var(--text-muted); cursor:pointer; font-weight:600; text-decoration:underline;">
+            📁 Subir Dicionário (.csv / .json)
+            <input type="file" style="display:none;" accept=".csv,.json" onchange="uploadDicionario(event)">
+          </label>
+        </div>
+
+        <div class="dict-search-bar">
+          <input type="text" id="dict-query-input" class="dict-input" placeholder="Ex: 'tem dado de evasao de open finance?', 'salário', 'gasto cartão'..." oninput="pesquisarDicionario()" onkeypress="if(event.key==='Enter') pesquisarDicionario()">
+          <button class="btn-dict-search" onclick="pesquisarDicionario()">🔍 Consultar IA</button>
+        </div>
+
+        <div id="dict-results" class="dict-results-container" style="display:none;"></div>
+      </div>
+
+      <div class="two-col-grid">
+        
+        <div class="card">
+          <div class="card-header">
+            <h2>🎯 Montagem de Público & Hábitos de Consumo</h2>
+            <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted);" id="rules-alcance-badge">Público: 3.420.000 elegíveis</span>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">Segmentos Elegíveis:</div>
+            <div class="seg-pills">
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Especial')">⭐ Especial</span>
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Select')">👑 Select</span>
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Private')">💎 Private</span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Condições de Hábito Ativas:</span>
+              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras</span>
+            </div>
+            <div class="rules-list" id="rules-list-container"></div>
+            <button class="btn-add-rule" onclick="adicionarNovaRegra()"><span>+ Adicionar Condição de Hábito</span></button>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; border-top:1px solid var(--border); padding-top:12px;">
+            <div>
+              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Produto:</span>
+              <select id="sim-produto" onchange="rodarSimulacao()" class="control-select" style="width:100%;">
+                <option value="Pix" selected>⚡ Pix</option>
+                <option value="Boleto">📄 Boleto</option>
+                <option value="Pix Automatico">🔄 Pix Automático</option>
+                <option value="Pix Parcelado">💳 Pix Parcelado</option>
+                <option value="Upgrade">📈 Upgrade</option>
+                <option value="Cartao de Credito">💳 Cartão de Crédito</option>
+                <option value="Limite da Conta">🏦 Limite da Conta</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Espaço Comercial:</span>
+              <select id="sim-espaco-foco" onchange="rodarSimulacao()" class="control-select" style="width:100%;">
+                <option value="Lightbox" selected>🟥 Lightbox</option>
+                <option value="Alert">🟨 Alert</option>
+                <option value="Banner">🟦 Banner</option>
+                <option value="Push">⬛ Push</option>
+                <option value="Email">⬜ Email</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>💡 Assistente Prescritivo de IA</h2>
+            <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;">Recomendações Vivas</span>
+          </div>
+
+          <div class="sug-card">
+            <div class="sug-text">
+              📈 <strong>Aumentar Alcance:</strong> Remover a restrição <em>"Consentimento Open Finance"</em> aumenta o público elegível em <strong>+840.000 clientes (+24.5%)</strong>.
+            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('remover_open_finance')">Aplicar</button>
+          </div>
+
+          <div class="sug-card">
+            <div class="sug-text">
+              ⭐ <strong>Qualificar Fundo:</strong> Manter <strong>"Score ARPAC > 7.0"</strong> eleva a conversão final em <strong>+5.2%</strong> com clientes mais rentáveis.
+            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('manter_arpac')">Priorizar</button>
+          </div>
+
+          <div class="sug-card">
+            <div class="sug-text">
+              🎯 <strong>Espaço Recomendado:</strong> O <strong>Lightbox contextual</strong> converte <strong>2.8x mais</strong> que Banner para clientes com evasão.
+            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('trocar_lightbox')">Usar</button>
+          </div>
+
+          <div style="height: 160px; margin-top: 10px;">
+            <canvas id="chartEspacos"></canvas>
+          </div>
         </div>
 
       </div>
@@ -998,15 +945,17 @@
         mixOrganico: 0.62,
         metaMes: 467500,
         stages7: [
-          { name: "1. Visualização nos Espaços", vMTD: 3750000, vForecast: 5000000, passRate: 24.0 },
-          { name: "2. Cliques / Interações", vMTD: 900000, vForecast: 1200000, passRate: 83.3 },
-          { name: "3. Topo de Funil (App)", vMTD: 750000, vForecast: 1000000, passRate: 78.0 },
-          { name: "4. Step do Meio: Simulação", vMTD: 585000, vForecast: 780000, passRate: 82.1 },
-          { name: "5. Step do Meio: Autenticação ID", vMTD: 480000, vForecast: 640000, passRate: 79.7 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 382500, vForecast: 510000, passRate: 93.9 },
-          { name: "7. Fundo de Funil: Produção Core", vMTD: 362400, vForecast: 478900, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vJun: 4100000, vJul: 4444000, vForecast: 5000000, passRate: 24.0 },
+          { name: "2. Cliques / Interações", vJun: 920000, vJul: 1043000, vForecast: 1200000, passRate: 83.3 },
+          { name: "3. Topo de Funil (App)", vJun: 770000, vJul: 875000, vForecast: 1000000, passRate: 78.0 },
+          { name: "4. Step do Meio: Simulação", vJun: 620000, vJul: 794000, vForecast: 780000, passRate: 82.1 },
+          { name: "5. Step do Meio: Autenticação ID", vJun: 500000, vJul: 615000, vForecast: 640000, passRate: 79.7 },
+          { name: "6. Fechamento de Funil (App)", vJun: 400000, vJul: 471000, vForecast: 510000, passRate: 93.9 },
+          { name: "7. Fundo de Funil: Produção Core", vJun: 375000, vJul: 420320, vForecast: 478900, passRate: 100.0 }
         ],
-        losses: { antifraude: 14200, saldo: 9800, timeout: 7100 }
+        losses: { antifraude: 14200, saldo: 9800, timeout: 7100 },
+        bestStep: "Etapa 2 (Cliques / Interações) subiu +15.0% MoM com criativos de Lightbox.",
+        dropStep: "Etapa 4 (Simulação) teve leve retração de -1.8% MoM no avanço."
       },
       "Boleto": {
         base2025: [180000, 185000, 195000, 190000, 200000, 205000, 210000, 240000, 220000, 225000, 235000, 250000],
@@ -1016,15 +965,17 @@
         mixOrganico: 0.72,
         metaMes: 265000,
         stages7: [
-          { name: "1. Visualização nos Espaços", vMTD: 2542000, vForecast: 3444000, passRate: 21.5 },
-          { name: "2. Cliques / Interações", vMTD: 546500, vForecast: 740460, passRate: 85.0 },
-          { name: "3. Topo de Funil (App)", vMTD: 464500, vForecast: 629390, passRate: 72.0 },
-          { name: "4. Step do Meio: Simulação", vMTD: 334400, vForecast: 453160, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID", vMTD: 267500, vForecast: 362500, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 214000, vForecast: 290000, passRate: 94.5 },
-          { name: "7. Fundo de Funil: Produção Core", vMTD: 202200, vForecast: 274100, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vJun: 3100000, vJul: 3250000, vForecast: 3444000, passRate: 21.5 },
+          { name: "2. Cliques / Interações", vJun: 650000, vJul: 690000, vForecast: 740460, passRate: 85.0 },
+          { name: "3. Topo de Funil (App)", vJun: 560000, vJul: 595000, vForecast: 629390, passRate: 72.0 },
+          { name: "4. Step do Meio: Simulação", vJun: 410000, vJul: 440000, vForecast: 453160, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID", vJun: 330000, vJul: 350000, vForecast: 362500, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (App)", vJun: 260000, vJul: 278000, vForecast: 290000, passRate: 94.5 },
+          { name: "7. Fundo de Funil: Produção Core", vJun: 228000, vJul: 239800, vForecast: 274100, passRate: 100.0 }
         ],
-        losses: { antifraude: 6200, saldo: 5800, timeout: 3900 }
+        losses: { antifraude: 6200, saldo: 5800, timeout: 3900 },
+        bestStep: "Etapa 7 (Produção Core) expandiu +14.3% MoM com liquidação de DDA.",
+        dropStep: "Etapa 1 (Views) teve crescimento menor de +6.0% MoM por saturação de Banner."
       },
       "Pix Automatico": {
         base2025: [45000, 52000, 60000, 68000, 78000, 89000, 98000, 115000, 122000, 135000, 150000, 175000],
@@ -1034,15 +985,17 @@
         mixOrganico: 0.42,
         metaMes: 180000,
         stages7: [
-          { name: "1. Visualização nos Espaços", vMTD: 1628000, vForecast: 2200000, passRate: 28.0 },
-          { name: "2. Cliques / Interações", vMTD: 455800, vForecast: 616000, passRate: 79.0 },
-          { name: "3. Topo de Funil (App)", vMTD: 360000, vForecast: 486640, passRate: 68.0 },
-          { name: "4. Step do Meio: Simulação", vMTD: 244800, vForecast: 330910, passRate: 75.0 },
-          { name: "5. Step do Meio: Autenticação ID", vMTD: 183600, vForecast: 248180, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 146800, vForecast: 198500, passRate: 93.8 },
-          { name: "7. Fundo de Funil: Produção Core", vMTD: 137800, vForecast: 186300, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vJun: 1650000, vJul: 1850000, vForecast: 2200000, passRate: 28.0 },
+          { name: "2. Cliques / Interações", vJun: 440000, vJul: 510000, vForecast: 616000, passRate: 79.0 },
+          { name: "3. Topo de Funil (App)", vJun: 345000, vJul: 405000, vForecast: 486640, passRate: 68.0 },
+          { name: "4. Step do Meio: Simulação", vJun: 240000, vJul: 285000, vForecast: 330910, passRate: 75.0 },
+          { name: "5. Step do Meio: Autenticação ID", vJun: 180000, vJul: 215000, vForecast: 248180, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (App)", vJun: 142000, vJul: 170000, vForecast: 198500, passRate: 93.8 },
+          { name: "7. Fundo de Funil: Produção Core", vJun: 132000, vJul: 158700, vForecast: 186300, passRate: 100.0 }
         ],
-        losses: { antifraude: 4800, saldo: 4500, timeout: 2900 }
+        losses: { antifraude: 4800, saldo: 4500, timeout: 2900 },
+        bestStep: "Etapa 2 (Cliques) disparou +20.8% MoM impulsionado por Push contextual.",
+        dropStep: "Etapa 3 (Topo App) tem taxa de entrada de 68%, demandando menos atrito."
       },
       "Pix Parcelado": {
         base2025: [60000, 65000, 72000, 78000, 85000, 92000, 99000, 118000, 115000, 124000, 135000, 155000],
@@ -1052,15 +1005,17 @@
         mixOrganico: 0.48,
         metaMes: 160000,
         stages7: [
-          { name: "1. Visualização nos Espaços", vMTD: 1764000, vForecast: 2394000, passRate: 22.0 },
-          { name: "2. Cliques / Interações", vMTD: 388000, vForecast: 526680, passRate: 82.0 },
-          { name: "3. Topo de Funil (App)", vMTD: 318000, vForecast: 431870, passRate: 64.0 },
-          { name: "4. Step do Meio: Simulação", vMTD: 203500, vForecast: 276400, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID", vMTD: 162800, vForecast: 221120, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 130200, vForecast: 176800, passRate: 92.4 },
-          { name: "7. Fundo de Funil: Produção Core", vMTD: 120200, vForecast: 163400, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vJun: 1900000, vJul: 2100000, vForecast: 2394000, passRate: 22.0 },
+          { name: "2. Cliques / Interações", vJun: 410000, vJul: 460000, vForecast: 526680, passRate: 82.0 },
+          { name: "3. Topo de Funil (App)", vJun: 330000, vJul: 375000, vForecast: 431870, passRate: 64.0 },
+          { name: "4. Step do Meio: Simulação", vJun: 220000, vJul: 250000, vForecast: 276400, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID", vJun: 175000, vJul: 200000, vForecast: 221120, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (App)", vJun: 140000, vJul: 160000, vForecast: 176800, passRate: 92.4 },
+          { name: "7. Fundo de Funil: Produção Core", vJun: 125000, vJul: 142100, vForecast: 163400, passRate: 100.0 }
         ],
-        losses: { antifraude: 6400, saldo: 4200, timeout: 2800 }
+        losses: { antifraude: 6400, saldo: 4200, timeout: 2800 },
+        bestStep: "Etapa 7 (Produção Core) cresceu +15.0% MoM com oferta pré-aprovada.",
+        dropStep: "Etapa 4 (Simulação de Parcelas) recuou -2.1% MoM em conversão de taxa."
       },
       "Upgrade": {
         base2025: [18000, 19000, 21000, 20500, 22000, 23500, 24000, 27500, 26000, 27500, 29000, 32000],
@@ -1070,15 +1025,17 @@
         mixOrganico: 0.32,
         metaMes: 34000,
         stages7: [
-          { name: "1. Visualização nos Espaços", vMTD: 784000, vForecast: 1056000, passRate: 16.5 },
-          { name: "2. Cliques / Interações", vMTD: 129360, vForecast: 174240, passRate: 76.0 },
-          { name: "3. Topo de Funil (App)", vMTD: 98300, vForecast: 132420, passRate: 58.0 },
-          { name: "4. Step do Meio: Simulação", vMTD: 57000, vForecast: 76800, passRate: 65.0 },
-          { name: "5. Step do Meio: Autenticação ID", vMTD: 37050, vForecast: 49920, passRate: 73.8 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 27360, vForecast: 36860, passRate: 93.6 },
-          { name: "7. Fundo de Funil: Produção Core", vMTD: 25600, vForecast: 34500, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vJun: 880000, vJul: 950000, vForecast: 1056000, passRate: 16.5 },
+          { name: "2. Cliques / Interações", vJun: 140000, vJul: 155000, vForecast: 174240, passRate: 76.0 },
+          { name: "3. Topo de Funil (App)", vJun: 105000, vJul: 118000, vForecast: 132420, passRate: 58.0 },
+          { name: "4. Step do Meio: Simulação", vJun: 65000, vJul: 72000, vForecast: 76800, passRate: 65.0 },
+          { name: "5. Step do Meio: Autenticação ID", vJun: 42000, vJul: 46000, vForecast: 49920, passRate: 73.8 },
+          { name: "6. Fechamento de Funil (App)", vJun: 31000, vJul: 34000, vForecast: 36860, passRate: 93.6 },
+          { name: "7. Fundo de Funil: Produção Core", vJun: 26500, vJul: 30100, vForecast: 34500, passRate: 100.0 }
         ],
-        losses: { antifraude: 1200, saldo: 600, timeout: 560 }
+        losses: { antifraude: 1200, saldo: 600, timeout: 560 },
+        bestStep: "Etapa 7 (Produção Core) avançou +14.6% MoM na conversão Select/Private.",
+        dropStep: "Etapa 1 (Views) teve queda de CTR (-0.8% MoM) em clientes Especial."
       },
       "Cartao de Credito": {
         base2025: [85000, 88000, 94000, 92000, 98000, 102000, 106000, 122000, 118000, 124000, 132000, 148000],
@@ -1088,15 +1045,17 @@
         mixOrganico: 0.38,
         metaMes: 145000,
         stages7: [
-          { name: "1. Visualização nos Espaços", vMTD: 2132000, vForecast: 2870000, passRate: 19.0 },
-          { name: "2. Cliques / Interações", vMTD: 405000, vForecast: 545300, passRate: 74.0 },
-          { name: "3. Topo de Funil (App)", vMTD: 299700, vForecast: 403520, passRate: 62.0 },
-          { name: "4. Step do Meio: Simulação", vMTD: 185800, vForecast: 250180, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID", vMTD: 148640, vForecast: 200140, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 118900, vForecast: 160100, passRate: 93.4 },
-          { name: "7. Fundo de Funil: Produção Core", vMTD: 111000, vForecast: 149500, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vJun: 2400000, vJul: 2600000, vForecast: 2870000, passRate: 19.0 },
+          { name: "2. Cliques / Interações", vJun: 450000, vJul: 490000, vForecast: 545300, passRate: 74.0 },
+          { name: "3. Topo de Funil (App)", vJun: 330000, vJul: 360000, vForecast: 403520, passRate: 62.0 },
+          { name: "4. Step do Meio: Simulação", vJun: 210000, vJul: 230000, vForecast: 250180, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID", vJun: 168000, vJul: 184000, vForecast: 200140, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (App)", vJun: 135000, vJul: 147000, vForecast: 160100, passRate: 93.4 },
+          { name: "7. Fundo de Funil: Produção Core", vJun: 118000, vJul: 129850, vForecast: 149500, passRate: 100.0 }
         ],
-        losses: { antifraude: 5200, saldo: 3100, timeout: 2300 }
+        losses: { antifraude: 5200, saldo: 3100, timeout: 2300 },
+        bestStep: "Etapa 3 (Topo App) cresceu +12.1% MoM com notificações push de limite.",
+        dropStep: "Etapa 4 (Simulação de Anuidade) teve queda de -2.5% MoM no fechamento."
       },
       "Limite da Conta": {
         base2025: [35000, 37000, 40000, 39000, 42000, 44000, 46000, 52000, 50000, 53000, 57000, 62000],
@@ -1106,15 +1065,17 @@
         mixOrganico: 0.55,
         metaMes: 65000,
         stages7: [
-          { name: "1. Visualização nos Espaços", vMTD: 1260000, vForecast: 1722000, passRate: 20.0 },
-          { name: "2. Cliques / Interações", vMTD: 252000, vForecast: 344400, passRate: 78.0 },
-          { name: "3. Topo de Funil (App)", vMTD: 196500, vForecast: 268630, passRate: 60.0 },
-          { name: "4. Step do Meio: Simulação", vMTD: 117900, vForecast: 161180, passRate: 65.0 },
-          { name: "5. Step do Meio: Autenticação ID", vMTD: 76600, vForecast: 104760, passRate: 67.7 },
-          { name: "6. Fechamento de Funil (App)", vMTD: 51870, vForecast: 70920, passRate: 93.9 },
-          { name: "7. Fundo de Funil: Produção Core", vMTD: 48700, vForecast: 66600, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vJun: 1450000, vJul: 1580000, vForecast: 1722000, passRate: 20.0 },
+          { name: "2. Cliques / Interações", vJun: 290000, vJul: 315000, vForecast: 344400, passRate: 78.0 },
+          { name: "3. Topo de Funil (App)", vJun: 225000, vJul: 245000, vForecast: 268630, passRate: 60.0 },
+          { name: "4. Step do Meio: Simulação", vJun: 135000, vJul: 147000, vForecast: 161180, passRate: 65.0 },
+          { name: "5. Step do Meio: Autenticação ID", vJun: 88000, vJul: 96000, vForecast: 104760, passRate: 67.7 },
+          { name: "6. Fechamento de Funil (App)", vJun: 59000, vJul: 65000, vForecast: 70920, passRate: 93.9 },
+          { name: "7. Fundo de Funil: Produção Core", vJun: 51000, vJul: 58900, vForecast: 66600, passRate: 100.0 }
         ],
-        losses: { antifraude: 2100, saldo: 1300, timeout: 920 }
+        losses: { antifraude: 2100, saldo: 1300, timeout: 920 },
+        bestStep: "Etapa 7 (Produção Core) acelerou +13.1% MoM em renovação de contrato.",
+        dropStep: "Etapa 5 (Autenticação ID) teve leve queda de -1.1% MoM por fricção de biometria."
       }
     };
 
@@ -1128,13 +1089,18 @@
       const vForecast = stages[6].vForecast;
       const v2025 = pData.base2025[7];
       const vJul2026 = pData.vJul2026;
-      const vMTD = stages[6].vMTD;
+      const vMTD = Math.round(vForecast * 0.756);
 
       const yoyForecastPct = ((vForecast - v2025) / v2025 * 100).toFixed(1);
       const metaPct = ((vForecast / pData.metaMes) * 100).toFixed(1);
       const mtdJulHomologo = Math.round(vJul2026 * 0.758);
       const mtdMomPct = ((vMTD - mtdJulHomologo) / mtdJulHomologo * 100).toFixed(1);
 
+      // 1. Update Diagnostics Box
+      document.getElementById('diag-best-step').innerHTML = pData.bestStep;
+      document.getElementById('diag-drop-step').innerHTML = pData.dropStep;
+
+      // 2. Top KPI Cards
       document.getElementById('kpi-mtd-real').innerText = vMTD.toLocaleString('pt-BR');
       document.getElementById('kpi-mtd-mom').innerText = `+${mtdMomPct}% vs Jul/26 homólogo`;
       document.getElementById('kpi-mtd-forecast').innerText = vForecast.toLocaleString('pt-BR');
@@ -1143,18 +1109,30 @@
       document.getElementById('kpi-crescimento-yoy').innerText = `↑ +${yoyForecastPct}% de Crescimento YoY`;
       document.getElementById('kpi-mix-mes').innerText = `${Math.round(pData.mixCampanha*100)}% / ${Math.round(pData.mixOrganico*100)}%`;
 
+      // 3. Update Funnel Tiers com Badges MoM Explícitos
       const cRatio = pData.mixCampanha;
       const oRatio = pData.mixOrganico;
       const cPct = Math.round(cRatio * 100);
       const oPct = Math.round(oRatio * 100);
 
-      for (let i = 0; i < 7; i++) {
-        let tot = stages[i].vForecast;
-        let orgVal = Math.round(tot * oRatio);
-        let campVal = Math.round(tot * cRatio);
+      let tableHtml = '';
 
-        document.getElementById(`fn-tot-${i+1}`).innerText = tot.toLocaleString('pt-BR');
+      for (let i = 0; i < 7; i++) {
+        let totAgo = stages[i].vForecast;
+        let totJul = stages[i].vJul;
+        let totJun = stages[i].vJun;
+        let orgVal = Math.round(totAgo * oRatio);
+        let campVal = Math.round(totAgo * cRatio);
+
+        let momPct = ((totAgo - totJul) / totJul * 100).toFixed(1);
+        let isUp = parseFloat(momPct) >= 0;
+
+        document.getElementById(`fn-tot-${i+1}`).innerText = totAgo.toLocaleString('pt-BR');
         
+        let momBadge = document.getElementById(`fn-mom-${i+1}`);
+        momBadge.className = isUp ? 'badge-mom up' : 'badge-mom down';
+        momBadge.innerText = isUp ? `↑ +${momPct}% MoM` : `↓ ${momPct}% MoM`;
+
         let barOrg = document.getElementById(`bar-org-${i+1}`);
         let barCamp = document.getElementById(`bar-camp-${i+1}`);
         barOrg.style.width = oPct + '%';
@@ -1165,8 +1143,27 @@
         if (i < 6) {
           document.getElementById(`fn-pass-${i+1}`).innerText = `${stages[i].passRate}%`;
         }
+
+        // Build Matrix Row
+        let statusBadge = isUp 
+          ? `<span style="background:var(--success-bg); color:#15803d; font-weight:700; padding:2px 6px; border-radius:4px;">Crescimento</span>`
+          : `<span style="background:var(--danger-bg); color:#b91c1c; font-weight:700; padding:2px 6px; border-radius:4px;">Queda / Atenção</span>`;
+
+        tableHtml += `
+          <tr>
+            <td><strong>${stages[i].name}</strong></td>
+            <td>${totJun.toLocaleString('pt-BR')}</td>
+            <td>${totJul.toLocaleString('pt-BR')}</td>
+            <td><strong style="color:var(--text);">${totAgo.toLocaleString('pt-BR')}</strong></td>
+            <td><strong style="color:${isUp ? '#15803d' : '#b91c1c'};">${isUp ? '↑ +' : '↓ '}${momPct}%</strong></td>
+            <td>${statusBadge}</td>
+          </tr>
+        `;
       }
 
+      document.getElementById('matrix-table-body').innerHTML = tableHtml;
+
+      // 4. Update Reconcile Card
       document.getElementById('box-funil-val').innerText = stages[5].vForecast.toLocaleString('pt-BR');
       document.getElementById('box-prod-val').innerText = stages[6].vForecast.toLocaleString('pt-BR');
 
@@ -1175,6 +1172,7 @@
       document.getElementById('loss-saldo').innerText = `-${l.saldo.toLocaleString('pt-BR')}`;
       document.getElementById('loss-timeout').innerText = `-${l.timeout.toLocaleString('pt-BR')}`;
 
+      // 5. Update Time Series Chart
       if (chartTriadeEvolucaoInst) {
         let vals2025 = pData.base2025;
         let vals2026Real = [];
@@ -1241,7 +1239,6 @@
 
       resContainer.innerHTML = '';
 
-      // Header with close button
       const head = document.createElement('div');
       head.style.display = 'flex';
       head.style.justifyContent = 'space-between';
@@ -1301,8 +1298,6 @@
 
       renderRulesList();
       rodarSimulacao();
-      
-      // AUTO-DISMISS: fecha e limpa os resultados após adicionar
       fecharResultadosDicionario();
       showToast(`✓ "${attrDef.label}" adicionado! Números recalculados.`);
     }
@@ -1331,7 +1326,7 @@
     }
 
     // =========================================================================
-    // LÓGICA DO SIMULADOR REATIVO EM TEMPO REAL
+    // LÓGICA DO SIMULADOR
     // =========================================================================
     let selectedSegments = new Set(['Especial', 'Select', 'Private']);
 
@@ -1462,18 +1457,15 @@
       "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220 }
     };
 
-    // MOTOR DE CÁLCULO RESPONSIVO EM TEMPO REAL
     function rodarSimulacao() {
       const prod = document.getElementById('sim-produto').value;
       const focoEspaco = document.getElementById('sim-espaco-foco').value;
 
-      // 1. Universo Base dos Segmentos
       let baseUniverse = 0;
       if (selectedSegments.has('Especial')) baseUniverse += 5500000;
       if (selectedSegments.has('Select')) baseUniverse += 2400000;
       if (selectedSegments.has('Private')) baseUniverse += 600000;
 
-      // 2. Fator de Filtragem Dinâmica por Regra
       let compositeFactor = 1.0;
       activeRules.forEach(rule => {
         let ruleFactor = 0.68;
@@ -1502,17 +1494,14 @@
         compositeFactor *= ruleFactor;
       });
 
-      // Se não tiver regras, fator é 1. Se tiver várias, aplica ajuste de interseção
       if (activeRules.length === 0) compositeFactor = 1.0;
       else compositeFactor = Math.min(0.95, compositeFactor * Math.pow(1.15, activeRules.length - 1));
 
       let alcanceTotal = Math.round(baseUniverse * compositeFactor);
       alcanceTotal = Math.max(1200, Math.min(baseUniverse, alcanceTotal));
 
-      // Atualiza badge de público elegível
       document.getElementById('rules-alcance-badge').innerText = `Público: ${alcanceTotal.toLocaleString('pt-BR')} elegíveis`;
 
-      // 3. Afunilamento com Perfil do Espaço e Sensibilidade do Produto
       const prof = spaceProfiles[focoEspaco] || spaceProfiles["Lightbox"];
       let prodFundoMult = (prod === 'Pix') ? 1.0 : (prod === 'Boleto') ? 0.92 : (prod === 'Pix Automatico') ? 0.88 : (prod === 'Upgrade') ? 0.70 : (prod === 'Cartao de Credito') ? 0.82 : 0.65;
 
@@ -1522,7 +1511,6 @@
       let meio = Math.round(topo * prof.meioRate);
       let fundo = Math.round(meio * (prof.fundoRate * prodFundoMult));
 
-      // Atualiza os 5 KPIs do topo
       document.getElementById('sim-kpi-views').innerText = views.toLocaleString('pt-BR');
       document.getElementById('sim-kpi-views-tx').innerText = `${Math.round(prof.viewRate*100)}% exibição`;
 
@@ -1538,7 +1526,6 @@
       document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
       document.getElementById('sim-kpi-fundo-tx').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
 
-      // Atualiza gráfico de espaços
       if (chartEspacosInst) {
         chartEspacosInst.data.datasets[0].data = [
           Math.round(spaceProfiles["Lightbox"].fundoRate * prodFundoMult * 100),
