@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Santander Campaign Intelligence | Previsor de Funil de Ponta a Ponta</title>
+  <title>Santander Campaign Intelligence | Torre de Controle da Tríade & IA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,7 +27,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg-app); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
-    /* Header */
     header {
       background: linear-gradient(135deg, var(--santander-red), #990000);
       color: white;
@@ -94,10 +93,20 @@
     .tab-btn:hover { color: var(--santander-red); background: var(--santander-light); }
     .tab-btn.active { color: white; background: var(--santander-red); box-shadow: 0 4px 12px rgba(236, 0, 0, 0.2); }
 
-    /* Main Grid */
-    .dashboard-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; margin-bottom: 20px; }
-    @media (max-width: 1100px) { .dashboard-grid { grid-template-columns: 1fr; } }
+    /* KPI Summary Row */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .kpi-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+    .kpi-title { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .kpi-value { font-size: 1.6rem; font-weight: 800; color: var(--text-main); }
+    .kpi-sub { font-size: 0.78rem; color: var(--success); font-weight: 600; margin-top: 2px; }
 
+    /* Cards */
     .card {
       background: var(--card-bg);
       border-radius: 12px;
@@ -113,36 +122,42 @@
       margin-bottom: 16px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
     .card-header h2 { font-size: 1.05rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
 
-    /* Configuration Panel (Product & Segments) */
-    .config-panel {
-      background: #fafbfc;
+    .dashboard-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; margin-bottom: 20px; }
+    @media (max-width: 1100px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+    /* Controls Bar */
+    .control-strip {
+      background: #f1f5f9;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
       padding: 14px 18px;
-      margin-bottom: 16px;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 20px;
     }
-    @media (max-width: 768px) { .config-panel { grid-template-columns: 1fr; } }
-
-    .config-group { display: flex; flex-direction: column; gap: 6px; }
-    .config-group label { font-size: 0.8rem; font-weight: 700; color: var(--santander-red); text-transform: uppercase; }
-    .config-group select {
-      padding: 9px 12px;
+    .control-item { display: flex; align-items: center; gap: 8px; }
+    .control-item label { font-size: 0.84rem; font-weight: 700; color: var(--text-main); }
+    .control-select {
+      padding: 8px 12px;
+      border-radius: 6px;
       border: 1.5px solid var(--border);
-      border-radius: 7px;
       font-size: 0.88rem;
-      font-weight: 600;
+      font-weight: 700;
       background: white;
       outline: none;
+      cursor: pointer;
     }
-    .config-group select:focus { border-color: var(--santander-red); }
+    .control-select:focus { border-color: var(--santander-red); }
 
-    /* Segment Checkbox Pills */
+    /* Segment Checkboxes */
     .segment-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
     .segment-chip {
       background: white;
@@ -166,22 +181,8 @@
       color: var(--santander-red);
     }
 
-    /* Dynamic Rule Engine UI */
-    .rules-engine-box {
-      background: #ffffff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .rules-engine-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .rules-engine-header span { font-size: 0.82rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; }
-
+    /* Rules Engine */
+    .rules-engine-box { background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
     .rule-row {
       display: grid;
       grid-template-columns: 1.2fr 1fr 0.8fr 0.9fr 36px;
@@ -194,73 +195,15 @@
       margin-bottom: 8px;
     }
     @media (max-width: 900px) { .rule-row { grid-template-columns: 1fr 1fr; } }
+    .rule-select, .rule-input { padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.82rem; background: white; outline: none; }
+    .btn-delete-rule { background: #fee2e2; color: #991b1b; border: none; width: 32px; height: 32px; border-radius: 6px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .btn-add-rule { background: #f1f5f9; border: 1.5px dashed #cbd5e1; color: #334155; padding: 8px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; width: 100%; justify-content: center; margin-top: 4px; }
 
-    .rule-select, .rule-input {
-      padding: 7px 10px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.82rem;
-      background: white;
-      outline: none;
-    }
-    .rule-select:focus, .rule-input:focus { border-color: var(--santander-red); }
-
-    .btn-delete-rule {
-      background: #fee2e2;
-      color: #991b1b;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .btn-delete-rule:hover { background: #fca5a5; color: black; }
-
-    .btn-add-rule {
-      background: #f1f5f9;
-      border: 1.5px dashed #cbd5e1;
-      color: #334155;
-      padding: 8px 14px;
-      border-radius: 6px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.15s;
-      width: 100%;
-      justify-content: center;
-      margin-top: 4px;
-    }
-    .btn-add-rule:hover { border-color: var(--santander-red); color: var(--santander-red); background: #fff5f5; }
-
-    /* 5-Stage Funnel Prediction Cards */
-    .funnel-kpi-bar {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+    /* Funnel Top KPIs */
+    .funnel-kpi-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
     @media (max-width: 900px) { .funnel-kpi-bar { grid-template-columns: repeat(2, 1fr); } }
-
-    .funnel-step-card {
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 10px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-    }
-    .funnel-step-card.final {
-      border-color: var(--santander-red);
-      background: var(--santander-light);
-    }
+    .funnel-step-card { background: white; border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 10px; text-align: center; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02); }
+    .funnel-step-card.final { border-color: var(--santander-red); background: var(--santander-light); }
     .funnel-step-tag { font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
     .funnel-step-val { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
     .funnel-step-card.final .funnel-step-val { color: var(--santander-red); }
@@ -271,6 +214,8 @@
     th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); }
     th { background: #f8fafc; font-weight: 600; color: var(--text-muted); }
     .badge-win { background: #dcfce7; color: #15803d; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }
+    .badge-camp { background: #fee2e2; color: #991b1b; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }
+    .badge-org { background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }
   </style>
 </head>
 <body>
@@ -280,8 +225,8 @@
     <div class="brand-area">
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
-        <h1>Torre de Controle de Jornadas & Previsor de Funil com IA</h1>
-        <p>Previsão Completa: Alcance ➔ Visualizações ➔ Cliques ➔ Topo de Funil ➔ Fundo de Funil (Vendas)</p>
+        <h1>Torre de Controle de Jornadas & Previsor da Tríade com IA</h1>
+        <p>A Tríade Unificada: Campanhas de CRM ➔ Funis no App ➔ Produção & Vendas (MoM, YoY e Forecast)</p>
       </div>
     </div>
     <div class="nav-links">
@@ -295,59 +240,173 @@
     
     <!-- Navigation Tabs -->
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Previsor de Funil & Espaços Comerciais</button>
-      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Campanhas ➔ Funil ➔ Produção</button>
+      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Previsor de Funil & Hábitos de Consumo</button>
+      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Campanhas ➔ Funil ➔ Produção</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD & Forecast</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
-    <!-- 5-STAGE PREDICTIVE FUNNEL BANNER (Top Level KPI) -->
-    <div class="funnel-kpi-bar">
+    <!-- ========================================================================= -->
+    <!-- ABA 2: A TRÍADE REFORMULADA (CAMPANHAS ➔ FUNIL ➔ PRODUÇÃO)                -->
+    <!-- ========================================================================= -->
+    <div id="tab-triade" class="tab-content">
       
-      <div class="funnel-step-card">
-        <div class="funnel-step-tag">1. Alcance (Sizing)</div>
-        <div class="funnel-step-val" id="kpi-alcance">3.420.000</div>
-        <div class="funnel-step-conv">Base Elegível</div>
+      <!-- Top Control Bar of the Triad -->
+      <div class="control-strip">
+        
+        <div class="control-item">
+          <label>📦 Produto Santander:</label>
+          <select id="triade-produto" class="control-select" onchange="atualizarTriade()">
+            <option value="Pix" selected>⚡ Pix</option>
+            <option value="Boleto">📄 Boleto</option>
+            <option value="Pix Automatico">🔄 Pix Automático</option>
+            <option value="Pix Parcelado">💳 Pix Parcelado</option>
+            <option value="Upgrade">📈 Upgrade</option>
+            <option value="Cartao de Credito">💳 Cartão de Crédito</option>
+            <option value="Limite da Conta">🏦 Limite da Conta</option>
+          </select>
+        </div>
+
+        <div class="control-item">
+          <label>📈 Camada da Tríade em Análise:</label>
+          <select id="triade-camada" class="control-select" onchange="atualizarTriade()">
+            <option value="producao" selected>🔴 3. Produção & Vendas Liquidadas (Contratos)</option>
+            <option value="funil">🟣 2. Funil no App (Sessões & Simulações)</option>
+            <option value="campanhas">🔵 1. Campanhas de CRM (Exposição & Cliques)</option>
+          </select>
+        </div>
+
+        <div class="control-item">
+          <label>⏱️ Visão Temporal:</label>
+          <select id="triade-visao-tempo" class="control-select" onchange="atualizarTriade()">
+            <option value="yoy" selected>📅 Ano contra Ano (YoY: 2025 vs 2026)</option>
+            <option value="mom">📊 Mês a Mês (MoM) + Forecast Preditivo 2026</option>
+          </select>
+        </div>
+
       </div>
 
-      <div class="funnel-step-card">
-        <div class="funnel-step-tag">2. Visualizações (Views)</div>
-        <div class="funnel-step-val" id="kpi-views">2.394.000</div>
-        <div class="funnel-step-conv" id="kpi-tx-view">70.0% de exibição</div>
+      <!-- Triad Executive KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">Produção Realizada YTD (2026)</div>
+          <div class="kpi-value" id="triade-kpi-prod">2.840.500</div>
+          <div class="kpi-sub" id="triade-kpi-yoy">↑ +18.4% YoY vs 2025</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Mix de Origem: Campanha vs Orgânico</div>
+          <div class="kpi-value" id="triade-kpi-mix">38% / 62%</div>
+          <div class="kpi-sub"><span class="badge-camp">38% Campanha</span> <span class="badge-org">62% Orgânico</span></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Conversão do Funil no App</div>
+          <div class="kpi-value" id="triade-kpi-conv">78.4%</div>
+          <div class="kpi-sub">Entrada no App ➔ Venda Concluída</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Forecast Fechamento do Ano</div>
+          <div class="kpi-value" id="triade-kpi-forecast">4.350.000</div>
+          <div class="kpi-sub">🎯 103.8% da Meta Anual</div>
+        </div>
       </div>
 
-      <div class="funnel-step-card">
-        <div class="funnel-step-tag">3. Cliques (Engajamento)</div>
-        <div class="funnel-step-val" id="kpi-cliques">430.920</div>
-        <div class="funnel-step-conv" id="kpi-ctr">18.0% CTR</div>
+      <!-- 2 Main Charts Grid: Funnel (Org vs Camp) and Time Series (YoY/MoM/Forecast) -->
+      <div class="dashboard-grid">
+        
+        <!-- Chart 1: Funnel with Organic vs Campaign Breakdown -->
+        <div class="card">
+          <div class="card-header">
+            <h2>🌊 Funil da Tríade: Origem Orgânica vs Campanhas de CRM</h2>
+          </div>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">
+            Rastreamento de passagem de clientes em cada etapa, separando tráfego induzido por <strong>Campanhas</strong> e tráfego <strong>Orgânico Puro</strong>:
+          </p>
+          <div style="height: 310px;">
+            <canvas id="chartTriadeFunil"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Time Evolution (YoY 2025 vs 2026 + Forecast) -->
+        <div class="card">
+          <div class="card-header">
+            <h2>📈 Evolução Mês a Mês, Comparativo YoY e Forecast com IA</h2>
+          </div>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;" id="triade-chart-desc">
+            Comparativo de contratos realizados mês a mês (2025 vs 2026) e projeção preditiva (Set a Dez):
+          </p>
+          <div style="height: 310px;">
+            <canvas id="chartTriadeEvolucao"></canvas>
+          </div>
+        </div>
+
       </div>
 
-      <div class="funnel-step-card">
-        <div class="funnel-step-tag">4. Topo de Funil (Início)</div>
-        <div class="funnel-step-val" id="kpi-topo">344.736</div>
-        <div class="funnel-step-conv" id="kpi-tx-topo">80.0% entrada app</div>
-      </div>
-
-      <div class="funnel-step-card final">
-        <div class="funnel-step-tag" style="color: var(--santander-red);">5. Fundo de Funil (Vendas)</div>
-        <div class="funnel-step-val" id="kpi-fundo">255.794</div>
-        <div class="funnel-step-conv" style="color: var(--santander-red);" id="kpi-tx-fundo">74.2% conversão final</div>
+      <!-- Historical & Forecast Month-by-Month Table -->
+      <div class="card">
+        <div class="card-header">
+          <h2>📋 Tabela Mensal da Tríade: Histórico, Variações YoY/MoM e Forecast Preditivo</h2>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Mês</th>
+              <th>Status</th>
+              <th>2025 (Ano Anterior)</th>
+              <th>2026 (Realizado / Forecast)</th>
+              <th>Variação YoY (%)</th>
+              <th>Variação MoM (%)</th>
+              <th>Origem Campanha (%)</th>
+              <th>Origem Orgânica (%)</th>
+              <th>Atribuição Causal Líquida</th>
+            </tr>
+          </thead>
+          <tbody id="table-triade-mensal">
+            <!-- Dynamically rendered -->
+          </tbody>
+        </table>
       </div>
 
     </div>
 
-    <!-- TAB 1: CONSTRUTOR DINÂMICO DE HÁBITOS DE CONSUMO & PREVISOR -->
-    <div id="tab-simulador" class="tab-content">
+    <!-- ========================================================================= -->
+    <!-- ABA 1: CONSTRUTOR DE HÁBITOS & PREVISOR DE FUNIL                          -->
+    <!-- ========================================================================= -->
+    <div id="tab-simulador" class="tab-content" style="display: none;">
+      
+      <div class="funnel-kpi-bar">
+        <div class="funnel-step-card">
+          <div class="funnel-step-tag">1. Alcance (Sizing)</div>
+          <div class="funnel-step-val" id="kpi-alcance">3.420.000</div>
+          <div class="funnel-step-conv">Base Elegível</div>
+        </div>
+        <div class="funnel-step-card">
+          <div class="funnel-step-tag">2. Visualizações (Views)</div>
+          <div class="funnel-step-val" id="kpi-views">2.394.000</div>
+          <div class="funnel-step-conv" id="kpi-tx-view">70.0% de exibição</div>
+        </div>
+        <div class="funnel-step-card">
+          <div class="funnel-step-tag">3. Cliques (Engajamento)</div>
+          <div class="funnel-step-val" id="kpi-cliques">430.920</div>
+          <div class="funnel-step-conv" id="kpi-ctr">18.0% CTR</div>
+        </div>
+        <div class="funnel-step-card">
+          <div class="funnel-step-tag">4. Topo de Funil (Início)</div>
+          <div class="funnel-step-val" id="kpi-topo">344.736</div>
+          <div class="funnel-step-conv" id="kpi-tx-topo">80.0% entrada app</div>
+        </div>
+        <div class="funnel-step-card final">
+          <div class="funnel-step-tag" style="color: var(--santander-red);">5. Fundo de Funil (Vendas)</div>
+          <div class="funnel-step-val" id="kpi-fundo">255.794</div>
+          <div class="funnel-step-conv" style="color: var(--santander-red);" id="kpi-tx-fundo">74.2% conversão final</div>
+        </div>
+      </div>
+
       <div class="dashboard-grid">
-        
-        <!-- Left: Rule Builder Panel -->
         <div class="card">
-          
-          <!-- 1. Configuration Panel: Product & Official Segments -->
-          <div class="config-panel">
-            <div class="config-group">
-              <label>📦 Produto Santander:</label>
-              <select id="sim-produto" onchange="rodarSimulacao()">
+          <div class="config-panel" style="background: #fafbfc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px;">
+            <div class="config-group" style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-size:0.8rem; font-weight:700; color:var(--santander-red); text-transform:uppercase;">📦 Produto Santander:</label>
+              <select id="sim-produto" onchange="rodarSimulacao()" style="padding:9px 12px; border:1.5px solid var(--border); border-radius:7px; font-size:0.88rem; font-weight:600; background:white; outline:none;">
                 <option value="Pix" selected>⚡ Pix</option>
                 <option value="Boleto">📄 Boleto</option>
                 <option value="Pix Automatico">🔄 Pix Automático</option>
@@ -357,150 +416,75 @@
                 <option value="Limite da Conta">🏦 Limite da Conta</option>
               </select>
             </div>
-
-            <div class="config-group">
-              <label>👥 Segmentos Elegíveis:</label>
+            <div class="config-group" style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-size:0.8rem; font-weight:700; color:var(--santander-red); text-transform:uppercase;">👥 Segmentos Elegíveis:</label>
               <div class="segment-chips">
-                <label class="segment-chip selected" onclick="toggleSegment(this, 'Especial')">
-                  <span>⭐ Especial</span>
-                </label>
-                <label class="segment-chip selected" onclick="toggleSegment(this, 'Select')">
-                  <span>👑 Select</span>
-                </label>
-                <label class="segment-chip selected" onclick="toggleSegment(this, 'Private')">
-                  <span>💎 Private</span>
-                </label>
+                <label class="segment-chip selected" onclick="toggleSegment(this, 'Especial')"><span>⭐ Especial</span></label>
+                <label class="segment-chip selected" onclick="toggleSegment(this, 'Select')"><span>👑 Select</span></label>
+                <label class="segment-chip selected" onclick="toggleSegment(this, 'Private')"><span>💎 Private</span></label>
               </div>
             </div>
           </div>
 
-          <!-- 2. Dynamic Consumption Habit Rule Engine -->
           <div class="rules-engine-box">
-            <div class="rules-engine-header">
-              <span>🔍 Condições de Hábitos de Consumo (Dicionário Aberto):</span>
-              <span id="rules-count-badge" style="font-size: 0.78rem; color: var(--santander-red); font-weight: 800;">4 regras ativas</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span style="font-size:0.82rem; font-weight:700; color:var(--text-main); text-transform:uppercase;">🔍 Condições de Hábitos de Consumo:</span>
+              <span id="rules-count-badge" style="font-size:0.78rem; color:var(--santander-red); font-weight:800;">4 regras ativas</span>
             </div>
-
-            <div id="rules-list-container">
-              <!-- Dynamically rendered rule rows -->
-            </div>
-
-            <button class="btn-add-rule" onclick="adicionarNovaRegra()">
-              <span>+ Adicionar Condição de Hábito de Consumo</span>
-            </button>
+            <div id="rules-list-container"></div>
+            <button class="btn-add-rule" onclick="adicionarNovaRegra()"><span>+ Adicionar Condição de Hábito de Consumo</span></button>
           </div>
 
-          <!-- Space Selector to view specific funnel -->
-          <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border);">
-            <span style="font-size: 0.84rem; font-weight: 700; color: var(--text-main);">Espaço Comercial em Foco no Funil:</span>
-            <select id="sim-espaco-foco" onchange="rodarSimulacao()" style="padding: 6px 12px; border-radius: 6px; border: 1.5px solid var(--santander-red); font-weight: 700; font-size: 0.85rem;">
-              <option value="Lightbox" selected>🟥 Lightbox (Recomendado)</option>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid var(--border);">
+            <span style="font-size:0.84rem; font-weight:700; color:var(--text-main);">Espaço Comercial em Foco no Funil:</span>
+            <select id="sim-espaco-foco" onchange="rodarSimulacao()" style="padding:6px 12px; border-radius:6px; border:1.5px solid var(--santander-red); font-weight:700; font-size:0.85rem;">
+              <option value="Lightbox" selected>🟥 Lightbox</option>
               <option value="Alert">🟨 Alert</option>
               <option value="Banner">🟦 Banner</option>
               <option value="Push">⬛ Push Notification</option>
               <option value="Email">⬜ Email</option>
             </select>
           </div>
-
         </div>
 
-        <!-- Right: Funnel Waterfall Chart & Spaces Breakdown -->
         <div class="card">
           <div class="card-header">
-            <h2>📊 Cascata de Funil Preditivo (Waterfall da IA)</h2>
+            <h2>📊 Cascata de Funil Preditivo (Waterfall IA)</h2>
           </div>
-          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">
-            A Rede Neural prevê a taxa de passagem e o volume em cada etapa do funil:
-          </p>
           <div style="height: 280px;">
             <canvas id="chartFunilEstagios"></canvas>
           </div>
-
-          <div style="background: #f8fafc; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); margin-top: 14px; font-size: 0.82rem; color: var(--text-main);" id="insight-box">
-            💡 <strong>Diagnóstico de Funil:</strong> O gargalo principal ocorre entre <strong>Visualizações ➔ Cliques (Drop-off de 82%)</strong>. Otimizar a copy do Lightbox eleva as vendas finais em <strong>+18.4%</strong>.
+          <div style="background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid var(--border); margin-top:14px; font-size:0.82rem; color:var(--text-main);" id="insight-box">
+            💡 <strong>Diagnóstico de Funil:</strong> O gargalo principal ocorre entre <strong>Visualizações ➔ Cliques (Drop-off de 82%)</strong>.
           </div>
         </div>
-
       </div>
 
-      <!-- Comparison Table: 5 Spaces Across the Full Funnel -->
       <div class="card">
         <div class="card-header">
-          <h2>📋 Matriz Comparativa do Funil Completo nos 5 Espaços Comerciais</h2>
+          <h2>📋 Matriz Comparativa do Funil nos 5 Espaços Comerciais</h2>
         </div>
         <table>
           <thead>
             <tr>
               <th>Espaço Comercial</th>
               <th>1. Alcance</th>
-              <th>2. Visualizações (Views)</th>
+              <th>2. Views</th>
               <th>3. Cliques (CTR)</th>
-              <th>4. Topo de Funil (Início)</th>
-              <th>5. Fundo de Funil (Vendas)</th>
+              <th>4. Topo de Funil</th>
+              <th>5. Fundo de Funil</th>
               <th>Taxa Final</th>
             </tr>
           </thead>
-          <tbody id="table-funil-espacos">
-            <!-- Dynamically populated -->
-          </tbody>
+          <tbody id="table-funil-espacos"></tbody>
         </table>
       </div>
 
     </div>
 
-    <!-- TAB 2: A TRÍADE (CAMPANHA -> FUNIL -> PRODUÇÃO) -->
-    <div id="tab-triade" class="tab-content" style="display: none;">
-      <div class="dashboard-grid">
-        <div class="card">
-          <div class="card-header">
-            <h2>🔗 Visualização Integrada da Tríade de Pagamentos (Pix & Boletos)</h2>
-          </div>
-          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px;">
-            Rastreamento de ponta a ponta: do contato de marketing no app, passando pelo ponto de entrada no fluxo, até a liquidação na produção:
-          </p>
-          <div style="height: 320px;">
-            <canvas id="chartFunilTriade"></canvas>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h2>🔍 Diagnóstico de Pontos de Entrada</h2>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Ponto de Entrada</th>
-                <th>Volume Diário</th>
-                <th>Conversão</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Campo Único (Pix)</strong></td>
-                <td>8.640.000</td>
-                <td>78.4%</td>
-              </tr>
-              <tr>
-                <td><strong>Câmera / Scanner</strong></td>
-                <td>5.760.000</td>
-                <td><span class="badge-win">89.2%</span></td>
-              </tr>
-              <tr>
-                <td><strong>Atalhos Diretos</strong></td>
-                <td>4.800.000</td>
-                <td>91.5%</td>
-              </tr>
-            </tbody>
-          </table>
-          <div style="background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border); margin-top: 15px; font-size: 0.82rem; color: var(--text-muted);">
-            💡 <strong>Insight da IA:</strong> 35% dos usuários que entram no Campo Único digitam códigos de Boletos. Roteá-los diretamente para a tela de confirmação de boleto eleva a conversão em <strong>+14.8%</strong>.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 3: PACING MTD & FORECAST -->
+    <!-- ========================================================================= -->
+    <!-- ABA 3: PACING MTD & FORECAST                                              -->
+    <!-- ========================================================================= -->
     <div id="tab-pacing" class="tab-content" style="display: none;">
       <div class="card">
         <div class="card-header">
@@ -515,7 +499,9 @@
       </div>
     </div>
 
-    <!-- TAB 4: REDE NEURAL (FGV) -->
+    <!-- ========================================================================= -->
+    <!-- ABA 4: REDE NEURAL (FGV)                                                 -->
+    <!-- ========================================================================= -->
     <div id="tab-modelos" class="tab-content" style="display: none;">
       <div class="dashboard-grid">
         <div class="card">
@@ -579,6 +565,190 @@
       event.currentTarget.classList.add('active');
     }
 
+    // =========================================================================
+    // LÓGICA DA TRÍADE (PRODUTOS, ORGÂNICO VS CAMPANHA, MOM, YOY & FORECAST)
+    // =========================================================================
+    let chartTriadeFunilInst, chartTriadeEvolucaoInst;
+
+    // Monthly baseline data generator per product for 2025, 2026 YTD, and 2026 Forecast
+    const triadProductData = {
+      "Pix": {
+        base2025: [280000, 290000, 310000, 315000, 330000, 340000, 355000, 365000, 370000, 385000, 400000, 430000],
+        yoyGrowth: 0.184,
+        mixCampanha: 0.38,
+        mixOrganico: 0.62,
+        convFunil: "78.4%",
+        funnelSteps: { exp: 5200000, entrada: 4100000, sim: 3600000, prod: 2840500 }
+      },
+      "Boleto": {
+        base2025: [180000, 185000, 195000, 190000, 200000, 205000, 210000, 215000, 220000, 225000, 235000, 250000],
+        yoyGrowth: 0.122,
+        mixCampanha: 0.28,
+        mixOrganico: 0.72,
+        convFunil: "71.2%",
+        funnelSteps: { exp: 3800000, entrada: 2900000, sim: 2400000, prod: 1720000 }
+      },
+      "Pix Automatico": {
+        base2025: [45000, 52000, 60000, 68000, 78000, 89000, 98000, 110000, 122000, 135000, 150000, 175000],
+        yoyGrowth: 0.645,
+        mixCampanha: 0.58,
+        mixOrganico: 0.42,
+        convFunil: "66.8%",
+        funnelSteps: { exp: 2100000, entrada: 1450000, sim: 1120000, prod: 748000 }
+      },
+      "Pix Parcelado": {
+        base2025: [60000, 65000, 72000, 78000, 85000, 92000, 99000, 108000, 115000, 124000, 135000, 155000],
+        yoyGrowth: 0.380,
+        mixCampanha: 0.52,
+        mixOrganico: 0.48,
+        convFunil: "61.5%",
+        funnelSteps: { exp: 2400000, entrada: 1600000, sim: 1250000, prod: 770000 }
+      },
+      "Upgrade": {
+        base2025: [18000, 19000, 21000, 20500, 22000, 23500, 24000, 25500, 26000, 27500, 29000, 32000],
+        yoyGrowth: 0.248,
+        mixCampanha: 0.68,
+        mixOrganico: 0.32,
+        convFunil: "52.4%",
+        funnelSteps: { exp: 1200000, entrada: 680000, sim: 420000, prod: 220000 }
+      },
+      "Cartao de Credito": {
+        base2025: [85000, 88000, 94000, 92000, 98000, 102000, 106000, 112000, 118000, 124000, 132000, 148000],
+        yoyGrowth: 0.215,
+        mixCampanha: 0.62,
+        mixOrganico: 0.38,
+        convFunil: "49.0%",
+        funnelSteps: { exp: 3100000, entrada: 1950000, sim: 1350000, prod: 660000 }
+      },
+      "Limite da Conta": {
+        base2025: [35000, 37000, 40000, 39000, 42000, 44000, 46000, 48000, 50000, 53000, 57000, 62000],
+        yoyGrowth: 0.285,
+        mixCampanha: 0.45,
+        mixOrganico: 0.55,
+        convFunil: "63.2%",
+        funnelSteps: { exp: 1800000, entrada: 1200000, sim: 920000, prod: 580000 }
+      }
+    };
+
+    const mesesLabels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+    function atualizarTriade() {
+      const prodKey = document.getElementById('triade-produto').value;
+      const camada = document.getElementById('triade-camada').value;
+      const visaoTempo = document.getElementById('triade-visao-tempo').value;
+
+      const pData = triadProductData[prodKey] || triadProductData["Pix"];
+
+      // Multiplier depending on layer (Campaign vs Funnel vs Production)
+      let layerMult = (camada === 'campanhas') ? 4.5 : (camada === 'funil') ? 2.8 : 1.0;
+
+      // 2025 base values
+      let vals2025 = pData.base2025.map(v => Math.round(v * layerMult));
+
+      // 2026 Realized values (Jan a Ago - 8 meses)
+      let vals2026Real = [];
+      for (let i = 0; i < 8; i++) {
+        vals2026Real.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth)));
+      }
+
+      // 2026 Forecast values (Set a Dez - 4 meses)
+      let vals2026Forecast = [];
+      for (let i = 8; i < 12; i++) {
+        vals2026Forecast.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth * 1.08)));
+      }
+
+      let totalYTD2026 = vals2026Real.reduce((a, b) => a + b, 0);
+      let totalAnoForecast = totalYTD2026 + vals2026Forecast.reduce((a, b) => a + b, 0);
+
+      // Update KPI Cards
+      document.getElementById('triade-kpi-prod').innerText = totalYTD2026.toLocaleString('pt-BR');
+      document.getElementById('triade-kpi-yoy').innerText = `↑ +${(pData.yoyGrowth * 100).toFixed(1)}% YoY vs 2025`;
+      document.getElementById('triade-kpi-mix').innerText = `${Math.round(pData.mixCampanha * 100)}% / ${Math.round(pData.mixOrganico * 100)}%`;
+      document.getElementById('triade-kpi-conv').innerText = pData.convFunil;
+      document.getElementById('triade-kpi-forecast').innerText = totalAnoForecast.toLocaleString('pt-BR');
+
+      // Update Chart 1: Funnel with Campaign vs Organic Breakdown
+      if (chartTriadeFunilInst) {
+        let f = pData.funnelSteps;
+        let cRatio = pData.mixCampanha;
+        let oRatio = pData.mixOrganico;
+
+        chartTriadeFunilInst.data.datasets[0].data = [
+          Math.round(f.exp * oRatio), Math.round(f.entrada * oRatio), Math.round(f.sim * oRatio), Math.round(f.prod * oRatio)
+        ];
+        chartTriadeFunilInst.data.datasets[1].data = [
+          Math.round(f.exp * cRatio), Math.round(f.entrada * cRatio), Math.round(f.sim * cRatio), Math.round(f.prod * cRatio)
+        ];
+        chartTriadeFunilInst.update();
+      }
+
+      // Update Chart 2: Time Series YoY / MoM + Forecast
+      if (chartTriadeEvolucaoInst) {
+        if (visaoTempo === 'yoy') {
+          document.getElementById('triade-chart-desc').innerText = `Comparativo Ano contra Ano (2025 vs 2026 Realizado + Forecast) para ${prodKey}:`;
+          chartTriadeEvolucaoInst.data.datasets[0].label = '2025 (Ano Anterior)';
+          chartTriadeEvolucaoInst.data.datasets[0].data = vals2025;
+          chartTriadeEvolucaoInst.data.datasets[0].borderColor = '#94a3b8';
+          chartTriadeEvolucaoInst.data.datasets[0].borderDash = [4, 4];
+
+          chartTriadeEvolucaoInst.data.datasets[1].label = '2026 Realizado (Jan a Ago)';
+          chartTriadeEvolucaoInst.data.datasets[1].data = [...vals2026Real, null, null, null, null];
+          chartTriadeEvolucaoInst.data.datasets[1].borderColor = '#ec0000';
+
+          chartTriadeEvolucaoInst.data.datasets[2].label = '2026 Forecast IA (Set a Dez)';
+          chartTriadeEvolucaoInst.data.datasets[2].data = [null, null, null, null, null, null, null, vals2026Real[7], ...vals2026Forecast];
+          chartTriadeEvolucaoInst.data.datasets[2].borderColor = '#2a75d3';
+        } else {
+          document.getElementById('triade-chart-desc').innerText = `Evolução Mês a Mês (MoM) e Parcela de Origem para ${prodKey} em 2026:`;
+          let full2026 = [...vals2026Real, ...vals2026Forecast];
+          chartTriadeEvolucaoInst.data.datasets[0].label = 'Parcela Orgânica (62%)';
+          chartTriadeEvolucaoInst.data.datasets[0].data = full2026.map(v => Math.round(v * pData.mixOrganico));
+          chartTriadeEvolucaoInst.data.datasets[0].borderColor = '#0ea5e9';
+          chartTriadeEvolucaoInst.data.datasets[0].borderDash = [];
+
+          chartTriadeEvolucaoInst.data.datasets[1].label = 'Parcela Campanha (38%)';
+          chartTriadeEvolucaoInst.data.datasets[1].data = full2026.map(v => Math.round(v * pData.mixCampanha));
+          chartTriadeEvolucaoInst.data.datasets[1].borderColor = '#ec0000';
+
+          chartTriadeEvolucaoInst.data.datasets[2].label = 'Total 2026';
+          chartTriadeEvolucaoInst.data.datasets[2].data = full2026;
+          chartTriadeEvolucaoInst.data.datasets[2].borderColor = '#1e293b';
+        }
+        chartTriadeEvolucaoInst.update();
+      }
+
+      // Populate Monthly Triad Table
+      const tBody = document.getElementById('table-triade-mensal');
+      tBody.innerHTML = '';
+
+      for (let i = 0; i < 12; i++) {
+        let isReal = i < 8;
+        let v25 = vals2025[i];
+        let v26 = isReal ? vals2026Real[i] : vals2026Forecast[i - 8];
+        let yoyPct = ((v26 - v25) / v25 * 100).toFixed(1);
+
+        let v26_ant = (i === 0) ? vals2025[11] : (i <= 8 ? vals2026Real[i-1] : vals2026Forecast[i-9]);
+        let momPct = ((v26 - v26_ant) / v26_ant * 100).toFixed(1);
+
+        let row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${mesesLabels[i]}</strong></td>
+          <td>${isReal ? '<span class="badge-win">Realizado</span>' : '<span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-weight:700;font-size:0.72rem;">Forecast IA</span>'}</td>
+          <td>${v25.toLocaleString('pt-BR')}</td>
+          <td><strong style="color:${isReal ? 'var(--text-main)' : 'var(--info)'};">${v26.toLocaleString('pt-BR')}</strong></td>
+          <td><strong style="color:var(--success);">+${yoyPct}%</strong></td>
+          <td>${momPct >= 0 ? '+' : ''}${momPct}%</td>
+          <td><span class="badge-camp">${Math.round(pData.mixCampanha * 100)}%</span></td>
+          <td><span class="badge-org">${Math.round(pData.mixOrganico * 100)}%</span></td>
+          <td><strong>${Math.round(v26 * pData.mixCampanha * 0.88).toLocaleString('pt-BR')}</strong> líq.</td>
+        `;
+        tBody.appendChild(row);
+      }
+    }
+
+    // =========================================================================
+    // LÓGICA DO CONSTRUTOR DE HÁBITOS E PREVISOR DE ESPAÇOS (ABA 1)
+    // =========================================================================
     let selectedSegments = new Set(['Especial', 'Select', 'Private']);
 
     function toggleSegment(element, segName) {
@@ -718,15 +888,14 @@
       rodarSimulacao();
     }
 
-    let chartFunilEstagiosInst, chartFunilTriadeInst, chartPacingInst, chartRocInst;
+    let chartFunilEstagiosInst, chartPacingInst, chartRocInst;
 
-    // Space funnel conversion coefficients
     const spaceProfiles = {
-      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, fundoRate: 0.742, color: "#ec0000" },
-      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, fundoRate: 0.685, color: "#f59e0b" },
-      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, fundoRate: 0.420, color: "#2a75d3" },
-      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, fundoRate: 0.380, color: "#64748b" },
-      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, fundoRate: 0.220, color: "#94a3b8" }
+      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, fundoRate: 0.742 },
+      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, fundoRate: 0.685 },
+      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, fundoRate: 0.420 },
+      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, fundoRate: 0.380 },
+      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, fundoRate: 0.220 }
     };
 
     function rodarSimulacao() {
@@ -734,7 +903,6 @@
       const focoEspaco = document.getElementById('sim-espaco-foco').value;
       const numRules = activeRules.length;
 
-      // Base universe for Select, Private, Especial (~8.5M clientes)
       let baseUniverse = 0;
       if (selectedSegments.has('Especial')) baseUniverse += 5500000;
       if (selectedSegments.has('Select')) baseUniverse += 2400000;
@@ -744,10 +912,7 @@
       let alcanceTotal = Math.round(baseUniverse * sizingMultiplier);
       alcanceTotal = Math.max(1250, Math.min(baseUniverse, alcanceTotal));
 
-      // Profile for selected space in focus
       const prof = spaceProfiles[focoEspaco] || spaceProfiles["Lightbox"];
-
-      // Adjust conversion based on product
       let prodFundoMult = (prod === 'Pix') ? 1.0 : (prod === 'Boleto') ? 0.92 : (prod === 'Pix Automatico') ? 0.88 : (prod === 'Pix Parcelado') ? 0.82 : (prod === 'Upgrade') ? 0.70 : (prod === 'Cartao de Credito') ? 0.65 : 0.78;
 
       let views = Math.round(alcanceTotal * prof.viewRate);
@@ -755,7 +920,6 @@
       let topo = Math.round(cliques * prof.topoRate);
       let fundo = Math.round(topo * (prof.fundoRate * prodFundoMult));
 
-      // Update Top KPIs
       document.getElementById('kpi-alcance').innerText = alcanceTotal.toLocaleString('pt-BR');
       document.getElementById('kpi-views').innerText = views.toLocaleString('pt-BR');
       document.getElementById('kpi-tx-view').innerText = (prof.viewRate * 100).toFixed(1) + '% de exibição';
@@ -769,13 +933,11 @@
       document.getElementById('kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
       document.getElementById('kpi-tx-fundo').innerText = (prof.fundoRate * prodFundoMult * 100).toFixed(1) + '% conversão final';
 
-      // Update Waterfall Chart
       if (chartFunilEstagiosInst) {
         chartFunilEstagiosInst.data.datasets[0].data = [alcanceTotal, views, cliques, topo, fundo];
         chartFunilEstagiosInst.update();
       }
 
-      // Populate Table for all 5 spaces
       const tableBody = document.getElementById('table-funil-espacos');
       tableBody.innerHTML = '';
 
@@ -801,10 +963,78 @@
       });
     }
 
+    // Initialize all Charts
     window.addEventListener('DOMContentLoaded', () => {
       renderRulesList();
 
-      // Chart Funil Estagios (Waterfall)
+      // 1. Chart Triade Funnel (Orgânico vs Campanha)
+      const ctxTriadeF = document.getElementById('chartTriadeFunil').getContext('2d');
+      chartTriadeFunilInst = new Chart(ctxTriadeF, {
+        type: 'bar',
+        data: {
+          labels: ['1. Exposição / Contato', '2. Entrada no Funil', '3. Simulação', '4. Produção (Venda)'],
+          datasets: [
+            {
+              label: 'Tráfego Orgânico Puro (62%)',
+              data: [3224000, 2542000, 2232000, 1761110],
+              backgroundColor: '#0ea5e9',
+              borderRadius: 6
+            },
+            {
+              label: 'Induzido por Campanhas (38%)',
+              data: [1976000, 1558000, 1368000, 1079390],
+              backgroundColor: '#ec0000',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { x: { stacked: true }, y: { stacked: true } }
+        }
+      });
+
+      // 2. Chart Triade Time Series (YoY & MoM + Forecast)
+      const ctxTriadeE = document.getElementById('chartTriadeEvolucao').getContext('2d');
+      chartTriadeEvolucaoInst = new Chart(ctxTriadeE, {
+        type: 'line',
+        data: {
+          labels: mesesLabels,
+          datasets: [
+            {
+              label: '2025 (Ano Anterior)',
+              data: [280000, 290000, 310000, 315000, 330000, 340000, 355000, 365000, 370000, 385000, 400000, 430000],
+              borderColor: '#94a3b8',
+              borderDash: [4, 4],
+              borderWidth: 2,
+              pointRadius: 3
+            },
+            {
+              label: '2026 Realizado (Jan a Ago)',
+              data: [331520, 343360, 367040, 372960, 390720, 402560, 420320, 432160, null, null, null, null],
+              borderColor: '#ec0000',
+              backgroundColor: '#ec0000',
+              borderWidth: 3,
+              pointRadius: 4
+            },
+            {
+              label: '2026 Forecast IA (Set a Dez)',
+              data: [null, null, null, null, null, null, null, 432160, 443520, 461500, 479480, 515440],
+              borderColor: '#2a75d3',
+              borderDash: [5, 5],
+              borderWidth: 3,
+              pointRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+
+      // 3. Chart Waterfall Funnel (Aba 1)
       const ctxFunilEst = document.getElementById('chartFunilEstagios').getContext('2d');
       chartFunilEstagiosInst = new Chart(ctxFunilEst, {
         type: 'bar',
@@ -825,27 +1055,7 @@
         }
       });
 
-      // Chart Funil Triade
-      const ctxFunil = document.getElementById('chartFunilTriade').getContext('2d');
-      chartFunilTriadeInst = new Chart(ctxFunil, {
-        type: 'bar',
-        data: {
-          labels: ['1. Exposição Espaço', '2. Entrada no Funil (App)', '3. Simulação', '4. Produção (Venda Final)'],
-          datasets: [{
-            label: 'Clientes no Fluxo',
-            data: [1000000, 380000, 290000, 218000],
-            backgroundColor: '#ec0000',
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: { y: { beginAtZero: true } }
-        }
-      });
-
-      // Pacing & Forecast
+      // 4. Pacing & Forecast (Aba 3)
       const ctxPacing = document.getElementById('chartPacingForecast').getContext('2d');
       chartPacingInst = new Chart(ctxPacing, {
         type: 'line',
@@ -871,13 +1081,10 @@
             }
           ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
+        options: { responsive: true, maintainAspectRatio: false }
       });
 
-      // ROC
+      // 5. ROC (Aba 4)
       const ctxRoc = document.getElementById('chartRoc').getContext('2d');
       chartRocInst = new Chart(ctxRoc, {
         type: 'line',
@@ -900,12 +1107,10 @@
             }
           ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
+        options: { responsive: true, maintainAspectRatio: false }
       });
 
+      atualizarTriade();
       rodarSimulacao();
     });
   </script>
