@@ -137,6 +137,7 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 14px 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .kpi-card.highlight { border-left: 3px solid var(--santander-red); }
     .kpi-title { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
@@ -224,7 +225,7 @@
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* Dynamic AI Suggestions Panel (Totalmente Reativo) */
+    /* Dynamic AI Suggestions Panel */
     .sug-card {
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -269,6 +270,34 @@
     .btn-add-rule { background: white; border: 1.5px dashed #cbd5e1; color: #475569; padding: 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-add-rule:hover { background: #f8fafc; border-color: #94a3b8; }
 
+    /* BOTÃO PRINCIPAL: OK, CALCULE COM IA */
+    .btn-calcular-master {
+      background: var(--santander-red);
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 3px 8px rgba(236, 0, 0, 0.25);
+      transition: all 0.15s;
+      margin-top: 14px;
+    }
+    .btn-calcular-master:hover {
+      background: var(--santander-hover);
+      box-shadow: 0 4px 12px rgba(236, 0, 0, 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-calcular-master:active {
+      transform: translateY(0);
+    }
+
     /* Segment Pills */
     .seg-pills { display: flex; gap: 6px; flex-wrap: wrap; }
     .seg-pill { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 4px 10px; font-size: 0.76rem; font-weight: 700; color: var(--text-muted); cursor: pointer; user-select: none; transition: all 0.15s; }
@@ -291,6 +320,14 @@
     .btn-dict-add:hover { background: var(--santander-red); color: white; }
 
     .toast-msg { position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: white; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 100; display: none; align-items: center; gap: 8px; }
+
+    /* Flash animation for calculation */
+    @keyframes kpiFlash {
+      0% { transform: scale(1); background-color: #fff; }
+      50% { transform: scale(1.02); background-color: var(--santander-light); }
+      100% { transform: scale(1); background-color: #fff; }
+    }
+    .kpi-pulse { animation: kpiFlash 0.4s ease-out; }
   </style>
 </head>
 <body>
@@ -303,7 +340,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>Inteligência Reativa em Tempo Real · Pacing MTD · Sugestões da IA Conectadas</p>
+        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Pacing MTD</p>
       </div>
     </div>
     <div class="nav-links">
@@ -317,39 +354,40 @@
     
     <!-- Tab Navigation -->
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Sugestões da IA Reativas</button>
+      <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Botão Calcule IA</button>
       <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD (Ritmo de Vendas)</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR & SUGESTÕES DA IA 100% DINÂMICAS                        -->
+    <!-- ABA 1: SIMULADOR COM BOTÃO 'OK, CALCULE COM IA!'                          -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
+      <!-- Top 5 KPIs recalculated by IA button -->
       <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+        <div class="kpi-card" id="card-sim-1" style="padding:10px 12px; text-align:center;">
           <div class="kpi-title">1. Views nos Espaços</div>
           <div class="kpi-val" style="font-size:1.15rem; color:var(--org-blue);" id="sim-kpi-views">2.394.000</div>
           <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-views-tx">70% exibição</div>
         </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+        <div class="kpi-card" id="card-sim-2" style="padding:10px 12px; text-align:center;">
           <div class="kpi-title">2. Cliques / Interação</div>
           <div class="kpi-val" style="font-size:1.15rem; color:#f59e0b;" id="sim-kpi-cliques">430.920</div>
           <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-cliques-tx">18% CTR</div>
         </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+        <div class="kpi-card" id="card-sim-3" style="padding:10px 12px; text-align:center;">
           <div class="kpi-title">3. Topo App Santander</div>
           <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-topo">344.736</div>
           <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-topo-tx">80% entrada</div>
         </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+        <div class="kpi-card" id="card-sim-4" style="padding:10px 12px; text-align:center;">
           <div class="kpi-title">4. Simulação & ID</div>
           <div class="kpi-val" style="font-size:1.15rem; color:#8b5cf6;" id="sim-kpi-meio">282.683</div>
           <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-meio-tx">82% avanço</div>
         </div>
-        <div class="kpi-card highlight" style="padding:10px 12px; text-align:center;">
+        <div class="kpi-card highlight" id="card-sim-5" style="padding:10px 12px; text-align:center;">
           <div class="kpi-title">5. Produção Final Core</div>
           <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-fundo">255.794</div>
           <div style="font-size:0.68rem; color:var(--santander-red); font-weight:700;" id="sim-kpi-fundo-tx">74.2% conversão</div>
@@ -378,7 +416,7 @@
 
       <div class="two-col-grid">
         
-        <!-- Left: Rule Builder -->
+        <!-- Left: Rule Builder & Master Calculate Button -->
         <div class="card">
           <div class="card-header">
             <h2>🎯 Montagem de Público & Hábitos</h2>
@@ -417,7 +455,7 @@
               </select>
             </div>
             <div>
-              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Espaço Comercial Ativo:</span>
+              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Espaço Comercial:</span>
               <select id="sim-espaco-foco" onchange="mudarEspacoFoco(this.value)" class="control-select" style="width:100%;">
                 <option value="Lightbox" selected>🟥 Lightbox</option>
                 <option value="Alert">🟨 Alert</option>
@@ -427,17 +465,22 @@
               </select>
             </div>
           </div>
+
+          <!-- BOTÃO PRINCIPAL PEDIDO PELO USUÁRIO -->
+          <button class="btn-calcular-master" onclick="clicarCalcularMaster()">
+            <span>⚡ OK, Calcule com IA!</span>
+          </button>
         </div>
 
         <!-- Right: Real-Time Dynamic AI Suggestions & Interactive Space Chart -->
-        <div class="card">
+        <div class="card" id="card-ai-sug">
           <div class="card-header">
-            <h2>💡 Sugestões Contextuais da IA (Tempo Real)</h2>
+            <h2>💡 Sugestões Contextuais da IA</h2>
             <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;" id="ai-sug-prod-tag">Pix Ativo</span>
           </div>
 
           <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">
-            A IA recalcula os números abaixo a cada atributo editado:
+            Insights e otimizações gerados pela Inteligência Artificial:
           </p>
 
           <div id="ai-suggestions-list"></div>
@@ -445,7 +488,7 @@
           <div style="margin-top:14px; border-top:1px solid var(--border-subtle); padding-top:10px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
               <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Conversão Final por Espaço Comercial:</span>
-              <span style="font-size:0.7rem; color:var(--org-blue); font-weight:600;">(Clique em uma barra para selecionar o canal)</span>
+              <span style="font-size:0.7rem; color:var(--org-blue); font-weight:600;">(Clique nas barras para alternar)</span>
             </div>
             <div style="height: 140px;">
               <canvas id="chartEspacos"></canvas>
@@ -730,11 +773,10 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 3: TORRE DE PACING MTD (EXPLICAÇÃO + GRÁFICO DIÁRIO)                  -->
+    <!-- ABA 3: TORRE DE PACING MTD                                               -->
     <!-- ========================================================================= -->
     <div id="tab-pacing" class="tab-content" style="display: none;">
       
-      <!-- Executive Explanation Banner of Pacing -->
       <div style="background:linear-gradient(135deg, #f0f9ff, #ffffff); border:1.5px solid #bae6fd; border-radius:8px; padding:14px 18px; margin-bottom:16px;">
         <div style="font-size:0.86rem; font-weight:800; color:#0369a1; margin-bottom:4px;">
           ⏱️ O que é a Torre de Pacing no Santander?
@@ -995,6 +1037,23 @@
       rodarSimulacao();
       renderSugestoesIA();
       showToast(`🎯 Espaço comercial alterado para ${novoEspaco}.`);
+    }
+
+    // AÇÃO EXECUTIVA DO BOTÃO 'OK, CALCULE COM IA!'
+    function clicarCalcularMaster() {
+      atualizarTudo();
+
+      // Trigger highlight animations on KPI cards & suggestions
+      for (let i = 1; i <= 5; i++) {
+        let el = document.getElementById(`card-sim-${i}`);
+        if (el) {
+          el.classList.remove('kpi-pulse');
+          void el.offsetWidth; // trigger reflow
+          el.classList.add('kpi-pulse');
+        }
+      }
+
+      showToast(`⚡ Simulação Concluída! KPIs, Funil, Gráfico e Sugestões da IA Atualizados.`);
     }
 
     function atualizarTudo() {
@@ -1364,7 +1423,7 @@
 
       atualizarTudo();
       fecharResultadosDicionario();
-      showToast(`✓ "${attrDef.label}" adicionado!`);
+      showToast(`✓ "${attrDef.label}" adicionado! Clique em 'Calcular' para atualizar tudo.`);
     }
 
     function uploadDicionario(event) {
@@ -1479,6 +1538,14 @@
       atualizarTudo();
       showToast('✓ Regra removida.');
     }
+
+    const spaceProfiles = {
+      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, meioRate: 0.82, fundoRate: 0.742 },
+      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, meioRate: 0.80, fundoRate: 0.685 },
+      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, meioRate: 0.75, fundoRate: 0.420 },
+      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, meioRate: 0.70, fundoRate: 0.380 },
+      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220 }
+    };
 
     function rodarSimulacao() {
       const prod = appState.product;
