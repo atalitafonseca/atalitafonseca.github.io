@@ -226,7 +226,7 @@
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* Dynamic Lateral AI Suggestions Panel (Claramente Estruturado) */
+    /* Dynamic Lateral AI Suggestions Panel */
     .sug-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -362,7 +362,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Filtros Reativos de Mês e Ano</p>
+        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Filtro Reativo Mês a Mês</p>
       </div>
     </div>
     <div class="nav-links">
@@ -377,7 +377,7 @@
     <!-- Tab Navigation -->
     <div class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Botão Calcule IA</button>
-      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Filtros de Mês/Ano & Reconciliação</button>
+      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD (Ritmo de Vendas)</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
@@ -522,7 +522,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE                                                           -->
+    <!-- ABA 2: A TRÍADE (LIMPA E DIRETA: PRODUTO E MÊS DE ANÁLISE)                -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content" style="display: none;">
       
@@ -555,14 +555,6 @@
             <option value="9">Outubro (Forecast)</option>
             <option value="10">Novembro (Forecast)</option>
             <option value="11">Dezembro (Forecast)</option>
-          </select>
-        </div>
-
-        <div class="control-item">
-          <label>🗓️ Ano:</label>
-          <select id="triade-ano-foco" class="control-select" onchange="mudarAnoFoco(parseInt(this.value))">
-            <option value="2026" selected>2026 (Ano Corrente / Forecast)</option>
-            <option value="2025">2025 (Ano Anterior / Realizado)</option>
           </select>
         </div>
       </div>
@@ -769,7 +761,7 @@
 
           <div class="card" style="flex:1; margin-bottom:0;">
             <div class="card-header">
-              <h2 id="chart-evolution-title">📈 Curva Mensal Histórica e Pacing</h2>
+              <h2 id="chart-evolution-title">📈 Curva Mensal Histórica (2026)</h2>
             </div>
             <div style="height: 190px;">
               <canvas id="chartTriadeEvolucao"></canvas>
@@ -866,7 +858,7 @@
     const appState = {
       product: "Pix",
       monthIdx: 7, // 7 = Agosto (0 a 11)
-      year: 2026,  // 2026 ou 2025
+      year: 2026,  // Fixo 2026 (Ano corrente de gestão)
       focoEspaco: "Lightbox",
       selectedSegments: new Set(['Especial', 'Select', 'Private']),
       activeRules: [
@@ -980,14 +972,7 @@
       appState.monthIdx = novoMesIdx;
       document.getElementById('triade-mes-foco').value = novoMesIdx;
       atualizarTriade();
-      showToast(`📅 Mês de análise ajustado para ${mesesNomes[novoMesIdx]} de ${appState.year}.`);
-    }
-
-    function mudarAnoFoco(novoAno) {
-      appState.year = novoAno;
-      document.getElementById('triade-ano-foco').value = novoAno;
-      atualizarTriade();
-      showToast(`🗓️ Ano ajustado para ${novoAno}. Todos os dados do funil e comparativos foram recalculados!`);
+      showToast(`📅 Mês de análise ajustado para ${mesesNomes[novoMesIdx]} de 2026.`);
     }
 
     function mudarEspacoFoco(novoEspaco) {
@@ -1036,7 +1021,6 @@
       atualizarPacingChart();
     }
 
-    // SUGESTÕES DA IA CONSISTENTES, CLARAS E SEM FLIP-FLOP
     function calcularSugestoesLateralIA() {
       const container = document.getElementById('ai-suggestions-list');
       const tag = document.getElementById('ai-sug-prod-tag');
@@ -1047,13 +1031,11 @@
       tag.innerText = `${prod} Ativo`;
 
       let hasOpenFinance = appState.activeRules.some(r => r.attrId === 'open_finance');
-      let openFinanceRule = appState.activeRules.find(r => r.attrId === 'open_finance');
       let hasArpac = appState.activeRules.some(r => r.attrId === 'score_arpac');
       let arpacRule = appState.activeRules.find(r => r.attrId === 'score_arpac') || { val: "7.0" };
 
       let suggestions = [];
 
-      // PILAR 1: ALCANCE DE PÚBLICO (OPEN FINANCE & SEGMENTAÇÃO)
       if (hasOpenFinance) {
         let ganhoEstimado = Math.round(publicoAtual * 0.28);
         suggestions.push({
@@ -1079,7 +1061,6 @@
         });
       }
 
-      // PILAR 2: QUALIFICAÇÃO DE FUNDO & RENTABILIDADE (ARPAC)
       if (hasArpac && parseFloat(arpacRule.val) >= 7.0) {
         suggestions.push({
           icon: "✓",
@@ -1104,7 +1085,6 @@
         });
       }
 
-      // PILAR 3: CANAL / ESPAÇO COMERCIAL RECOMENDADO
       if (focoEspaco === 'Lightbox') {
         suggestions.push({
           icon: "✓",
@@ -1163,26 +1143,15 @@
     function atualizarTriade() {
       const pData = triadProductData[appState.product] || triadProductData["Pix"];
       const mIdx = appState.monthIdx;
-      const ano = appState.year;
 
       const mesNome = mesesNomes[mIdx];
       const mesSigla = mesesLabels[mIdx];
 
-      let vCoreAtual = 0;
-      let vCoreAnt = 0;
+      let vCoreAtual = Math.round(pData.base2025[mIdx] * (1 + pData.yoyGrowth));
+      let prevMIdx = (mIdx === 0) ? 11 : mIdx - 1;
+      let prevYearMult = (mIdx === 0) ? 1.0 : (1 + pData.yoyGrowth);
+      let vCoreAnt = Math.round(pData.base2025[prevMIdx] * prevYearMult);
       let vCoreAnoPassado = pData.base2025[mIdx];
-
-      if (ano === 2026) {
-        vCoreAtual = Math.round(pData.base2025[mIdx] * (1 + pData.yoyGrowth));
-        let prevMIdx = (mIdx === 0) ? 11 : mIdx - 1;
-        let prevYearMult = (mIdx === 0) ? 1.0 : (1 + pData.yoyGrowth);
-        vCoreAnt = Math.round(pData.base2025[prevMIdx] * prevYearMult);
-      } else {
-        vCoreAtual = pData.base2025[mIdx];
-        let prevMIdx = (mIdx === 0) ? 11 : mIdx - 1;
-        vCoreAnt = pData.base2025[prevMIdx];
-        vCoreAnoPassado = Math.round(vCoreAtual * 0.85);
-      }
 
       const metaMes = Math.round(vCoreAtual * 0.98);
       const vMTD = Math.round(vCoreAtual * 0.756);
@@ -1190,19 +1159,19 @@
       const metaPct = ((vCoreAtual / metaMes) * 100).toFixed(1);
       const momGrowthPct = ((vCoreAtual - vCoreAnt) / vCoreAnt * 100).toFixed(1);
 
-      document.getElementById('funnel-title').innerText = `🔻 Funil de 7 Etapas - ${mesNome} / ${ano}`;
-      document.getElementById('chart-evolution-title').innerText = `📈 Curva Mensal (${appState.product} - ${ano})`;
-      document.getElementById('matrix-title').innerText = `📊 Matriz Comparativa Mês a Mês do Funil (${mesNome}/${ano})`;
+      document.getElementById('funnel-title').innerText = `🔻 Funil de 7 Etapas - ${mesNome} / 2026`;
+      document.getElementById('chart-evolution-title').innerText = `📈 Curva Mensal (${appState.product} - 2026)`;
+      document.getElementById('matrix-title').innerText = `📊 Matriz Comparativa Mês a Mês do Funil (${mesNome}/2026)`;
 
-      document.getElementById('kpi-mtd-label').innerText = `📍 Realizado MTD (Dia 20 ${mesSigla}/${ano.toString().slice(2)})`;
+      document.getElementById('kpi-mtd-label').innerText = `📍 Realizado MTD (Dia 20 ${mesSigla}/26)`;
       document.getElementById('kpi-mtd-real').innerText = vMTD.toLocaleString('pt-BR');
       document.getElementById('kpi-mtd-mom').innerText = `${parseFloat(momGrowthPct) >= 0 ? '+' : ''}${momGrowthPct}% vs mês anterior`;
 
-      document.getElementById('kpi-forecast-label').innerText = `🔮 Fechamento do Mês (${mesSigla}/${ano.toString().slice(2)})`;
+      document.getElementById('kpi-forecast-label').innerText = `🔮 Fechamento do Mês (${mesSigla}/26)`;
       document.getElementById('kpi-mtd-forecast').innerText = vCoreAtual.toLocaleString('pt-BR');
       document.getElementById('kpi-meta-pct').innerText = `🎯 ${metaPct}% da Meta (${metaMes.toLocaleString('pt-BR')})`;
 
-      document.getElementById('kpi-ano-passado-label').innerText = `📅 Mesmo Mês Ano Anterior (${mesSigla}/${(ano-1).toString().slice(2)})`;
+      document.getElementById('kpi-ano-passado-label').innerText = `📅 Mesmo Mês Ano Anterior (${mesSigla}/25)`;
       document.getElementById('kpi-ano-passado').innerText = vCoreAnoPassado.toLocaleString('pt-BR');
       document.getElementById('kpi-crescimento-yoy').innerText = `↑ +${yoyGrowthPct}% YoY`;
 
@@ -1270,13 +1239,13 @@
 
       let prev1Idx = (mIdx === 0) ? 11 : mIdx - 1;
       let prev2Idx = (prev1Idx === 0) ? 11 : prev1Idx - 1;
-      let stageVolsAnt2 = factors.map(f => Math.round(pData.base2025[prev2Idx] * (ano === 2026 ? (1 + pData.yoyGrowth) : 1.0) * f));
+      let stageVolsAnt2 = factors.map(f => Math.round(pData.base2025[prev2Idx] * (1 + pData.yoyGrowth) * f));
 
       document.getElementById('matrix-head-row').innerHTML = `
         <th>Etapa do Funil</th>
-        <th>${mesesLabels[prev2Idx]}/${ano.toString().slice(2)}</th>
-        <th>${mesesLabels[prev1Idx]}/${ano.toString().slice(2)}</th>
-        <th>${mesSigla}/${ano.toString().slice(2)} (Foco)</th>
+        <th>${mesesLabels[prev2Idx]}/26</th>
+        <th>${mesesLabels[prev1Idx]}/26</th>
+        <th>${mesSigla}/26 (Foco)</th>
         <th>Variação MoM</th>
         <th>Status</th>
       `;
@@ -1318,10 +1287,10 @@
         chartTriadeEvolucaoInst.data.datasets[0].label = '2025';
         chartTriadeEvolucaoInst.data.datasets[0].data = vals2025;
         chartTriadeEvolucaoInst.data.datasets[1].label = '2026 Real / Forecast';
-        chartTriadeEvolucaoInst.data.datasets[1].data = (ano === 2026) ? vals2026Real : Array(12).fill(null);
-        chartTriadeEvolucaoInst.data.datasets[2].label = `Mês Foco (${mesSigla}/${ano.toString().slice(2)})`;
+        chartTriadeEvolucaoInst.data.datasets[1].data = vals2026Real;
+        chartTriadeEvolucaoInst.data.datasets[2].label = `Mês Foco (${mesSigla}/26)`;
         let pointData = Array(12).fill(null);
-        pointData[mIdx] = (ano === 2026) ? vals2026Real[mIdx] : vals2025[mIdx];
+        pointData[mIdx] = vals2026Real[mIdx];
         chartTriadeEvolucaoInst.data.datasets[2].data = pointData;
         chartTriadeEvolucaoInst.update();
       }
