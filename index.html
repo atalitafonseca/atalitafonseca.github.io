@@ -226,23 +226,24 @@
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* Dynamic Lateral AI Suggestions Panel */
+    /* Dynamic Lateral AI Suggestions Panel (Claramente Estruturado) */
     .sug-card {
-      background: #f8fafc;
+      background: #ffffff;
       border: 1px solid var(--border);
       border-left: 4px solid var(--santander-red);
       border-radius: 6px;
       padding: 10px 12px;
-      margin-bottom: 8px;
+      margin-bottom: 9px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       transition: all 0.2s;
     }
     .sug-card.optimized {
       border-left-color: var(--success);
       background: #f0fdf4;
+      border-color: #bbf7d0;
     }
     .sug-text { font-size: 0.77rem; color: var(--text); line-height: 1.4; flex: 1; }
     .sug-text strong { color: #0f172a; }
@@ -250,18 +251,19 @@
     .sug-impact-tag {
       font-size: 0.68rem;
       font-weight: 800;
-      color: #15803d;
-      background: #dcfce7;
       padding: 2px 6px;
       border-radius: 4px;
       display: inline-block;
       margin-top: 3px;
     }
+    .tag-gain { color: #15803d; background: #dcfce7; }
+    .tag-ok { color: #0369a1; background: #e0f2fe; }
+
     .btn-apply {
       background: #ffffff;
       color: #166534;
       border: 1.5px solid #86efac;
-      padding: 5px 12px;
+      padding: 6px 12px;
       border-radius: 5px;
       font-size: 0.74rem;
       font-weight: 700;
@@ -270,7 +272,7 @@
       transition: all 0.15s;
     }
     .btn-apply:hover { background: #dcfce7; border-color: #22c55e; }
-    .btn-apply.active { background: #dcfce7; color: #15803d; border-color: #15803d; }
+    .btn-apply.active { background: #dcfce7; color: #15803d; border-color: #15803d; cursor: default; }
 
     /* Rules Builder */
     .rules-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
@@ -381,7 +383,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR COM CÁLCULO DINÂMICO DE KPIS, GRÁFICO E SUGESTÕES        -->
+    <!-- ABA 1: SIMULADOR COM SUGESTÕES DA IA CLARAS E INTUITIVAS                  -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
@@ -485,7 +487,6 @@
             </div>
           </div>
 
-          <!-- BOTÃO PRINCIPAL -->
           <button class="btn-calcular-master" onclick="clicarCalcularMaster()">
             <span>⚡ OK, Calcule com IA!</span>
           </button>
@@ -499,7 +500,7 @@
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:0.74rem; color:var(--text-muted); font-weight:600;">Otimizações calculadas para este cenário:</span>
+            <span style="font-size:0.74rem; color:var(--text-muted); font-weight:600;">Diretrizes estratégicas para este público:</span>
             <span style="font-size:0.7rem; color:var(--santander-red); font-weight:700;" id="ai-calc-status">● Pronto</span>
           </div>
 
@@ -521,11 +522,10 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE COM FILTROS 100% FUNCIONAIS DE MÊS, ANO E PRODUTO        -->
+    <!-- ABA 2: A TRÍADE                                                           -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content" style="display: none;">
       
-      <!-- CONTROLES TOTALMENTE SEPARADOS E FUNCIONAIS -->
       <div class="control-strip">
         <div class="control-item">
           <label>📦 Produto:</label>
@@ -898,7 +898,6 @@
     const mesesNomes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
     const mesesLabels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
-    // BASELINE HISTÓRICA COMPLETA DE 12 MESES PARA TODOS OS PRODUTOS
     const triadProductData = {
       "Pix": {
         base2025: [280000, 290000, 310000, 315000, 330000, 340000, 355000, 398200, 370000, 385000, 400000, 430000],
@@ -977,7 +976,6 @@
       showToast(`📦 Produto alterado para ${novoProd}. Todo o Dashboard recalculou!`);
     }
 
-    // FILTRO DE MÊS DA ABA 2 (TOTALMENTE FUNCIONAL)
     function mudarMesFoco(novoMesIdx) {
       appState.monthIdx = novoMesIdx;
       document.getElementById('triade-mes-foco').value = novoMesIdx;
@@ -985,7 +983,6 @@
       showToast(`📅 Mês de análise ajustado para ${mesesNomes[novoMesIdx]} de ${appState.year}.`);
     }
 
-    // FILTRO DE ANO DA ABA 2 (TOTALMENTE FUNCIONAL)
     function mudarAnoFoco(novoAno) {
       appState.year = novoAno;
       document.getElementById('triade-ano-foco').value = novoAno;
@@ -1001,7 +998,6 @@
       showToast(`🎯 Espaço comercial alterado para ${novoEspaco}.`);
     }
 
-    // BOTÃO PRINCIPAL: CALCULA KPIS, GRÁFICO E SUGESTÕES DA LATERAL
     function clicarCalcularMaster() {
       rodarSimulacao();
 
@@ -1040,7 +1036,7 @@
       atualizarPacingChart();
     }
 
-    // MOTOR DE CÁLCULO DINÂMICO DAS SUGESTÕES DA LATERAL
+    // SUGESTÕES DA IA CONSISTENTES, CLARAS E SEM FLIP-FLOP
     function calcularSugestoesLateralIA() {
       const container = document.getElementById('ai-suggestions-list');
       const tag = document.getElementById('ai-sug-prod-tag');
@@ -1051,73 +1047,83 @@
       tag.innerText = `${prod} Ativo`;
 
       let hasOpenFinance = appState.activeRules.some(r => r.attrId === 'open_finance');
+      let openFinanceRule = appState.activeRules.find(r => r.attrId === 'open_finance');
       let hasArpac = appState.activeRules.some(r => r.attrId === 'score_arpac');
       let arpacRule = appState.activeRules.find(r => r.attrId === 'score_arpac') || { val: "7.0" };
 
       let suggestions = [];
 
+      // PILAR 1: ALCANCE DE PÚBLICO (OPEN FINANCE & SEGMENTAÇÃO)
       if (hasOpenFinance) {
         let ganhoEstimado = Math.round(publicoAtual * 0.28);
         suggestions.push({
-          icon: "📈",
-          title: "Expansão de Público Elegível:",
-          text: `Remover a restrição <em>'Consentimento Open Finance'</em> desbloqueia <strong>+${ganhoEstimado.toLocaleString('pt-BR')} clientes elegíveis</strong> (+28% de alcance).`,
-          impact: `+${ganhoEstimado.toLocaleString('pt-BR')} público`,
+          icon: "💡",
+          title: "Alavanca de Alcance (Open Finance):",
+          text: `Você possui um filtro restritivo de <em>'Consentimento Open Finance'</em>. Se quiser <strong>aumentar o público elegível</strong> para atingir mais pessoas, remover essa trava adiciona <strong>+${ganhoEstimado.toLocaleString('pt-BR')} clientes (+28%)</strong>.`,
+          impact: `+${ganhoEstimado.toLocaleString('pt-BR')} novos clientes`,
+          tagClass: "tag-gain",
           action: "remover_open_finance",
-          btn: "Aplicar Otimização",
+          btn: "Desbloquear Alcance",
           isOptimized: false
         });
       } else {
         suggestions.push({
-          icon: "🔒",
-          title: "Segmentação de Dados Abertos:",
-          text: `Adicionar filtro de <em>'Open Finance'</em> refina a lista em clientes com histórico bancário cruzado.`,
-          impact: "Qualificação externa",
-          action: "adicionar_open_finance",
-          btn: "+ Adicionar Regra",
-          isOptimized: false
+          icon: "✓",
+          title: "Alcance Máximo de Público Ativo:",
+          text: `Seu público está sem travas restritivas de Open Finance, atingindo o <strong>potencial máximo de ${publicoAtual.toLocaleString('pt-BR')} clientes elegíveis</strong>.`,
+          impact: "Amplo Alcance",
+          tagClass: "tag-ok",
+          action: "none",
+          btn: "✓ Otimizado",
+          isOptimized: true
         });
       }
 
+      // PILAR 2: QUALIFICAÇÃO DE FUNDO & RENTABILIDADE (ARPAC)
       if (hasArpac && parseFloat(arpacRule.val) >= 7.0) {
         suggestions.push({
-          icon: "⭐",
-          title: "Qualificação de Rentabilidade Otimizada:",
-          text: `Regra <strong>'Score ARPAC > ${arpacRule.val}'</strong> ativa! Maximiza o ticket médio e reduz o risco de liquidação no Core.`,
-          impact: "Conversão Core 93.9%",
-          action: "manter_arpac",
+          icon: "✓",
+          title: "Qualificação de Rentabilidade Ativa:",
+          text: `Regra <strong>'Score ARPAC > ${arpacRule.val}'</strong> aplicada com sucesso. Isso garante clientes mais rentáveis e taxa de liquidação de <strong>93.9% no Core Bancário</strong>.`,
+          impact: "Alta Rentabilidade",
+          tagClass: "tag-ok",
+          action: "none",
           btn: "✓ Otimizado",
           isOptimized: true
         });
       } else {
         suggestions.push({
           icon: "⭐",
-          title: "Qualificar Fundo de Funil (ARPAC):",
-          text: `Ajustar <strong>'Score ARPAC para > 7.0'</strong> eleva a conversão final em <strong>+5.2%</strong> com menor inadimplência.`,
-          impact: "+5.2% na conversão",
+          title: "Alavanca de Rentabilidade (ARPAC):",
+          text: `Adicionar ou manter <strong>'Score ARPAC > 7.0'</strong> qualifica os clientes para tickets mais altos e reduz o risco de inadimplência.`,
+          impact: "+5.2% na conversão final",
+          tagClass: "tag-gain",
           action: "manter_arpac",
           btn: "Priorizar ARPAC > 7.0",
           isOptimized: false
         });
       }
 
+      // PILAR 3: CANAL / ESPAÇO COMERCIAL RECOMENDADO
       if (focoEspaco === 'Lightbox') {
         suggestions.push({
-          icon: "🎯",
-          title: "Canal de Máxima Eficiência Ativo:",
-          text: `O <strong>Lightbox contextual</strong> está selecionado, gerando a maior taxa de conversão final para <em>${prod}</em>.`,
-          impact: "Maior ROI Comercial",
-          action: "trocar_lightbox",
-          btn: "✓ Canal Selecionado",
+          icon: "✓",
+          title: "Espaço Comercial de Alta Performance:",
+          text: `O <strong>Lightbox contextual</strong> está ativo e é o canal com maior taxa de conversão final para <em>${prod}</em>.`,
+          impact: "Maior Eficiência",
+          tagClass: "tag-ok",
+          action: "none",
+          btn: "✓ Canal Recomendado",
           isOptimized: true
         });
       } else {
-        let diffPct = (focoEspaco === 'Banner') ? "2.8x" : (focoEspaco === 'Push') ? "1.9x" : "3.4x";
+        let diff = (focoEspaco === 'Banner') ? "2.8x" : (focoEspaco === 'Push') ? "1.9x" : "3.4x";
         suggestions.push({
           icon: "🎯",
-          title: "Recomendação de Canal Contextual:",
-          text: `Mudar de <em>${focoEspaco}</em> para <strong>Lightbox Contextual</strong> converte <strong>${diffPct} mais</strong> no fechamento do App.`,
-          impact: `${diffPct} mais conversão`,
+          title: "Otimização de Canal Comercial:",
+          text: `O canal <em>${focoEspaco}</em> está selecionado. Mudar para <strong>Lightbox Contextual</strong> converte <strong>${diff} mais</strong> no fechamento do App.`,
+          impact: `${diff} mais conversão`,
+          tagClass: "tag-gain",
           action: "trocar_lightbox",
           btn: "Mudar para Lightbox",
           isOptimized: false
@@ -1128,9 +1134,12 @@
         <div class="sug-card ${s.isOptimized ? 'optimized' : ''}">
           <div class="sug-text">
             <div>${s.icon} <strong>${s.title}</strong> ${s.text}</div>
-            <div class="sug-impact-tag">${s.impact}</div>
+            <div class="sug-impact-tag ${s.tagClass}">${s.impact}</div>
           </div>
-          <button class="btn-apply ${s.isOptimized ? 'active' : ''}" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>
+          ${s.isOptimized 
+            ? `<span style="font-size:0.75rem; color:#15803d; font-weight:800; padding:6px 10px; background:#dcfce7; border-radius:5px; white-space:nowrap;">✓ Ativo</span>`
+            : `<button class="btn-apply" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>`
+          }
         </div>
       `).join('');
     }
@@ -1138,10 +1147,7 @@
     function executarSugestaoIA(action) {
       if (action === 'remover_open_finance') {
         appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'open_finance');
-        showToast('✓ Restrição de Open Finance removida. O público aumentou!');
-      } else if (action === 'adicionar_open_finance') {
-        appState.activeRules.push({ attrId: "open_finance", val: "Não Possui" });
-        showToast('✓ Regra de Open Finance adicionada.');
+        showToast('✓ Restrição de Open Finance removida. O público aumentou na hora!');
       } else if (action === 'manter_arpac') {
         let r = appState.activeRules.find(x => x.attrId === 'score_arpac');
         if (!r) appState.activeRules.push({ attrId: "score_arpac", op: ">", val: "7.0" });
@@ -1154,7 +1160,6 @@
       clicarCalcularMaster();
     }
 
-    // UPDATE TRIAD VIEW REAGINDO AOS FILTROS DE MÊS, ANO E PRODUTO
     function atualizarTriade() {
       const pData = triadProductData[appState.product] || triadProductData["Pix"];
       const mIdx = appState.monthIdx;
@@ -1163,7 +1168,6 @@
       const mesNome = mesesNomes[mIdx];
       const mesSigla = mesesLabels[mIdx];
 
-      // Volume de produção final do mês selecionado
       let vCoreAtual = 0;
       let vCoreAnt = 0;
       let vCoreAnoPassado = pData.base2025[mIdx];
@@ -1174,11 +1178,10 @@
         let prevYearMult = (mIdx === 0) ? 1.0 : (1 + pData.yoyGrowth);
         vCoreAnt = Math.round(pData.base2025[prevMIdx] * prevYearMult);
       } else {
-        // Ano 2025
         vCoreAtual = pData.base2025[mIdx];
         let prevMIdx = (mIdx === 0) ? 11 : mIdx - 1;
         vCoreAnt = pData.base2025[prevMIdx];
-        vCoreAnoPassado = Math.round(vCoreAtual * 0.85); // 2024
+        vCoreAnoPassado = Math.round(vCoreAtual * 0.85);
       }
 
       const metaMes = Math.round(vCoreAtual * 0.98);
@@ -1187,12 +1190,10 @@
       const metaPct = ((vCoreAtual / metaMes) * 100).toFixed(1);
       const momGrowthPct = ((vCoreAtual - vCoreAnt) / vCoreAnt * 100).toFixed(1);
 
-      // Atualiza Título do Funil
       document.getElementById('funnel-title').innerText = `🔻 Funil de 7 Etapas - ${mesNome} / ${ano}`;
       document.getElementById('chart-evolution-title').innerText = `📈 Curva Mensal (${appState.product} - ${ano})`;
       document.getElementById('matrix-title').innerText = `📊 Matriz Comparativa Mês a Mês do Funil (${mesNome}/${ano})`;
 
-      // 1. Top KPI Cards
       document.getElementById('kpi-mtd-label').innerText = `📍 Realizado MTD (Dia 20 ${mesSigla}/${ano.toString().slice(2)})`;
       document.getElementById('kpi-mtd-real').innerText = vMTD.toLocaleString('pt-BR');
       document.getElementById('kpi-mtd-mom').innerText = `${parseFloat(momGrowthPct) >= 0 ? '+' : ''}${momGrowthPct}% vs mês anterior`;
@@ -1211,7 +1212,6 @@
       document.getElementById('kpi-camp-pct-label').innerText = `${Math.round(cRatio*100)}% Campanha`;
       document.getElementById('kpi-org-pct-label').innerText = `${Math.round(oRatio*100)}% Orgânico`;
 
-      // 2. Calcula as 7 Etapas do Funil para o Mês Selecionado
       const factors = pData.stageFactors;
       let stageVolsAtual = factors.map(f => Math.round(vCoreAtual * f));
       let stageVolsAnt = factors.map(f => Math.round(vCoreAnt * f));
@@ -1251,11 +1251,9 @@
         }
       }
 
-      // 3. Atualiza Diagnóstico de Quedas e Ganhos
       document.getElementById('diag-best-step').innerHTML = `<strong>${stageNames[bestIdx]}</strong> registrou o maior avanço no mês (<strong>+${maxMoM.toFixed(1)}% MoM</strong>).`;
       document.getElementById('diag-drop-step').innerHTML = `<strong>${stageNames[dropIdx]}</strong> teve a menor taxa relativa de passagem no fluxo intermediário.`;
 
-      // 4. Reconciliação App vs Core
       let vAppFechamento = stageVolsAtual[5];
       let vCoreFinal = stageVolsAtual[6];
       let diffPerdas = vAppFechamento - vCoreFinal;
@@ -1270,7 +1268,6 @@
       document.getElementById('loss-saldo').innerText = `-${lossSaldo.toLocaleString('pt-BR')}`;
       document.getElementById('loss-timeout').innerText = `-${lossTimeout.toLocaleString('pt-BR')}`;
 
-      // 5. Matriz Comparativa Mês a Mês (3 Meses)
       let prev1Idx = (mIdx === 0) ? 11 : mIdx - 1;
       let prev2Idx = (prev1Idx === 0) ? 11 : prev1Idx - 1;
       let stageVolsAnt2 = factors.map(f => Math.round(pData.base2025[prev2Idx] * (ano === 2026 ? (1 + pData.yoyGrowth) : 1.0) * f));
@@ -1310,7 +1307,6 @@
       }
       document.getElementById('matrix-table-body').innerHTML = tableHtml;
 
-      // 6. Atualiza Gráfico de Linha Mensal
       if (chartTriadeEvolucaoInst) {
         let vals2025 = pData.base2025;
         let vals2026Real = [];
@@ -1493,7 +1489,6 @@
       reader.readAsText(file);
     }
 
-    // SIMULADOR
     function toggleSegment(element, segName) {
       if (appState.selectedSegments.has(segName)) {
         if (appState.selectedSegments.size === 1) return;
@@ -1664,7 +1659,6 @@
       document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
       document.getElementById('sim-kpi-fundo-tx').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
 
-      // ATUALIZAÇÃO DINÂMICA DO GRÁFICO DE ESPAÇOS COM VOLUMES REAIS DE CONVERSÃO
       if (chartEspacosInst) {
         const bgColors = ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'].map(s => s === focoEspaco ? '#ec0000' : '#cbd5e1');
         
