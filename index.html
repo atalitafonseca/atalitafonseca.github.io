@@ -201,7 +201,6 @@
     }
     .funnel-row-box:hover { border-color: #cbd5e1; }
 
-    /* Geometric Width Steps */
     .w-step-1 { width: 100%; border-left: 4px solid #0284c7; }
     .w-step-2 { width: 94%; border-left: 4px solid #0284c7; }
     .w-step-3 { width: 88%; border-left: 4px solid #0284c7; }
@@ -219,7 +218,6 @@
     .funnel-step-total { font-size: 0.92rem; font-weight: 800; color: var(--text); }
     .w-step-7 .funnel-step-total { color: var(--santander-red); }
 
-    /* Thin Segmented Progress Bar */
     .funnel-bar-track {
       height: 14px;
       background: #f1f5f9;
@@ -249,7 +247,6 @@
       font-weight: 700;
     }
 
-    /* Minimal Downward Pass Rate */
     .pass-rate-indicator {
       font-size: 0.68rem;
       font-weight: 700;
@@ -261,7 +258,7 @@
     }
     .pass-rate-indicator strong { color: var(--text); }
 
-    /* Side Overview Metrics */
+    /* Side Stack */
     .side-stack { display: flex; flex-direction: column; gap: 12px; }
     
     .reconcile-box {
@@ -291,7 +288,7 @@
     .loss-line { display: flex; justify-content: space-between; color: var(--text-muted); }
     .loss-line strong { color: #dc2626; }
 
-    /* AI Suggestions Panel (Simulator) */
+    /* AI Suggestions Panel */
     .sug-card {
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -320,49 +317,100 @@
     }
     .btn-apply:hover { background: #dcfce7; }
 
-    /* Compact Rule Row */
-    .rules-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
-    .rule-item {
-      display: grid;
-      grid-template-columns: 1.3fr 1fr 0.6fr 0.8fr 28px;
-      gap: 6px;
+    /* ========================================================================= */
+    /* CLEAN & INTUITIVE RULES BUILDER (SEPARAÇÃO NUMÉRICO VS CATEGÓRICO)        */
+    /* ========================================================================= */
+    .rules-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    
+    .rule-item-box {
+      display: flex;
       align-items: center;
+      gap: 8px;
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 6px 8px;
+      padding: 6px 10px;
+      transition: all 0.15s;
     }
-    .rule-input, .rule-select {
-      padding: 5px 8px;
+    .rule-item-box:hover { border-color: #cbd5e1; }
+
+    .rule-attr-select {
+      flex: 1.4;
+      padding: 6px 8px;
       border: 1px solid var(--border);
       border-radius: 4px;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
+      font-weight: 600;
       background: white;
       outline: none;
     }
-    .btn-del {
+
+    .rule-op-select {
+      width: 60px;
+      padding: 6px 4px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-align: center;
+      background: white;
+      outline: none;
+    }
+
+    .rule-val-input {
+      width: 100px;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: white;
+      outline: none;
+    }
+
+    .rule-val-select {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: white;
+      outline: none;
+    }
+
+    .btn-del-rule {
       background: #fee2e2;
       color: #991b1b;
       border: none;
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       border-radius: 4px;
       font-weight: 700;
       font-size: 0.85rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .btn-add {
+    .btn-del-rule:hover { background: #fecaca; }
+
+    .btn-add-rule {
       background: white;
-      border: 1px dashed #cbd5e1;
+      border: 1.5px dashed #cbd5e1;
       color: #475569;
-      padding: 6px;
+      padding: 8px;
       border-radius: 6px;
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
       width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
-    .btn-add:hover { background: #f8fafc; border-color: #94a3b8; }
+    .btn-add-rule:hover { background: #f8fafc; border-color: #94a3b8; }
 
     /* Segment Pills */
     .seg-pills { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -478,7 +526,7 @@
         </div>
       </div>
 
-      <!-- Two-Column Layout: Clean Funnel (Left) + Reconciled Overview & Chart (Right) -->
+      <!-- Two-Column Layout -->
       <div class="two-col-grid">
         
         <!-- Clean Funnel Column -->
@@ -600,10 +648,9 @@
           </div>
         </div>
 
-        <!-- Right Side: Clean Reconcile & Pacing Chart -->
+        <!-- Right Side -->
         <div class="side-stack">
           
-          <!-- Reconcile Card -->
           <div class="card" style="margin-bottom:0;">
             <div class="card-header">
               <h2>⚖️ Reconciliação: App vs Core Bancário</h2>
@@ -631,7 +678,6 @@
             </div>
           </div>
 
-          <!-- Pacing Mini-Chart -->
           <div class="card" style="flex:1; margin-bottom:0;">
             <div class="card-header">
               <h2>📈 Evolução Mensal & Forecast (YoY)</h2>
@@ -648,7 +694,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR DE PÚBLICO & ASSISTENTE DE IA (DESIGN LIMPO)             -->
+    <!-- ABA 1: SIMULADOR DE PÚBLICO COM REGRAS LIMPAS & INTELIGENTES             -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content" style="display: none;">
       
@@ -678,10 +724,10 @@
 
       <div class="two-col-grid">
         
-        <!-- Left: Rule Builder & Segments -->
+        <!-- Left: Clean Rule Builder -->
         <div class="card">
           <div class="card-header">
-            <h2>🎯 Parâmetros de Segmentação & Hábitos</h2>
+            <h2>🎯 Montagem de Público & Hábitos de Consumo</h2>
           </div>
 
           <div style="margin-bottom: 14px;">
@@ -693,13 +739,18 @@
             </div>
           </div>
 
+          <!-- Dynamic Clean Rules List -->
           <div style="margin-bottom: 14px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Regras de Consumo:</span>
-              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras</span>
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Condições de Hábito & Vínculo:</span>
+              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras ativas</span>
             </div>
-            <div class="rules-list" id="rules-list-container"></div>
-            <button class="btn-add" onclick="adicionarNovaRegra()">+ Adicionar Condição de Hábito</button>
+            
+            <div class="rules-list" id="rules-list-container">
+              <!-- Dynamically populated clean rules -->
+            </div>
+            
+            <button class="btn-add-rule" onclick="adicionarNovaRegra()"><span>+ Adicionar Condição de Hábito</span></button>
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:10px;">
@@ -723,14 +774,14 @@
 
           <div class="sug-card">
             <div class="sug-text">
-              📈 <strong>Aumentar Alcance:</strong> Remover a restrição <em>"Não Possui Open Finance"</em> aumenta o público elegível em <strong>+840.000 clientes (+24.5%)</strong>.
+              📈 <strong>Aumentar Alcance:</strong> Remover a restrição <em>"Consentimento Open Finance"</em> aumenta o público elegível em <strong>+840.000 clientes (+24.5%)</strong>.
             </div>
             <button class="btn-apply" onclick="aplicarSugestao('remover_open_finance')">Aplicar</button>
           </div>
 
           <div class="sug-card">
             <div class="sug-text">
-              ⭐ <strong>Qualificar Fundo:</strong> Manter <strong>"ARPAC > 7.0"</strong> eleva a conversão final em <strong>+5.2%</strong> no core bancário.
+              ⭐ <strong>Qualificar Fundo:</strong> Manter <strong>"Score ARPAC > 7.0"</strong> eleva a conversão final em <strong>+5.2%</strong> com clientes mais rentáveis.
             </div>
             <button class="btn-apply" onclick="aplicarSugestao('manter_arpac')">Priorizar</button>
           </div>
@@ -1018,7 +1069,7 @@
     }
 
     // =========================================================================
-    // LÓGICA DO SIMULADOR (ABA 1)
+    // LÓGICA DO SIMULADOR COM REGRAS LIMPAS (NUMÉRICAS VS CATEGÓRICAS)
     // =========================================================================
     let selectedSegments = new Set(['Especial', 'Select', 'Private']);
 
@@ -1034,82 +1085,78 @@
       rodarSimulacao();
     }
 
-    const habitFamilies = {
-      "evasao": {
-        label: "Evasão",
-        attrs: [
-          { id: "evadiu_recursos", label: "Evadiu Recursos > 3k", defOp: ">", defVal: "3000" },
-          { id: "outflow_pix_recorrente", label: "Outflow Pix > 5", defOp: ">", defVal: "5" },
-          { id: "open_finance_status", label: "Sem Open Finance", defOp: "=", defVal: "Não" }
-        ]
-      },
-      "rentabilidade": {
-        label: "Rentabilidade",
-        attrs: [
-          { id: "score_arpac", label: "ARPAC > 7.0", defOp: ">", defVal: "7.0" },
-          { id: "principalidade_santander", label: "Sem Principalidade", defOp: "=", defVal: "Não" },
-          { id: "cliente_fopa", label: "É Cliente Folha", defOp: "=", defVal: "Sim" }
-        ]
-      },
-      "cartoes": {
-        label: "Cartões",
-        attrs: [
-          { id: "gasto_cartao_mensal", label: "Gasto Cartão > 2.5k", defOp: ">", defVal: "2500" }
-        ]
-      }
-    };
+    // Clean Attribute Definitions
+    const bankAttributes = [
+      { id: "score_arpac", label: "Score ARPAC (Rentabilidade)", type: "numeric", defaultOp: ">", defaultVal: "7.0" },
+      { id: "evasao_recursos", label: "Outflow Evasão para Fintechs (R$)", type: "numeric", defaultOp: ">", defaultVal: "3000" },
+      { id: "gasto_cartao", label: "Gasto Mensal no Cartão (R$)", type: "numeric", defaultOp: ">", defaultVal: "2500" },
+      { id: "freq_pix", label: "Frequência de Pix / Mês", type: "numeric", defaultOp: ">", defaultVal: "10" },
+      { id: "principalidade", label: "Principalidade Santander", type: "categorical", options: ["Não é Principal", "É Principal"], defaultVal: "Não é Principal" },
+      { id: "open_finance", label: "Consentimento Open Finance", type: "categorical", options: ["Não Possui", "Possui Ativo"], defaultVal: "Não Possui" },
+      { id: "cliente_fopa", label: "Recebe Salário (Folha / FOPA)", type: "categorical", options: ["Sim (É Folha)", "Não (Sem Folha)"], defaultVal: "Sim (É Folha)" },
+      { id: "uso_limite_conta", label: "Uso do Limite da Conta (%)", type: "numeric", defaultOp: ">", defaultVal: "30" }
+    ];
 
+    // Current active rules
     let activeRules = [
-      { fam: "evasao", attr: "evadiu_recursos", op: ">", val: "3000" },
-      { fam: "rentabilidade", attr: "score_arpac", op: ">", val: "7.0" },
-      { fam: "rentabilidade", attr: "principalidade_santander", op: "=", val: "Não" },
-      { fam: "evasao", attr: "open_finance_status", op: "=", val: "Não" }
+      { attrId: "score_arpac", op: ">", val: "7.0" },
+      { attrId: "evasao_recursos", op: ">", val: "3000" },
+      { attrId: "principalidade", val: "Não é Principal" },
+      { attrId: "open_finance", val: "Não Possui" }
     ];
 
     function renderRulesList() {
       const container = document.getElementById('rules-list-container');
       const countEl = document.getElementById('rules-count-badge');
       container.innerHTML = '';
-      countEl.innerText = activeRules.length + (activeRules.length === 1 ? ' regra' : ' regras');
+      countEl.innerText = activeRules.length + (activeRules.length === 1 ? ' regra ativa' : ' regras ativas');
 
       activeRules.forEach((rule, index) => {
+        const attrDef = bankAttributes.find(a => a.id === rule.attrId) || bankAttributes[0];
         const row = document.createElement('div');
-        row.className = 'rule-item';
+        row.className = 'rule-item-box';
 
-        let famOptions = Object.keys(habitFamilies).map(fKey => 
-          `<option value="${fKey}" ${rule.fam === fKey ? 'selected' : ''}>${habitFamilies[fKey].label}</option>`
+        let attrOptions = bankAttributes.map(a => 
+          `<option value="${a.id}" ${a.id === rule.attrId ? 'selected' : ''}>${a.label}</option>`
         ).join('');
 
-        let curFam = habitFamilies[rule.fam] || habitFamilies['evasao'];
-        let attrOptions = curFam.attrs.map(a => 
-          `<option value="${a.id}" ${rule.attr === a.id ? 'selected' : ''}>${a.label}</option>`
-        ).join('');
+        if (attrDef.type === 'numeric') {
+          row.innerHTML = `
+            <select class="rule-attr-select" onchange="onAttrChange(${index}, this.value)">${attrOptions}</select>
+            <select class="rule-op-select" onchange="onOpChange(${index}, this.value)">
+              <option value=">" ${rule.op === '>' ? 'selected' : ''}>&gt;</option>
+              <option value="<" ${rule.op === '<' ? 'selected' : ''}>&lt;</option>
+              <option value="=" ${rule.op === '=' ? 'selected' : ''}>=</option>
+            </select>
+            <input type="text" class="rule-val-input" value="${rule.val}" onchange="onValChange(${index}, this.value)">
+            <button class="btn-del-rule" onclick="deletarRegra(${index})" title="Remover">×</button>
+          `;
+        } else {
+          let catOptions = attrDef.options.map(opt => 
+            `<option value="${opt}" ${rule.val === opt ? 'selected' : ''}>${opt}</option>`
+          ).join('');
 
-        row.innerHTML = `
-          <select class="rule-select" onchange="onFamilyChange(${index}, this.value)">${famOptions}</select>
-          <select class="rule-select" onchange="onAttrChange(${index}, this.value)">${attrOptions}</select>
-          <select class="rule-select" onchange="onOpChange(${index}, this.value)" style="width: 50px;">
-            <option value=">" ${rule.op === '>' ? 'selected' : ''}>&gt;</option>
-            <option value="=" ${rule.op === '=' ? 'selected' : ''}>=</option>
-          </select>
-          <input type="text" class="rule-input" value="${rule.val}" onchange="onValChange(${index}, this.value)">
-          <button class="btn-del" onclick="deletarRegra(${index})">×</button>
-        `;
+          row.innerHTML = `
+            <select class="rule-attr-select" onchange="onAttrChange(${index}, this.value)">${attrOptions}</select>
+            <select class="rule-val-select" onchange="onValChange(${index}, this.value)">${catOptions}</select>
+            <button class="btn-del-rule" onclick="deletarRegra(${index})" title="Remover">×</button>
+          `;
+        }
+
         container.appendChild(row);
       });
     }
 
-    function onFamilyChange(index, newFam) {
-      activeRules[index].fam = newFam;
-      activeRules[index].attr = habitFamilies[newFam].attrs[0].id;
-      activeRules[index].op = habitFamilies[newFam].attrs[0].defOp;
-      activeRules[index].val = habitFamilies[newFam].attrs[0].defVal;
-      renderRulesList();
-      rodarSimulacao();
-    }
-
-    function onAttrChange(index, newAttr) {
-      activeRules[index].attr = newAttr;
+    function onAttrChange(index, newAttrId) {
+      const attrDef = bankAttributes.find(a => a.id === newAttrId);
+      activeRules[index].attrId = newAttrId;
+      if (attrDef.type === 'numeric') {
+        activeRules[index].op = attrDef.defaultOp;
+        activeRules[index].val = attrDef.defaultVal;
+      } else {
+        delete activeRules[index].op;
+        activeRules[index].val = attrDef.defaultVal;
+      }
       renderRulesList();
       rodarSimulacao();
     }
@@ -1125,7 +1172,7 @@
     }
 
     function adicionarNovaRegra() {
-      activeRules.push({ fam: "cartoes", attr: "gasto_cartao_mensal", op: ">", val: "2500" });
+      activeRules.push({ attrId: "gasto_cartao", op: ">", val: "2500" });
       renderRulesList();
       rodarSimulacao();
     }
@@ -1138,13 +1185,13 @@
 
     function aplicarSugestao(tipoSug) {
       if (tipoSug === 'remover_open_finance') {
-        activeRules = activeRules.filter(r => r.attr !== 'open_finance_status');
+        activeRules = activeRules.filter(r => r.attrId !== 'open_finance');
         renderRulesList();
         rodarSimulacao();
       } else if (tipoSug === 'manter_arpac') {
-        let arpacRule = activeRules.find(r => r.attr === 'score_arpac');
-        if (!arpacRule) activeRules.push({ fam: "rentabilidade", attr: "score_arpac", op: ">", val: "7.0" });
-        else arpacRule.val = "7.0";
+        let arpac = activeRules.find(r => r.attrId === 'score_arpac');
+        if (!arpac) activeRules.push({ attrId: "score_arpac", op: ">", val: "7.0" });
+        else { arpac.op = ">"; arpac.val = "7.0"; }
         renderRulesList();
         rodarSimulacao();
       } else if (tipoSug === 'trocar_lightbox') {
