@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Santander Journey & Campaign Intelligence | Construtor de Públicos & Simulador IA</title>
+  <title>Santander Journey Intelligence | Construtor Dinâmico de Audiências & IA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,12 +21,12 @@
       --success: #10b981;
       --warning: #f59e0b;
       --info: #0ea5e9;
+      --purple: #8b5cf6;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg-app); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
-    /* Top Navigation Bar */
     header {
       background: linear-gradient(135deg, var(--santander-red), #990000);
       color: white;
@@ -65,8 +65,7 @@
     }
     .nav-btn:hover { background: white; color: var(--santander-red); }
 
-    /* Container */
-    .container { max-width: 1400px; margin: 24px auto 0; padding: 0 20px; }
+    .container { max-width: 1420px; margin: 24px auto 0; padding: 0 20px; }
 
     /* Tabs Bar */
     .tab-bar {
@@ -108,7 +107,7 @@
     .kpi-sub { font-size: 0.78rem; color: var(--success); font-weight: 600; margin-top: 2px; }
 
     /* Main Grid Sections */
-    .dashboard-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .dashboard-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 20px; margin-bottom: 20px; }
     @media (max-width: 1100px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
     .card {
@@ -129,102 +128,130 @@
     }
     .card-header h2 { font-size: 1.1rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
 
-    /* Preset Buttons */
-    .preset-container {
-      background: #f1f5f9;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 16px;
-      border: 1px solid #e2e8f0;
-    }
-    .preset-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
-    .preset-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .preset-chip {
-      background: white;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #334155;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .preset-chip:hover { border-color: var(--santander-red); color: var(--santander-red); }
-    .preset-chip.active { background: var(--santander-red); color: white; border-color: var(--santander-red); }
-
-    /* Form & Attribute Builder */
-    .builder-section {
-      background: #fafbfc;
-      border: 1px solid #e2e8f0;
+    /* Product Selector Header */
+    .product-select-box {
+      background: linear-gradient(135deg, #fff5f5, #ffffff);
+      border: 1.5px solid #fed7d7;
       border-radius: 10px;
-      padding: 16px;
+      padding: 14px 18px;
       margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
     }
-    .builder-section-title {
-      font-size: 0.82rem;
+    .product-select-box label { font-size: 0.88rem; font-weight: 800; color: var(--santander-red); text-transform: uppercase; }
+    .product-select-box select {
+      padding: 8px 14px;
+      border: 1.5px solid var(--santander-red);
+      border-radius: 8px;
+      font-size: 0.92rem;
       font-weight: 700;
-      color: var(--santander-red);
+      color: var(--text-main);
+      background: white;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Search & Attribute Gallery */
+    .search-box {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 11px 16px 11px 40px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      outline: none;
+      transition: all 0.2s;
+      background: white;
+    }
+    .search-input:focus { border-color: var(--santander-red); box-shadow: 0 0 0 3px rgba(236, 0, 0, 0.1); }
+    .search-icon { position: absolute; left: 14px; top: 12px; font-size: 0.95rem; color: var(--text-muted); }
+
+    /* Categories Accordion / Pills */
+    .category-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
       text-transform: uppercase;
-      margin-bottom: 12px;
+      margin: 12px 0 6px 0;
       display: flex;
       align-items: center;
       gap: 6px;
     }
-
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 12px; }
-    @media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
-
-    .form-group { display: flex; flex-direction: column; gap: 5px; }
-    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-main); }
-    .form-group select, .form-group input {
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.86rem;
-      background: white;
-      outline: none;
-    }
-    .form-group select:focus, .form-group input:focus { border-color: var(--santander-red); }
-
-    /* Checkbox & Toggle Cards */
-    .attribute-toggles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    @media (max-width: 700px) { .attribute-toggles { grid-template-columns: 1fr; } }
-
-    .toggle-card {
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 12px;
+    .attribute-pool {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    .attr-chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 5px 11px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #334155;
       cursor: pointer;
       transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       user-select: none;
     }
-    .toggle-card:hover { border-color: #cbd5e1; }
-    .toggle-card.checked { border-color: var(--santander-red); background: var(--santander-light); }
-    .toggle-card input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--santander-red); cursor: pointer; }
-    .toggle-info { display: flex; flex-direction: column; }
-    .toggle-name { font-size: 0.82rem; font-weight: 700; color: var(--text-main); }
-    .toggle-desc { font-size: 0.72rem; color: var(--text-muted); }
-
-    .btn-simular {
-      width: 100%;
+    .attr-chip:hover { border-color: var(--santander-red); color: var(--santander-red); background: #fff5f5; }
+    .attr-chip.selected {
       background: var(--santander-red);
       color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(236, 0, 0, 0.2);
-      margin-top: 6px;
+      border-color: var(--santander-red);
     }
-    .btn-simular:hover { background: var(--santander-dark); }
+    .attr-chip.selected::after { content: "✓"; font-weight: 800; font-size: 0.75rem; }
+
+    /* Active Audience Box */
+    .active-audience-box {
+      background: #ffffff;
+      border: 2px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+    .active-audience-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .active-tags-list { display: flex; flex-wrap: wrap; gap: 6px; min-height: 32px; align-items: center; }
+    .active-rule-pill {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-remove-rule {
+      background: none;
+      border: none;
+      color: #991b1b;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 0.85rem;
+      line-height: 1;
+    }
+    .btn-remove-rule:hover { color: black; }
 
     /* Prediction Result Cards */
     .pred-result-card {
@@ -240,10 +267,6 @@
     .pred-box-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; margin-bottom: 2px; }
     .pred-box-value { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
 
-    /* Active Rules Pill Tags */
-    .active-rules-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-    .rule-tag { background: #e2e8f0; color: #334155; font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
-
     /* Table styling */
     table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
     th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); }
@@ -253,13 +276,13 @@
 </head>
 <body>
 
-  <!-- Top Header -->
+  <!-- Header -->
   <header>
     <div class="brand-area">
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Jornadas & Construtor de Audiências</h1>
-        <p>Framework Integrado: Dicionário de Atributos ➔ Sizing Instantâneo ➔ Predição de Vendas por Espaço</p>
+        <p>Dicionário de Milhares de Atributos ➔ Sizing Instantâneo ➔ Predição de Vendas por Espaço Comercial</p>
       </div>
     </div>
     <div class="nav-links">
@@ -288,7 +311,7 @@
       </div>
       <div class="kpi-card">
         <div class="kpi-title">Tempo de Sizing & Funil</div>
-        <div class="kpi-value">&lt; 0.5s</div>
+        <div class="kpi-value">&lt; 0.4s</div>
         <div class="kpi-sub">⚡ Redução de 3 semanas para tempo real</div>
       </div>
       <div class="kpi-card">
@@ -303,125 +326,92 @@
       </div>
     </div>
 
-    <!-- TAB 1: CONSTRUTOR DE PÚBLICOS E SIMULADOR -->
+    <!-- TAB 1: CONSTRUTOR DINÂMICO DE AUDIÊNCIAS -->
     <div id="tab-simulador" class="tab-content">
       <div class="dashboard-grid">
         
-        <!-- Interactive Builder -->
+        <!-- Left: Interactive Dynamic Builder -->
         <div class="card">
-          <div class="card-header">
-            <h2>🎛️ Construtor de Públicos Multiatributos (Copiloto de Produto)</h2>
-          </div>
-
-          <!-- Quick Presets -->
-          <div class="preset-container">
-            <div class="preset-title">💡 Cenários Rápidos de Negócio (Presets):</div>
-            <div class="preset-chips">
-              <button class="preset-chip active" onclick="applyPreset('open_finance')">🔥 Open Finance (Evasores + ARPAC > 7 + FOPA + Sem Principalidade)</button>
-              <button class="preset-chip" onclick="applyPreset('seguro_pix')">🛡️ Seguro Pix (Alto Volume Pix + Moderados)</button>
-              <button class="preset-chip" onclick="applyPreset('cartao_black')">💳 Cartão Black (Select/Private + Alto Gasto)</button>
-              <button class="preset-chip" onclick="applyPreset('pix_parcelado')">⚡ Pix Parcelado (Baixo Saldo + Frequente)</button>
+          
+          <!-- 1. Product Selector (Official Santander List) -->
+          <div class="product-select-box">
+            <div>
+              <label>📦 Produto / Jornada de Destino:</label>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">A Rede Neural adapta a propensão dos espaços conforme o produto</div>
             </div>
+            <select id="sim-produto" onchange="rodarSimulacao()">
+              <option value="Pix" selected>⚡ Pix (Transferência / Chave Pix)</option>
+              <option value="Boleto">📄 Boleto (Pagamento / DDA)</option>
+              <option value="Pix Automatico">🔄 Pix Automático (Débito Recorrente)</option>
+              <option value="Pix Parcelado">💳 Pix Parcelado (Linha de Crédito)</option>
+              <option value="Upgrade">📈 Upgrade (Conta / Segmento Especial/Select)</option>
+              <option value="Cartao de Credito">💳 Cartão de Crédito (Upgrade / Black)</option>
+              <option value="Limite da Conta">🏦 Limite da Conta (Cheque Especial)</option>
+            </select>
           </div>
 
-          <!-- Seção 1: Objetivo da Campanha & Produto -->
-          <div class="builder-section">
-            <div class="builder-section-title">📦 1. Campanha & Produto de Destino</div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Campanha / Oferta:</label>
-                <select id="sim-produto" onchange="rodarSimulacao()">
-                  <option value="Open Finance" selected>Open Finance (Consentimento para Recuperação de Saldo)</option>
-                  <option value="Seguro Pix">Seguro Transação Pix (Ticket: R$ 30/mês)</option>
-                  <option value="Cartão Black">Cartão Santander Black (Ticket: R$ 90/mês)</option>
-                  <option value="Pix Parcelado">Pix Parcelado / Linha de Crédito (Ticket: R$ 450)</option>
-                  <option value="Consórcio Auto">Consórcio Auto / Bens (Ticket: R$ 1.200)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Segmento do Cliente:</label>
-                <select id="sim-segmento" onchange="rodarSimulacao()">
-                  <option value="Todos" selected>Todos os Segmentos (Varejo + Especial + Select + Private)</option>
-                  <option value="Especial_Select">Especial & Select (Média-Alta Renda)</option>
-                  <option value="Select_Private">Select & Private (Alta Renda)</option>
-                  <option value="Varejo">Apenas Varejo (Base Massiva)</option>
-                </select>
-              </div>
-            </div>
+          <!-- 2. Search Box in Dictionary -->
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-attr-input" class="search-input" placeholder="Buscar entre milhares de atributos (ex: evasão, arpac, fopa, principalidade, saldo, dda, cartao)..." oninput="filtrarAtributos()">
           </div>
 
-          <!-- Seção 2: Atributos Comportamentais e Financeiros -->
-          <div class="builder-section">
-            <div class="builder-section-title">🔍 2. Dicionário de Atributos do CRM (Regras de Seleção)</div>
+          <!-- 3. Dynamic Attribute Pools (Categorized) -->
+          <div id="attributes-container">
             
-            <div class="attribute-toggles">
-              
-              <!-- Regra 1: Evasores de Recursos -->
-              <label class="toggle-card checked" id="card-evasor" onclick="toggleAttr('chk-evasor', 'card-evasor')">
-                <input type="checkbox" id="chk-evasor" checked onchange="rodarSimulacao()">
-                <div class="toggle-info">
-                  <span class="toggle-name">🚨 Clientes que Evadiram Recursos</span>
-                  <span class="toggle-desc">Transferiram &gt; R$ 3.000 para outros bancos/fintechs nos últimos 30 dias</span>
-                </div>
-              </label>
-
-              <!-- Regra 2: ARPAC > 7 -->
-              <label class="toggle-card checked" id="card-arpac" onclick="toggleAttr('chk-arpac', 'card-arpac')">
-                <input type="checkbox" id="chk-arpac" checked onchange="rodarSimulacao()">
-                <div class="toggle-info">
-                  <span class="toggle-name">📊 ARPAC &gt; 7 (Alta Rentabilidade)</span>
-                  <span class="toggle-desc">Score de rentabilidade/potencial do cliente superior a 7.0</span>
-                </div>
-              </label>
-
-              <!-- Regra 3: Sem Principalidade -->
-              <label class="toggle-card checked" id="card-princ" onclick="toggleAttr('chk-princ', 'card-princ')">
-                <input type="checkbox" id="chk-princ" checked onchange="rodarSimulacao()">
-                <div class="toggle-info">
-                  <span class="toggle-name">❌ Não Possui Principalidade Santander</span>
-                  <span class="toggle-desc">Usa o Santander como conta secundária / transacional</span>
-                </div>
-              </label>
-
-              <!-- Regra 4: É FOPA -->
-              <label class="toggle-card checked" id="card-fopa" onclick="toggleAttr('chk-fopa', 'card-fopa')">
-                <input type="checkbox" id="chk-fopa" checked onchange="rodarSimulacao()">
-                <div class="toggle-info">
-                  <span class="toggle-name">💼 É Cliente Folha de Pagamento (FOPA)</span>
-                  <span class="toggle-desc">Empresa empregadora credita salário na conta Santander</span>
-                </div>
-              </label>
-
+            <div class="category-title">🚨 Evasão, Churn & Open Finance</div>
+            <div class="attribute-pool" id="pool-evasao">
+              <span class="attr-chip selected" onclick="toggleChip(this, 'evadiu_recursos')">🚨 Evadiu Recursos (&gt; R$ 3k para Fintechs)</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'outflow_pix_recorrente')">💸 Outflow Pix Recorrente para Outros Bancos</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'saldo_ocioso_caindo')">📉 Queda de Saldo em Conta &gt; 50%</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'sem_consentimento_open_finance')">🔓 Sem Open Finance Ativo</span>
             </div>
 
-            <!-- Parâmetros Adicionais -->
-            <div class="form-row" style="margin-top: 14px; margin-bottom: 0;">
-              <div class="form-group">
-                <label>Nível de Engajamento:</label>
-                <select id="sim-engajamento" onchange="rodarSimulacao()">
-                  <option value="Todos" selected>Todos os Níveis</option>
-                  <option value="Muito Engajado">Apenas Muito Engajados</option>
-                  <option value="Moderado">Clientes Moderados (Foco Ativação)</option>
-                  <option value="Baixo">Baixo Engajamento (Risco Churn)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Gasto Mínimo no Cartão (R$/mês):</label>
-                <input type="number" id="sim-gasto" value="800" step="200" onchange="rodarSimulacao()">
-              </div>
+            <div class="category-title">📊 Rentabilidade, Vínculo & Principalidade</div>
+            <div class="attribute-pool" id="pool-vinculo">
+              <span class="attr-chip selected" onclick="toggleChip(this, 'arpac_maior_7')">📊 ARPAC &gt; 7 (Alta Rentabilidade)</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'arpac_4_a_7')">📊 ARPAC entre 4 e 7</span>
+              <span class="attr-chip selected" onclick="toggleChip(this, 'sem_principalidade')">❌ Não Possui Principalidade Santander</span>
+              <span class="attr-chip selected" onclick="toggleChip(this, 'cliente_fopa')">💼 É Cliente FOPA (Folha de Pagamento)</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'segmento_select_private')">👑 Segmento Select / Private</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'segmento_especial')">⭐ Segmento Especial</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'score_interno_alto')">🛡️ Score de Crédito Interno &gt; 800</span>
             </div>
 
-            <div class="active-rules-bar" id="active-rules-display">
-              <!-- Rendered tags -->
+            <div class="category-title">💳 Hábitos de Pagamento, Pix & Boletos</div>
+            <div class="attribute-pool" id="pool-pagamentos">
+              <span class="attr-chip" onclick="toggleChip(this, 'alta_freq_pix')">⚡ Alto Volume de Pix (&gt; 15/mês)</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'pagador_recorrente_boleto')">📄 Pagador Recorrente de Boletos (&gt; 4/mês)</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'possui_dda_cadastrado')">📋 Possui DDA Cadastrado</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'gasto_cartao_alto')">💳 Gasto Cartão &gt; R$ 2.500/mês</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'sem_cartao_black')">💳 Elegível a Cartão Black (Sem Black Ativo)</span>
             </div>
+
+            <div class="category-title">🏦 Crédito, Limites & Fricções no App</div>
+            <div class="attribute-pool" id="pool-credito">
+              <span class="attr-chip" onclick="toggleChip(this, 'usa_limite_conta')">🏦 Utiliza Limite da Conta (&gt; 40%)</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'sem_limite_contratado')">🚫 Sem Limite da Conta Contratado</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'saldo_baixo_frequente')">⚠️ Saldo Baixo no Momento do Pix</span>
+              <span class="attr-chip" onclick="toggleChip(this, 'hesitacao_campo_unico')">⏱️ Hesitação no Campo Único (&gt; 45s)</span>
+            </div>
+
           </div>
 
-          <button class="btn-simular" onclick="rodarSimulacao()">⚡ Calcular Sizing & Prever Vendas com Rede Neural</button>
+          <!-- 4. Active Rules Box -->
+          <div class="active-audience-box">
+            <div class="active-audience-title">
+              <span>📋 Regras de Público Selecionadas:</span>
+              <span id="rules-count-badge" style="color: var(--santander-red); font-weight: 800;">4 regras ativas</span>
+            </div>
+            <div class="active-tags-list" id="active-rules-list">
+              <!-- Dynamically populated tags -->
+            </div>
+          </div>
 
           <!-- Dynamic Output Card -->
           <div class="pred-result-card">
             <div class="pred-header">
-              <span>🎯 Resultado do Sizing & Projeção com IA</span>
+              <span>🎯 Resultado do Sizing & Projeção com Rede Neural</span>
               <span id="out-badge-status" style="font-size: 0.75rem; background: #fee2e2; color: var(--santander-red); padding: 2px 6px; border-radius: 4px;">Público Qualificado</span>
             </div>
             <div class="pred-grid">
@@ -430,31 +420,32 @@
                 <div class="pred-box-value" id="out-publico">3.420</div>
               </div>
               <div class="pred-box">
-                <div class="pred-box-label">Melhor Espaço no App</div>
-                <div class="pred-box-value" id="out-melhor-espaco" style="color: var(--santander-red); font-size: 1.1rem;">Pós-Pix / Extrato</div>
+                <div class="pred-box-label">Melhor Espaço Comercial</div>
+                <div class="pred-box-value" id="out-melhor-espaco" style="color: var(--santander-red); font-size: 1.05rem;">Pós-Pix / Extrato</div>
               </div>
               <div class="pred-box">
-                <div class="pred-box-label">Resultado / Saldo Estimado</div>
-                <div class="pred-box-value" id="out-receita" style="color: var(--success);">R$ 2.45M</div>
+                <div class="pred-box-label">Vendas / Volume Estimado</div>
+                <div class="pred-box-value" id="out-receita" style="color: var(--success);">2.205 contratos</div>
               </div>
             </div>
           </div>
+
         </div>
 
-        <!-- Space Comparison Chart -->
+        <!-- Right: Space Comparison Chart -->
         <div class="card">
           <div class="card-header">
-            <h2>📊 Previsão de Conversão por Espaço Comercial no App</h2>
+            <h2>📊 Previsão de Conversão por Espaço no App</h2>
           </div>
           <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">
-            A Rede Neural cruza o perfil exato do público multiatributo contra a vocação contextual de cada tela:
+            A Rede Neural avalia a sinergia entre o <strong>público montado</strong> e o <strong>produto escolhido</strong> em cada tela:
           </p>
           <div style="height: 280px;">
             <canvas id="chartEspacos"></canvas>
           </div>
 
-          <div style="background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border); margin-top: 14px; font-size: 0.82rem; color: var(--text-muted);" id="insight-box">
-            💡 <strong>Recomendação da IA:</strong> Para o público de <em>Evasores + FOPA</em>, o canal <strong>Pós-Pix / Extrato</strong> converte <strong>2.8x mais</strong> do que Push tradicional, pois aborda o cliente logo após a saída de recursos.
+          <div style="background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border); margin-top: 14px; font-size: 0.82rem; color: var(--text-main);" id="insight-box">
+            💡 <strong>Recomendação da IA:</strong> Para o produto selecionado, a tela de maior vocação contextual é o <strong>Pós-Pix / Extrato</strong>.
           </div>
         </div>
 
@@ -592,163 +583,134 @@
       event.currentTarget.classList.add('active');
     }
 
-    function toggleAttr(chkId, cardId) {
-      const chk = document.getElementById(chkId);
-      const card = document.getElementById(cardId);
-      setTimeout(() => {
-        if (chk.checked) card.classList.add('checked');
-        else card.classList.remove('checked');
-        rodarSimulacao();
-      }, 10);
+    // Active selected rules state
+    let selectedRules = new Map([
+      ['evadiu_recursos', '🚨 Evadiu Recursos (> R$ 3k)'],
+      ['arpac_maior_7', '📊 ARPAC > 7 (Alta Rentab.)'],
+      ['sem_principalidade', '❌ Não Possui Principalidade'],
+      ['cliente_fopa', '💼 É Cliente FOPA']
+    ]);
+
+    function toggleChip(element, ruleKey) {
+      const ruleLabel = element.innerText.replace('✓', '').trim();
+      if (selectedRules.has(ruleKey)) {
+        selectedRules.delete(ruleKey);
+        element.classList.remove('selected');
+      } else {
+        selectedRules.set(ruleKey, ruleLabel);
+        element.classList.add('selected');
+      }
+      renderActiveRules();
+      rodarSimulacao();
     }
 
-    // Apply Presets
-    function applyPreset(presetName) {
-      document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
-      event.currentTarget.classList.add('active');
+    function removeRule(ruleKey) {
+      selectedRules.delete(ruleKey);
+      // find chip in DOM
+      document.querySelectorAll('.attr-chip').forEach(chip => {
+        if (chip.getAttribute('onclick').includes(ruleKey)) {
+          chip.classList.remove('selected');
+        }
+      });
+      renderActiveRules();
+      rodarSimulacao();
+    }
 
-      const pProd = document.getElementById('sim-produto');
-      const pSeg = document.getElementById('sim-segmento');
-      const pEng = document.getElementById('sim-engajamento');
-      const pGasto = document.getElementById('sim-gasto');
+    function renderActiveRules() {
+      const listEl = document.getElementById('active-rules-list');
+      const countEl = document.getElementById('rules-count-badge');
+      listEl.innerHTML = '';
+      
+      countEl.innerText = selectedRules.size + (selectedRules.size === 1 ? ' regra ativa' : ' regras ativas');
 
-      const chkEvasor = document.getElementById('chk-evasor');
-      const chkArpac = document.getElementById('chk-arpac');
-      const chkPrinc = document.getElementById('chk-princ');
-      const chkFopa = document.getElementById('chk-fopa');
-
-      if (presetName === 'open_finance') {
-        pProd.value = 'Open Finance';
-        pSeg.value = 'Todos';
-        pEng.value = 'Todos';
-        pGasto.value = 800;
-        chkEvasor.checked = true;
-        chkArpac.checked = true;
-        chkPrinc.checked = true;
-        chkFopa.checked = true;
-      } else if (presetName === 'seguro_pix') {
-        pProd.value = 'Seguro Pix';
-        pSeg.value = 'Especial_Select';
-        pEng.value = 'Moderado';
-        pGasto.value = 1200;
-        chkEvasor.checked = false;
-        chkArpac.checked = false;
-        chkPrinc.checked = false;
-        chkFopa.checked = false;
-      } else if (presetName === 'cartao_black') {
-        pProd.value = 'Cartão Black';
-        pSeg.value = 'Select_Private';
-        pEng.value = 'Muito Engajado';
-        pGasto.value = 3500;
-        chkEvasor.checked = false;
-        chkArpac.checked = true;
-        chkPrinc.checked = true;
-        chkFopa.checked = false;
-      } else if (presetName === 'pix_parcelado') {
-        pProd.value = 'Pix Parcelado';
-        pSeg.value = 'Varejo';
-        pEng.value = 'Moderado';
-        pGasto.value = 400;
-        chkEvasor.checked = true;
-        chkArpac.checked = false;
-        chkPrinc.checked = false;
-        chkFopa.checked = true;
+      if (selectedRules.size === 0) {
+        listEl.innerHTML = '<span style="font-size: 0.78rem; color: var(--text-muted);">Nenhuma regra ativa (Público Geral de 19M clientes).</span>';
+        return;
       }
 
-      ['chk-evasor', 'chk-arpac', 'chk-princ', 'chk-fopa'].forEach(id => {
-        const c = document.getElementById(id);
-        const card = document.getElementById(id.replace('chk-', 'card-'));
-        if (c.checked) card.classList.add('checked');
-        else card.classList.remove('checked');
+      selectedRules.forEach((label, key) => {
+        const pill = document.createElement('div');
+        pill.className = 'active-rule-pill';
+        pill.innerHTML = `<span>${label}</span><button class="btn-remove-rule" onclick="removeRule('${key}')">×</button>`;
+        listEl.appendChild(pill);
       });
+    }
 
-      rodarSimulacao();
+    function filtrarAtributos() {
+      const query = document.getElementById('search-attr-input').value.toLowerCase();
+      document.querySelectorAll('.attr-chip').forEach(chip => {
+        const text = chip.innerText.toLowerCase();
+        if (text.includes(query)) {
+          chip.style.display = 'inline-flex';
+        } else {
+          chip.style.display = 'none';
+        }
+      });
     }
 
     let chartEspacosInst, chartFunilInst, chartPacingInst, chartRocInst;
 
     function rodarSimulacao() {
       const prod = document.getElementById('sim-produto').value;
-      const seg = document.getElementById('sim-segmento').value;
-      const eng = document.getElementById('sim-engajamento').value;
-      const gasto = parseFloat(document.getElementById('sim-gasto').value) || 0;
+      const numRules = selectedRules.size;
 
-      const isEvasor = document.getElementById('chk-evasor').checked;
-      const isArpac = document.getElementById('chk-arpac').checked;
-      const isSemPrinc = document.getElementById('chk-princ').checked;
-      const isFopa = document.getElementById('chk-fopa').checked;
+      // Sizing calculation based on active constraints
+      let baseUniverse = 19200000; // 19.2M
+      let sizingMultiplier = 1.0;
 
-      // Base Calculation Universe
-      let baseTotal = 25000;
-      let multSeg = (seg === 'Todos') ? 1.0 : (seg === 'Especial_Select') ? 0.46 : (seg === 'Select_Private') ? 0.20 : 0.50;
-      let multEng = (eng === 'Todos') ? 1.0 : (eng === 'Muito Engajado') ? 0.25 : (eng === 'Moderado') ? 0.50 : 0.25;
-      let multGasto = Math.max(0.3, 1.0 - (gasto / 6000.0));
-
-      let multAttr = 1.0;
-      let activeRules = [];
-
-      if (isEvasor) { multAttr *= 0.35; activeRules.push('🚨 Evadiu Recursos (> R$ 3k)'); }
-      if (isArpac) { multAttr *= 0.40; activeRules.push('📊 ARPAC > 7 (Alta Rentab.)'); }
-      if (isSemPrinc) { multAttr *= 0.55; activeRules.push('❌ Sem Principalidade'); }
-      if (isFopa) { multAttr *= 0.45; activeRules.push('💼 É Cliente FOPA'); }
-
-      let publicoSizing = Math.round(baseTotal * multSeg * multEng * multGasto * (activeRules.length > 0 ? multAttr * 2.2 : 1.0));
-      publicoSizing = Math.max(850, publicoSizing);
-
-      // Conversão Prevista por Espaço com Base no Perfil
-      let txPosPix = 25.0, txHome = 22.0, txCarrossel = 18.0, txPush = 15.0;
-      let melhorEspaco = 'Banner Home';
-      let insightText = '';
-
-      if (prod === 'Open Finance') {
-        if (isEvasor && isFopa) {
-          txPosPix = 64.5;
-          txHome = 48.2;
-          txCarrossel = 32.0;
-          txPush = 28.5;
-          melhorEspaco = 'Pós-Pix / Extrato (64.5%)';
-          insightText = '💡 <strong>Insight da IA:</strong> Clientes <em>Evasores com FOPA e ARPAC > 7</em> possuem altíssima propensão a consentir com Open Finance quando abordados na tela de <strong>Pós-Pix / Extrato</strong> (+36% vs Banner Home).';
-        } else {
-          txPosPix = 45.0; txHome = 38.0; txCarrossel = 28.0; txPush = 24.0;
-          melhorEspaco = 'Pós-Pix (45.0%)';
-        }
-      } else if (prod === 'Seguro Pix') {
-        txPosPix = 59.85; txHome = 37.92; txCarrossel = 29.29; txPush = 28.83;
-        melhorEspaco = 'Pós-Pix (59.9%)';
-        insightText = '💡 <strong>Insight da IA:</strong> Seguro Pix converte <strong>2.1x mais</strong> no momento imediato após a realização de um Pix do que em notificações Push.';
-      } else if (prod === 'Cartão Black') {
-        txPosPix = 18.5; txHome = 44.8; txCarrossel = 33.2; txPush = 26.0;
-        melhorEspaco = 'Banner Home (44.8%)';
-        insightText = '💡 <strong>Insight da IA:</strong> Produtos de Alta Renda (Cartão Black) performam melhor no <strong>Banner Home</strong> com mensagem de upgrade de benefícios.';
-      } else if (prod === 'Pix Parcelado') {
-        txPosPix = 52.0; txHome = 35.0; txCarrossel = 26.0; txPush = 22.0;
-        melhorEspaco = 'Pós-Pix / Saldo Insuficiente (52.0%)';
-        insightText = '💡 <strong>Insight da IA:</strong> Ofertar Pix Parcelado no momento em que o cliente consulta o saldo antes do envio eleva a conversão em <strong>+52%</strong>.';
+      if (numRules === 0) {
+        sizingMultiplier = 1.0;
       } else {
-        txPosPix = 22.0; txHome = 36.0; txCarrossel = 28.0; txPush = 20.0;
-        melhorEspaco = 'Banner Home (36.0%)';
+        sizingMultiplier = Math.pow(0.42, numRules) * 1.8;
       }
 
-      let ticket = (prod === 'Open Finance') ? 720.0 : (prod === 'Seguro Pix') ? 30.0 : (prod === 'Cartão Black') ? 90.0 : (prod === 'Pix Parcelado') ? 450.0 : 1200.0;
+      let publicoSizing = Math.round(baseUniverse * sizingMultiplier);
+      publicoSizing = Math.max(1450, Math.min(baseUniverse, publicoSizing));
+
+      // Conversão Prevista por Espaço Comercial com base no Produto e Atributos
+      let txPosPix = 30.0, txHome = 25.0, txCarrossel = 20.0, txPush = 18.0;
+      let melhorEspaco = 'Pós-Pix / Extrato';
+      let insightText = '';
+      let unidadeResultado = 'contratos / transações';
+
+      if (prod === 'Pix') {
+        txPosPix = 78.4; txHome = 45.2; txCarrossel = 32.0; txPush = 38.5;
+        melhorEspaco = 'Pós-Pix / Campo Único (78.4%)';
+        insightText = '⚡ <strong>Pix:</strong> O <strong>Campo Único</strong> e a tela de <strong>Pós-Pix</strong> possuem a maior densidade transacional do app (78.4% de conversão).';
+      } else if (prod === 'Boleto') {
+        txPosPix = 68.2; txHome = 42.0; txCarrossel = 28.5; txPush = 34.0;
+        melhorEspaco = 'Extrato / DDA (68.2%)';
+        insightText = '📄 <strong>Boleto / DDA:</strong> A conversão atinge o pico quando o alerta de vencimento aparece no <strong>Extrato de Conta</strong> ou na leitura de câmera.';
+      } else if (prod === 'Pix Automatico') {
+        txPosPix = 64.5; txHome = 38.0; txCarrossel = 29.0; txPush = 26.5;
+        melhorEspaco = 'Pós-Pix / Pós-Boleto (64.5%)';
+        insightText = '🔄 <strong>Pix Automático:</strong> Ofertar a recorrência logo após um pagamento frequente de boleto/Pix eleva o consentimento para <strong>64.5%</strong> (+69% vs Banner Home).';
+      } else if (prod === 'Pix Parcelado') {
+        txPosPix = 58.0; txHome = 34.5; txCarrossel = 24.0; txPush = 22.0;
+        melhorEspaco = 'Pós-Pix / Saldo Baixo (58.0%)';
+        insightText = '💳 <strong>Pix Parcelado:</strong> Ofertar a linha no momento do envio do Pix para clientes com saldo insuficiente gera <strong>58.0%</strong> de conversão.';
+      } else if (prod === 'Upgrade') {
+        txPosPix = 24.0; txHome = 48.5; txCarrossel = 36.0; txPush = 29.0;
+        melhorEspaco = 'Banner Home / Perfil (48.5%)';
+        insightText = '📈 <strong>Upgrade de Conta (Especial ➔ Select):</strong> O melhor espaço é o <strong>Banner Home</strong> e a área de Perfil, onde o cliente avalia benefícios e limites.';
+      } else if (prod === 'Cartao de Credito') {
+        txPosPix = 22.5; txHome = 46.8; txCarrossel = 34.2; txPush = 28.0;
+        melhorEspaco = 'Banner Home (46.8%)';
+        insightText = '💳 <strong>Cartão de Crédito / Black:</strong> A vocação comercial do <strong>Banner Home</strong> supera o Pós-Pix em <strong>2.1x</strong> para contratação de novos cartões.';
+      } else if (prod === 'Limite da Conta') {
+        txPosPix = 54.0; txHome = 36.2; txCarrossel = 25.0; txPush = 21.0;
+        melhorEspaco = 'Pós-Pix / Extrato (54.0%)';
+        insightText = '🏦 <strong>Limite da Conta (Cheque Especial):</strong> Maior conversão quando ofertado após transferências com saldo remanescente baixo.';
+      }
+
       let maxTx = Math.max(txPosPix, txHome, txCarrossel, txPush);
       let vendas = Math.round(publicoSizing * (maxTx / 100.0));
-      let receita = vendas * ticket;
 
       document.getElementById('out-publico').innerText = publicoSizing.toLocaleString('pt-BR');
       document.getElementById('out-melhor-espaco').innerText = melhorEspaco;
-      document.getElementById('out-receita').innerText = (prod === 'Open Finance') ? 
-        'R$ ' + (receita >= 1000000 ? (receita/1000000).toFixed(2) + 'M (Saldo Recup.)' : (receita/1000).toFixed(0) + 'k') :
-        'R$ ' + (receita >= 1000000 ? (receita/1000000).toFixed(2) + 'M' : (receita/1000).toFixed(1) + 'k');
+      document.getElementById('out-receita').innerText = vendas.toLocaleString('pt-BR') + ' ' + unidadeResultado;
 
       if (insightText) document.getElementById('insight-box').innerHTML = insightText;
-
-      const rulesBox = document.getElementById('active-rules-display');
-      if (activeRules.length > 0) {
-        rulesBox.innerHTML = '<span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; margin-right: 4px;">Filtros Ativos:</span> ' +
-          activeRules.map(r => `<span class="rule-tag">${r}</span>`).join(' ');
-      } else {
-        rulesBox.innerHTML = '<span style="font-size: 0.75rem; color: var(--text-muted);">Nenhum filtro restritivo de CRM ativado (Público Amplo).</span>';
-      }
 
       if (chartEspacosInst) {
         chartEspacosInst.data.datasets[0].data = [txPosPix, txHome, txCarrossel, txPush];
@@ -757,6 +719,8 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      renderActiveRules();
+
       const ctxEspacos = document.getElementById('chartEspacos').getContext('2d');
       chartEspacosInst = new Chart(ctxEspacos, {
         type: 'bar',
@@ -764,7 +728,7 @@
           labels: ['Pós-Pix / Extrato', 'Banner Home', 'Carrossel Ofertas', 'Push Notification'],
           datasets: [{
             label: 'Conversão Prevista (%)',
-            data: [64.5, 48.2, 32.0, 28.5],
+            data: [78.4, 45.2, 32.0, 38.5],
             backgroundColor: ['#ec0000', '#2a75d3', '#64748b', '#94a3b8'],
             borderRadius: 6
           }]
@@ -773,7 +737,7 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 75, ticks: { callback: v => v + '%' } } }
+          scales: { y: { beginAtZero: true, max: 90, ticks: { callback: v => v + '%' } } }
         }
       });
 
