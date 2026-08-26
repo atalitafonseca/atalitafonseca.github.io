@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Santander Campaign Intelligence | Visão do Mês & Funil de 7 Etapas</title>
+  <title>Santander Campaign Intelligence | Fechamento de Funil vs Produção</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -144,9 +144,7 @@
     }
     .control-select:focus { border-color: var(--santander-red); }
 
-    /* ========================================================================= */
-    /* MONTH VIEW COMPARISON KPI STRIP (COMO ESTÁ, COMO VAI FECHAR, ANO PASSADO) */
-    /* ========================================================================= */
+    /* Month KPIs Strip */
     .month-kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -182,6 +180,57 @@
     .month-kpi-sub { font-size: 0.76rem; font-weight: 600; margin-top: 4px; }
 
     /* ========================================================================= */
+    /* BOTTOM COMPARISON CARD (FECHAMENTO DE FUNIL VS PRODUÇÃO)                 */
+    /* ========================================================================= */
+    .bottom-comp-container {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 18px;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 18px;
+      align-items: center;
+    }
+    @media (max-width: 900px) { .bottom-comp-container { grid-template-columns: 1fr; } }
+
+    .bottom-cards-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .bottom-box {
+      background: white;
+      border-radius: 8px;
+      padding: 14px;
+      border: 1.5px solid var(--border);
+      text-align: center;
+    }
+    .bottom-box.funil { border-color: #8b5cf6; }
+    .bottom-box.prod { border-color: var(--santander-red); background: var(--santander-light); }
+    .bottom-box-label { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+    .bottom-box-val { font-size: 1.35rem; font-weight: 800; }
+
+    .bottom-losses-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+    .loss-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 7px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .loss-name { color: var(--text-muted); font-weight: 600; }
+    .loss-val { color: #dc2626; font-weight: 700; }
+
+    /* ========================================================================= */
     /* 7-STAGE GRANULAR GEOMETRIC FUNNEL DESIGN (FUNIL DE 7 ETAPAS)               */
     /* ========================================================================= */
     .funnel-visual-container {
@@ -203,7 +252,7 @@
     }
 
     .funnel-trapezoid {
-      height: 48px;
+      height: 46px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -218,19 +267,17 @@
     }
     .funnel-trapezoid:hover { transform: scale(1.015); filter: brightness(1.05); }
 
-    /* 7-Stage Widths & Colors */
     .fn7-t1 .funnel-trapezoid { width: 100%; background: linear-gradient(135deg, #1e293b, #334155); }
     .fn7-t2 .funnel-trapezoid { width: 88%; background: linear-gradient(135deg, #0369a1, #0ea5e9); }
     .fn7-t3 .funnel-trapezoid { width: 76%; background: linear-gradient(135deg, #d97706, #f59e0b); }
     .fn7-t4 .funnel-trapezoid { width: 64%; background: linear-gradient(135deg, #475569, #64748b); }
     .fn7-t5 .funnel-trapezoid { width: 52%; background: linear-gradient(135deg, #6d28d9, #8b5cf6); }
-    .fn7-t6 .funnel-trapezoid { width: 40%; background: linear-gradient(135deg, #b91c1c, #dc2626); }
+    .fn7-t6 .funnel-trapezoid { width: 40%; background: linear-gradient(135deg, #7c3aed, #a855f7); }
     .fn7-t7 .funnel-trapezoid { width: 28%; background: linear-gradient(135deg, var(--santander-dark), var(--santander-red)); box-shadow: 0 5px 14px rgba(236, 0, 0, 0.35); }
 
-    .funnel-label { font-size: 0.8rem; display: flex; align-items: center; gap: 6px; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+    .funnel-label { font-size: 0.78rem; display: flex; align-items: center; gap: 6px; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
     .funnel-val { font-size: 0.95rem; font-weight: 800; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
 
-    /* Split progress bar (Orgânico vs Campanha) */
     .funnel-split-bar {
       position: absolute;
       top: 0; left: 0; bottom: 0; right: 0;
@@ -241,7 +288,6 @@
     .split-org { background: #38bdf8; height: 100%; }
     .split-camp { background: #f87171; height: 100%; }
 
-    /* Connecting drop-off arrow */
     .funnel-connector {
       display: flex;
       align-items: center;
@@ -315,7 +361,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Jornadas & Previsor da Tríade com IA</h1>
-        <p>Visão do Mês Atual (MTD), Projeção de Fechamento (Forecast), Comparativo Ano Anterior e Funil de 7 Etapas</p>
+        <p>Visão do Mês Atual (MTD), Comparativo de Fundo (Fechamento de Funil vs Produção) e Funil de 7 Etapas</p>
       </div>
     </div>
     <div class="nav-links">
@@ -330,17 +376,17 @@
     <!-- Navigation Tabs -->
     <div class="tab-bar">
       <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Previsor de Funil & Hábitos de Consumo</button>
-      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Visão do Mês, Funil 7 Etapas & Forecast</button>
+      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Visão do Mês, Funil 7 Etapas & Comparativo de Fundo</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD & Forecast</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE (VISÃO DO MÊS, COMPARATIVO ANO ANTERIOR & FUNIL 7 ETAPAS) -->
+    <!-- ABA 2: A TRÍADE (VISÃO DO MÊS & COMPARATIVO DE FUNDO DE FUNIL VS PRODUÇÃO)-->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content">
       
-      <!-- Top Control Bar of the Triad -->
+      <!-- Top Control Bar -->
       <div class="control-strip">
         <div class="control-item">
           <label>📦 Produto Santander:</label>
@@ -373,9 +419,8 @@
         </div>
       </div>
 
-      <!-- MONTH COMPARATIVE EXECUTIVE KPI STRIP (COMO ESTÁ, COMO VAI FECHAR, ANO PASSADO) -->
+      <!-- MONTH COMPARATIVE EXECUTIVE KPI STRIP -->
       <div class="month-kpi-grid">
-        
         <div class="month-kpi-card">
           <div class="month-kpi-title">📍 1. Como está o Mês (Realizado MTD)</div>
           <div class="month-kpi-val" id="kpi-mtd-real">362.400</div>
@@ -402,7 +447,6 @@
             <span class="badge-org" id="badge-pct-org">62% Orgânico</span>
           </div>
         </div>
-
       </div>
 
       <!-- Grid with 7-Stage Granular Visual Funnel and Time Series Chart -->
@@ -485,30 +529,30 @@
                 <div class="funnel-label">⚙️ 5. Simulação / Seleção de Condições</div>
                 <div class="funnel-val" id="fn7-v5">780.000</div>
               </div>
-              <div class="funnel-connector"><span id="fn7-p5">↓ 82.1% autenticam ID Santander</span></div>
+              <div class="funnel-connector"><span id="fn7-p5">↓ 65.4% concluem no App</span></div>
             </div>
 
-            <!-- Etapa 6: Autenticação de Segurança ID Santander -->
+            <!-- Etapa 6: Fechamento de Funil no App (Conclusão Digital) -->
             <div class="funnel-tier fn7-t6">
               <div class="funnel-trapezoid">
                 <div class="funnel-split-bar">
                   <div class="split-org s-org" style="width: 62%;"></div>
                   <div class="split-camp s-camp" style="width: 38%;"></div>
                 </div>
-                <div class="funnel-label">🔐 6. Autenticação ID Santander / Termos</div>
-                <div class="funnel-val" id="fn7-v6">640.000</div>
+                <div class="funnel-label">📱 6. Fechamento de Funil (App)</div>
+                <div class="funnel-val" id="fn7-v6">510.000</div>
               </div>
-              <div class="funnel-connector"><span id="fn7-p6">↓ 74.8% concluem liquidação final</span></div>
+              <div class="funnel-connector"><span id="fn7-p6">↓ 93.9% liquidação efetiva no Core</span></div>
             </div>
 
-            <!-- Etapa 7: Produção / Venda Efetiva -->
+            <!-- Etapa 7: Produção / Venda Efetiva no Core Bancário -->
             <div class="funnel-tier fn7-t7">
               <div class="funnel-trapezoid">
                 <div class="funnel-split-bar">
                   <div class="split-org s-org" style="width: 62%;"></div>
                   <div class="split-camp s-camp" style="width: 38%;"></div>
                 </div>
-                <div class="funnel-label">🎯 7. Produção (Vendas Liquidadas)</div>
+                <div class="funnel-label">🏦 7. Produção Efetiva (Core)</div>
                 <div class="funnel-val" id="fn7-v7">478.900</div>
               </div>
             </div>
@@ -531,10 +575,59 @@
 
       </div>
 
+      <!-- COMPARATIVO DE FUNDO: FECHAMENTO DE FUNIL (APP) VS PRODUÇÃO EFETIVA (CORE) -->
+      <div class="card">
+        <div class="card-header">
+          <h2>⚖️ Comparativo de Fundo: Fechamento de Funil (Digital) vs Produção Efetiva (Core Bancário)</h2>
+          <span style="font-size: 0.78rem; font-weight:700; color:var(--success); background:#dcfce7; padding:3px 8px; border-radius:4px;">Taxa de Liquidação: 93.9%</span>
+        </div>
+        <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">
+          Diagnóstico de reconciliação entre a <strong>conclusão do fluxo no aplicativo</strong> e o que efetivamente virou <strong>contrato liquidado nos sistemas de backend</strong>:
+        </p>
+
+        <div class="bottom-comp-container">
+          
+          <!-- Duo Boxes -->
+          <div class="bottom-cards-duo">
+            <div class="bottom-box funil">
+              <div class="bottom-box-label" style="color: #7c3aed;">📱 Fechamento de Funil (App)</div>
+              <div class="bottom-box-val" id="box-funil-val" style="color: #6d28d9;">510.000</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Conclusões no Front-end</div>
+            </div>
+
+            <div class="bottom-box prod">
+              <div class="bottom-box-label" style="color: var(--santander-red);">🏦 Produção Efetiva (Core)</div>
+              <div class="bottom-box-val" id="box-prod-val" style="color: var(--santander-red);">478.900</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Liquidação Contábil Real</div>
+            </div>
+          </div>
+
+          <!-- Backend Losses Breakdown -->
+          <div class="bottom-losses-list">
+            <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-main); text-transform: uppercase; margin-bottom: 2px;">
+              ⚠️ Quebra Assíncrona no Backend (-31.100 contratos / -6.1%):
+            </div>
+            <div class="loss-item">
+              <span class="loss-name">🛡️ Bloqueio Antifraude / Risco em Tempo Real:</span>
+              <span class="loss-val" id="loss-antifraude">-14.200 (-2.8%)</span>
+            </div>
+            <div class="loss-item">
+              <span class="loss-name">🚫 Saldo / Limite Insuficiente no Débito Final:</span>
+              <span class="loss-val" id="loss-saldo">-9.800 (-1.9%)</span>
+            </div>
+            <div class="loss-item">
+              <span class="loss-name">⏱️ Time-out de Conciliação / Falha Assíncrona Pix:</span>
+              <span class="loss-val" id="loss-timeout">-7.100 (-1.4%)</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <!-- 7-Stage Funnel Pass-Through Rates & YoY Comparison Table -->
       <div class="card">
         <div class="card-header">
-          <h2>📋 Matriz de Taxas de Passagem do Funil de 7 Etapas: Realizado MTD vs Forecast vs Ano Passado</h2>
+          <h2>📋 Matriz de Taxas de Passagem do Funil: Realizado MTD vs Forecast vs Ano Passado</h2>
         </div>
         <table>
           <thead>
@@ -548,9 +641,7 @@
               <th>Eficiência YoY (bps)</th>
             </tr>
           </thead>
-          <tbody id="table-funil-passagem">
-            <!-- Dynamically populated -->
-          </tbody>
+          <tbody id="table-funil-passagem"></tbody>
         </table>
       </div>
 
@@ -718,10 +809,11 @@
           { name: "2. Visualização no Espaço Comercial", vMTD: 3750000, vForecast: 5000000, v2025: 4116000, passRate: 24.0, pass2025: 22.5 },
           { name: "3. Clique / Engajamento (CTR)", vMTD: 900000, vForecast: 1200000, v2025: 926100, passRate: 83.3, pass2025: 81.0 },
           { name: "4. Entrada na Jornada (App)", vMTD: 750000, vForecast: 1000000, v2025: 750140, passRate: 78.0, pass2025: 74.5 },
-          { name: "5. Simulação / Seleção Condições", vMTD: 585000, vForecast: 780000, v2025: 558850, passRate: 82.1, pass2025: 79.8 },
-          { name: "6. Autenticação ID Santander", vMTD: 480000, vForecast: 640000, v2025: 445960, passRate: 74.8, pass2025: 72.0 },
-          { name: "7. Produção (Vendas Liquidadas)", vMTD: 362400, vForecast: 478900, v2025: 398200, passRate: 100.0, pass2025: 100.0 }
-        ]
+          { name: "5. Simulação / Seleção Condições", vMTD: 585000, vForecast: 780000, v2025: 558850, passRate: 65.4, pass2025: 63.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 382500, vForecast: 510000, v2025: 422000, passRate: 93.9, pass2025: 94.3 },
+          { name: "7. Produção Efetiva (Core)", vMTD: 362400, vForecast: 478900, v2025: 398200, passRate: 100.0, pass2025: 100.0 }
+        ],
+        losses: { antifraude: 14200, saldo: 9800, timeout: 7100 }
       },
       "Boleto": {
         base2025: [180000, 185000, 195000, 190000, 200000, 205000, 210000, 240000, 220000, 225000, 235000, 250000],
@@ -735,10 +827,11 @@
           { name: "2. Visualização no Espaço Comercial", vMTD: 2542000, vForecast: 3444000, v2025: 2880000, passRate: 21.5, pass2025: 20.0 },
           { name: "3. Clique / Engajamento (CTR)", vMTD: 546500, vForecast: 740460, v2025: 576000, passRate: 85.0, pass2025: 83.0 },
           { name: "4. Entrada na Jornada (App)", vMTD: 464500, vForecast: 629390, v2025: 478080, passRate: 72.0, pass2025: 70.0 },
-          { name: "5. Simulação / Seleção Condições", vMTD: 334400, vForecast: 453160, v2025: 334650, passRate: 84.0, pass2025: 82.0 },
-          { name: "6. Autenticação ID Santander", vMTD: 280900, vForecast: 380650, v2025: 274410, passRate: 72.0, pass2025: 70.5 },
-          { name: "7. Produção (Vendas Liquidadas)", vMTD: 202200, vForecast: 274100, v2025: 240000, passRate: 100.0, pass2025: 100.0 }
-        ]
+          { name: "5. Simulação / Seleção Condições", vMTD: 334400, vForecast: 453160, v2025: 334650, passRate: 64.0, pass2025: 62.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 214000, vForecast: 290000, v2025: 252000, passRate: 94.5, pass2025: 95.2 },
+          { name: "7. Produção Efetiva (Core)", vMTD: 202200, vForecast: 274100, v2025: 240000, passRate: 100.0, pass2025: 100.0 }
+        ],
+        losses: { antifraude: 6200, saldo: 5800, timeout: 3900 }
       },
       "Pix Automatico": {
         base2025: [45000, 52000, 60000, 68000, 78000, 89000, 98000, 115000, 122000, 135000, 150000, 175000],
@@ -752,10 +845,11 @@
           { name: "2. Visualização no Espaço Comercial", vMTD: 1628000, vForecast: 2200000, v2025: 1275000, passRate: 28.0, pass2025: 24.0 },
           { name: "3. Clique / Engajamento (CTR)", vMTD: 455800, vForecast: 616000, v2025: 306000, passRate: 79.0, pass2025: 75.0 },
           { name: "4. Entrada na Jornada (App)", vMTD: 360000, vForecast: 486640, v2025: 229500, passRate: 68.0, pass2025: 64.0 },
-          { name: "5. Simulação / Seleção Condições", vMTD: 244800, vForecast: 330910, v2025: 146880, passRate: 85.0, pass2025: 81.0 },
-          { name: "6. Autenticação ID Santander", vMTD: 208000, vForecast: 281270, v2025: 118970, passRate: 66.2, pass2025: 62.0 },
-          { name: "7. Produção (Vendas Liquidadas)", vMTD: 137800, vForecast: 186300, v2025: 115000, passRate: 100.0, pass2025: 100.0 }
-        ]
+          { name: "5. Simulação / Seleção Condições", vMTD: 244800, vForecast: 330910, v2025: 146880, passRate: 60.0, pass2025: 58.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 146800, vForecast: 198500, v2025: 121000, passRate: 93.8, pass2025: 95.0 },
+          { name: "7. Produção Efetiva (Core)", vMTD: 137800, vForecast: 186300, v2025: 115000, passRate: 100.0, pass2025: 100.0 }
+        ],
+        losses: { antifraude: 4800, saldo: 4500, timeout: 2900 }
       },
       "Pix Parcelado": {
         base2025: [60000, 65000, 72000, 78000, 85000, 92000, 99000, 118000, 115000, 124000, 135000, 155000],
@@ -769,10 +863,11 @@
           { name: "2. Visualização no Espaço Comercial", vMTD: 1764000, vForecast: 2394000, v2025: 1579500, passRate: 22.0, pass2025: 19.5 },
           { name: "3. Clique / Engajamento (CTR)", vMTD: 388000, vForecast: 526680, v2025: 308000, passRate: 82.0, pass2025: 78.0 },
           { name: "4. Entrada na Jornada (App)", vMTD: 318000, vForecast: 431870, v2025: 240240, passRate: 64.0, pass2025: 60.0 },
-          { name: "5. Simulação / Seleção Condições", vMTD: 203500, vForecast: 276400, v2025: 144140, passRate: 82.0, pass2025: 78.0 },
-          { name: "6. Autenticação ID Santander", vMTD: 166800, vForecast: 226650, v2025: 112430, passRate: 72.1, pass2025: 68.0 },
-          { name: "7. Produção (Vendas Liquidadas)", vMTD: 120200, vForecast: 163400, v2025: 118000, passRate: 100.0, pass2025: 100.0 }
-        ]
+          { name: "5. Simulação / Seleção Condições", vMTD: 203500, vForecast: 276400, v2025: 144140, passRate: 64.0, pass2025: 61.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 130200, vForecast: 176800, v2025: 126000, passRate: 92.4, pass2025: 93.6 },
+          { name: "7. Produção Efetiva (Core)", vMTD: 120200, vForecast: 163400, v2025: 118000, passRate: 100.0, pass2025: 100.0 }
+        ],
+        losses: { antifraude: 6400, saldo: 4200, timeout: 2800 }
       },
       "Upgrade": {
         base2025: [18000, 19000, 21000, 20500, 22000, 23500, 24000, 27500, 26000, 27500, 29000, 32000],
@@ -786,10 +881,11 @@
           { name: "2. Visualização no Espaço Comercial", vMTD: 784000, vForecast: 1056000, v2025: 808500, passRate: 16.5, pass2025: 14.8 },
           { name: "3. Clique / Engajamento (CTR)", vMTD: 129360, vForecast: 174240, v2025: 119650, passRate: 76.0, pass2025: 72.0 },
           { name: "4. Entrada na Jornada (App)", vMTD: 98300, vForecast: 132420, v2025: 86150, passRate: 58.0, pass2025: 54.0 },
-          { name: "5. Simulação / Seleção Condições", vMTD: 57000, vForecast: 76800, v2025: 46520, passRate: 78.0, pass2025: 74.0 },
-          { name: "6. Autenticação ID Santander", vMTD: 44460, vForecast: 59900, v2025: 34420, passRate: 57.6, pass2025: 53.0 },
-          { name: "7. Produção (Vendas Liquidadas)", vMTD: 25600, vForecast: 34500, v2025: 27500, passRate: 100.0, pass2025: 100.0 }
-        ]
+          { name: "5. Simulação / Seleção Condições", vMTD: 57000, vForecast: 76800, v2025: 46520, passRate: 48.0, pass2025: 45.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 27360, vForecast: 36860, v2025: 29200, passRate: 93.6, pass2025: 94.2 },
+          { name: "7. Produção Efetiva (Core)", vMTD: 25600, vForecast: 34500, v2025: 27500, passRate: 100.0, pass2025: 100.0 }
+        ],
+        losses: { antifraude: 1200, saldo: 600, timeout: 560 }
       },
       "Cartao de Credito": {
         base2025: [85000, 88000, 94000, 92000, 98000, 102000, 106000, 122000, 118000, 124000, 132000, 148000],
@@ -803,10 +899,11 @@
           { name: "2. Visualização no Espaço Comercial", vMTD: 2132000, vForecast: 2870000, v2025: 2251500, passRate: 19.0, pass2025: 17.2 },
           { name: "3. Clique / Engajamento (CTR)", vMTD: 405000, vForecast: 545300, v2025: 387250, passRate: 74.0, pass2025: 70.0 },
           { name: "4. Entrada na Jornada (App)", vMTD: 299700, vForecast: 403520, v2025: 271070, passRate: 62.0, pass2025: 58.0 },
-          { name: "5. Simulação / Seleção Condições", vMTD: 185800, vForecast: 250180, v2025: 157220, passRate: 80.0, pass2025: 76.0 },
-          { name: "6. Autenticação ID Santander", vMTD: 148600, vForecast: 200140, v2025: 119480, passRate: 74.7, pass2025: 70.5 },
-          { name: "7. Produção (Vendas Liquidadas)", vMTD: 111000, vForecast: 149500, v2025: 122000, passRate: 100.0, pass2025: 100.0 }
-        ]
+          { name: "5. Simulação / Seleção Condições", vMTD: 185800, vForecast: 250180, v2025: 157220, passRate: 64.0, pass2025: 61.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 118900, vForecast: 160100, v2025: 129500, passRate: 93.4, pass2025: 94.2 },
+          { name: "7. Produção Efetiva (Core)", vMTD: 111000, vForecast: 149500, v2025: 122000, passRate: 100.0, pass2025: 100.0 }
+        ],
+        losses: { antifraude: 5200, saldo: 3100, timeout: 2300 }
       },
       "Limite da Conta": {
         base2025: [35000, 37000, 40000, 39000, 42000, 44000, 46000, 52000, 50000, 53000, 57000, 62000],
@@ -820,10 +917,11 @@
           { name: "2. Visualização no Espaço Comercial", vMTD: 1260000, vForecast: 1722000, v2025: 1296000, passRate: 20.0, pass2025: 18.0 },
           { name: "3. Clique / Engajamento (CTR)", vMTD: 252000, vForecast: 344400, v2025: 233280, passRate: 78.0, pass2025: 74.0 },
           { name: "4. Entrada na Jornada (App)", vMTD: 196500, vForecast: 268630, v2025: 172620, passRate: 60.0, pass2025: 56.0 },
-          { name: "5. Simulação / Seleção Condições", vMTD: 117900, vForecast: 161180, v2025: 96660, passRate: 82.0, pass2025: 78.0 },
-          { name: "6. Autenticação ID Santander", vMTD: 96600, vForecast: 132170, v2025: 75390, passRate: 50.4, pass2025: 47.0 },
-          { name: "7. Produção (Vendas Liquidadas)", vMTD: 48700, vForecast: 66600, v2025: 52000, passRate: 100.0, pass2025: 100.0 }
-        ]
+          { name: "5. Simulação / Seleção Condições", vMTD: 117900, vForecast: 161180, v2025: 96660, passRate: 44.0, pass2025: 41.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 51870, vForecast: 70920, v2025: 55100, passRate: 93.9, pass2025: 94.4 },
+          { name: "7. Produção Efetiva (Core)", vMTD: 48700, vForecast: 66600, v2025: 52000, passRate: 100.0, pass2025: 100.0 }
+        ],
+        losses: { antifraude: 2100, saldo: 1300, timeout: 920 }
       }
     };
 
@@ -831,28 +929,37 @@
 
     function atualizarTriade() {
       const prodKey = document.getElementById('triade-produto').value;
-      const visaoTempo = document.getElementById('triade-visao-tempo').value;
       const pData = triadProductData[prodKey] || triadProductData["Pix"];
 
       const stages = pData.stages7;
+      const vFunilForecast = stages[5].vForecast; // Etapa 6: Fechamento de Funil
+      const vProdForecast = stages[6].vForecast;  // Etapa 7: Produção Efetiva
       const vProdMTD = stages[6].vMTD;
-      const vProdForecast = stages[6].vForecast;
       const vProd2025 = stages[6].v2025;
 
       const yoyPct = ((vProdForecast - vProd2025) / vProd2025 * 100).toFixed(1);
       const metaPct = ((vProdForecast / pData.metaMes) * 100).toFixed(1);
 
-      // 1. Update Month KPIs
+      // Update Month KPIs
       document.getElementById('kpi-mtd-real').innerText = vProdMTD.toLocaleString('pt-BR');
       document.getElementById('kpi-mtd-forecast').innerText = vProdForecast.toLocaleString('pt-BR');
-      document.getElementById('kpi-meta-pct').innerText = `🎯 ${metaPct}% da Meta do Mês (${pData.metaMes.toLocaleString('pt-BR')})`;
+      document.getElementById('kpi-meta-pct').innerText = `🎯 ${metaPct}% da Meta (${pData.metaMes.toLocaleString('pt-BR')})`;
       document.getElementById('kpi-ano-passado').innerText = vProd2025.toLocaleString('pt-BR');
-      document.getElementById('kpi-crescimento-yoy').innerText = `↑ +${yoyPct}% de Crescimento YoY`;
+      document.getElementById('kpi-crescimento-yoy').innerText = `↑ +${yoyPct}% YoY`;
       document.getElementById('kpi-mix-mes').innerText = `${Math.round(pData.mixCampanha*100)}% / ${Math.round(pData.mixOrganico*100)}%`;
       document.getElementById('badge-pct-camp').innerText = `${Math.round(pData.mixCampanha*100)}% Campanha`;
       document.getElementById('badge-pct-org').innerText = `${Math.round(pData.mixOrganico*100)}% Orgânico`;
 
-      // 2. Update 7-Stage Funnel Values & Pass Rates
+      // Update Bottom Comparison Card (Fechamento de Funil vs Produção)
+      document.getElementById('box-funil-val').innerText = vFunilForecast.toLocaleString('pt-BR');
+      document.getElementById('box-prod-val').innerText = vProdForecast.toLocaleString('pt-BR');
+
+      let l = pData.losses;
+      document.getElementById('loss-antifraude').innerText = `-${l.antifraude.toLocaleString('pt-BR')}`;
+      document.getElementById('loss-saldo').innerText = `-${l.saldo.toLocaleString('pt-BR')}`;
+      document.getElementById('loss-timeout').innerText = `-${l.timeout.toLocaleString('pt-BR')}`;
+
+      // Update 7-Stage Visual Funnel
       for (let i = 0; i < 7; i++) {
         document.getElementById(`fn7-v${i+1}`).innerText = stages[i].vForecast.toLocaleString('pt-BR');
         if (i < 6) {
@@ -865,7 +972,7 @@
       document.querySelectorAll('.s-org').forEach(el => el.style.width = oPct + '%');
       document.querySelectorAll('.s-camp').forEach(el => el.style.width = cPct + '%');
 
-      // 3. Update 7-Stage Pass-Through Rates Table
+      // Update 7-Stage Pass-Through Table
       const tBody = document.getElementById('table-funil-passagem');
       tBody.innerHTML = '';
 
@@ -879,12 +986,12 @@
           <td>${st.v2025.toLocaleString('pt-BR')}</td>
           <td><strong>${st.passRate.toFixed(1)}%</strong></td>
           <td>${st.pass2025.toFixed(1)}%</td>
-          <td><span class="badge-win">+${diffBps} bps</span></td>
+          <td><span class="badge-win">${diffBps >= 0 ? '+' : ''}${diffBps} bps</span></td>
         `;
         tBody.appendChild(row);
       });
 
-      // 4. Update Time Series Chart
+      // Update Time Series Chart
       if (chartTriadeEvolucaoInst) {
         let vals2025 = pData.base2025;
         let vals2026Real = [];
@@ -1070,7 +1177,6 @@
     window.addEventListener('DOMContentLoaded', () => {
       renderRulesList();
 
-      // Chart 5 Spaces (Aba 1)
       const ctxEspacos = document.getElementById('chartEspacos').getContext('2d');
       chartEspacosInst = new Chart(ctxEspacos, {
         type: 'bar',
@@ -1091,7 +1197,6 @@
         }
       });
 
-      // Chart Time Series YoY (Aba 2)
       const ctxTriadeE = document.getElementById('chartTriadeEvolucao').getContext('2d');
       chartTriadeEvolucaoInst = new Chart(ctxTriadeE, {
         type: 'line',
@@ -1127,7 +1232,6 @@
         options: { responsive: true, maintainAspectRatio: false }
       });
 
-      // Pacing (Aba 3)
       const ctxPacing = document.getElementById('chartPacingForecast').getContext('2d');
       new Chart(ctxPacing, {
         type: 'line',
@@ -1156,7 +1260,6 @@
         options: { responsive: true, maintainAspectRatio: false }
       });
 
-      // ROC (Aba 4)
       const ctxRoc = document.getElementById('chartRoc').getContext('2d');
       new Chart(ctxRoc, {
         type: 'line',
