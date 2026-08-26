@@ -145,6 +145,7 @@
     .kpi-card.highlight .kpi-val { color: var(--santander-red); }
     .kpi-sub { font-size: 0.74rem; font-weight: 600; margin-top: 2px; color: var(--text-muted); }
     .kpi-sub.positive { color: var(--success); }
+    .kpi-sub.negative { color: var(--danger); }
 
     /* Clean Card Layout */
     .card {
@@ -226,7 +227,7 @@
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* Dynamic Lateral AI Suggestions Panel */
+    /* Dynamic Lateral AI Suggestions Panel (Com Botão de Dispensar) */
     .sug-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -237,7 +238,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       transition: all 0.2s;
     }
     .sug-card.optimized {
@@ -259,11 +260,13 @@
     .tag-gain { color: #15803d; background: #dcfce7; }
     .tag-ok { color: #0369a1; background: #e0f2fe; }
 
+    .sug-actions-area { display: flex; align-items: center; gap: 6px; }
+
     .btn-apply {
       background: #ffffff;
       color: #166534;
       border: 1.5px solid #86efac;
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 5px;
       font-size: 0.74rem;
       font-weight: 700;
@@ -273,6 +276,27 @@
     }
     .btn-apply:hover { background: #dcfce7; border-color: #22c55e; }
     .btn-apply.active { background: #dcfce7; color: #15803d; border-color: #15803d; cursor: default; }
+
+    .btn-dismiss-sug {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: #94a3b8;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .btn-dismiss-sug:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #b91c1c;
+    }
 
     /* Rules Builder */
     .rules-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
@@ -362,7 +386,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Filtro Reativo Mês a Mês</p>
+        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Torre de Pacing Comparativa</p>
       </div>
     </div>
     <div class="nav-links">
@@ -378,12 +402,12 @@
     <div class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Botão Calcule IA</button>
       <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
-      <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD (Ritmo de Vendas)</button>
+      <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD (Comparativo Mês a Mês & IA)</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR COM SUGESTÕES DA IA CLARAS E INTUITIVAS                  -->
+    <!-- ABA 1: SIMULADOR COM SUGESTÕES DISPENSÁVEIS                               -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
@@ -496,7 +520,10 @@
         <div class="card" id="card-ai-sug">
           <div class="card-header">
             <h2>💡 Sugestões Calculadas pela IA (Lateral)</h2>
-            <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;" id="ai-sug-prod-tag">Pix Ativo</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button onclick="restaurarSugestoes()" style="background:none; border:none; color:var(--org-blue); font-size:0.72rem; font-weight:700; cursor:pointer; text-decoration:underline;" title="Restaurar sugestões dispensadas">↺ Restaurar</button>
+              <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;" id="ai-sug-prod-tag">Pix Ativo</span>
+            </div>
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -522,7 +549,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE (LIMPA E DIRETA: PRODUTO E MÊS DE ANÁLISE)                -->
+    <!-- ABA 2: A TRÍADE                                                           -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content" style="display: none;">
       
@@ -795,28 +822,125 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 3: TORRE DE PACING MTD                                               -->
+    <!-- ABA 3: TORRE DE PACING MTD COMPARATIVA & CONCLUSIVA COM IA                -->
     <!-- ========================================================================= -->
     <div id="tab-pacing" class="tab-content" style="display: none;">
       
-      <div style="background:linear-gradient(135deg, #f0f9ff, #ffffff); border:1.5px solid #bae6fd; border-radius:8px; padding:14px 18px; margin-bottom:16px;">
-        <div style="font-size:0.86rem; font-weight:800; color:#0369a1; margin-bottom:4px;">
-          ⏱️ O que é a Torre de Pacing no Santander?
+      <!-- CONTROLE ESPECÍFICO DE PRODUTO E MÊS NA TORRE DE PACING -->
+      <div class="control-strip">
+        <div class="control-item">
+          <label>📦 Produto:</label>
+          <select id="pacing-produto" class="control-select" onchange="mudarProdutoGlobal(this.value)">
+            <option value="Pix" selected>⚡ Pix</option>
+            <option value="Boleto">📄 Boleto</option>
+            <option value="Pix Automatico">🔄 Pix Automático</option>
+            <option value="Pix Parcelado">💳 Pix Parcelado</option>
+            <option value="Upgrade">📈 Upgrade</option>
+            <option value="Cartao de Credito">💳 Cartão de Crédito</option>
+            <option value="Limite da Conta">🏦 Limite da Conta</option>
+          </select>
         </div>
-        <p style="font-size:0.78rem; color:#334155; line-height:1.45;">
-          <strong>Pacing</strong> é o <em>velocímetro de produção diária</em> do banco. Ele compara o volume realizado acumulado dia a dia (<strong>Dias 1 a 20</strong>) contra a <strong>curva ideal da meta</strong> e projeta com Inteligência Artificial se o mês vai fechar acima ou abaixo da meta nos dias restantes (<strong>Dias 21 a 31</strong>). Se o pacing apontar risco de não bater a meta, acionamos campanhas de alavancagem rápida (Push e Lightbox).
-        </p>
+
+        <div class="control-item">
+          <label>📅 Mês de Análise:</label>
+          <select id="pacing-mes-foco" class="control-select" onchange="mudarMesPacing(parseInt(this.value))">
+            <option value="0">Janeiro</option>
+            <option value="1">Fevereiro</option>
+            <option value="2">Março</option>
+            <option value="3">Abril</option>
+            <option value="4">Maio</option>
+            <option value="5">Junho</option>
+            <option value="6">Julho</option>
+            <option value="7" selected>Agosto</option>
+            <option value="8">Setembro (Forecast)</option>
+            <option value="9">Outubro (Forecast)</option>
+            <option value="10">Novembro (Forecast)</option>
+            <option value="11">Dezembro (Forecast)</option>
+          </select>
+        </div>
       </div>
 
+      <!-- DIAGNÓSTICO CONCLUSIVO EXECUTIVO DA TORRE DE PACING -->
+      <div style="background:#ffffff; border:1.5px solid #bae6fd; border-radius:8px; padding:14px 18px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:280px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+            <span style="font-size:0.86rem; font-weight:800; color:#0369a1;">⏱️ Diagnóstico Executivo de Pacing:</span>
+            <span id="pacing-status-badge" style="background:#dcfce7; color:#15803d; font-size:0.7rem; font-weight:800; padding:2px 8px; border-radius:4px;">🟢 Ritmo Forte (Superando Meta)</span>
+          </div>
+          <p style="font-size:0.78rem; color:#334155; line-height:1.45;" id="pacing-conclusao-texto">
+            No dia 20, a produção acumulada de <strong>362.400 contratos</strong> está <strong>+13.8% acima do mês anterior (Julho)</strong> no mesmo período. A IA projeta fechamento em <strong>478.900 (+2.4% acima da Meta)</strong>.
+          </p>
+        </div>
+        <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:8px 12px; text-align:right;">
+          <div style="font-size:0.68rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Alavanca Recomendada:</div>
+          <div style="font-size:0.8rem; font-weight:800; color:var(--santander-red);" id="pacing-alavanca-badge">Manter Lightbox Ativo</div>
+        </div>
+      </div>
+
+      <!-- 4 KPIS CONCLUSIVOS DE PACING -->
+      <div class="kpi-row">
+        <div class="kpi-card highlight">
+          <div class="kpi-title" id="pacing-kpi-mtd-label">📍 Realizado MTD (Dias 1 a 20)</div>
+          <div class="kpi-val" id="pacing-kpi-mtd-val">362.400</div>
+          <div class="kpi-sub positive" id="pacing-kpi-mtd-sub">↑ +13.8% vs Mês Anterior (Dia 20)</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-title" id="pacing-kpi-prev-label">📅 Mês Anterior Fechado (Jul/26)</div>
+          <div class="kpi-val" id="pacing-kpi-prev-val">427.500</div>
+          <div class="kpi-sub" id="pacing-kpi-prev-sub">Mês anterior no Dia 20: 318.400</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-title" id="pacing-kpi-fore-label">🔮 Projeção IA (Fechamento)</div>
+          <div class="kpi-val" id="pacing-kpi-fore-val">478.900</div>
+          <div class="kpi-sub positive" id="pacing-kpi-fore-sub">🎯 102.4% da Meta do Mês</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-title">🏁 Meta Contratada do Mês</div>
+          <div class="kpi-val" id="pacing-kpi-meta-val">467.500</div>
+          <div class="kpi-sub positive" id="pacing-kpi-gap-sub">Saldo Projetado: +11.400 contratos</div>
+        </div>
+      </div>
+
+      <!-- GRÁFICO MULTI-LINHAS COMPARATIVO COMPLETO DIA A DIA -->
       <div class="card">
         <div class="card-header">
-          <h2 id="pacing-title">⏱️ Curva de Pacing MTD (Dias 1 a 31) - Pix</h2>
-          <span style="font-size:0.72rem; color:var(--success); font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;">Projeção: 102.4% da Meta</span>
+          <h2 id="pacing-title">⏱️ Curva de Pacing MTD (Dias 1 a 31) - Comparativo com Mês Anterior e Meta</h2>
+          <div style="display:flex; gap:10px; font-size:0.72rem; font-weight:700;">
+            <span style="color:#ec0000;">🔴 Realizado Mês Atual (1-20)</span>
+            <span style="color:#0284c7;">🔵 Projeção IA (21-31)</span>
+            <span style="color:#64748b;">⚪ Mês Anterior (1-31)</span>
+            <span style="color:#10b981;">🟢 Meta Linear</span>
+          </div>
         </div>
-        <div style="height: 320px;">
+        <div style="height: 300px;">
           <canvas id="chartPacingForecast"></canvas>
         </div>
       </div>
+
+      <!-- TABELA CONCLUSIVA POR DECÊNDIO -->
+      <div class="card">
+        <div class="card-header">
+          <h2>📊 Acompanhamento por Decêndio (Ritmo de Vendas a cada 10 Dias)</h2>
+          <span style="font-size:0.72rem; color:var(--text-muted);">Valores acumulados em contratos</span>
+        </div>
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Período do Mês</th>
+              <th id="th-pacing-prev">Mês Anterior</th>
+              <th id="th-pacing-curr">Mês Atual</th>
+              <th>Meta Homóloga</th>
+              <th>Desvio vs Meta</th>
+              <th>Status Executivo</th>
+            </tr>
+          </thead>
+          <tbody id="pacing-decendio-body"></tbody>
+        </table>
+      </div>
+
     </div>
 
     <!-- ========================================================================= -->
@@ -858,7 +982,7 @@
     const appState = {
       product: "Pix",
       monthIdx: 7, // 7 = Agosto (0 a 11)
-      year: 2026,  // Fixo 2026 (Ano corrente de gestão)
+      year: 2026,
       focoEspaco: "Lightbox",
       selectedSegments: new Set(['Especial', 'Select', 'Private']),
       activeRules: [
@@ -867,6 +991,7 @@
         { attrId: "principalidade", val: "Não é Principal" },
         { attrId: "open_finance", val: "Não Possui" }
       ],
+      dismissedSuggestions: new Set(),
       currentAudienceSize: 3420000
     };
 
@@ -963,7 +1088,7 @@
       appState.product = novoProd;
       document.getElementById('sim-produto').value = novoProd;
       document.getElementById('triade-produto').value = novoProd;
-      document.getElementById('pacing-title').innerText = `⏱️ Curva de Pacing MTD (Dias 1 a 31) - ${novoProd}`;
+      document.getElementById('pacing-produto').value = novoProd;
       atualizarTudo();
       showToast(`📦 Produto alterado para ${novoProd}. Todo o Dashboard recalculou!`);
     }
@@ -971,8 +1096,14 @@
     function mudarMesFoco(novoMesIdx) {
       appState.monthIdx = novoMesIdx;
       document.getElementById('triade-mes-foco').value = novoMesIdx;
+      document.getElementById('pacing-mes-foco').value = novoMesIdx;
       atualizarTriade();
+      atualizarPacingView();
       showToast(`📅 Mês de análise ajustado para ${mesesNomes[novoMesIdx]} de 2026.`);
+    }
+
+    function mudarMesPacing(novoMesIdx) {
+      mudarMesFoco(novoMesIdx);
     }
 
     function mudarEspacoFoco(novoEspaco) {
@@ -1007,7 +1138,7 @@
       setTimeout(() => {
         calcularSugestoesLateralIA();
         atualizarTriade();
-        atualizarPacingChart();
+        atualizarPacingView();
         document.getElementById('ai-calc-status').innerText = '✓ Calculado agora';
         showToast(`⚡ Gráfico de canais e sugestões da lateral recalculados com sucesso!`);
       }, 150);
@@ -1018,7 +1149,19 @@
       rodarSimulacao();
       calcularSugestoesLateralIA();
       atualizarTriade();
-      atualizarPacingChart();
+      atualizarPacingView();
+    }
+
+    function descartarSugestao(sugId) {
+      appState.dismissedSuggestions.add(sugId);
+      calcularSugestoesLateralIA();
+      showToast('✓ Sugestão dispensada.');
+    }
+
+    function restaurarSugestoes() {
+      appState.dismissedSuggestions.clear();
+      calcularSugestoesLateralIA();
+      showToast('✓ Sugestões restauradas!');
     }
 
     function calcularSugestoesLateralIA() {
@@ -1036,9 +1179,11 @@
 
       let suggestions = [];
 
+      // Sugestão 1: Alcance / Open Finance
       if (hasOpenFinance) {
         let ganhoEstimado = Math.round(publicoAtual * 0.28);
         suggestions.push({
+          id: "sug_open_finance_remover",
           icon: "💡",
           title: "Alavanca de Alcance (Open Finance):",
           text: `Você possui um filtro restritivo de <em>'Consentimento Open Finance'</em>. Se quiser <strong>aumentar o público elegível</strong> para atingir mais pessoas, remover essa trava adiciona <strong>+${ganhoEstimado.toLocaleString('pt-BR')} clientes (+28%)</strong>.`,
@@ -1050,6 +1195,7 @@
         });
       } else {
         suggestions.push({
+          id: "sug_open_finance_ok",
           icon: "✓",
           title: "Alcance Máximo de Público Ativo:",
           text: `Seu público está sem travas restritivas de Open Finance, atingindo o <strong>potencial máximo de ${publicoAtual.toLocaleString('pt-BR')} clientes elegíveis</strong>.`,
@@ -1061,8 +1207,10 @@
         });
       }
 
+      // Sugestão 2: ARPAC / Rentabilidade
       if (hasArpac && parseFloat(arpacRule.val) >= 7.0) {
         suggestions.push({
+          id: "sug_arpac_ok",
           icon: "✓",
           title: "Qualificação de Rentabilidade Ativa:",
           text: `Regra <strong>'Score ARPAC > ${arpacRule.val}'</strong> aplicada com sucesso. Isso garante clientes mais rentáveis e taxa de liquidação de <strong>93.9% no Core Bancário</strong>.`,
@@ -1074,6 +1222,7 @@
         });
       } else {
         suggestions.push({
+          id: "sug_arpac_adicionar",
           icon: "⭐",
           title: "Alavanca de Rentabilidade (ARPAC):",
           text: `Adicionar ou manter <strong>'Score ARPAC > 7.0'</strong> qualifica os clientes para tickets mais altos e reduz o risco de inadimplência.`,
@@ -1085,8 +1234,10 @@
         });
       }
 
+      // Sugestão 3: Canal / Espaço Comercial
       if (focoEspaco === 'Lightbox') {
         suggestions.push({
+          id: "sug_espaco_ok",
           icon: "✓",
           title: "Espaço Comercial de Alta Performance:",
           text: `O <strong>Lightbox contextual</strong> está ativo e é o canal com maior taxa de conversão final para <em>${prod}</em>.`,
@@ -1099,6 +1250,7 @@
       } else {
         let diff = (focoEspaco === 'Banner') ? "2.8x" : (focoEspaco === 'Push') ? "1.9x" : "3.4x";
         suggestions.push({
+          id: "sug_espaco_mudar",
           icon: "🎯",
           title: "Otimização de Canal Comercial:",
           text: `O canal <em>${focoEspaco}</em> está selecionado. Mudar para <strong>Lightbox Contextual</strong> converte <strong>${diff} mais</strong> no fechamento do App.`,
@@ -1110,16 +1262,32 @@
         });
       }
 
-      container.innerHTML = suggestions.map(s => `
+      // Filtra as sugestões que o usuário dispensou
+      let activeSugList = suggestions.filter(s => !appState.dismissedSuggestions.has(s.id));
+
+      if (activeSugList.length === 0) {
+        container.innerHTML = `
+          <div style="background:#f8fafc; border:1px dashed var(--border); border-radius:6px; padding:14px; text-align:center; color:var(--text-muted); font-size:0.78rem;">
+            ✨ Nenhuma sugestão ativa no momento. 
+            <div style="margin-top:6px;"><button onclick="restaurarSugestoes()" style="background:#ffffff; border:1px solid var(--border); padding:4px 10px; border-radius:4px; font-size:0.72rem; font-weight:700; color:var(--org-blue); cursor:pointer;">↺ Restaurar Sugestões</button></div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = activeSugList.map(s => `
         <div class="sug-card ${s.isOptimized ? 'optimized' : ''}">
           <div class="sug-text">
             <div>${s.icon} <strong>${s.title}</strong> ${s.text}</div>
             <div class="sug-impact-tag ${s.tagClass}">${s.impact}</div>
           </div>
-          ${s.isOptimized 
-            ? `<span style="font-size:0.75rem; color:#15803d; font-weight:800; padding:6px 10px; background:#dcfce7; border-radius:5px; white-space:nowrap;">✓ Ativo</span>`
-            : `<button class="btn-apply" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>`
-          }
+          <div class="sug-actions-area">
+            ${s.isOptimized 
+              ? `<span style="font-size:0.75rem; color:#15803d; font-weight:800; padding:5px 8px; background:#dcfce7; border-radius:5px; white-space:nowrap;">✓ Ativo</span>`
+              : `<button class="btn-apply" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>`
+            }
+            <button class="btn-dismiss-sug" onclick="descartarSugestao('${s.id}')" title="Dispensar sugestão">✕</button>
+          </div>
         </div>
       `).join('');
     }
@@ -1296,36 +1464,163 @@
       }
     }
 
-    function atualizarPacingChart() {
-      const pData = triadProductData[appState.product] || triadProductData["Pix"];
-      const vCore = Math.round(pData.base2025[appState.monthIdx] * (1 + pData.yoyGrowth));
+    function atualizarPacingView() {
+      const prod = appState.product;
+      const mIdx = appState.monthIdx;
+      const pData = triadProductData[prod] || triadProductData["Pix"];
+
+      const mesAtualNome = mesesNomes[mIdx];
+      const mesAtualSigla = mesesLabels[mIdx];
+      const prevMIdx = (mIdx === 0) ? 11 : mIdx - 1;
+      const mesAntNome = mesesNomes[prevMIdx];
+      const mesAntSigla = mesesLabels[prevMIdx];
+
+      let vCoreAtual = Math.round(pData.base2025[mIdx] * (1 + pData.yoyGrowth));
+      let vCoreAnt = Math.round(pData.base2025[prevMIdx] * (1 + pData.yoyGrowth));
+      let metaMes = Math.round(vCoreAtual * 0.98);
+
+      let vMTDAtual = Math.round(vCoreAtual * 0.756);
+      let vMTDAnt = Math.round(vCoreAnt * 0.745);
+
+      let deltaMTDPct = ((vMTDAtual - vMTDAnt) / vMTDAnt * 100).toFixed(1);
+      let metaPct = ((vCoreAtual / metaMes) * 100).toFixed(1);
+      let saldoMeta = vCoreAtual - metaMes;
+      let isAhead = parseFloat(metaPct) >= 100.0;
+
+      document.getElementById('pacing-title').innerText = `⏱️ Curva de Pacing MTD (Dias 1 a 31) - ${prod} (${mesAtualNome}/26 vs ${mesAntNome}/26)`;
+      
+      const badgeStatus = document.getElementById('pacing-status-badge');
+      const txtConclusao = document.getElementById('pacing-conclusao-texto');
+      const badgeAlavanca = document.getElementById('pacing-alavanca-badge');
+
+      if (isAhead) {
+        badgeStatus.style.background = '#dcfce7';
+        badgeStatus.style.color = '#15803d';
+        badgeStatus.innerText = `🟢 Ritmo Forte (${metaPct}% da Meta)`;
+        txtConclusao.innerHTML = `No dia 20, a produção acumulada de <strong>${vMTDAtual.toLocaleString('pt-BR')} contratos</strong> está <strong>${deltaMTDPct >= 0 ? '+' : ''}${deltaMTDPct}% acima de ${mesAntNome}</strong>. A IA projeta fechar o mês em <strong>${vCoreAtual.toLocaleString('pt-BR')} contratos</strong> superando a meta em <strong>+${saldoMeta.toLocaleString('pt-BR')} contratos</strong>.`;
+        badgeAlavanca.innerText = '✓ Manter Lightbox & Esteira Ativa';
+        badgeAlavanca.style.color = '#15803d';
+      } else {
+        badgeStatus.style.background = '#fee2e2';
+        badgeStatus.style.color = '#b91c1c';
+        badgeStatus.innerText = `⚠️ Atenção: Abaixo do Ritmo (${metaPct}% da Meta)`;
+        txtConclusao.innerHTML = `No dia 20, a produção acumulada de <strong>${vMTDAtual.toLocaleString('pt-BR')} contratos</strong> está abaixo da curva ideal. A projeção de fechamento indica gap de <strong>${Math.abs(saldoMeta).toLocaleString('pt-BR')} contratos</strong>.`;
+        badgeAlavanca.innerText = '⚡ Ativar Push D-5 & Alavancagem';
+        badgeAlavanca.style.color = 'var(--santander-red)';
+      }
+
+      document.getElementById('pacing-kpi-mtd-label').innerText = `📍 Realizado MTD (Dia 20 ${mesAtualSigla}/26)`;
+      document.getElementById('pacing-kpi-mtd-val').innerText = vMTDAtual.toLocaleString('pt-BR');
+      document.getElementById('pacing-kpi-mtd-sub').innerText = `${deltaMTDPct >= 0 ? '↑ +' : '↓ '}${deltaMTDPct}% vs ${mesAntSigla}/26 (Dia 20)`;
+      document.getElementById('pacing-kpi-mtd-sub').className = deltaMTDPct >= 0 ? 'kpi-sub positive' : 'kpi-sub negative';
+
+      document.getElementById('pacing-kpi-prev-label').innerText = `📅 Mês Anterior Fechado (${mesAntSigla}/26)`;
+      document.getElementById('pacing-kpi-prev-val').innerText = vCoreAnt.toLocaleString('pt-BR');
+      document.getElementById('pacing-kpi-prev-sub').innerText = `${mesAntSigla}/26 no Dia 20: ${vMTDAnt.toLocaleString('pt-BR')}`;
+
+      document.getElementById('pacing-kpi-fore-label').innerText = `🔮 Projeção IA (${mesAtualSigla}/26)`;
+      document.getElementById('pacing-kpi-fore-val').innerText = vCoreAtual.toLocaleString('pt-BR');
+      document.getElementById('pacing-kpi-fore-sub').innerText = `🎯 ${metaPct}% da Meta (${metaMes.toLocaleString('pt-BR')})`;
+
+      document.getElementById('pacing-kpi-meta-val').innerText = metaMes.toLocaleString('pt-BR');
+      document.getElementById('pacing-kpi-gap-sub').innerText = isAhead ? `Saldo Projetado: +${saldoMeta.toLocaleString('pt-BR')} contratos` : `Déficit Projetado: -${Math.abs(saldoMeta).toLocaleString('pt-BR')} contratos`;
+
+      let dailyPrev = [];
+      let curPrev = 0;
+      let prevStep = vCoreAnt / 31;
+      for (let d = 1; d <= 31; d++) {
+        curPrev += prevStep * (0.88 + Math.sin(d/3) * 0.12);
+        dailyPrev.push(Math.round(curPrev));
+      }
+      dailyPrev[30] = vCoreAnt;
+
+      let dailyRealCurr = [];
+      let curReal = 0;
+      let realStep = vMTDAtual / 20;
+      for (let d = 1; d <= 20; d++) {
+        curReal += realStep * (0.90 + Math.cos(d/2) * 0.10);
+        dailyRealCurr.push(Math.round(curReal));
+      }
+      dailyRealCurr[19] = vMTDAtual;
+
+      let dailyForeCurr = Array(19).fill(null);
+      dailyForeCurr.push(vMTDAtual);
+      let remFore = vCoreAtual - vMTDAtual;
+      let foreStep = remFore / 11;
+      let curFore = vMTDAtual;
+      for (let d = 21; d <= 31; d++) {
+        curFore += foreStep;
+        dailyForeCurr.push(Math.round(curFore));
+      }
+      dailyForeCurr[30] = vCoreAtual;
+
+      let dailyMeta = [];
+      for (let d = 1; d <= 31; d++) {
+        dailyMeta.push(Math.round((metaMes / 31) * d));
+      }
 
       if (chartPacingInst) {
-        let dailyReal = [];
-        let cur = 0;
-        let dailyStep = (vCore * 0.756) / 20;
-        for (let d = 1; d <= 20; d++) {
-          cur += dailyStep * (0.85 + Math.random() * 0.3);
-          dailyReal.push(Math.round(cur));
-        }
+        chartPacingInst.data.datasets[0].label = `Mês Atual (${mesAtualSigla}/26) - Realizado (1-20)`;
+        chartPacingInst.data.datasets[0].data = dailyRealCurr;
 
-        let dailyFore = Array(20).fill(null);
-        dailyFore.push(dailyReal[19]);
-        let remaining = vCore - dailyReal[19];
-        let foreStep = remaining / 11;
-        let cFore = dailyReal[19];
-        for (let d = 21; d <= 31; d++) {
-          cFore += foreStep;
-          dailyFore.push(Math.round(cFore));
-        }
+        chartPacingInst.data.datasets[1].label = `Mês Atual (${mesAtualSigla}/26) - Forecast IA (21-31)`;
+        chartPacingInst.data.datasets[1].data = dailyForeCurr;
 
-        chartPacingInst.data.datasets[0].data = dailyReal;
-        chartPacingInst.data.datasets[1].data = dailyFore;
+        chartPacingInst.data.datasets[2].label = `Mês Anterior (${mesAntSigla}/26) - Realizado (1-31)`;
+        chartPacingInst.data.datasets[2].data = dailyPrev;
+
+        chartPacingInst.data.datasets[3].label = `Meta do Mês (${metaMes.toLocaleString('pt-BR')})`;
+        chartPacingInst.data.datasets[3].data = dailyMeta;
+
         chartPacingInst.update();
       }
+
+      document.getElementById('th-pacing-prev').innerText = `${mesAntSigla}/26 (Mês Anterior)`;
+      document.getElementById('th-pacing-curr').innerText = `${mesAtualSigla}/26 (Mês Atual)`;
+
+      let d1Prev = dailyPrev[9];
+      let d1Curr = dailyRealCurr[9];
+      let d1Meta = dailyMeta[9];
+      let d1Delta = ((d1Curr - d1Meta)/d1Meta * 100).toFixed(1);
+
+      let d2Prev = dailyPrev[19];
+      let d2Curr = dailyRealCurr[19];
+      let d2Meta = dailyMeta[19];
+      let d2Delta = ((d2Curr - d2Meta)/d2Meta * 100).toFixed(1);
+
+      let d3Prev = dailyPrev[30];
+      let d3Curr = vCoreAtual;
+      let d3Meta = metaMes;
+      let d3Delta = ((d3Curr - d3Meta)/d3Meta * 100).toFixed(1);
+
+      document.getElementById('pacing-decendio-body').innerHTML = `
+        <tr>
+          <td><strong>1º Decêndio (Dias 1 a 10)</strong></td>
+          <td>${d1Prev.toLocaleString('pt-BR')}</td>
+          <td><strong style="color:#0f172a;">${d1Curr.toLocaleString('pt-BR')}</strong></td>
+          <td>${d1Meta.toLocaleString('pt-BR')}</td>
+          <td><strong style="color:${d1Delta >= 0 ? '#15803d' : '#b91c1c'};">${d1Delta >= 0 ? '+' : ''}${d1Delta}%</strong></td>
+          <td><span style="background:${d1Delta >= 0 ? 'var(--success-bg)' : 'var(--danger-bg)'}; color:${d1Delta >= 0 ? '#15803d' : '#b91c1c'}; font-weight:700; padding:2px 6px; border-radius:4px;">${d1Delta >= 0 ? 'Superando Meta' : 'Abaixo da Meta'}</span></td>
+        </tr>
+        <tr>
+          <td><strong>2º Decêndio (Dias 11 a 20) - Posição Atual</strong></td>
+          <td>${d2Prev.toLocaleString('pt-BR')}</td>
+          <td><strong style="color:var(--santander-red);">${d2Curr.toLocaleString('pt-BR')}</strong></td>
+          <td>${d2Meta.toLocaleString('pt-BR')}</td>
+          <td><strong style="color:${d2Delta >= 0 ? '#15803d' : '#b91c1c'};">${d2Delta >= 0 ? '+' : ''}${d2Delta}%</strong></td>
+          <td><span style="background:${d2Delta >= 0 ? 'var(--success-bg)' : 'var(--danger-bg)'}; color:${d2Delta >= 0 ? '#15803d' : '#b91c1c'}; font-weight:700; padding:2px 6px; border-radius:4px;">${d2Delta >= 0 ? 'Superando Meta (+13.8% MoM)' : 'Abaixo da Meta'}</span></td>
+        </tr>
+        <tr>
+          <td><strong>3º Decêndio (Dias 21 a 31) - Projeção IA</strong></td>
+          <td>${d3Prev.toLocaleString('pt-BR')}</td>
+          <td><strong style="color:#0284c7;">${d3Curr.toLocaleString('pt-BR')} (Forecast)</strong></td>
+          <td>${d3Meta.toLocaleString('pt-BR')}</td>
+          <td><strong style="color:${d3Delta >= 0 ? '#15803d' : '#b91c1c'};">${d3Delta >= 0 ? '+' : ''}${d3Delta}%</strong></td>
+          <td><span style="background:${d3Delta >= 0 ? 'var(--success-bg)' : 'var(--danger-bg)'}; color:${d3Delta >= 0 ? '#15803d' : '#b91c1c'}; font-weight:700; padding:2px 6px; border-radius:4px;">${d3Delta >= 0 ? 'Fechamento Batendo Meta' : 'Ação Emergencial Recomendada'}</span></td>
+        </tr>
+      `;
     }
 
-    // DICIONÁRIO
     let santanderDataDictionary = [
       { id: "open_finance_evasao", label: "Evasão Detectada via Open Finance", category: "Open Finance / Evasão", type: "categorical", options: ["Detectada Evasão", "Sem Evasão Detectada"], defaultVal: "Detectada Evasão", keywords: ["open finance", "evasao", "outflow", "concorrente", "fintech", "saldo externo"], desc: "Identifica envio de recursos para contas de outras instituições ou fintechs compartilhadas pelo Open Finance." },
       { id: "score_arpac", label: "Score ARPAC (Rentabilidade)", category: "Rentabilidade", type: "numeric", defaultOp: ">", defaultVal: "7.0", keywords: ["arpac", "score", "rentabilidade", "lucro", "margem", "receita"], desc: "Índice interno do Santander que pontua a rentabilidade e margem anualizada gerada pelo cliente (0 a 10)." },
@@ -1705,13 +2000,31 @@
       chartPacingInst = new Chart(ctxPacing, {
         type: 'line',
         data: {
-          labels: Array.from({length: 31}, (_, i) => (i+1)),
+          labels: Array.from({length: 31}, (_, i) => `D${i+1}`),
           datasets: [
-            { label: 'Realizado (1 a 20)', data: [], borderColor: '#ec0000', borderWidth: 2, pointRadius: 2 },
-            { label: 'Forecast (21 a 31)', data: [], borderColor: '#0284c7', borderDash: [4, 4], borderWidth: 2, pointRadius: 2 }
+            { label: 'Realizado (1 a 20)', data: [], borderColor: '#ec0000', backgroundColor: '#ec0000', borderWidth: 2.5, pointRadius: 2.5, tension: 0.1 },
+            { label: 'Forecast IA (21 a 31)', data: [], borderColor: '#0284c7', backgroundColor: '#0284c7', borderDash: [4, 4], borderWidth: 2.5, pointRadius: 2.5, tension: 0.1 },
+            { label: 'Mês Anterior (1 a 31)', data: [], borderColor: '#94a3b8', borderDash: [2, 2], borderWidth: 1.5, pointRadius: 0, tension: 0.1 },
+            { label: 'Meta do Mês (Linear)', data: [], borderColor: '#10b981', borderDash: [5, 5], borderWidth: 1.5, pointRadius: 0, tension: 0 }
           ]
         },
-        options: { responsive: true, maintainAspectRatio: false }
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11, weight: 'bold' } } },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` ${ctx.dataset.label}: ${ctx.raw ? ctx.raw.toLocaleString('pt-BR') : 'N/A'} contratos`
+              }
+            }
+          },
+          scales: {
+            y: {
+              ticks: { callback: v => (v >= 1000 ? (v/1000) + 'k' : v) }
+            }
+          }
+        }
       });
 
       const ctxRoc = document.getElementById('chartRoc').getContext('2d');
