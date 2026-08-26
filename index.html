@@ -3,464 +3,401 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Santander Campaign Intelligence | Torre de Controle da Tríade & IA</title>
+  <title>Santander Campaign Intelligence | Torre de Controle</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --santander-red: #ec0000;
-      --santander-dark: #b30000;
+      --santander-hover: #cc0000;
       --santander-light: #fff5f5;
-      --bg-app: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
+      --border-subtle: #f1f5f9;
+      --org-blue: #0284c7;
+      --org-light: #f0f9ff;
+      --camp-red: #e11d48;
+      --camp-light: #fff1f2;
       --success: #10b981;
-      --warning: #f59e0b;
-      --info: #0284c7;
-      --purple: #8b5cf6;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background-color: var(--bg-app); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.45; -webkit-font-smoothing: antialiased; padding-bottom: 50px; }
 
+    /* Top Navigation */
     header {
-      background: linear-gradient(135deg, var(--santander-red), #990000);
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand-area { display: flex; align-items: center; gap: 12px; }
+    .brand-logo {
+      background: var(--santander-red);
       color: white;
-      padding: 18px 32px;
-      box-shadow: 0 4px 20px rgba(236, 0, 0, 0.15);
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      letter-spacing: -0.5px;
+    }
+    .brand-title h1 { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .brand-title p { font-size: 0.76rem; color: var(--text-muted); font-weight: 500; }
+
+    .nav-links { display: flex; gap: 8px; }
+    .nav-btn {
+      background: #f8fafc;
+      color: #334155;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    .container { max-width: 1400px; margin: 18px auto 0; padding: 0 20px; }
+
+    /* Minimal Tab Navigation */
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 7px 14px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { color: var(--text); background: #f1f5f9; }
+    .tab-btn.active { color: var(--santander-red); background: var(--santander-light); font-weight: 700; }
+
+    /* Unified Control Bar */
+    .control-strip {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 12px;
+      margin-bottom: 16px;
     }
-    .brand-area { display: flex; align-items: center; gap: 14px; }
-    .brand-logo {
-      background: white;
-      color: var(--santander-red);
-      font-weight: 900;
-      font-size: 1.3rem;
-      padding: 6px 12px;
-      border-radius: 8px;
-      letter-spacing: -0.5px;
-    }
-    .brand-title h1 { font-size: 1.25rem; font-weight: 800; }
-    .brand-title p { font-size: 0.8rem; opacity: 0.9; font-weight: 300; }
-
-    .nav-links { display: flex; gap: 10px; }
-    .nav-btn {
-      background: rgba(255, 255, 255, 0.18);
-      color: white;
-      text-decoration: none;
-      padding: 7px 14px;
+    .control-item { display: flex; align-items: center; gap: 8px; }
+    .control-item label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .control-select {
+      padding: 6px 10px;
       border-radius: 6px;
+      border: 1px solid var(--border);
       font-size: 0.82rem;
       font-weight: 600;
-      transition: all 0.2s;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-    }
-    .nav-btn:hover { background: white; color: var(--santander-red); }
-
-    .container { max-width: 1440px; margin: 24px auto 0; padding: 0 20px; }
-
-    /* Tabs Bar */
-    .tab-bar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 6px;
-      overflow-x: auto;
-    }
-    .tab-btn {
-      background: none;
-      border: none;
-      padding: 9px 18px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-muted);
+      background: #ffffff;
+      outline: none;
       cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: var(--text);
     }
-    .tab-btn:hover { color: var(--santander-red); background: var(--santander-light); }
-    .tab-btn.active { color: white; background: var(--santander-red); box-shadow: 0 4px 12px rgba(236, 0, 0, 0.2); }
+    .control-select:focus { border-color: var(--santander-red); }
 
-    /* Cards */
-    .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 22px;
+    /* Executive KPI Strip */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 900px) { .kpi-row { grid-template-columns: 1fr 1fr; } }
+    .kpi-card {
+      background: #ffffff;
       border: 1px solid var(--border);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-      margin-bottom: 20px;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .kpi-card.highlight {
+      border-left: 3px solid var(--santander-red);
+    }
+    .kpi-title { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .kpi-val { font-size: 1.35rem; font-weight: 800; color: var(--text); }
+    .kpi-card.highlight .kpi-val { color: var(--santander-red); }
+    .kpi-sub { font-size: 0.74rem; font-weight: 600; margin-top: 2px; color: var(--text-muted); }
+    .kpi-sub.positive { color: var(--success); }
+
+    /* Clean Card Layout */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 16px;
     }
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 10px;
-      flex-wrap: wrap;
-      gap: 10px;
     }
-    .card-header h2 { font-size: 1.05rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+    .card-header h2 { font-size: 0.92rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; }
 
-    /* Main Triad Grid */
-    .triad-split-layout {
+    /* Two-Column Grid */
+    .two-col-grid {
       display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      gap: 22px;
-      margin-bottom: 20px;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
     }
-    @media (max-width: 1100px) { .triad-split-layout { grid-template-columns: 1fr; } }
-
-    /* Controls Strip */
-    .control-strip {
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-    .control-item { display: flex; align-items: center; gap: 8px; }
-    .control-item label { font-size: 0.84rem; font-weight: 700; color: var(--text-main); }
-    .control-select {
-      padding: 8px 12px;
-      border-radius: 6px;
-      border: 1.5px solid var(--border);
-      font-size: 0.88rem;
-      font-weight: 700;
-      background: white;
-      outline: none;
-      cursor: pointer;
-    }
-    .control-select:focus { border-color: var(--santander-red); }
+    @media (max-width: 1050px) { .two-col-grid { grid-template-columns: 1fr; } }
 
     /* ========================================================================= */
-    /* ULTRA-PREMIUM EXECUTIVE FUNNEL DESIGN                                     */
+    /* CLEAN & MINIMALIST 7-STAGE FUNNEL                                         */
     /* ========================================================================= */
-    .funnel-executive-wrapper {
+    .clean-funnel-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       width: 100%;
-      padding: 4px 0;
     }
 
-    .funnel-tier-item {
+    .funnel-tier {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
-      position: relative;
     }
 
-    .funnel-capsule {
+    .funnel-row-box {
       background: #ffffff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 9px 16px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      transition: all 0.2s ease;
+      gap: 4px;
+      transition: all 0.15s;
     }
-    .funnel-capsule:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
+    .funnel-row-box:hover { border-color: #cbd5e1; }
 
-    /* Geometric Width Hierarchy */
-    .tier-w1 { width: 100%; border-left: 6px solid #0284c7; }
-    .tier-w2 { width: 93%; border-left: 6px solid #f59e0b; }
-    .tier-w3 { width: 86%; border-left: 6px solid #475569; }
-    .tier-w4 { width: 79%; border-left: 6px solid #8b5cf6; }
-    .tier-w5 { width: 72%; border-left: 6px solid #6366f1; }
-    .tier-w6 { width: 65%; border-left: 6px solid #7c3aed; background: #faf5ff; }
-    .tier-w7 { width: 58%; border-left: 6px solid var(--santander-red); background: var(--santander-light); border-color: #fca5a5; }
+    /* Geometric Width Steps */
+    .w-step-1 { width: 100%; border-left: 4px solid #0284c7; }
+    .w-step-2 { width: 94%; border-left: 4px solid #0284c7; }
+    .w-step-3 { width: 88%; border-left: 4px solid #0284c7; }
+    .w-step-4 { width: 82%; border-left: 4px solid #475569; }
+    .w-step-5 { width: 76%; border-left: 4px solid #475569; }
+    .w-step-6 { width: 70%; border-left: 4px solid #7c3aed; background: #faf5ff; }
+    .w-step-7 { width: 64%; border-left: 4px solid var(--santander-red); background: var(--santander-light); border-color: #fca5a5; }
 
-    .capsule-header-row {
+    .funnel-row-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .capsule-title {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .capsule-total {
-      font-size: 1.05rem;
-      font-weight: 900;
-      color: var(--text-main);
-    }
-    .tier-w7 .capsule-total { color: var(--santander-red); }
+    .funnel-step-name { font-size: 0.78rem; font-weight: 700; color: var(--text); }
+    .funnel-step-total { font-size: 0.92rem; font-weight: 800; color: var(--text); }
+    .w-step-7 .funnel-step-total { color: var(--santander-red); }
 
-    /* Dual Segmented Visual Progress Bar */
-    .capsule-bar-track {
-      height: 24px;
+    /* Thin Segmented Progress Bar */
+    .funnel-bar-track {
+      height: 14px;
       background: #f1f5f9;
-      border-radius: 6px;
+      border-radius: 4px;
       display: flex;
       overflow: hidden;
-      position: relative;
-      border: 1px solid #e2e8f0;
     }
-
-    .bar-seg-org {
-      background: linear-gradient(90deg, #0284c7, #38bdf8);
+    .funnel-bar-org {
+      background: var(--org-blue);
       height: 100%;
       display: flex;
       align-items: center;
-      padding: 0 8px;
+      padding-left: 6px;
       color: white;
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      white-space: nowrap;
-      transition: width 0.3s ease;
     }
-
-    .bar-seg-camp {
-      background: linear-gradient(90deg, #ef4444, #dc2626);
+    .funnel-bar-camp {
+      background: var(--camp-red);
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 0 8px;
+      padding-right: 6px;
       color: white;
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      white-space: nowrap;
-      transition: width 0.3s ease;
     }
 
-    .connector-badge-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 0.72rem;
+    /* Minimal Downward Pass Rate */
+    .pass-rate-indicator {
+      font-size: 0.68rem;
       font-weight: 700;
+      color: var(--text-muted);
       margin: 1px 0;
-    }
-    .connector-badge {
-      background: #ffffff;
-      border: 1.5px solid var(--border);
-      padding: 2px 10px;
-      border-radius: 12px;
-      color: #334155;
       display: flex;
       align-items: center;
       gap: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
-    .connector-badge strong { color: var(--success); }
+    .pass-rate-indicator strong { color: var(--text); }
 
-    /* ========================================================================= */
-    /* MONTHLY FUNNEL PERFORMANCE & DIAGNOSTICS BAR                             */
-    /* ========================================================================= */
-    .funnel-insights-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    @media (max-width: 900px) { .funnel-insights-grid { grid-template-columns: 1fr; } }
-
-    .insight-card {
-      background: #ffffff;
-      border: 1.5px solid var(--border);
+    /* Side Overview Metrics */
+    .side-stack { display: flex; flex-direction: column; gap: 12px; }
+    
+    .reconcile-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
     }
-    .insight-card-title { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
-    .insight-card-val { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 6px; }
-    .insight-card-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; }
-
-    /* ========================================================================= */
-    /* AI PRESCRIPTIVE SUGGESTIONS (RECOMENDAÇÕES INTELIGENTES DE ATRIBUTOS)     */
-    /* ========================================================================= */
-    .ai-suggester-box {
-      background: linear-gradient(135deg, #f0fdf4, #f8fafc);
-      border: 1.5px solid #86efac;
-      border-radius: 10px;
-      padding: 16px;
-      margin-top: 16px;
-    }
-    .ai-suggester-header {
+    .reconcile-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
-    .ai-suggester-header h3 {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #15803d;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .reconcile-label { font-size: 0.76rem; font-weight: 700; color: var(--text); }
+    .reconcile-val { font-size: 1.05rem; font-weight: 800; }
 
-    .suggestion-item {
-      background: white;
-      border: 1px solid #bbf7d0;
-      border-radius: 8px;
-      padding: 10px 14px;
+    .losses-compact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.74rem;
+      margin-top: 6px;
+      border-top: 1px dashed var(--border);
+      padding-top: 6px;
+    }
+    .loss-line { display: flex; justify-content: space-between; color: var(--text-muted); }
+    .loss-line strong { color: #dc2626; }
+
+    /* AI Suggestions Panel (Simulator) */
+    .sug-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--success);
+      border-radius: 6px;
+      padding: 10px 12px;
       margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      transition: all 0.2s;
+      gap: 10px;
     }
-    .suggestion-item:hover { border-color: #22c55e; transform: translateX(2px); }
-    .sug-text { font-size: 0.8rem; color: var(--text-main); flex: 1; }
+    .sug-text { font-size: 0.78rem; color: var(--text); line-height: 1.35; }
     .sug-text strong { color: #166534; }
-    .btn-apply-sug {
-      background: #15803d;
-      color: white;
+    .btn-apply {
+      background: #ffffff;
+      color: #166534;
+      border: 1px solid #86efac;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .btn-apply:hover { background: #dcfce7; }
+
+    /* Compact Rule Row */
+    .rules-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+    .rule-item {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 0.6fr 0.8fr 28px;
+      gap: 6px;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 8px;
+    }
+    .rule-input, .rule-select {
+      padding: 5px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.78rem;
+      background: white;
+      outline: none;
+    }
+    .btn-del {
+      background: #fee2e2;
+      color: #991b1b;
       border: none;
-      padding: 6px 12px;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .btn-add {
+      background: white;
+      border: 1px dashed #cbd5e1;
+      color: #475569;
+      padding: 6px;
       border-radius: 6px;
       font-size: 0.76rem;
       font-weight: 700;
       cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
+      width: 100%;
     }
-    .btn-apply-sug:hover { background: #166534; }
+    .btn-add:hover { background: #f8fafc; border-color: #94a3b8; }
 
-    /* Side Panel */
-    .side-comparison-panel { display: flex; flex-direction: column; gap: 16px; }
-    .side-metric-card {
+    /* Segment Pills */
+    .seg-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .seg-pill {
       background: white;
-      border-radius: 10px;
-      padding: 16px;
-      border: 1.5px solid var(--border);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-    }
-    .side-metric-card.highlight {
-      border-color: var(--santander-red);
-      background: linear-gradient(135deg, #fffafa, #ffffff);
-    }
-    .side-card-title {
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .side-main-val { font-size: 1.65rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px; }
-    .side-metric-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      background: #f8fafc;
-      padding: 10px 12px;
-      border-radius: 8px;
       border: 1px solid var(--border);
-    }
-    .grid-cell-label { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); }
-    .grid-cell-val { font-size: 0.95rem; font-weight: 800; }
-
-    .mtd-comp-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-    .mtd-comp-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 12px;
-      border-radius: 6px;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      font-size: 0.82rem;
-    }
-
-    /* Table styling */
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.84rem; }
-    th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-    th { background: #f8fafc; font-weight: 600; color: var(--text-muted); }
-    .badge-win { background: #dcfce7; color: #15803d; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }
-    .badge-camp { background: #fee2e2; color: #991b1b; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }
-    .badge-org { background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }
-
-    /* Rules Engine & Segment Chips */
-    .rules-engine-box { background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
-    .rule-row {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 0.8fr 0.9fr 36px;
-      gap: 8px;
-      align-items: center;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 8px 10px;
-      margin-bottom: 8px;
-    }
-    @media (max-width: 900px) { .rule-row { grid-template-columns: 1fr 1fr; } }
-    .rule-select, .rule-input { padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.82rem; background: white; outline: none; }
-    .btn-delete-rule { background: #fee2e2; color: #991b1b; border: none; width: 32px; height: 32px; border-radius: 6px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .btn-add-rule { background: #f1f5f9; border: 1.5px dashed #cbd5e1; color: #334155; padding: 8px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; width: 100%; justify-content: center; margin-top: 4px; }
-
-    .segment-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-    .segment-chip {
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 0.82rem;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 0.76rem;
       font-weight: 700;
-      color: #334155;
+      color: var(--text-muted);
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       user-select: none;
       transition: all 0.15s;
     }
-    .segment-chip:hover { border-color: var(--santander-red); }
-    .segment-chip.selected { background: var(--santander-light); border-color: var(--santander-red); color: var(--santander-red); }
+    .seg-pill.active {
+      background: var(--santander-light);
+      border-color: var(--santander-red);
+      color: var(--santander-red);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Top Header -->
+  <!-- Minimal Header -->
   <header>
     <div class="brand-area">
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
-        <h1>Torre de Controle de Jornadas & Previsor da Tríade com IA</h1>
-        <p>Performance Mês a Mês do Funil (Topo vs Fundo) & Assistente Prescritivo de Otimização de Atributos</p>
+        <h1>Torre de Controle de Campanhas & Funis</h1>
+        <p>A Tríade Integrada: Visão Mensal, Funil de 7 Etapas e Reconciliação Core</p>
       </div>
     </div>
     <div class="nav-links">
-      <a href="projeto_santander_jornadas_redes_neurais.ipynb" class="nav-btn">📓 Jupyter Notebook (.ipynb)</a>
+      <a href="projeto_santander_jornadas_redes_neurais.ipynb" class="nav-btn">📓 Notebook (.ipynb)</a>
       <a href="plano_projeto_santander_ia.pdf" class="nav-btn" target="_blank">📄 Plano FGV (PDF)</a>
       <a href="apresentacao_3_slides.md" class="nav-btn">📊 Slides (Gamma)</a>
     </div>
@@ -468,23 +405,23 @@
 
   <div class="container">
     
-    <!-- Navigation Tabs -->
+    <!-- Tab Navigation -->
     <div class="tab-bar">
-      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Previsor de Funil & Assistente de Atributos (IA)</button>
-      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Performance Mês a Mês & Funil</button>
-      <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD & Forecast</button>
+      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Simulador de Público & Hábitos</button>
+      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
+      <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE COM PERFORMANCE MÊS A MÊS E INSIGHTS DE TOPO VS FUNDO    -->
+    <!-- ABA 2: A TRÍADE (DESIGN LIMPO & EXECUTIVO)                                -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content">
       
-      <!-- Top Control Bar -->
+      <!-- Unified Control Strip -->
       <div class="control-strip">
         <div class="control-item">
-          <label>📦 Produto Santander:</label>
+          <label>📦 Produto:</label>
           <select id="triade-produto" class="control-select" onchange="atualizarTriade()">
             <option value="Pix" selected>⚡ Pix</option>
             <option value="Boleto">📄 Boleto</option>
@@ -506,190 +443,156 @@
         </div>
 
         <div class="control-item">
-          <label>⏱️ Visão Gráfica:</label>
+          <label>⏱️ Visão:</label>
           <select id="triade-visao-tempo" class="control-select" onchange="atualizarTriade()">
-            <option value="yoy" selected>📅 Ano contra Ano (2025 vs 2026)</option>
-            <option value="mom">📊 Mês a Mês (MoM) + Forecast</option>
+            <option value="yoy" selected>Ano contra Ano (YoY 2025 vs 2026)</option>
+            <option value="mom">Mês a Mês (MoM) + Forecast</option>
           </select>
         </div>
       </div>
 
-      <!-- FUNNEL PERFORMANCE INSIGHTS BAR (TOPO VS FUNDO MoM) -->
-      <div class="funnel-insights-grid">
-        <div class="insight-card" style="border-left: 4px solid #0284c7;">
-          <div class="insight-card-title">🚀 Topo de Funil (MoM)</div>
-          <div class="insight-card-val" style="color: #0284c7;" id="ins-topo-val">↑ +14.2% (1.000.000)</div>
-          <div class="insight-card-desc" id="ins-topo-desc">Expansão de acessos induzida por campanhas de Lightbox contextual no app.</div>
+      <!-- 4 Essential KPI Cards -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-title">📍 Realizado MTD (Dia 20)</div>
+          <div class="kpi-val" id="kpi-mtd-real">362.400</div>
+          <div class="kpi-sub positive" id="kpi-mtd-mom">+13.8% vs Jul/26 homólogo</div>
         </div>
 
-        <div class="insight-card" style="border-left: 4px solid #8b5cf6;">
-          <div class="insight-card-title">⚙️ Step do Meio / Passagem (MoM)</div>
-          <div class="insight-card-val" style="color: #8b5cf6;" id="ins-meio-val">↔ +2.3% (78.0% tx)</div>
-          <div class="insight-card-desc" id="ins-meio-desc">Estabilidade na passagem de simulação para autenticação ID Santander.</div>
+        <div class="kpi-card highlight">
+          <div class="kpi-title">🔮 Forecast Fechamento Mês</div>
+          <div class="kpi-val" id="kpi-mtd-forecast">478.900</div>
+          <div class="kpi-sub positive" id="kpi-meta-pct">🎯 102.4% da Meta do Mês</div>
         </div>
 
-        <div class="insight-card" style="border-left: 4px solid var(--santander-red);">
-          <div class="insight-card-title">🏦 Fundo de Funil / Produção (MoM)</div>
-          <div class="insight-card-val" style="color: var(--santander-red);" id="ins-fundo-val">↑ +13.9% (478.900)</div>
-          <div class="insight-card-desc" id="ins-fundo-desc">Crescimento acelerado com taxa de liquidação de 93.9% no core bancário.</div>
+        <div class="kpi-card">
+          <div class="kpi-title">📅 Mesmo Mês Ano Passado (Ago/25)</div>
+          <div class="kpi-val" id="kpi-ano-passado">398.200</div>
+          <div class="kpi-sub positive" id="kpi-crescimento-yoy">↑ +20.3% de Crescimento YoY</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-title">⚖️ Mix de Origem</div>
+          <div class="kpi-val" id="kpi-mix-mes">38% / 62%</div>
+          <div class="kpi-sub"><span style="color:var(--camp-red);font-weight:700;">38% Campanha</span> · <span style="color:var(--org-blue);font-weight:700;">62% Orgânico</span></div>
         </div>
       </div>
 
-      <!-- MAIN SPLIT LAYOUT -->
-      <div class="triad-split-layout">
+      <!-- Two-Column Layout: Clean Funnel (Left) + Reconciled Overview & Chart (Right) -->
+      <div class="two-col-grid">
         
-        <!-- LEFT COLUMN: ULTRA-PREMIUM 7-STAGE FUNNEL -->
+        <!-- Clean Funnel Column -->
         <div class="card">
           <div class="card-header">
-            <h2>🔻 Funil da Jornada: Visualizações ➔ Cliques ➔ Topo ➔ Meio ➔ Fundo</h2>
-            <div style="font-size: 0.78rem; display:flex; gap:8px;">
-              <span class="badge-org">🟦 Orgânico</span>
-              <span class="badge-camp">🟥 Campanha CRM</span>
+            <h2>🔻 Funil de 7 Etapas (Orgânico vs Campanha)</h2>
+            <div style="font-size:0.75rem; display:flex; gap:8px;">
+              <span style="color:var(--org-blue); font-weight:700;">🟦 Orgânico (62%)</span>
+              <span style="color:var(--camp-red); font-weight:700;">🟥 Campanha (38%)</span>
             </div>
           </div>
 
-          <div class="funnel-executive-wrapper">
+          <div class="clean-funnel-container">
             
             <!-- Etapa 1 -->
-            <div class="funnel-tier-item">
-              <div class="funnel-capsule tier-w1">
-                <div class="capsule-header-row">
-                  <span class="capsule-title">👁️ 1. Visualização da Campanha (Views nos Espaços)</span>
-                  <span class="capsule-total" id="fn-tot-1">5.000.000</span>
+            <div class="funnel-tier">
+              <div class="funnel-row-box w-step-1">
+                <div class="funnel-row-top">
+                  <span class="funnel-step-name">1. Visualização nos Espaços</span>
+                  <span class="funnel-step-total" id="fn-tot-1">5.000.000</span>
                 </div>
-                <div class="capsule-bar-track">
-                  <div class="bar-seg-org s-bar-org" id="bar-org-1" style="width: 62%;">
-                    <span id="txt-bar-org-1">🟦 Orgânico: 3.100.000 (62%)</span>
-                  </div>
-                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-1" style="width: 38%;">
-                    <span id="txt-bar-camp-1">🟥 Campanha: 1.900.000 (38%)</span>
-                  </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-1" style="width: 62%;">3.100.000</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-1" style="width: 38%;">1.900.000</div>
                 </div>
               </div>
-              <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-1">24.0%</strong> clicam na comunicação (CTR)</div>
-              </div>
+              <div class="pass-rate-indicator">↓ <strong id="fn-pass-1">24.0%</strong> CTR de engajamento</div>
             </div>
 
             <!-- Etapa 2 -->
-            <div class="funnel-tier-item">
-              <div class="funnel-capsule tier-w2">
-                <div class="capsule-header-row">
-                  <span class="capsule-title">🖱️ 2. Cliques / Engajamento com a Peça</span>
-                  <span class="capsule-total" id="fn-tot-2">1.200.000</span>
+            <div class="funnel-tier">
+              <div class="funnel-row-box w-step-2">
+                <div class="funnel-row-top">
+                  <span class="funnel-step-name">2. Cliques / Interações</span>
+                  <span class="funnel-step-total" id="fn-tot-2">1.200.000</span>
                 </div>
-                <div class="capsule-bar-track">
-                  <div class="bar-seg-org s-bar-org" id="bar-org-2" style="width: 62%;">
-                    <span id="txt-bar-org-2">744.000 (62%)</span>
-                  </div>
-                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-2" style="width: 38%;">
-                    <span id="txt-bar-camp-2">456.000 (38%)</span>
-                  </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-2" style="width: 62%;">744.000</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-2" style="width: 38%;">456.000</div>
                 </div>
               </div>
-              <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-2">83.3%</strong> entram no fluxo do App</div>
-              </div>
+              <div class="pass-rate-indicator">↓ <strong id="fn-pass-2">83.3%</strong> entram no fluxo do App</div>
             </div>
 
             <!-- Etapa 3 -->
-            <div class="funnel-tier-item">
-              <div class="funnel-capsule tier-w3">
-                <div class="capsule-header-row">
-                  <span class="capsule-title">🚀 3. Topo de Funil (Entrada na Jornada do App)</span>
-                  <span class="capsule-total" id="fn-tot-3">1.000.000</span>
+            <div class="funnel-tier">
+              <div class="funnel-row-box w-step-3">
+                <div class="funnel-row-top">
+                  <span class="funnel-step-name">3. Topo de Funil (Entrada no App)</span>
+                  <span class="funnel-step-total" id="fn-tot-3">1.000.000</span>
                 </div>
-                <div class="capsule-bar-track">
-                  <div class="bar-seg-org s-bar-org" id="bar-org-3" style="width: 62%;">
-                    <span id="txt-bar-org-3">620.000 (62%)</span>
-                  </div>
-                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-3" style="width: 38%;">
-                    <span id="txt-bar-camp-3">380.000 (38%)</span>
-                  </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-3" style="width: 62%;">620.000</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-3" style="width: 38%;">380.000</div>
                 </div>
               </div>
-              <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-3">78.0%</strong> iniciam simulação</div>
-              </div>
+              <div class="pass-rate-indicator">↓ <strong id="fn-pass-3">78.0%</strong> iniciam simulação</div>
             </div>
 
             <!-- Etapa 4 -->
-            <div class="funnel-tier-item">
-              <div class="funnel-capsule tier-w4">
-                <div class="capsule-header-row">
-                  <span class="capsule-title">⚙️ 4. Step do Meio: Simulação & Configuração</span>
-                  <span class="capsule-total" id="fn-tot-4">780.000</span>
+            <div class="funnel-tier">
+              <div class="funnel-row-box w-step-4">
+                <div class="funnel-row-top">
+                  <span class="funnel-step-name">4. Step do Meio: Simulação</span>
+                  <span class="funnel-step-total" id="fn-tot-4">780.000</span>
                 </div>
-                <div class="capsule-bar-track">
-                  <div class="bar-seg-org s-bar-org" id="bar-org-4" style="width: 62%;">
-                    <span id="txt-bar-org-4">483.600 (62%)</span>
-                  </div>
-                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-4" style="width: 38%;">
-                    <span id="txt-bar-camp-4">296.400 (38%)</span>
-                  </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-4" style="width: 62%;">483.600</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-4" style="width: 38%;">296.400</div>
                 </div>
               </div>
-              <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-4">82.1%</strong> autenticam ID Santander</div>
-              </div>
+              <div class="pass-rate-indicator">↓ <strong id="fn-pass-4">82.1%</strong> autenticam ID Santander</div>
             </div>
 
             <!-- Etapa 5 -->
-            <div class="funnel-tier-item">
-              <div class="funnel-capsule tier-w5">
-                <div class="capsule-header-row">
-                  <span class="capsule-title">🔐 5. Step do Meio: Autenticação ID / Termos</span>
-                  <span class="capsule-total" id="fn-tot-5">640.000</span>
+            <div class="funnel-tier">
+              <div class="funnel-row-box w-step-5">
+                <div class="funnel-row-top">
+                  <span class="funnel-step-name">5. Step do Meio: Autenticação ID</span>
+                  <span class="funnel-step-total" id="fn-tot-5">640.000</span>
                 </div>
-                <div class="capsule-bar-track">
-                  <div class="bar-seg-org s-bar-org" id="bar-org-5" style="width: 62%;">
-                    <span id="txt-bar-org-5">396.800 (62%)</span>
-                  </div>
-                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-5" style="width: 38%;">
-                    <span id="txt-bar-camp-5">243.200 (38%)</span>
-                  </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-5" style="width: 62%;">396.800</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-5" style="width: 38%;">243.200</div>
                 </div>
               </div>
-              <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-5">79.7%</strong> concluem no App</div>
-              </div>
+              <div class="pass-rate-indicator">↓ <strong id="fn-pass-5">79.7%</strong> concluem no App</div>
             </div>
 
             <!-- Etapa 6 -->
-            <div class="funnel-tier-item">
-              <div class="funnel-capsule tier-w6">
-                <div class="capsule-header-row">
-                  <span class="capsule-title" style="color: #6d28d9;">📱 6. Fechamento de Funil (Conclusão App)</span>
-                  <span class="capsule-total" id="fn-tot-6" style="color: #6d28d9;">510.000</span>
+            <div class="funnel-tier">
+              <div class="funnel-row-box w-step-6">
+                <div class="funnel-row-top">
+                  <span class="funnel-step-name" style="color:#6d28d9;">6. Fechamento de Funil (App)</span>
+                  <span class="funnel-step-total" id="fn-tot-6" style="color:#6d28d9;">510.000</span>
                 </div>
-                <div class="capsule-bar-track">
-                  <div class="bar-seg-org s-bar-org" id="bar-org-6" style="width: 62%;">
-                    <span id="txt-bar-org-6">316.200 (62%)</span>
-                  </div>
-                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-6" style="width: 38%;">
-                    <span id="txt-bar-camp-6">193.800 (38%)</span>
-                  </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-6" style="width: 62%;">316.200</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-6" style="width: 38%;">193.800</div>
                 </div>
               </div>
-              <div class="connector-badge-wrap">
-                <div class="connector-badge">↓ <strong id="fn-pass-6">93.9%</strong> liquidação efetiva Core</div>
-              </div>
+              <div class="pass-rate-indicator">↓ <strong id="fn-pass-6">93.9%</strong> liquidação efetiva Core</div>
             </div>
 
             <!-- Etapa 7 -->
-            <div class="funnel-tier-item">
-              <div class="funnel-capsule tier-w7">
-                <div class="capsule-header-row">
-                  <span class="capsule-title" style="color:var(--santander-red);">🏦 7. Fundo de Funil: Produção Efetiva (Core)</span>
-                  <span class="capsule-total" id="fn-tot-7" style="color:var(--santander-red);">478.900</span>
+            <div class="funnel-tier">
+              <div class="funnel-row-box w-step-7">
+                <div class="funnel-row-top">
+                  <span class="funnel-step-name" style="color:var(--santander-red);">7. Fundo de Funil: Produção (Core)</span>
+                  <span class="funnel-step-total" id="fn-tot-7">478.900</span>
                 </div>
-                <div class="capsule-bar-track">
-                  <div class="bar-seg-org s-bar-org" id="bar-org-7" style="width: 62%;">
-                    <span id="txt-bar-org-7">296.918 (62%)</span>
-                  </div>
-                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-7" style="width: 38%;">
-                    <span id="txt-bar-camp-7">181.982 (38%)</span>
-                  </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-7" style="width: 62%;">296.918</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-7" style="width: 38%;">181.982</div>
                 </div>
               </div>
             </div>
@@ -697,64 +600,43 @@
           </div>
         </div>
 
-        <!-- RIGHT COLUMN: EXECUTIVE COMPARISON PANEL -->
-        <div class="side-comparison-panel">
+        <!-- Right Side: Clean Reconcile & Pacing Chart -->
+        <div class="side-stack">
           
-          <!-- Card 1: Forecast de Fechamento do Mês (YoY e MoM) -->
-          <div class="side-metric-card highlight">
-            <div class="side-card-title">
-              <span>🔮 Forecast de Fechamento (Agosto)</span>
-              <span class="badge-win" id="side-meta-badge">102.4% da Meta</span>
+          <!-- Reconcile Card -->
+          <div class="card" style="margin-bottom:0;">
+            <div class="card-header">
+              <h2>⚖️ Reconciliação: App vs Core Bancário</h2>
+              <span style="font-size:0.72rem; color:var(--success); font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;">93.9% liquidação</span>
             </div>
-            <div class="side-main-val" id="side-forecast-val" style="color:var(--santander-red);">478.900 contratos</div>
 
-            <div class="side-metric-grid">
-              <div>
-                <div class="grid-cell-label">📅 Variação YoY (vs Ago/25):</div>
-                <div class="grid-cell-val" id="side-forecast-yoy" style="color:var(--success);">↑ +20.3% YoY</div>
-                <div style="font-size:0.7rem; color:var(--text-muted);">Ano Anterior: <span id="side-ano-ant-val">398.200</span></div>
+            <div class="reconcile-box">
+              <div class="reconcile-row">
+                <div>
+                  <div style="font-size:0.68rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">📱 Fechamento App</div>
+                  <div class="reconcile-val" id="box-funil-val" style="color:#6d28d9;">510.000</div>
+                </div>
+                <div style="font-size:1.1rem; color:var(--text-muted);">➔</div>
+                <div>
+                  <div style="font-size:0.68rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">🏦 Produção Core</div>
+                  <div class="reconcile-val" id="box-prod-val" style="color:var(--santander-red);">478.900</div>
+                </div>
               </div>
-              <div>
-                <div class="grid-cell-label">📊 Variação MoM (vs Jul/26):</div>
-                <div class="grid-cell-val" id="side-forecast-mom" style="color:var(--info);">↑ +13.9% MoM</div>
-                <div style="font-size:0.7rem; color:var(--text-muted);">Mês Anterior: <span id="side-mes-ant-val">420.320</span></div>
+
+              <div class="losses-compact-list">
+                <div class="loss-line"><span>🛡️ Antifraude / Risco em Tempo Real:</span><strong id="loss-antifraude">-14.200</strong></div>
+                <div class="loss-line"><span>🚫 Saldo / Limite Insuficiente:</span><strong id="loss-saldo">-9.800</strong></div>
+                <div class="loss-line"><span>⏱️ Time-out de Conciliação:</span><strong id="loss-timeout">-7.100</strong></div>
               </div>
             </div>
           </div>
 
-          <!-- Card 2: Realizado 'Até o Momento' (MTD Dia 20) vs Períodos Homólogos -->
-          <div class="side-metric-card">
-            <div class="side-card-title">
-              <span>📍 Realizado Até o Momento (MTD Dia 20)</span>
-              <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">64.5% do mês</span>
+          <!-- Pacing Mini-Chart -->
+          <div class="card" style="flex:1; margin-bottom:0;">
+            <div class="card-header">
+              <h2>📈 Evolução Mensal & Forecast (YoY)</h2>
             </div>
-            <div class="side-main-val" id="side-mtd-val">362.400 contratos</div>
-
-            <div class="mtd-comp-list">
-              <div class="mtd-comp-item">
-                <div>
-                  <div style="font-weight:700;">vs MTD Mês Anterior (1 a 20 Jul/26):</div>
-                  <div style="font-size:0.72rem; color:var(--text-muted);">Julho/26 homólogo: 318.500</div>
-                </div>
-                <strong style="color:var(--info);" id="side-mtd-mom">+13.8% MoM</strong>
-              </div>
-
-              <div class="mtd-comp-item">
-                <div>
-                  <div style="font-weight:700;">vs MTD Ano Anterior (1 a 20 Ago/25):</div>
-                  <div style="font-size:0.72rem; color:var(--text-muted);">Agosto/25 homólogo: 301.200</div>
-                </div>
-                <strong style="color:var(--success);" id="side-mtd-yoy">+20.3% YoY</strong>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3: Mini-Chart Time Series YoY & MoM Evolution -->
-          <div class="side-metric-card" style="flex:1;">
-            <div class="side-card-title">
-              <span>📈 Curva de Evolução & Pacing Mensal</span>
-            </div>
-            <div style="height: 180px;">
+            <div style="height: 190px;">
               <canvas id="chartTriadeEvolucao"></canvas>
             </div>
           </div>
@@ -763,174 +645,104 @@
 
       </div>
 
-      <!-- COMPARATIVO DE FUNDO: FECHAMENTO DE FUNIL (APP) VS PRODUÇÃO EFETIVA (CORE) -->
-      <div class="card">
-        <div class="card-header">
-          <h2>⚖️ Reconciliação de Fundo de Funil: Conclusão Digital vs Liquidação Core</h2>
-          <span style="font-size: 0.78rem; font-weight:700; color:var(--success); background:#dcfce7; padding:3px 8px; border-radius:4px;">Taxa de Liquidação: 93.9%</span>
-        </div>
-        <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">
-          Diagnóstico da perda entre a <strong>conclusão no aplicativo (Etapa 6)</strong> e o <strong>faturamento no core bancário (Etapa 7)</strong>:
-        </p>
-
-        <div style="display:grid; grid-template-columns: 1fr 1.4fr; gap: 16px; background: #f8fafc; padding: 16px; border-radius: 10px; border: 1.5px solid #cbd5e1;">
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align:center;">
-            <div style="background:white; border: 1.5px solid #8b5cf6; padding: 12px; border-radius:8px;">
-              <div style="font-size: 0.72rem; font-weight: 800; color: #7c3aed; text-transform: uppercase;">📱 Fechamento App</div>
-              <div style="font-size: 1.35rem; font-weight: 800; color: #6d28d9;" id="box-funil-val">510.000</div>
-              <div style="font-size: 0.72rem; color: var(--text-muted);">Front-end Concluído</div>
-            </div>
-            <div style="background:var(--santander-light); border: 1.5px solid var(--santander-red); padding: 12px; border-radius:8px;">
-              <div style="font-size: 0.72rem; font-weight: 800; color: var(--santander-red); text-transform: uppercase;">🏦 Produção Core</div>
-              <div style="font-size: 1.35rem; font-weight: 800; color: var(--santander-red);" id="box-prod-val">478.900</div>
-              <div style="font-size: 0.72rem; color: var(--text-muted);">Liquidação Real</div>
-            </div>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:6px; font-size:0.8rem;">
-            <div style="font-size:0.75rem; font-weight:800; color:var(--text-main); text-transform:uppercase;">⚠️ Quebra Pós-App no Backend (-31.100 contratos / -6.1%):</div>
-            <div style="display:flex; justify-content:space-between; background:white; padding:6px 12px; border-radius:6px; border:1px solid var(--border);">
-              <span>🛡️ Antifraude / Risco em Tempo Real:</span>
-              <strong style="color:#dc2626;" id="loss-antifraude">-14.200 (-2.8%)</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between; background:white; padding:6px 12px; border-radius:6px; border:1px solid var(--border);">
-              <span>🚫 Saldo / Limite Insuficiente no Débito:</span>
-              <strong style="color:#dc2626;" id="loss-saldo">-9.800 (-1.9%)</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between; background:white; padding:6px 12px; border-radius:6px; border:1px solid var(--border);">
-              <span>⏱️ Time-out de Conciliação / SPI Pix:</span>
-              <strong style="color:#dc2626;" id="loss-timeout">-7.100 (-1.4%)</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: CONSTRUTOR DE HÁBITOS, PREVISOR E ASSISTENTE DE SUGESTÕES DA IA   -->
+    <!-- ABA 1: SIMULADOR DE PÚBLICO & ASSISTENTE DE IA (DESIGN LIMPO)             -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content" style="display: none;">
       
       <!-- Top Forecast KPI Bar for Simulator -->
-      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 18px;">
-        <div style="background:white; border:1.5px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
-          <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">1. Visualizações</div>
-          <div style="font-size:1.15rem; font-weight:800; color:#0284c7;" id="sim-kpi-views">2.394.000</div>
-          <div style="font-size:0.7rem; color:var(--success); font-weight:700;">70% exibição</div>
+      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">1. Views</div>
+          <div class="kpi-val" style="font-size:1.1rem; color:var(--org-blue);" id="sim-kpi-views">2.394.000</div>
         </div>
-        <div style="background:white; border:1.5px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
-          <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">2. Cliques</div>
-          <div style="font-size:1.15rem; font-weight:800; color:#f59e0b;" id="sim-kpi-cliques">430.920</div>
-          <div style="font-size:0.7rem; color:var(--success); font-weight:700;">18% CTR</div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">2. Cliques</div>
+          <div class="kpi-val" style="font-size:1.1rem; color:var(--warning);" id="sim-kpi-cliques">430.920</div>
         </div>
-        <div style="background:white; border:1.5px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
-          <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">3. Topo de Funil</div>
-          <div style="font-size:1.15rem; font-weight:800; color:#475569;" id="sim-kpi-topo">344.736</div>
-          <div style="font-size:0.7rem; color:var(--success); font-weight:700;">80% entrada app</div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">3. Topo App</div>
+          <div class="kpi-val" style="font-size:1.1rem;" id="sim-kpi-topo">344.736</div>
         </div>
-        <div style="background:white; border:1.5px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
-          <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">4. Step do Meio</div>
-          <div style="font-size:1.15rem; font-weight:800; color:#8b5cf6;" id="sim-kpi-meio">282.683</div>
-          <div style="font-size:0.7rem; color:var(--success); font-weight:700;">82% simulação</div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">4. Simulação</div>
+          <div class="kpi-val" style="font-size:1.1rem; color:var(--purple);" id="sim-kpi-meio">282.683</div>
         </div>
-        <div style="background:var(--santander-light); border:1.5px solid var(--santander-red); border-radius:8px; padding:10px; text-align:center;">
-          <div style="font-size:0.7rem; font-weight:800; color:var(--santander-red); text-transform:uppercase;">5. Fundo / Vendas</div>
-          <div style="font-size:1.15rem; font-weight:800; color:var(--santander-red);" id="sim-kpi-fundo">255.794</div>
-          <div style="font-size:0.7rem; color:var(--santander-red); font-weight:700;">74.2% conversão final</div>
+        <div class="kpi-card highlight" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">5. Produção Final</div>
+          <div class="kpi-val" style="font-size:1.1rem;" id="sim-kpi-fundo">255.794</div>
         </div>
       </div>
 
-      <div class="dashboard-grid">
+      <div class="two-col-grid">
         
         <!-- Left: Rule Builder & Segments -->
         <div class="card">
-          <div class="config-panel" style="background: #fafbfc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px;">
-            <div class="config-group" style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:700; color:var(--santander-red); text-transform:uppercase;">📦 Produto Santander:</label>
-              <select id="sim-produto" onchange="rodarSimulacao()" style="padding:9px 12px; border:1.5px solid var(--border); border-radius:7px; font-size:0.88rem; font-weight:600; background:white; outline:none;">
-                <option value="Pix" selected>⚡ Pix</option>
-                <option value="Boleto">📄 Boleto</option>
-                <option value="Pix Automatico">🔄 Pix Automático</option>
-                <option value="Pix Parcelado">💳 Pix Parcelado</option>
-                <option value="Upgrade">📈 Upgrade</option>
-                <option value="Cartao de Credito">💳 Cartão de Crédito</option>
-                <option value="Limite da Conta">🏦 Limite da Conta</option>
-              </select>
-            </div>
-            <div class="config-group" style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:700; color:var(--santander-red); text-transform:uppercase;">👥 Segmentos Elegíveis:</label>
-              <div class="segment-chips">
-                <label class="segment-chip selected" onclick="toggleSegment(this, 'Especial')"><span>⭐ Especial</span></label>
-                <label class="segment-chip selected" onclick="toggleSegment(this, 'Select')"><span>👑 Select</span></label>
-                <label class="segment-chip selected" onclick="toggleSegment(this, 'Private')"><span>💎 Private</span></label>
-              </div>
+          <div class="card-header">
+            <h2>🎯 Parâmetros de Segmentação & Hábitos</h2>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">Segmentos Elegíveis:</div>
+            <div class="seg-pills">
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Especial')">⭐ Especial</span>
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Select')">👑 Select</span>
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Private')">💎 Private</span>
             </div>
           </div>
 
-          <div class="rules-engine-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <span style="font-size:0.82rem; font-weight:700; color:var(--text-main); text-transform:uppercase;">🔍 Condições de Hábitos de Consumo:</span>
-              <span id="rules-count-badge" style="font-size:0.78rem; color:var(--santander-red); font-weight:800;">4 regras ativas</span>
+          <div style="margin-bottom: 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Regras de Consumo:</span>
+              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras</span>
             </div>
-            <div id="rules-list-container"></div>
-            <button class="btn-add-rule" onclick="adicionarNovaRegra()"><span>+ Adicionar Condição de Hábito de Consumo</span></button>
+            <div class="rules-list" id="rules-list-container"></div>
+            <button class="btn-add" onclick="adicionarNovaRegra()">+ Adicionar Condição de Hábito</button>
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid var(--border);">
-            <span style="font-size:0.84rem; font-weight:700; color:var(--text-main);">Espaço Comercial em Foco:</span>
-            <select id="sim-espaco-foco" onchange="rodarSimulacao()" style="padding:6px 12px; border-radius:6px; border:1.5px solid var(--santander-red); font-weight:700; font-size:0.85rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:10px;">
+            <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted);">Espaço Comercial:</span>
+            <select id="sim-espaco-foco" onchange="rodarSimulacao()" class="control-select">
               <option value="Lightbox" selected>🟥 Lightbox</option>
               <option value="Alert">🟨 Alert</option>
               <option value="Banner">🟦 Banner</option>
-              <option value="Push">⬛ Push Notification</option>
+              <option value="Push">⬛ Push</option>
               <option value="Email">⬜ Email</option>
             </select>
           </div>
         </div>
 
-        <!-- Right: AI Prescriptive Suggestions Assistant -->
+        <!-- Right: AI Prescriptive Suggestions -->
         <div class="card">
           <div class="card-header">
-            <h2>💡 Assistente Prescritivo de IA (Otimização de Público)</h2>
-            <span class="badge-win">Recomendações Ativas</span>
+            <h2>💡 Assistente Prescritivo de IA</h2>
+            <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;">Ativo</span>
           </div>
 
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-            A inteligência artificial analisa as regras e sugere ajustes para maximizar o equilíbrio entre <strong>Volume de Público</strong> e <strong>Qualificação de Conversão</strong>:
-          </p>
-
-          <div class="ai-suggester-box">
-            <div class="ai-suggester-header">
-              <h3>🤖 Sugestões de Ajuste de Atributos:</h3>
+          <div class="sug-card">
+            <div class="sug-text">
+              📈 <strong>Aumentar Alcance:</strong> Remover a restrição <em>"Não Possui Open Finance"</em> aumenta o público elegível em <strong>+840.000 clientes (+24.5%)</strong>.
             </div>
-
-            <!-- Sugestão 1: Volume / Tirar restrição -->
-            <div class="suggestion-item">
-              <div class="sug-text">
-                📈 <strong>Aumentar Alcance do Público:</strong> Se você remover a restrição <em>"Não Possui Open Finance"</em>, o público elegível aumentará em <strong>+840.000 clientes (+24.5%)</strong> no topo de funil.
-              </div>
-              <button class="btn-apply-sug" onclick="aplicarSugestao('remover_open_finance')">Aplicar Ajuste</button>
-            </div>
-
-            <!-- Sugestão 2: Qualificação / ARPAC -->
-            <div class="suggestion-item">
-              <div class="sug-text">
-                ⭐ <strong>Manter Qualificação Alta:</strong> Manter a regra <strong>"ARPAC > 7.0"</strong> reduz o público bruto em 18%, porém <strong>aumenta a taxa de conversão final no fundo de funil em +5.2%</strong>.
-              </div>
-              <button class="btn-apply-sug" onclick="aplicarSugestao('manter_arpac')">Priorizar ARPAC</button>
-            </div>
-
-            <!-- Sugestão 3: Canal / Espaço Comercial -->
-            <div class="suggestion-item">
-              <div class="sug-text">
-                🎯 <strong>Otimização de Canal:</strong> Para este perfil de clientes com evasão, o espaço <strong>Lightbox</strong> converte <strong>2.8x mais</strong> do que Banner tradicional.
-              </div>
-              <button class="btn-apply-sug" onclick="aplicarSugestao('trocar_lightbox')">Usar Lightbox</button>
-            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('remover_open_finance')">Aplicar</button>
           </div>
 
-          <div style="height: 180px; margin-top: 14px;">
+          <div class="sug-card">
+            <div class="sug-text">
+              ⭐ <strong>Qualificar Fundo:</strong> Manter <strong>"ARPAC > 7.0"</strong> eleva a conversão final em <strong>+5.2%</strong> no core bancário.
+            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('manter_arpac')">Priorizar</button>
+          </div>
+
+          <div class="sug-card">
+            <div class="sug-text">
+              🎯 <strong>Espaço Recomendado:</strong> O <strong>Lightbox contextual</strong> converte <strong>2.8x mais</strong> que Banner para clientes com evasão.
+            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('trocar_lightbox')">Usar</button>
+          </div>
+
+          <div style="height: 160px; margin-top: 10px;">
             <canvas id="chartEspacos"></canvas>
           </div>
         </div>
@@ -945,12 +757,9 @@
     <div id="tab-pacing" class="tab-content" style="display: none;">
       <div class="card">
         <div class="card-header">
-          <h2>⏱️ Torre de Pacing MTD & Projeção de Fechamento do Mês (Forecast)</h2>
+          <h2>⏱️ Torre de Pacing MTD (Dias 1 a 31)</h2>
         </div>
-        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px;">
-          Curva acumulada de contratos realizados até o dia atual (Dia 20) e projeção preditiva com IA para os dias restantes (Dias 21 a 31):
-        </p>
-        <div style="height: 350px;">
+        <div style="height: 320px;">
           <canvas id="chartPacingForecast"></canvas>
         </div>
       </div>
@@ -960,53 +769,30 @@
     <!-- ABA 4: REDE NEURAL (FGV)                                                 -->
     <!-- ========================================================================= -->
     <div id="tab-modelos" class="tab-content" style="display: none;">
-      <div class="dashboard-grid">
+      <div class="two-col-grid">
         <div class="card">
           <div class="card-header">
             <h2>🧠 Curva ROC: Baseline vs Rede Neural MLP (FGV)</h2>
           </div>
-          <div style="height: 300px;">
+          <div style="height: 260px;">
             <canvas id="chartRoc"></canvas>
           </div>
         </div>
         <div class="card">
           <div class="card-header">
-            <h2>🏆 Tabela Comparativa de Performance</h2>
+            <h2>🏆 Tabela de Performance Oficial</h2>
           </div>
-          <table>
+          <table style="font-size:0.8rem;">
             <thead>
-              <tr>
-                <th>Métrica Oficial</th>
-                <th>Baseline LogReg</th>
-                <th>Rede Neural MLP</th>
-              </tr>
+              <tr><th>Métrica</th><th>Baseline LogReg</th><th>Rede Neural MLP</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong>Área sob a Curva (ROC-AUC)</strong></td>
-                <td>0.7064</td>
-                <td><strong>0.7023</strong></td>
-              </tr>
-              <tr>
-                <td><strong>Acurácia</strong></td>
-                <td>69.67%</td>
-                <td><strong>69.28%</strong></td>
-              </tr>
-              <tr>
-                <td><strong>F1-Score</strong></td>
-                <td>0.3505</td>
-                <td><span class="badge-win">0.4202 (+19.8%)</span></td>
-              </tr>
-              <tr>
-                <td><strong>Robustez Multi-Seed (Seeds 42, 7, 123)</strong></td>
-                <td>0.3518 ± 0.0028</td>
-                <td><strong>0.4094 ± 0.0064</strong></td>
-              </tr>
+              <tr><td>ROC-AUC</td><td>0.7064</td><td><strong>0.7023</strong></td></tr>
+              <tr><td>Acurácia</td><td>69.67%</td><td><strong>69.28%</strong></td></tr>
+              <tr><td>F1-Score</td><td>0.3505</td><td><strong style="color:var(--success);">0.4202 (+19.8%)</strong></td></tr>
+              <tr><td>Robustez Multi-Seed</td><td>0.3518 ± 0.0028</td><td><strong>0.4094 ± 0.0064</strong></td></tr>
             </tbody>
           </table>
-          <div style="margin-top: 15px; font-size: 0.82rem; color: var(--text-muted);">
-            ✓ Aprovado na validação de robustez multi-seed oficial da FGV.
-          </div>
         </div>
       </div>
     </div>
@@ -1033,18 +819,15 @@
         mixOrganico: 0.62,
         metaMes: 467500,
         stages7: [
-          { name: "1. Visualização da Campanha (Views)", vMTD: 3750000, vForecast: 5000000, passRate: 24.0 },
-          { name: "2. Cliques / Engajamento com a Peça", vMTD: 900000, vForecast: 1200000, passRate: 83.3 },
-          { name: "3. Topo de Funil (Entrada no App)", vMTD: 750000, vForecast: 1000000, passRate: 78.0 },
-          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 585000, vForecast: 780000, passRate: 82.1 },
-          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 480000, vForecast: 640000, passRate: 79.7 },
-          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 382500, vForecast: 510000, passRate: 93.9 },
-          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 362400, vForecast: 478900, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vMTD: 3750000, vForecast: 5000000, passRate: 24.0 },
+          { name: "2. Cliques / Interações", vMTD: 900000, vForecast: 1200000, passRate: 83.3 },
+          { name: "3. Topo de Funil (App)", vMTD: 750000, vForecast: 1000000, passRate: 78.0 },
+          { name: "4. Step do Meio: Simulação", vMTD: 585000, vForecast: 780000, passRate: 82.1 },
+          { name: "5. Step do Meio: Autenticação ID", vMTD: 480000, vForecast: 640000, passRate: 79.7 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 382500, vForecast: 510000, passRate: 93.9 },
+          { name: "7. Fundo de Funil: Produção Core", vMTD: 362400, vForecast: 478900, passRate: 100.0 }
         ],
-        losses: { antifraude: 14200, saldo: 9800, timeout: 7100 },
-        topoMoM: "+14.2%",
-        meioMoM: "+2.3%",
-        fundoMoM: "+13.9%"
+        losses: { antifraude: 14200, saldo: 9800, timeout: 7100 }
       },
       "Boleto": {
         base2025: [180000, 185000, 195000, 190000, 200000, 205000, 210000, 240000, 220000, 225000, 235000, 250000],
@@ -1054,18 +837,15 @@
         mixOrganico: 0.72,
         metaMes: 265000,
         stages7: [
-          { name: "1. Visualização da Campanha (Views)", vMTD: 2542000, vForecast: 3444000, passRate: 21.5 },
-          { name: "2. Cliques / Engajamento com a Peça", vMTD: 546500, vForecast: 740460, passRate: 85.0 },
-          { name: "3. Topo de Funil (Entrada no App)", vMTD: 464500, vForecast: 629390, passRate: 72.0 },
-          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 334400, vForecast: 453160, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 267500, vForecast: 362500, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 214000, vForecast: 290000, passRate: 94.5 },
-          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 202200, vForecast: 274100, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vMTD: 2542000, vForecast: 3444000, passRate: 21.5 },
+          { name: "2. Cliques / Interações", vMTD: 546500, vForecast: 740460, passRate: 85.0 },
+          { name: "3. Topo de Funil (App)", vMTD: 464500, vForecast: 629390, passRate: 72.0 },
+          { name: "4. Step do Meio: Simulação", vMTD: 334400, vForecast: 453160, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID", vMTD: 267500, vForecast: 362500, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 214000, vForecast: 290000, passRate: 94.5 },
+          { name: "7. Fundo de Funil: Produção Core", vMTD: 202200, vForecast: 274100, passRate: 100.0 }
         ],
-        losses: { antifraude: 6200, saldo: 5800, timeout: 3900 },
-        topoMoM: "+8.4%",
-        meioMoM: "+1.2%",
-        fundoMoM: "+14.3%"
+        losses: { antifraude: 6200, saldo: 5800, timeout: 3900 }
       },
       "Pix Automatico": {
         base2025: [45000, 52000, 60000, 68000, 78000, 89000, 98000, 115000, 122000, 135000, 150000, 175000],
@@ -1075,18 +855,15 @@
         mixOrganico: 0.42,
         metaMes: 180000,
         stages7: [
-          { name: "1. Visualização da Campanha (Views)", vMTD: 1628000, vForecast: 2200000, passRate: 28.0 },
-          { name: "2. Cliques / Engajamento com a Peça", vMTD: 455800, vForecast: 616000, passRate: 79.0 },
-          { name: "3. Topo de Funil (Entrada no App)", vMTD: 360000, vForecast: 486640, passRate: 68.0 },
-          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 244800, vForecast: 330910, passRate: 75.0 },
-          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 183600, vForecast: 248180, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 146800, vForecast: 198500, passRate: 93.8 },
-          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 137800, vForecast: 186300, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vMTD: 1628000, vForecast: 2200000, passRate: 28.0 },
+          { name: "2. Cliques / Interações", vMTD: 455800, vForecast: 616000, passRate: 79.0 },
+          { name: "3. Topo de Funil (App)", vMTD: 360000, vForecast: 486640, passRate: 68.0 },
+          { name: "4. Step do Meio: Simulação", vMTD: 244800, vForecast: 330910, passRate: 75.0 },
+          { name: "5. Step do Meio: Autenticação ID", vMTD: 183600, vForecast: 248180, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 146800, vForecast: 198500, passRate: 93.8 },
+          { name: "7. Fundo de Funil: Produção Core", vMTD: 137800, vForecast: 186300, passRate: 100.0 }
         ],
-        losses: { antifraude: 4800, saldo: 4500, timeout: 2900 },
-        topoMoM: "+26.8%",
-        meioMoM: "+15.4%",
-        fundoMoM: "+17.4%"
+        losses: { antifraude: 4800, saldo: 4500, timeout: 2900 }
       },
       "Pix Parcelado": {
         base2025: [60000, 65000, 72000, 78000, 85000, 92000, 99000, 118000, 115000, 124000, 135000, 155000],
@@ -1096,18 +873,15 @@
         mixOrganico: 0.48,
         metaMes: 160000,
         stages7: [
-          { name: "1. Visualização da Campanha (Views)", vMTD: 1764000, vForecast: 2394000, passRate: 22.0 },
-          { name: "2. Cliques / Engajamento com a Peça", vMTD: 388000, vForecast: 526680, passRate: 82.0 },
-          { name: "3. Topo de Funil (Entrada no App)", vMTD: 318000, vForecast: 431870, passRate: 64.0 },
-          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 203500, vForecast: 276400, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 162800, vForecast: 221120, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 130200, vForecast: 176800, passRate: 92.4 },
-          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 120200, vForecast: 163400, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vMTD: 1764000, vForecast: 2394000, passRate: 22.0 },
+          { name: "2. Cliques / Interações", vMTD: 388000, vForecast: 526680, passRate: 82.0 },
+          { name: "3. Topo de Funil (App)", vMTD: 318000, vForecast: 431870, passRate: 64.0 },
+          { name: "4. Step do Meio: Simulação", vMTD: 203500, vForecast: 276400, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID", vMTD: 162800, vForecast: 221120, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 130200, vForecast: 176800, passRate: 92.4 },
+          { name: "7. Fundo de Funil: Produção Core", vMTD: 120200, vForecast: 163400, passRate: 100.0 }
         ],
-        losses: { antifraude: 6400, saldo: 4200, timeout: 2800 },
-        topoMoM: "+18.2%",
-        meioMoM: "+5.1%",
-        fundoMoM: "+15.0%"
+        losses: { antifraude: 6400, saldo: 4200, timeout: 2800 }
       },
       "Upgrade": {
         base2025: [18000, 19000, 21000, 20500, 22000, 23500, 24000, 27500, 26000, 27500, 29000, 32000],
@@ -1117,18 +891,15 @@
         mixOrganico: 0.32,
         metaMes: 34000,
         stages7: [
-          { name: "1. Visualização da Campanha (Views)", vMTD: 784000, vForecast: 1056000, passRate: 16.5 },
-          { name: "2. Cliques / Engajamento com a Peça", vMTD: 129360, vForecast: 174240, passRate: 76.0 },
-          { name: "3. Topo de Funil (Entrada no App)", vMTD: 98300, vForecast: 132420, passRate: 58.0 },
-          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 57000, vForecast: 76800, passRate: 65.0 },
-          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 37050, vForecast: 49920, passRate: 73.8 },
-          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 27360, vForecast: 36860, passRate: 93.6 },
-          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 25600, vForecast: 34500, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vMTD: 784000, vForecast: 1056000, passRate: 16.5 },
+          { name: "2. Cliques / Interações", vMTD: 129360, vForecast: 174240, passRate: 76.0 },
+          { name: "3. Topo de Funil (App)", vMTD: 98300, vForecast: 132420, passRate: 58.0 },
+          { name: "4. Step do Meio: Simulação", vMTD: 57000, vForecast: 76800, passRate: 65.0 },
+          { name: "5. Step do Meio: Autenticação ID", vMTD: 37050, vForecast: 49920, passRate: 73.8 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 27360, vForecast: 36860, passRate: 93.6 },
+          { name: "7. Fundo de Funil: Produção Core", vMTD: 25600, vForecast: 34500, passRate: 100.0 }
         ],
-        losses: { antifraude: 1200, saldo: 600, timeout: 560 },
-        topoMoM: "+12.0%",
-        meioMoM: "+3.8%",
-        fundoMoM: "+14.6%"
+        losses: { antifraude: 1200, saldo: 600, timeout: 560 }
       },
       "Cartao de Credito": {
         base2025: [85000, 88000, 94000, 92000, 98000, 102000, 106000, 122000, 118000, 124000, 132000, 148000],
@@ -1138,18 +909,15 @@
         mixOrganico: 0.38,
         metaMes: 145000,
         stages7: [
-          { name: "1. Visualização da Campanha (Views)", vMTD: 2132000, vForecast: 2870000, passRate: 19.0 },
-          { name: "2. Cliques / Engajamento com a Peça", vMTD: 405000, vForecast: 545300, passRate: 74.0 },
-          { name: "3. Topo de Funil (Entrada no App)", vMTD: 299700, vForecast: 403520, passRate: 62.0 },
-          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 185800, vForecast: 250180, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 148640, vForecast: 200140, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 118900, vForecast: 160100, passRate: 93.4 },
-          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 111000, vForecast: 149500, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vMTD: 2132000, vForecast: 2870000, passRate: 19.0 },
+          { name: "2. Cliques / Interações", vMTD: 405000, vForecast: 545300, passRate: 74.0 },
+          { name: "3. Topo de Funil (App)", vMTD: 299700, vForecast: 403520, passRate: 62.0 },
+          { name: "4. Step do Meio: Simulação", vMTD: 185800, vForecast: 250180, passRate: 80.0 },
+          { name: "5. Step do Meio: Autenticação ID", vMTD: 148640, vForecast: 200140, passRate: 80.0 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 118900, vForecast: 160100, passRate: 93.4 },
+          { name: "7. Fundo de Funil: Produção Core", vMTD: 111000, vForecast: 149500, passRate: 100.0 }
         ],
-        losses: { antifraude: 5200, saldo: 3100, timeout: 2300 },
-        topoMoM: "+16.5%",
-        meioMoM: "+6.2%",
-        fundoMoM: "+15.1%"
+        losses: { antifraude: 5200, saldo: 3100, timeout: 2300 }
       },
       "Limite da Conta": {
         base2025: [35000, 37000, 40000, 39000, 42000, 44000, 46000, 52000, 50000, 53000, 57000, 62000],
@@ -1159,18 +927,15 @@
         mixOrganico: 0.55,
         metaMes: 65000,
         stages7: [
-          { name: "1. Visualização da Campanha (Views)", vMTD: 1260000, vForecast: 1722000, passRate: 20.0 },
-          { name: "2. Cliques / Engajamento com a Peça", vMTD: 252000, vForecast: 344400, passRate: 78.0 },
-          { name: "3. Topo de Funil (Entrada no App)", vMTD: 196500, vForecast: 268630, passRate: 60.0 },
-          { name: "4. Step do Meio: Simulação & Configuração", vMTD: 117900, vForecast: 161180, passRate: 65.0 },
-          { name: "5. Step do Meio: Autenticação ID / Termos", vMTD: 76600, vForecast: 104760, passRate: 67.7 },
-          { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 51870, vForecast: 70920, passRate: 93.9 },
-          { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 48700, vForecast: 66600, passRate: 100.0 }
+          { name: "1. Visualização nos Espaços", vMTD: 1260000, vForecast: 1722000, passRate: 20.0 },
+          { name: "2. Cliques / Interações", vMTD: 252000, vForecast: 344400, passRate: 78.0 },
+          { name: "3. Topo de Funil (App)", vMTD: 196500, vForecast: 268630, passRate: 60.0 },
+          { name: "4. Step do Meio: Simulação", vMTD: 117900, vForecast: 161180, passRate: 65.0 },
+          { name: "5. Step do Meio: Autenticação ID", vMTD: 76600, vForecast: 104760, passRate: 67.7 },
+          { name: "6. Fechamento de Funil (App)", vMTD: 51870, vForecast: 70920, passRate: 93.9 },
+          { name: "7. Fundo de Funil: Produção Core", vMTD: 48700, vForecast: 66600, passRate: 100.0 }
         ],
-        losses: { antifraude: 2100, saldo: 1300, timeout: 920 },
-        topoMoM: "+11.4%",
-        meioMoM: "+4.0%",
-        fundoMoM: "+13.1%"
+        losses: { antifraude: 2100, saldo: 1300, timeout: 920 }
       }
     };
 
@@ -1181,38 +946,26 @@
       const pData = triadProductData[prodKey] || triadProductData["Pix"];
 
       const stages = pData.stages7;
-      const vForecast = stages[6].vForecast; // Produção Forecast Agosto
-      const v2025 = pData.base2025[7];        // Produção Agosto/2025
-      const vJul2026 = pData.vJul2026;       // Produção Julho/2026
-      const vMTD = stages[6].vMTD;           // MTD Dia 20
+      const vForecast = stages[6].vForecast;
+      const v2025 = pData.base2025[7];
+      const vJul2026 = pData.vJul2026;
+      const vMTD = stages[6].vMTD;
 
       const yoyForecastPct = ((vForecast - v2025) / v2025 * 100).toFixed(1);
-      const momForecastPct = ((vForecast - vJul2026) / vJul2026 * 100).toFixed(1);
       const metaPct = ((vForecast / pData.metaMes) * 100).toFixed(1);
-
       const mtdJulHomologo = Math.round(vJul2026 * 0.758);
-      const mtdAgo25Homologo = Math.round(v2025 * 0.756);
       const mtdMomPct = ((vMTD - mtdJulHomologo) / mtdJulHomologo * 100).toFixed(1);
-      const mtdYoyPct = ((vMTD - mtdAgo25Homologo) / mtdAgo25Homologo * 100).toFixed(1);
 
-      // Update Funnel Performance Insights Bar
-      document.getElementById('ins-topo-val').innerText = `↑ ${pData.topoMoM} (${stages[2].vForecast.toLocaleString('pt-BR')})`;
-      document.getElementById('ins-meio-val').innerText = `↔ ${pData.meioMoM} (${stages[3].passRate}% tx)`;
-      document.getElementById('ins-fundo-val').innerText = `↑ ${pData.fundoMoM} (${vForecast.toLocaleString('pt-BR')})`;
+      // Top KPI Cards
+      document.getElementById('kpi-mtd-real').innerText = vMTD.toLocaleString('pt-BR');
+      document.getElementById('kpi-mtd-mom').innerText = `+${mtdMomPct}% vs Jul/26 homólogo`;
+      document.getElementById('kpi-mtd-forecast').innerText = vForecast.toLocaleString('pt-BR');
+      document.getElementById('kpi-meta-pct').innerText = `🎯 ${metaPct}% da Meta (${pData.metaMes.toLocaleString('pt-BR')})`;
+      document.getElementById('kpi-ano-passado').innerText = v2025.toLocaleString('pt-BR');
+      document.getElementById('kpi-crescimento-yoy').innerText = `↑ +${yoyForecastPct}% de Crescimento YoY`;
+      document.getElementById('kpi-mix-mes').innerText = `${Math.round(pData.mixCampanha*100)}% / ${Math.round(pData.mixOrganico*100)}%`;
 
-      // Update Executive Side Panel Metrics
-      document.getElementById('side-forecast-val').innerText = `${vForecast.toLocaleString('pt-BR')} contratos`;
-      document.getElementById('side-meta-badge').innerText = `${metaPct}% da Meta`;
-      document.getElementById('side-forecast-yoy').innerText = `↑ +${yoyForecastPct}% YoY`;
-      document.getElementById('side-ano-ant-val').innerText = v2025.toLocaleString('pt-BR');
-      document.getElementById('side-forecast-mom').innerText = `↑ +${momForecastPct}% MoM`;
-      document.getElementById('side-mes-ant-val').innerText = vJul2026.toLocaleString('pt-BR');
-
-      document.getElementById('side-mtd-val').innerText = `${vMTD.toLocaleString('pt-BR')} contratos`;
-      document.getElementById('side-mtd-mom').innerText = `+${mtdMomPct}% MoM`;
-      document.getElementById('side-mtd-yoy').innerText = `+${mtdYoyPct}% YoY`;
-
-      // Update Enhanced Executive Funnel Tiers
+      // Update Funnel
       const cRatio = pData.mixCampanha;
       const oRatio = pData.mixOrganico;
       const cPct = Math.round(cRatio * 100);
@@ -1229,24 +982,15 @@
         let barCamp = document.getElementById(`bar-camp-${i+1}`);
         barOrg.style.width = oPct + '%';
         barCamp.style.width = cPct + '%';
-
-        let txtOrg = document.getElementById(`txt-bar-org-${i+1}`);
-        let txtCamp = document.getElementById(`txt-bar-camp-${i+1}`);
-        
-        if (i === 0) {
-          txtOrg.innerText = `🟦 Orgânico: ${orgVal.toLocaleString('pt-BR')} (${oPct}%)`;
-          txtCamp.innerText = `🟥 Campanha: ${campVal.toLocaleString('pt-BR')} (${cPct}%)`;
-        } else {
-          txtOrg.innerText = `${orgVal.toLocaleString('pt-BR')} (${oPct}%)`;
-          txtCamp.innerText = `${campVal.toLocaleString('pt-BR')} (${cPct}%)`;
-        }
+        barOrg.innerText = `${orgVal.toLocaleString('pt-BR')}`;
+        barCamp.innerText = `${campVal.toLocaleString('pt-BR')}`;
 
         if (i < 6) {
           document.getElementById(`fn-pass-${i+1}`).innerText = `${stages[i].passRate}%`;
         }
       }
 
-      // Update Bottom Reconcile Card
+      // Update Reconcile Card
       document.getElementById('box-funil-val').innerText = stages[5].vForecast.toLocaleString('pt-BR');
       document.getElementById('box-prod-val').innerText = stages[6].vForecast.toLocaleString('pt-BR');
 
@@ -1263,18 +1007,18 @@
         let vals2026Forecast = [];
         for (let i = 8; i < 12; i++) vals2026Forecast.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth * 1.06)));
 
-        chartTriadeEvolucaoInst.data.datasets[0].label = '2025 (Ano Ant.)';
+        chartTriadeEvolucaoInst.data.datasets[0].label = '2025';
         chartTriadeEvolucaoInst.data.datasets[0].data = vals2025;
-        chartTriadeEvolucaoInst.data.datasets[1].label = '2026 Realizado';
+        chartTriadeEvolucaoInst.data.datasets[1].label = '2026 Real';
         chartTriadeEvolucaoInst.data.datasets[1].data = [...vals2026Real, null, null, null, null];
-        chartTriadeEvolucaoInst.data.datasets[2].label = 'Forecast IA';
+        chartTriadeEvolucaoInst.data.datasets[2].label = 'Forecast';
         chartTriadeEvolucaoInst.data.datasets[2].data = [null, null, null, null, null, null, null, vals2026Real[7], ...vals2026Forecast];
         chartTriadeEvolucaoInst.update();
       }
     }
 
     // =========================================================================
-    // LÓGICA DO CONSTRUTOR DE HÁBITOS, PREVISOR E SUGESTÕES DA IA (ABA 1)
+    // LÓGICA DO SIMULADOR (ABA 1)
     // =========================================================================
     let selectedSegments = new Set(['Especial', 'Select', 'Private']);
 
@@ -1282,57 +1026,35 @@
       if (selectedSegments.has(segName)) {
         if (selectedSegments.size === 1) return;
         selectedSegments.delete(segName);
-        element.classList.remove('selected');
+        element.classList.remove('active');
       } else {
         selectedSegments.add(segName);
-        element.classList.add('selected');
+        element.classList.add('active');
       }
       rodarSimulacao();
     }
 
     const habitFamilies = {
       "evasao": {
-        label: "🚨 Evasão & Outflow Concorrente",
+        label: "Evasão",
         attrs: [
-          { id: "evadiu_recursos", label: "Evadiu Recursos para Fintechs", defOp: ">", defVal: "3000" },
-          { id: "outflow_pix_recorrente", label: "Outflow Pix Recorrente Mensal", defOp: ">", defVal: "5 envios" },
-          { id: "queda_saldo_conta", label: "Queda de Saldo em Conta 30d", defOp: ">", defVal: "50%" },
-          { id: "open_finance_status", label: "Consentimento Open Finance", defOp: "=", defVal: "Não Possui" }
+          { id: "evadiu_recursos", label: "Evadiu Recursos > 3k", defOp: ">", defVal: "3000" },
+          { id: "outflow_pix_recorrente", label: "Outflow Pix > 5", defOp: ">", defVal: "5" },
+          { id: "open_finance_status", label: "Sem Open Finance", defOp: "=", defVal: "Não" }
         ]
       },
       "rentabilidade": {
-        label: "📊 Rentabilidade & Vínculo",
+        label: "Rentabilidade",
         attrs: [
-          { id: "score_arpac", label: "Score ARPAC (Rentabilidade)", defOp: ">", defVal: "7.0" },
-          { id: "principalidade_santander", label: "Principalidade Santander", defOp: "=", defVal: "Não" },
-          { id: "cliente_fopa", label: "É Cliente FOPA (Folha)", defOp: "=", defVal: "Sim" },
-          { id: "score_credito_interno", label: "Score de Crédito Interno", defOp: ">", defVal: "750" }
-        ]
-      },
-      "pagamentos": {
-        label: "⚡ Hábitos Pix & Pagamentos",
-        attrs: [
-          { id: "freq_pix_mensal", label: "Frequência de Pix Mensal", defOp: ">", defVal: "12" },
-          { id: "freq_boletos_mensal", label: "Pagamentos de Boleto no App", defOp: ">", defVal: "3" },
-          { id: "adesao_dda", label: "Possui DDA Cadastrado", defOp: "=", defVal: "Sim" },
-          { id: "recorrencia_contas_fixas", label: "Contas Fixas Mensais no App", defOp: ">", defVal: "2" }
+          { id: "score_arpac", label: "ARPAC > 7.0", defOp: ">", defVal: "7.0" },
+          { id: "principalidade_santander", label: "Sem Principalidade", defOp: "=", defVal: "Não" },
+          { id: "cliente_fopa", label: "É Cliente Folha", defOp: "=", defVal: "Sim" }
         ]
       },
       "cartoes": {
-        label: "💳 Consumo de Cartão por Categoria",
+        label: "Cartões",
         attrs: [
-          { id: "gasto_cartao_mensal", label: "Gasto Total no Cartão (R$/mês)", defOp: ">", defVal: "2500" },
-          { id: "gasto_ecommerce", label: "Gasto em E-commerce / Assinaturas", defOp: ">", defVal: "800" },
-          { id: "gasto_viagens_restaurantes", label: "Gasto em Viagens & Gastronomia", defOp: ">", defVal: "1200" },
-          { id: "possui_cartao_black", label: "Possui Cartão Black Ativo", defOp: "=", defVal: "Não" }
-        ]
-      },
-      "credito": {
-        label: "🏦 Crédito & Liquidez",
-        attrs: [
-          { id: "utilizacao_limite_conta", label: "Uso do Limite da Conta (Cheque)", defOp: ">", defVal: "30%" },
-          { id: "saldo_insuficiente_pix", label: "Tentativas Pix com Saldo Baixo", defOp: ">", defVal: "2" },
-          { id: "tomador_credito_ativo", label: "Possui Empréstimo Ativo", defOp: "=", defVal: "Não" }
+          { id: "gasto_cartao_mensal", label: "Gasto Cartão > 2.5k", defOp: ">", defVal: "2500" }
         ]
       }
     };
@@ -1341,18 +1063,18 @@
       { fam: "evasao", attr: "evadiu_recursos", op: ">", val: "3000" },
       { fam: "rentabilidade", attr: "score_arpac", op: ">", val: "7.0" },
       { fam: "rentabilidade", attr: "principalidade_santander", op: "=", val: "Não" },
-      { fam: "evasao", attr: "open_finance_status", op: "=", val: "Não Possui" }
+      { fam: "evasao", attr: "open_finance_status", op: "=", val: "Não" }
     ];
 
     function renderRulesList() {
       const container = document.getElementById('rules-list-container');
       const countEl = document.getElementById('rules-count-badge');
       container.innerHTML = '';
-      countEl.innerText = activeRules.length + (activeRules.length === 1 ? ' regra ativa' : ' regras ativas');
+      countEl.innerText = activeRules.length + (activeRules.length === 1 ? ' regra' : ' regras');
 
       activeRules.forEach((rule, index) => {
         const row = document.createElement('div');
-        row.className = 'rule-row';
+        row.className = 'rule-item';
 
         let famOptions = Object.keys(habitFamilies).map(fKey => 
           `<option value="${fKey}" ${rule.fam === fKey ? 'selected' : ''}>${habitFamilies[fKey].label}</option>`
@@ -1366,13 +1088,12 @@
         row.innerHTML = `
           <select class="rule-select" onchange="onFamilyChange(${index}, this.value)">${famOptions}</select>
           <select class="rule-select" onchange="onAttrChange(${index}, this.value)">${attrOptions}</select>
-          <select class="rule-select" onchange="onOpChange(${index}, this.value)" style="width: 70px;">
+          <select class="rule-select" onchange="onOpChange(${index}, this.value)" style="width: 50px;">
             <option value=">" ${rule.op === '>' ? 'selected' : ''}>&gt;</option>
-            <option value="<" ${rule.op === '<' ? 'selected' : ''}>&lt;</option>
             <option value="=" ${rule.op === '=' ? 'selected' : ''}>=</option>
           </select>
           <input type="text" class="rule-input" value="${rule.val}" onchange="onValChange(${index}, this.value)">
-          <button class="btn-delete-rule" onclick="deletarRegra(${index})" title="Remover condição">×</button>
+          <button class="btn-del" onclick="deletarRegra(${index})">×</button>
         `;
         container.appendChild(row);
       });
@@ -1415,27 +1136,20 @@
       rodarSimulacao();
     }
 
-    // AI Prescriptive Suggester Actions
     function aplicarSugestao(tipoSug) {
       if (tipoSug === 'remover_open_finance') {
         activeRules = activeRules.filter(r => r.attr !== 'open_finance_status');
         renderRulesList();
         rodarSimulacao();
-        alert('✓ Sugestão Aplicada: Restrição de Open Finance removida. O público aumentou imediatamente!');
       } else if (tipoSug === 'manter_arpac') {
         let arpacRule = activeRules.find(r => r.attr === 'score_arpac');
-        if (!arpacRule) {
-          activeRules.push({ fam: "rentabilidade", attr: "score_arpac", op: ">", val: "7.0" });
-        } else {
-          arpacRule.val = "7.0";
-        }
+        if (!arpacRule) activeRules.push({ fam: "rentabilidade", attr: "score_arpac", op: ">", val: "7.0" });
+        else arpacRule.val = "7.0";
         renderRulesList();
         rodarSimulacao();
-        alert('✓ Sugestão Aplicada: ARPAC ajustado para > 7.0 (Maior qualificação e menor inadimplência).');
       } else if (tipoSug === 'trocar_lightbox') {
         document.getElementById('sim-espaco-foco').value = 'Lightbox';
         rodarSimulacao();
-        alert('✓ Sugestão Aplicada: Espaço alterado para Lightbox (+74.2% de conversão final prevista).');
       }
     }
 
@@ -1497,10 +1211,10 @@
         data: {
           labels: ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'],
           datasets: [{
-            label: 'Conversão Fundo de Funil (%)',
+            label: 'Conversão (%)',
             data: [74.2, 68.5, 42.0, 38.0, 22.0],
-            backgroundColor: ['#ec0000', '#f59e0b', '#2a75d3', '#64748b', '#94a3b8'],
-            borderRadius: 6
+            backgroundColor: ['#ec0000', '#f59e0b', '#0284c7', '#64748b', '#94a3b8'],
+            borderRadius: 4
           }]
         },
         options: {
@@ -1518,35 +1232,35 @@
           labels: mesesLabels,
           datasets: [
             {
-              label: '2025 (Ano Ant.)',
+              label: '2025',
               data: [280000, 290000, 310000, 315000, 330000, 340000, 355000, 398200, 370000, 385000, 400000, 430000],
               borderColor: '#94a3b8',
-              borderDash: [4, 4],
-              borderWidth: 2,
-              pointRadius: 2
+              borderDash: [3, 3],
+              borderWidth: 1.5,
+              pointRadius: 0
             },
             {
-              label: '2026 Realizado',
+              label: '2026 Real',
               data: [331520, 343360, 367040, 372960, 390720, 402560, 420320, 478900, null, null, null, null],
               borderColor: '#ec0000',
               backgroundColor: '#ec0000',
-              borderWidth: 2.5,
-              pointRadius: 3
+              borderWidth: 2,
+              pointRadius: 2.5
             },
             {
-              label: 'Forecast IA',
+              label: 'Forecast',
               data: [null, null, null, null, null, null, null, 478900, 443520, 461500, 479480, 515440],
-              borderColor: '#2a75d3',
-              borderDash: [4, 4],
-              borderWidth: 2.5,
-              pointRadius: 3
+              borderColor: '#0284c7',
+              borderDash: [3, 3],
+              borderWidth: 2,
+              pointRadius: 2.5
             }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 10 } } } }
         }
       });
 
@@ -1554,24 +1268,22 @@
       new Chart(ctxPacing, {
         type: 'line',
         data: {
-          labels: Array.from({length: 31}, (_, i) => 'Dia ' + (i+1)),
+          labels: Array.from({length: 31}, (_, i) => (i+1)),
           datasets: [
             {
-              label: 'Realizado MTD (Dias 1 a 20)',
+              label: 'Realizado (1 a 20)',
               data: [420, 850, 1310, 1800, 2350, 2900, 3420, 3980, 4520, 5100, 5700, 6290, 6890, 7490, 8080, 8690, 9280, 9890, 10480, 11090],
               borderColor: '#ec0000',
-              backgroundColor: '#ec0000',
-              borderWidth: 3,
-              tension: 0.1,
-              pointRadius: 4
+              borderWidth: 2,
+              pointRadius: 2
             },
             {
-              label: 'Forecast Preditivo com IA (Dias 21 a 31)',
+              label: 'Forecast (21 a 31)',
               data: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 11090, 11700, 12300, 12910, 13520, 14130, 14750, 15370, 15990, 16620, 17250, 17880],
-              borderColor: '#2a75d3',
-              borderDash: [5, 5],
-              borderWidth: 3,
-              pointRadius: 4
+              borderColor: '#0284c7',
+              borderDash: [4, 4],
+              borderWidth: 2,
+              pointRadius: 2
             }
           ]
         },
@@ -1582,10 +1294,10 @@
       new Chart(ctxRoc, {
         type: 'line',
         data: {
-          labels: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+          labels: [0, 0.2, 0.4, 0.6, 0.8, 1.0],
           datasets: [
-            { label: 'Rede Neural MLP (AUC = 0.702)', data: [0, 0.35, 0.52, 0.64, 0.72, 0.79, 0.84, 0.89, 0.93, 0.97, 1.0], borderColor: '#ec0000', borderWidth: 3 },
-            { label: 'Baseline Regressão Logística (AUC = 0.706)', data: [0, 0.32, 0.48, 0.61, 0.70, 0.77, 0.83, 0.88, 0.93, 0.97, 1.0], borderColor: '#2a75d3', borderDash: [4, 4], borderWidth: 2 }
+            { label: 'MLP (0.702)', data: [0, 0.52, 0.72, 0.84, 0.93, 1.0], borderColor: '#ec0000', borderWidth: 2 },
+            { label: 'LogReg (0.706)', data: [0, 0.48, 0.70, 0.83, 0.93, 1.0], borderColor: '#0284c7', borderDash: [3, 3], borderWidth: 1.5 }
           ]
         },
         options: { responsive: true, maintainAspectRatio: false }
