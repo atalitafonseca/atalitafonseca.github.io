@@ -262,7 +262,7 @@
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* Dynamic Lateral AI Suggestions Panel com Toggle Ativo/Desativo */
+    /* Dynamic Lateral AI Suggestions Panel */
     .sug-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -299,7 +299,6 @@
     }
     .tag-gain { color: #15803d; background: #dcfce7; }
     .tag-ok { color: #0369a1; background: #e0f2fe; }
-    .tag-muted { color: #475569; background: #e2e8f0; }
 
     .sug-actions-area { display: flex; align-items: center; gap: 6px; }
 
@@ -440,7 +439,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Modos Conversão & Awareness</p>
+        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Rótulos de Dados em Tempo Real</p>
       </div>
     </div>
     <div class="nav-links">
@@ -461,7 +460,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR COM MODOS DE CONVERSÃO vs AWARENESS E TOGGLES ATIVO/DESAT -->
+    <!-- ABA 1: SIMULADOR COM RÓTULOS EXPLÍCITOS NO GRÁFICO                        -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
@@ -481,7 +480,7 @@
         </div>
       </div>
 
-      <!-- 5 KPIS ADAPTÁVEIS (MUDAM ENTRE CONVERSÃO E AWARENESS) -->
+      <!-- 5 KPIS ADAPTÁVEIS COM INDICAÇÃO VISUAL -->
       <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;" id="sim-kpi-container">
         <div class="kpi-card" id="card-sim-1" style="padding:10px 12px; text-align:center;">
           <div class="kpi-title" id="kpi-label-1">1. Views nos Espaços</div>
@@ -587,7 +586,7 @@
           </button>
         </div>
 
-        <!-- Right: Real-Time Dynamic AI Suggestions with Ativo/Desativo Toggle -->
+        <!-- Right: Real-Time Dynamic AI Suggestions with Rótulos no Gráfico -->
         <div class="card" id="card-ai-sug">
           <div class="card-header">
             <h2>💡 Sugestões da IA (Ativar/Desativar Altera o Público)</h2>
@@ -604,12 +603,16 @@
 
           <div id="ai-suggestions-list"></div>
 
+          <!-- GRÁFICO COM RÓTULOS VISÍVEIS DIRETOS E BADGE DE MÉTRICA -->
           <div style="margin-top:14px; border-top:1px solid var(--border-subtle); padding-top:10px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;" id="chart-espacos-label">Volume Estimado por Canal (Contratos Finais):</span>
-              <span style="font-size:0.7rem; color:var(--org-blue); font-weight:600;">(Clique nas barras para alternar)</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Volume por Canal:</span>
+                <span id="chart-metric-badge" style="font-size:0.7rem; font-weight:800; padding:2px 8px; border-radius:4px; background:#fee2e2; color:var(--santander-red);">🎯 Contratos Finais (Conversão)</span>
+              </div>
+              <span style="font-size:0.7rem; color:var(--org-blue); font-weight:600;">(Rótulos no topo das barras · Clique para focar canal)</span>
             </div>
-            <div style="height: 140px;">
+            <div style="height: 165px; position:relative;">
               <canvas id="chartEspacos"></canvas>
             </div>
           </div>
@@ -1044,7 +1047,7 @@
   </div>
 
   <script>
-    // GLOBAL STATE COM OBJETIVO E ESTADOS DE TOGGLE DAS SUGESTÕES
+    // GLOBAL STATE
     const appState = {
       product: "Pix",
       monthIdx: 7, // 7 = Agosto (0 a 11)
@@ -1060,11 +1063,11 @@
       ],
       dismissedSuggestions: new Set(),
       suggestionToggles: {
-        "sug_open_finance": false, // false = trava ativa (não expandido) / true = expandido
-        "sug_arpac": true,         // true = ARPAC > 7.0 ativo
-        "sug_espaco": true,        // true = Lightbox ativo
-        "sug_fopa": false,         // false = sem FOPA
-        "sug_cartao": false        // false = sem filtro de cartão
+        "sug_open_finance": false,
+        "sug_arpac": true,
+        "sug_espaco": true,
+        "sug_fopa": false,
+        "sug_cartao": false
       },
       currentAudienceSize: 3420000
     };
@@ -1158,19 +1161,24 @@
       "7. Fundo de Funil: Produção Core"
     ];
 
-    // SELETOR ESTRATÉGICO: CONVERSÃO vs AWARENESS
     function mudarObjetivoCampanha(novoObj) {
       appState.objetivoCampanha = novoObj;
       document.getElementById('btn-obj-conversao').classList.toggle('active', novoObj === 'conversao');
       document.getElementById('btn-obj-awareness').classList.toggle('active', novoObj === 'awareness');
       
       const subDesc = document.getElementById('obj-sub-desc');
+      const badgeMetric = document.getElementById('chart-metric-badge');
+
       if (novoObj === 'conversao') {
         subDesc.innerText = 'Foco em Vendas e Produção Core';
-        document.getElementById('chart-espacos-label').innerText = 'Volume Estimado por Canal (Contratos Finais):';
+        badgeMetric.style.background = '#fee2e2';
+        badgeMetric.style.color = 'var(--santander-red)';
+        badgeMetric.innerText = '🎯 Contratos Finais (Conversão)';
       } else {
         subDesc.innerText = 'Foco em Alcance, Pessoas Impactadas e Frequência de Marca';
-        document.getElementById('chart-espacos-label').innerText = 'Alcance Potencial por Canal (Pessoas Únicas Impactadas):';
+        badgeMetric.style.background = '#e0f2fe';
+        badgeMetric.style.color = '#0369a1';
+        badgeMetric.innerText = '📢 Pessoas Únicas Alcançadas (Awareness)';
       }
 
       clicarCalcularMaster();
@@ -1257,7 +1265,6 @@
       showToast('✓ Todas as sugestões foram restauradas e recalculadas!');
     }
 
-    // TOGGLE ATIVO / DESATIVO NAS SUGESTÕES QUE MODIFICA AS REGRAS E O PÚBLICO
     function alternarToggleSugestao(sugKey) {
       let currentState = appState.suggestionToggles[sugKey] || false;
       let newState = !currentState;
@@ -1265,11 +1272,9 @@
 
       if (sugKey === 'sug_open_finance') {
         if (newState === true) {
-          // Ativa otimização de alcance: remove a trava
           appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'open_finance');
           showToast('🟢 Otimização de Alcance Ativada: Restrição de Open Finance removida (+28% de público)!');
         } else {
-          // Desativa otimização: recoloca a restrição
           if (!appState.activeRules.some(r => r.attrId === 'open_finance')) {
             appState.activeRules.push({ attrId: "open_finance", val: "Não Possui" });
           }
@@ -1307,7 +1312,6 @@
       clicarCalcularMaster();
     }
 
-    // ENGINE DE SUGESTÕES DINÂMICAS COM BOTÃO ATIVO / DESATIVO
     function calcularSugestoesLateralIA() {
       const container = document.getElementById('ai-suggestions-list');
       const tag = document.getElementById('ai-sug-prod-tag');
@@ -1323,7 +1327,6 @@
       let isLightbox = (focoEspaco === 'Lightbox');
       let hasFopa = appState.activeRules.some(r => r.attrId === 'cliente_fopa');
 
-      // Sincroniza os estados internos dos toggles
       appState.suggestionToggles["sug_open_finance"] = !hasOpenFinance;
       appState.suggestionToggles["sug_arpac"] = hasArpac;
       appState.suggestionToggles["sug_espaco"] = isLightbox;
@@ -1346,7 +1349,7 @@
         isActive: stOpenFinance
       });
 
-      // 2. QUALIFICAÇÃO ARPAC (OU COBERTURA DE MASSA NO AWARENESS)
+      // 2. QUALIFICAÇÃO ARPAC
       let stArpac = appState.suggestionToggles["sug_arpac"];
       if (isAwareness) {
         suggestionsPool.push({
@@ -1374,7 +1377,7 @@
         });
       }
 
-      // 3. ESPAÇO COMERCIAL (LIGHTBOX vs CANAL DE MASSA)
+      // 3. ESPAÇO COMERCIAL
       let stEspaco = appState.suggestionToggles["sug_espaco"];
       if (isAwareness) {
         suggestionsPool.push({
@@ -1402,7 +1405,7 @@
         });
       }
 
-      // 4. ALAVANCA CONTA SALÁRIO (FOPA)
+      // 4. CONTA SALÁRIO
       let stFopa = appState.suggestionToggles["sug_fopa"];
       suggestionsPool.push({
         id: "sug_fopa",
@@ -1416,7 +1419,6 @@
         isActive: stFopa
       });
 
-      // Filtra as dispensadas e exibe até 3
       let activeSugList = suggestionsPool.filter(s => !appState.dismissedSuggestions.has(s.id)).slice(0, 3);
 
       if (activeSugList.length === 0) {
@@ -1591,7 +1593,7 @@
       let meio = Math.round(topo * prof.meioRate);
       let fundo = Math.round(meio * (prof.fundoRate * prodFundoMult));
 
-      // 5 KPIS ADAPTADOS (SE FOR AWARENESS OU CONVERSÃO)
+      // KPIS ADAPTADOS (AWARENESS vs CONVERSÃO)
       if (isAwareness) {
         let totalImpressoes = Math.round(views * prof.freq);
         let coberturaBasePct = ((alcanceTotal / 8500000) * 100).toFixed(1);
@@ -1637,7 +1639,7 @@
         document.getElementById('sim-kpi-sub-5').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
       }
 
-      // ATUALIZAÇÃO DO GRÁFICO (CONTRATOS OU ALCANCE DE PESSOAS)
+      // ATUALIZAÇÃO DO GRÁFICO COM RÓTULOS REATIVOS
       if (chartEspacosInst) {
         const bgColors = ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'].map(s => s === focoEspaco ? '#ec0000' : '#cbd5e1');
         
@@ -2000,7 +2002,7 @@
       { id: "gasto_cartao", label: "Gasto Mensal no Cartão (R$)", category: "Cartões", type: "numeric", defaultOp: ">", defaultVal: "2500", keywords: ["cartao", "gasto", "fatura", "credito", "consumo", "shopping"], desc: "Total médio de gastos faturados no cartão de crédito Santander nos últimos 3 meses." },
       { id: "freq_pix", label: "Frequência de Pix / Mês", category: "Transacional", type: "numeric", defaultOp: ">", defaultVal: "10", keywords: ["pix", "frequencia", "transferencias", "transacoes", "pagamentos"], desc: "Quantidade média de transferências Pix enviadas pelo App Santander por mês." },
       { id: "uso_limite_conta", label: "Uso do Limite da Conta (%)", category: "Crédito", type: "numeric", defaultOp: ">", defaultVal: "30", keywords: ["cheque especial", "limite da conta", "limite", "rotativo", "saldo negativo"], desc: "Percentual médio de utilização do cheque especial / limite contratado da conta corrente." },
-      { id: "gasto_viagens_restaurantes", label: "Gasto em Gastronomia & Viagens (R$)", category: "Cartões", type: "numeric", defaultOp: ">", defaultVal: "1200", keywords: ["viagens", "restaurantes", "gastronomia", "ifood", "hotel", "aereo"], desc: "Volume mensal transacionado em estabelecimentos de提urismo, companhias aéreas e alta gastronomia." },
+      { id: "gasto_viagens_restaurantes", label: "Gasto em Gastronomia & Viagens (R$)", category: "Cartões", type: "numeric", defaultOp: ">", defaultVal: "1200", keywords: ["viagens", "restaurantes", "gastronomia", "ifood", "hotel", "aereo"], desc: "Volume mensal transacionado em estabelecimentos de turismo, companhias aéreas e alta gastronomia." },
       { id: "possui_cartao_black", label: "Possui Cartão Black / Infinite", category: "Cartões", type: "categorical", options: ["Sim", "Não"], defaultVal: "Não", keywords: ["black", "infinite", "unlimited", "cartao alta renda"], desc: "Verifica a posse de cartão Santander Unlimited, Black ou Infinite ativo." }
     ];
 
@@ -2122,10 +2124,49 @@
       reader.readAsText(file);
     }
 
+    // PLUGIN CUSTOMIZADO DE RÓTULOS (DATALABELS) NO TOPO DE CADA BARRA
+    const barDatalabelsPlugin = {
+      id: 'barDatalabels',
+      afterDatasetsDraw(chart, args, options) {
+        const { ctx } = chart;
+        ctx.save();
+        chart.data.datasets.forEach((dataset, datasetIndex) => {
+          if (chart.getDatasetMeta(datasetIndex).hidden) return;
+          const meta = chart.getDatasetMeta(datasetIndex);
+          meta.data.forEach((element, index) => {
+            const val = dataset.data[index];
+            if (val !== null && val !== undefined) {
+              let isAwareness = (appState.objetivoCampanha === 'awareness');
+              let formatted = '';
+              
+              if (val >= 1000000) {
+                formatted = (val / 1000000).toFixed(2).replace('.', ',') + 'M';
+              } else if (val >= 1000) {
+                formatted = (val / 1000).toFixed(1).replace('.', ',') + 'k';
+              } else {
+                formatted = val.toLocaleString('pt-BR');
+              }
+
+              let unit = isAwareness ? ' pessoas' : ' contr.';
+              let isSelected = dataset.backgroundColor[index] === '#ec0000';
+
+              ctx.font = isSelected ? '800 11.5px "Plus Jakarta Sans", sans-serif' : '700 10.5px "Plus Jakarta Sans", sans-serif';
+              ctx.fillStyle = isSelected ? '#ec0000' : '#475569';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+              ctx.fillText(`${formatted}${unit}`, element.x, element.y - 4);
+            }
+          });
+        });
+        ctx.restore();
+      }
+    };
+
     window.addEventListener('DOMContentLoaded', () => {
       const ctxEspacos = document.getElementById('chartEspacos').getContext('2d');
       chartEspacosInst = new Chart(ctxEspacos, {
         type: 'bar',
+        plugins: [barDatalabelsPlugin],
         data: {
           labels: ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'],
           datasets: [{
@@ -2138,6 +2179,12 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          layout: {
+            padding: {
+              top: 24, // Espaço para os rótulos de dados
+              bottom: 4
+            }
+          },
           onClick: (evt, activeEls) => {
             if (activeEls.length > 0) {
               const clickedIdx = activeEls[0].index;
@@ -2149,14 +2196,20 @@
             legend: { display: false },
             tooltip: {
               callbacks: {
-                label: (ctx) => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString('pt-BR')}`
+                label: (ctx) => {
+                  let isAwareness = (appState.objetivoCampanha === 'awareness');
+                  let suffix = isAwareness ? ' pessoas alcançadas' : ' contratos finais';
+                  return ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString('pt-BR')}${suffix}`;
+                }
               }
             }
           },
           scales: { 
             y: { 
               beginAtZero: true,
-              ticks: { callback: v => (v >= 1000 ? (v/1000) + 'k' : v) }
+              ticks: { 
+                callback: v => (v >= 1000000 ? (v/1000000).toFixed(1) + 'M' : v >= 1000 ? (v/1000) + 'k' : v) 
+              }
             } 
           }
         }
