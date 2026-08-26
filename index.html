@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Santander Campaign Intelligence | Funil Orgânico vs Campanha & Comparativos YoY/MoM/MTD</title>
+  <title>Santander Campaign Intelligence | Torre de Controle & Funil Executivo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
@@ -20,7 +20,7 @@
       --border: #e2e8f0;
       --success: #10b981;
       --warning: #f59e0b;
-      --info: #0ea5e9;
+      --info: #0284c7;
       --purple: #8b5cf6;
     }
 
@@ -97,7 +97,7 @@
     .card {
       background: var(--card-bg);
       border-radius: 12px;
-      padding: 20px;
+      padding: 22px;
       border: 1px solid var(--border);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
       margin-bottom: 20px;
@@ -106,7 +106,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 10px;
       flex-wrap: wrap;
@@ -114,11 +114,11 @@
     }
     .card-header h2 { font-size: 1.05rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
 
-    /* Grid Layout: Funnel (Left) + Executive Comparison Side Panel (Right) */
+    /* Main Triad Grid */
     .triad-split-layout {
       display: grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap: 20px;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 22px;
       margin-bottom: 20px;
     }
     @media (max-width: 1100px) { .triad-split-layout { grid-template-columns: 1fr; } }
@@ -151,17 +151,18 @@
     .control-select:focus { border-color: var(--santander-red); }
 
     /* ========================================================================= */
-    /* ULTRA-CLEAR 7-STAGE DUAL-SPLIT FUNNEL (ORGÂNICO VS CAMPANHA EXPLÍCITOS)  */
+    /* ULTRA-PREMIUM EXECUTIVE FUNNEL DESIGN (VISUALIZAÇÃO DE FUNIL APRIMORADA)  */
     /* ========================================================================= */
-    .funnel-dual-container {
+    .funnel-executive-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       width: 100%;
+      padding: 4px 0;
     }
 
-    .funnel-stage-row {
+    .funnel-tier-item {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -169,73 +170,112 @@
       position: relative;
     }
 
-    .funnel-stage-card {
-      display: grid;
-      grid-template-columns: 1.6fr 1fr 1fr;
-      gap: 8px;
-      align-items: center;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1.5px solid var(--border);
-      background: white;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-      transition: all 0.2s;
-    }
-    .funnel-stage-card:hover { transform: scale(1.01); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07); }
-
-    /* Geometric Widths */
-    .f-w1 { width: 100%; border-left: 5px solid #334155; }
-    .f-w2 { width: 94%; border-left: 5px solid #0ea5e9; }
-    .f-w3 { width: 88%; border-left: 5px solid #f59e0b; }
-    .f-w4 { width: 82%; border-left: 5px solid #64748b; }
-    .f-w5 { width: 76%; border-left: 5px solid #8b5cf6; }
-    .f-w6 { width: 70%; border-left: 5px solid #7c3aed; background: #faf5ff; }
-    .f-w7 { width: 64%; border-left: 5px solid var(--santander-red); background: var(--santander-light); border-color: #fca5a5; }
-
-    .stage-meta { display: flex; flex-direction: column; }
-    .stage-name { font-size: 0.8rem; font-weight: 700; color: var(--text-main); }
-    .stage-total { font-size: 0.95rem; font-weight: 800; color: var(--text-main); }
-
-    /* Dual Side-by-side Colored Blocks */
-    .stage-split-box {
-      border-radius: 6px;
-      padding: 5px 8px;
+    .funnel-capsule {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 9px 16px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
+      gap: 6px;
+      transition: all 0.2s ease;
     }
-    .stage-split-box.org {
-      background: #f0f9ff;
-      border: 1px solid #bae6fd;
+    .funnel-capsule:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
-    .stage-split-box.camp {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-    }
-    .split-title { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
-    .stage-split-box.org .split-title { color: #0284c7; }
-    .stage-split-box.camp .split-title { color: #dc2626; }
-    .split-val { font-size: 0.84rem; font-weight: 800; color: var(--text-main); }
-    .split-pct { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); }
 
-    /* Pass-through badge connector */
-    .pass-connector {
+    /* Geometric Width Hierarchy */
+    .tier-w1 { width: 100%; border-left: 6px solid #1e293b; }
+    .tier-w2 { width: 93%; border-left: 6px solid #0284c7; }
+    .tier-w3 { width: 86%; border-left: 6px solid #f59e0b; }
+    .tier-w4 { width: 79%; border-left: 6px solid #475569; }
+    .tier-w5 { width: 72%; border-left: 6px solid #8b5cf6; }
+    .tier-w6 { width: 65%; border-left: 6px solid #7c3aed; background: #faf5ff; }
+    .tier-w7 { width: 58%; border-left: 6px solid var(--santander-red); background: var(--santander-light); border-color: #fca5a5; }
+
+    /* Top row inside capsule: Title & Main Volume */
+    .capsule-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .capsule-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .capsule-total {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--text-main);
+    }
+    .tier-w7 .capsule-total { color: var(--santander-red); }
+
+    /* Dual Segmented Visual Progress Bar */
+    .capsule-bar-track {
+      height: 24px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #e2e8f0;
+    }
+
+    .bar-seg-org {
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: width 0.3s ease;
+    }
+
+    .bar-seg-camp {
+      background: linear-gradient(90deg, #ef4444, #dc2626);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 8px;
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: width 0.3s ease;
+    }
+
+    /* Connecting pass-through badges */
+    .connector-badge-wrap {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 6px;
       font-size: 0.72rem;
       font-weight: 700;
-      color: #334155;
-      margin: 2px 0;
+      margin: 1px 0;
     }
-    .pass-connector span {
-      background: #f1f5f9;
-      border: 1px solid var(--border);
-      padding: 1px 10px;
+    .connector-badge {
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      padding: 2px 10px;
       border-radius: 12px;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
+    .connector-badge strong { color: var(--success); }
 
     /* ========================================================================= */
     /* EXECUTIVE SIDE PANEL: FORECAST YoY/MoM & MTD ATÉ O MOMENTO                */
@@ -284,7 +324,6 @@
     .grid-cell-label { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); }
     .grid-cell-val { font-size: 0.95rem; font-weight: 800; }
 
-    /* MTD vs Past Periods Comparison List */
     .mtd-comp-list {
       display: flex;
       flex-direction: column;
@@ -356,7 +395,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Jornadas & Previsor da Tríade com IA</h1>
-        <p>Funil Detalhado de Orgânico vs Campanha, Forecast (YoY/MoM) e Acompanhamento MTD vs Histórico</p>
+        <p>Funil Executivo: Decomposição Orgânico vs Campanha, Forecast (YoY/MoM) e Acompanhamento MTD</p>
       </div>
     </div>
     <div class="nav-links">
@@ -377,7 +416,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE (FUNIL COM VISÃO CLARA ORGÂNICO VS CAMPANHA & COMPARATIVOS)-->
+    <!-- ABA 2: A TRÍADE COM FUNIL EXECUTIVO APRIMORADO                            -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content">
       
@@ -414,166 +453,164 @@
         </div>
       </div>
 
-      <!-- MAIN SPLIT LAYOUT: DUAL-SPLIT FUNNEL (LEFT) + SIDE EXECUTIVE PANEL (RIGHT) -->
+      <!-- MAIN SPLIT LAYOUT -->
       <div class="triad-split-layout">
         
-        <!-- LEFT COLUMN: 7-STAGE DUAL-SPLIT FUNNEL (ORGÂNICO VS CAMPANHA) -->
+        <!-- LEFT COLUMN: ULTRA-PREMIUM 7-STAGE FUNNEL -->
         <div class="card">
           <div class="card-header">
-            <h2>🔻 Funil de 7 Etapas: Decomposição Clara de Orgânico vs Campanha</h2>
-            <div style="font-size: 0.78rem; display:flex; gap:10px;">
+            <h2>🔻 Funil de Conversão: Decomposição Orgânico vs Campanha</h2>
+            <div style="font-size: 0.78rem; display:flex; gap:8px;">
               <span class="badge-org">🟦 Orgânico</span>
               <span class="badge-camp">🟥 Campanha CRM</span>
             </div>
           </div>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-            Cada nível do funil exibe o volume total e a <strong>parcela exata de cada origem</strong>:
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+            Afunilamento geométrico com proporção visual e taxas de passagem entre etapas:
           </p>
 
-          <div class="funnel-dual-container">
+          <div class="funnel-executive-wrapper">
             
             <!-- Etapa 1 -->
-            <div class="funnel-stage-row">
-              <div class="funnel-stage-card f-w1">
-                <div class="stage-meta">
-                  <div class="stage-name">👥 1. Base Elegível (Sizing)</div>
-                  <div class="stage-total" id="fn-tot-1">5.800.000</div>
+            <div class="funnel-tier-item">
+              <div class="funnel-capsule tier-w1">
+                <div class="capsule-header-row">
+                  <span class="capsule-title">👥 1. Base Elegível (Sizing CRM)</span>
+                  <span class="capsule-total" id="fn-tot-1">5.800.000</span>
                 </div>
-                <div class="stage-split-box org">
-                  <div class="split-title">🟦 Orgânico</div>
-                  <div class="split-val" id="fn-org-1">3.596.000</div>
-                  <div class="split-pct" id="fn-pct-org-1">62% da base</div>
-                </div>
-                <div class="stage-split-box camp">
-                  <div class="split-title">🟥 Campanha</div>
-                  <div class="split-val" id="fn-camp-1">2.204.000</div>
-                  <div class="split-pct" id="fn-pct-camp-1">38% da base</div>
+                <div class="capsule-bar-track">
+                  <div class="bar-seg-org s-bar-org" id="bar-org-1" style="width: 62%;">
+                    <span id="txt-bar-org-1">🟦 Orgânico: 3.596.000 (62%)</span>
+                  </div>
+                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-1" style="width: 38%;">
+                    <span id="txt-bar-camp-1">🟥 Campanha: 2.204.000 (38%)</span>
+                  </div>
                 </div>
               </div>
-              <div class="pass-connector"><span id="fn-pass-1">↓ 86.2% de visualização total</span></div>
+              <div class="connector-badge-wrap">
+                <div class="connector-badge">↓ <strong id="fn-pass-1">86.2%</strong> visualizam a oferta</div>
+              </div>
             </div>
 
             <!-- Etapa 2 -->
-            <div class="funnel-stage-row">
-              <div class="funnel-stage-card f-w2">
-                <div class="stage-meta">
-                  <div class="stage-name">👁️ 2. Visualização no Espaço</div>
-                  <div class="stage-total" id="fn-tot-2">5.000.000</div>
+            <div class="funnel-tier-item">
+              <div class="funnel-capsule tier-w2">
+                <div class="capsule-header-row">
+                  <span class="capsule-title">👁️ 2. Visualização no Espaço Comercial</span>
+                  <span class="capsule-total" id="fn-tot-2">5.000.000</span>
                 </div>
-                <div class="stage-split-box org">
-                  <div class="split-title">🟦 Orgânico</div>
-                  <div class="split-val" id="fn-org-2">3.100.000</div>
-                  <div class="split-pct">62%</div>
-                </div>
-                <div class="stage-split-box camp">
-                  <div class="split-title">🟥 Campanha</div>
-                  <div class="split-val" id="fn-camp-2">1.900.000</div>
-                  <div class="split-pct">38%</div>
+                <div class="capsule-bar-track">
+                  <div class="bar-seg-org s-bar-org" id="bar-org-2" style="width: 62%;">
+                    <span id="txt-bar-org-2">3.100.000 (62%)</span>
+                  </div>
+                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-2" style="width: 38%;">
+                    <span id="txt-bar-camp-2">1.900.000 (38%)</span>
+                  </div>
                 </div>
               </div>
-              <div class="pass-connector"><span id="fn-pass-2">↓ 24.0% clicam na oferta (CTR)</span></div>
+              <div class="connector-badge-wrap">
+                <div class="connector-badge">↓ <strong id="fn-pass-2">24.0%</strong> CTR de engajamento</div>
+              </div>
             </div>
 
             <!-- Etapa 3 -->
-            <div class="funnel-stage-row">
-              <div class="funnel-stage-card f-w3">
-                <div class="stage-meta">
-                  <div class="stage-name">🖱️ 3. Clique / Interação</div>
-                  <div class="stage-total" id="fn-tot-3">1.200.000</div>
+            <div class="funnel-tier-item">
+              <div class="funnel-capsule tier-w3">
+                <div class="capsule-header-row">
+                  <span class="capsule-title">🖱️ 3. Clique / Interação</span>
+                  <span class="capsule-total" id="fn-tot-3">1.200.000</span>
                 </div>
-                <div class="stage-split-box org">
-                  <div class="split-title">🟦 Orgânico</div>
-                  <div class="split-val" id="fn-org-3">744.000</div>
-                  <div class="split-pct">62%</div>
-                </div>
-                <div class="stage-split-box camp">
-                  <div class="split-title">🟥 Campanha</div>
-                  <div class="split-val" id="fn-camp-3">456.000</div>
-                  <div class="split-pct">38%</div>
+                <div class="capsule-bar-track">
+                  <div class="bar-seg-org s-bar-org" id="bar-org-3" style="width: 62%;">
+                    <span id="txt-bar-org-3">744.000 (62%)</span>
+                  </div>
+                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-3" style="width: 38%;">
+                    <span id="txt-bar-camp-3">456.000 (38%)</span>
+                  </div>
                 </div>
               </div>
-              <div class="pass-connector"><span id="fn-pass-3">↓ 83.3% entram no fluxo do App</span></div>
+              <div class="connector-badge-wrap">
+                <div class="connector-badge">↓ <strong id="fn-pass-3">83.3%</strong> entram no fluxo do App</div>
+              </div>
             </div>
 
             <!-- Etapa 4 -->
-            <div class="funnel-stage-row">
-              <div class="funnel-stage-card f-w4">
-                <div class="stage-meta">
-                  <div class="stage-name">📱 4. Entrada na Jornada (App)</div>
-                  <div class="stage-total" id="fn-tot-4">1.000.000</div>
+            <div class="funnel-tier-item">
+              <div class="funnel-capsule tier-w4">
+                <div class="capsule-header-row">
+                  <span class="capsule-title">📱 4. Entrada na Jornada (App Santander)</span>
+                  <span class="capsule-total" id="fn-tot-4">1.000.000</span>
                 </div>
-                <div class="stage-split-box org">
-                  <div class="split-title">🟦 Orgânico</div>
-                  <div class="split-val" id="fn-org-4">620.000</div>
-                  <div class="split-pct">62%</div>
-                </div>
-                <div class="stage-split-box camp">
-                  <div class="split-title">🟥 Campanha</div>
-                  <div class="split-val" id="fn-camp-4">380.000</div>
-                  <div class="split-pct">38%</div>
+                <div class="capsule-bar-track">
+                  <div class="bar-seg-org s-bar-org" id="bar-org-4" style="width: 62%;">
+                    <span id="txt-bar-org-4">620.000 (62%)</span>
+                  </div>
+                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-4" style="width: 38%;">
+                    <span id="txt-bar-camp-4">380.000 (38%)</span>
+                  </div>
                 </div>
               </div>
-              <div class="pass-connector"><span id="fn-pass-4">↓ 78.0% iniciam simulação</span></div>
+              <div class="connector-badge-wrap">
+                <div class="connector-badge">↓ <strong id="fn-pass-4">78.0%</strong> iniciam simulação</div>
+              </div>
             </div>
 
             <!-- Etapa 5 -->
-            <div class="funnel-stage-row">
-              <div class="funnel-stage-card f-w5">
-                <div class="stage-meta">
-                  <div class="stage-name">⚙️ 5. Simulação de Condições</div>
-                  <div class="stage-total" id="fn-tot-5">780.000</div>
+            <div class="funnel-tier-item">
+              <div class="funnel-capsule tier-w5">
+                <div class="capsule-header-row">
+                  <span class="capsule-title">⚙️ 5. Simulação de Condições</span>
+                  <span class="capsule-total" id="fn-tot-5">780.000</span>
                 </div>
-                <div class="stage-split-box org">
-                  <div class="split-title">🟦 Orgânico</div>
-                  <div class="split-val" id="fn-org-5">483.600</div>
-                  <div class="split-pct">62%</div>
-                </div>
-                <div class="stage-split-box camp">
-                  <div class="split-title">🟥 Campanha</div>
-                  <div class="split-val" id="fn-camp-5">296.400</div>
-                  <div class="split-pct">38%</div>
+                <div class="capsule-bar-track">
+                  <div class="bar-seg-org s-bar-org" id="bar-org-5" style="width: 62%;">
+                    <span id="txt-bar-org-5">483.600 (62%)</span>
+                  </div>
+                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-5" style="width: 38%;">
+                    <span id="txt-bar-camp-5">296.400 (38%)</span>
+                  </div>
                 </div>
               </div>
-              <div class="pass-connector"><span id="fn-pass-5">↓ 65.4% concluem no App</span></div>
+              <div class="connector-badge-wrap">
+                <div class="connector-badge">↓ <strong id="fn-pass-5">65.4%</strong> concluem no App</div>
+              </div>
             </div>
 
             <!-- Etapa 6 -->
-            <div class="funnel-stage-row">
-              <div class="funnel-stage-card f-w6">
-                <div class="stage-meta">
-                  <div class="stage-name">📱 6. Fechamento de Funil (App)</div>
-                  <div class="stage-total" id="fn-tot-6" style="color: #6d28d9;">510.000</div>
+            <div class="funnel-tier-item">
+              <div class="funnel-capsule tier-w6">
+                <div class="capsule-header-row">
+                  <span class="capsule-title" style="color: #6d28d9;">📱 6. Fechamento de Funil (App)</span>
+                  <span class="capsule-total" id="fn-tot-6" style="color: #6d28d9;">510.000</span>
                 </div>
-                <div class="stage-split-box org">
-                  <div class="split-title">🟦 Orgânico</div>
-                  <div class="split-val" id="fn-org-6">316.200</div>
-                  <div class="split-pct">62%</div>
-                </div>
-                <div class="stage-split-box camp">
-                  <div class="split-title">🟥 Campanha</div>
-                  <div class="split-val" id="fn-camp-6">193.800</div>
-                  <div class="split-pct">38%</div>
+                <div class="capsule-bar-track">
+                  <div class="bar-seg-org s-bar-org" id="bar-org-6" style="width: 62%;">
+                    <span id="txt-bar-org-6">316.200 (62%)</span>
+                  </div>
+                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-6" style="width: 38%;">
+                    <span id="txt-bar-camp-6">193.800 (38%)</span>
+                  </div>
                 </div>
               </div>
-              <div class="pass-connector"><span id="fn-pass-6">↓ 93.9% liquidação efetiva no Core</span></div>
+              <div class="connector-badge-wrap">
+                <div class="connector-badge">↓ <strong id="fn-pass-6">93.9%</strong> liquidação efetiva Core</div>
+              </div>
             </div>
 
             <!-- Etapa 7 -->
-            <div class="funnel-stage-row">
-              <div class="funnel-stage-card f-w7">
-                <div class="stage-meta">
-                  <div class="stage-name" style="color:var(--santander-red);">🏦 7. Produção Efetiva (Core)</div>
-                  <div class="stage-total" id="fn-tot-7" style="color:var(--santander-red);">478.900</div>
+            <div class="funnel-tier-item">
+              <div class="funnel-capsule tier-w7">
+                <div class="capsule-header-row">
+                  <span class="capsule-title" style="color:var(--santander-red);">🏦 7. Produção Efetiva (Core)</span>
+                  <span class="capsule-total" id="fn-tot-7" style="color:var(--santander-red);">478.900</span>
                 </div>
-                <div class="stage-split-box org">
-                  <div class="split-title">🟦 Orgânico</div>
-                  <div class="split-val" id="fn-org-7">296.918</div>
-                  <div class="split-pct">62%</div>
-                </div>
-                <div class="stage-split-box camp">
-                  <div class="split-title">🟥 Campanha</div>
-                  <div class="split-val" id="fn-camp-7">181.982</div>
-                  <div class="split-pct">38%</div>
+                <div class="capsule-bar-track">
+                  <div class="bar-seg-org s-bar-org" id="bar-org-7" style="width: 62%;">
+                    <span id="txt-bar-org-7">296.918 (62%)</span>
+                  </div>
+                  <div class="bar-seg-camp s-bar-camp" id="bar-camp-7" style="width: 38%;">
+                    <span id="txt-bar-camp-7">181.982 (38%)</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1002,9 +1039,11 @@
       document.getElementById('side-mtd-mom').innerText = `+${mtdMomPct}% MoM`;
       document.getElementById('side-mtd-yoy').innerText = `+${mtdYoyPct}% YoY`;
 
-      // 2. Update Dual-Split Funnel Tiers (Orgânico vs Campanha)
+      // 2. Update Enhanced Executive Funnel Tiers
       const cRatio = pData.mixCampanha;
       const oRatio = pData.mixOrganico;
+      const cPct = Math.round(cRatio * 100);
+      const oPct = Math.round(oRatio * 100);
 
       for (let i = 0; i < 7; i++) {
         let tot = stages[i].vForecast;
@@ -1012,16 +1051,25 @@
         let campVal = Math.round(tot * cRatio);
 
         document.getElementById(`fn-tot-${i+1}`).innerText = tot.toLocaleString('pt-BR');
-        document.getElementById(`fn-org-${i+1}`).innerText = orgVal.toLocaleString('pt-BR');
-        document.getElementById(`fn-camp-${i+1}`).innerText = campVal.toLocaleString('pt-BR');
+        
+        let barOrg = document.getElementById(`bar-org-${i+1}`);
+        let barCamp = document.getElementById(`bar-camp-${i+1}`);
+        barOrg.style.width = oPct + '%';
+        barCamp.style.width = cPct + '%';
 
+        let txtOrg = document.getElementById(`txt-bar-org-${i+1}`);
+        let txtCamp = document.getElementById(`txt-bar-camp-${i+1}`);
+        
         if (i === 0) {
-          document.getElementById('fn-pct-org-1').innerText = `${Math.round(oRatio*100)}% da base`;
-          document.getElementById('fn-pct-camp-1').innerText = `${Math.round(cRatio*100)}% da base`;
+          txtOrg.innerText = `🟦 Orgânico: ${orgVal.toLocaleString('pt-BR')} (${oPct}%)`;
+          txtCamp.innerText = `🟥 Campanha: ${campVal.toLocaleString('pt-BR')} (${cPct}%)`;
+        } else {
+          txtOrg.innerText = `${orgVal.toLocaleString('pt-BR')} (${oPct}%)`;
+          txtCamp.innerText = `${campVal.toLocaleString('pt-BR')} (${cPct}%)`;
         }
 
         if (i < 6) {
-          document.getElementById(`fn-pass-${i+1}`).innerText = `↓ ${stages[i].passRate}% avançam para etapa ${i+2}`;
+          document.getElementById(`fn-pass-${i+1}`).innerText = `${stages[i].passRate}%`;
         }
       }
 
