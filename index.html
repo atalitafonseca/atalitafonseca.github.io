@@ -73,7 +73,7 @@
 
     .container { max-width: 1400px; margin: 18px auto 0; padding: 0 20px; }
 
-    /* Minimal Tab Navigation */
+    /* Tab Navigation */
     .tab-bar {
       display: flex;
       gap: 6px;
@@ -166,38 +166,16 @@
     /* Two-Column Grid */
     .two-col-grid {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
+      grid-template-columns: 1.35fr 1fr;
       gap: 16px;
       margin-bottom: 16px;
     }
     @media (max-width: 1050px) { .two-col-grid { grid-template-columns: 1fr; } }
 
     /* Funnel Tiers */
-    .clean-funnel-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      width: 100%;
-    }
-
-    .funnel-tier {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-
-    .funnel-row-box {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 8px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      transition: all 0.15s;
-    }
+    .clean-funnel-container { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 100%; }
+    .funnel-tier { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .funnel-row-box { background: #ffffff; border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; display: flex; flex-direction: column; gap: 4px; transition: all 0.15s; }
     .funnel-row-box:hover { border-color: #cbd5e1; }
 
     .w-step-1 { width: 100%; border-left: 4px solid #0284c7; }
@@ -208,161 +186,79 @@
     .w-step-6 { width: 70%; border-left: 4px solid #7c3aed; background: #faf5ff; }
     .w-step-7 { width: 64%; border-left: 4px solid var(--santander-red); background: var(--santander-light); border-color: #fca5a5; }
 
-    .funnel-row-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .funnel-row-top { display: flex; justify-content: space-between; align-items: center; }
     .funnel-step-name { font-size: 0.78rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
     .funnel-step-vol-area { display: flex; align-items: center; gap: 8px; }
     .funnel-step-total { font-size: 0.92rem; font-weight: 800; color: var(--text); }
     .w-step-7 .funnel-step-total { color: var(--santander-red); }
 
-    .badge-mom {
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 1px 6px;
-      border-radius: 4px;
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
-    }
+    .badge-mom { font-size: 0.7rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 2px; }
     .badge-mom.up { background: var(--success-bg); color: #15803d; }
     .badge-mom.down { background: var(--danger-bg); color: #b91c1c; }
 
-    .funnel-bar-track {
-      height: 14px;
-      background: #f1f5f9;
-      border-radius: 4px;
-      display: flex;
-      overflow: hidden;
-    }
-    .funnel-bar-org {
-      background: var(--org-blue);
-      height: 100%;
-      display: flex;
-      align-items: center;
-      padding-left: 6px;
-      color: white;
-      font-size: 0.65rem;
-      font-weight: 700;
-    }
-    .funnel-bar-camp {
-      background: var(--camp-red);
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 6px;
-      color: white;
-      font-size: 0.65rem;
-      font-weight: 700;
-    }
+    .funnel-bar-track { height: 14px; background: #f1f5f9; border-radius: 4px; display: flex; overflow: hidden; }
+    .funnel-bar-org { background: var(--org-blue); height: 100%; display: flex; align-items: center; padding-left: 6px; color: white; font-size: 0.65rem; font-weight: 700; }
+    .funnel-bar-camp { background: var(--camp-red); height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; color: white; font-size: 0.65rem; font-weight: 700; }
 
-    .pass-rate-indicator {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin: 1px 0;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .pass-rate-indicator { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); margin: 1px 0; display: flex; align-items: center; gap: 4px; }
     .pass-rate-indicator strong { color: var(--text); }
 
-    /* Diagnostics Box */
-    .mom-diagnostics-box {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    .mom-diagnostics-box { background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     @media (max-width: 800px) { .mom-diagnostics-box { grid-template-columns: 1fr; } }
     .diag-item { display: flex; flex-direction: column; gap: 2px; }
     .diag-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
     .diag-desc { font-size: 0.76rem; color: var(--text-muted); }
 
-    /* Side Stack */
     .side-stack { display: flex; flex-direction: column; gap: 12px; }
-    
-    .reconcile-box {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-    }
-    .reconcile-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
+    .reconcile-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+    .reconcile-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .reconcile-label { font-size: 0.76rem; font-weight: 700; color: var(--text); }
     .reconcile-val { font-size: 1.05rem; font-weight: 800; }
 
-    .losses-compact-list {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 0.74rem;
-      margin-top: 6px;
-      border-top: 1px dashed var(--border);
-      padding-top: 6px;
-    }
+    .losses-compact-list { display: flex; flex-direction: column; gap: 4px; font-size: 0.74rem; margin-top: 6px; border-top: 1px dashed var(--border); padding-top: 6px; }
     .loss-line { display: flex; justify-content: space-between; color: var(--text-muted); }
     .loss-line strong { color: #dc2626; }
 
-    /* Matrix Table */
     .matrix-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 10px; }
     .matrix-table th, .matrix-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* AI Suggestions Panel */
+    /* Dynamic AI Suggestions Panel (Totalmente Reativo) */
     .sug-card {
       background: #f8fafc;
       border: 1px solid var(--border);
-      border-left: 3px solid var(--success);
+      border-left: 3.5px solid var(--success);
       border-radius: 6px;
-      padding: 10px 12px;
+      padding: 9px 12px;
       margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
+      transition: all 0.15s;
     }
-    .sug-text { font-size: 0.78rem; color: var(--text); line-height: 1.35; }
+    .sug-card:hover { border-color: #cbd5e1; background: #ffffff; }
+    .sug-text { font-size: 0.77rem; color: var(--text); line-height: 1.35; flex: 1; }
     .sug-text strong { color: #166534; }
     .btn-apply {
       background: #ffffff;
       color: #166534;
-      border: 1px solid #86efac;
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 0.72rem;
+      border: 1.5px solid #86efac;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.15s;
     }
-    .btn-apply:hover { background: #dcfce7; }
+    .btn-apply:hover { background: #dcfce7; border-color: #22c55e; }
+    .btn-apply.active { background: #dcfce7; color: #15803d; border-color: #15803d; }
 
     /* Rules Builder */
     .rules-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-    .rule-item-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 6px 10px;
-      transition: all 0.15s;
-    }
+    .rule-item-box { display: flex; align-items: center; gap: 8px; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; transition: all 0.15s; }
     .rule-item-box:hover { border-color: #cbd5e1; }
     .rule-attr-select { flex: 1.4; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 600; background: white; outline: none; }
     .rule-op-select { width: 60px; padding: 6px 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 700; text-align: center; background: white; outline: none; }
@@ -375,18 +271,7 @@
 
     /* Segment Pills */
     .seg-pills { display: flex; gap: 6px; flex-wrap: wrap; }
-    .seg-pill {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 4px 10px;
-      font-size: 0.76rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.15s;
-    }
+    .seg-pill { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 4px 10px; font-size: 0.76rem; font-weight: 700; color: var(--text-muted); cursor: pointer; user-select: none; transition: all 0.15s; }
     .seg-pill.active { background: var(--santander-light); border-color: var(--santander-red); color: var(--santander-red); }
 
     /* Dictionary */
@@ -418,7 +303,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>100% Responsivo: Produtos, Meses, Dicionário e Sugestões da IA Sincronizados</p>
+        <p>Inteligência Reativa em Tempo Real · Pacing MTD · Sugestões da IA Conectadas</p>
       </div>
     </div>
     <div class="nav-links">
@@ -432,14 +317,14 @@
     
     <!-- Tab Navigation -->
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Dicionário Reativo</button>
-      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Evoluções e Quedas Mês a Mês</button>
-      <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD</button>
+      <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Sugestões da IA Reativas</button>
+      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
+      <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD (Ritmo de Vendas)</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR & DICIONÁRIO TOTALMENTE RESPONSIVO                       -->
+    <!-- ABA 1: SIMULADOR & SUGESTÕES DA IA 100% DINÂMICAS                        -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
@@ -493,9 +378,10 @@
 
       <div class="two-col-grid">
         
+        <!-- Left: Rule Builder -->
         <div class="card">
           <div class="card-header">
-            <h2>🎯 Montagem de Público & Hábitos de Consumo</h2>
+            <h2>🎯 Montagem de Público & Hábitos</h2>
             <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted);" id="rules-alcance-badge">Público: 3.420.000 elegíveis</span>
           </div>
 
@@ -531,7 +417,7 @@
               </select>
             </div>
             <div>
-              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Espaço Comercial:</span>
+              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Espaço Comercial Ativo:</span>
               <select id="sim-espaco-foco" onchange="mudarEspacoFoco(this.value)" class="control-select" style="width:100%;">
                 <option value="Lightbox" selected>🟥 Lightbox</option>
                 <option value="Alert">🟨 Alert</option>
@@ -543,19 +429,27 @@
           </div>
         </div>
 
-        <!-- Dynamic Contextual AI Suggestions -->
+        <!-- Right: Real-Time Dynamic AI Suggestions & Interactive Space Chart -->
         <div class="card">
           <div class="card-header">
-            <h2>💡 Sugestões Contextuais da IA</h2>
+            <h2>💡 Sugestões Contextuais da IA (Tempo Real)</h2>
             <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;" id="ai-sug-prod-tag">Pix Ativo</span>
           </div>
 
-          <div id="ai-suggestions-list">
-            <!-- Populated dynamically based on product and active rules -->
-          </div>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">
+            A IA recalcula os números abaixo a cada atributo editado:
+          </p>
 
-          <div style="height: 160px; margin-top: 10px;">
-            <canvas id="chartEspacos"></canvas>
+          <div id="ai-suggestions-list"></div>
+
+          <div style="margin-top:14px; border-top:1px solid var(--border-subtle); padding-top:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Conversão Final por Espaço Comercial:</span>
+              <span style="font-size:0.7rem; color:var(--org-blue); font-weight:600;">(Clique em uma barra para selecionar o canal)</span>
+            </div>
+            <div style="height: 140px;">
+              <canvas id="chartEspacos"></canvas>
+            </div>
           </div>
         </div>
 
@@ -625,7 +519,7 @@
         </div>
 
         <div class="kpi-card">
-          <div class="kpi-title" id="kpi-ano-passado-label">📅 Mesmo Mês Ano Passado</div>
+          <div class="kpi-title" id="kpi-ano-passado-label">📅 Mesmo Mês Ano Anterior</div>
           <div class="kpi-val" id="kpi-ano-passado">398.200</div>
           <div class="kpi-sub positive" id="kpi-crescimento-yoy">↑ +20.3% YoY</div>
         </div>
@@ -836,12 +730,24 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 3: PACING MTD & FORECAST                                              -->
+    <!-- ABA 3: TORRE DE PACING MTD (EXPLICAÇÃO + GRÁFICO DIÁRIO)                  -->
     <!-- ========================================================================= -->
     <div id="tab-pacing" class="tab-content" style="display: none;">
+      
+      <!-- Executive Explanation Banner of Pacing -->
+      <div style="background:linear-gradient(135deg, #f0f9ff, #ffffff); border:1.5px solid #bae6fd; border-radius:8px; padding:14px 18px; margin-bottom:16px;">
+        <div style="font-size:0.86rem; font-weight:800; color:#0369a1; margin-bottom:4px;">
+          ⏱️ O que é a Torre de Pacing no Santander?
+        </div>
+        <p style="font-size:0.78rem; color:#334155; line-height:1.45;">
+          <strong>Pacing</strong> é o <em>velocímetro de produção diária</em> do banco. Ele compara o volume realizado acumulado dia a dia (<strong>Dias 1 a 20</strong>) contra a <strong>curva ideal da meta</strong> e projeta com Inteligência Artificial se o mês vai fechar acima ou abaixo da meta nos dias restantes (<strong>Dias 21 a 31</strong>). Se o pacing apontar risco de não bater a meta, acionamos campanhas de alavancagem rápida (Push e Lightbox).
+        </p>
+      </div>
+
       <div class="card">
         <div class="card-header">
-          <h2 id="pacing-title">⏱️ Torre de Pacing MTD (Dias 1 a 31) - Pix</h2>
+          <h2 id="pacing-title">⏱️ Curva de Pacing MTD (Dias 1 a 31) - Pix</h2>
+          <span style="font-size:0.72rem; color:var(--success); font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;">Projeção: 102.4% da Meta</span>
         </div>
         <div style="height: 320px;">
           <canvas id="chartPacingForecast"></canvas>
@@ -887,7 +793,7 @@
     // GLOBAL STATE
     const appState = {
       product: "Pix",
-      monthIdx: 7, // 7 = Agosto, 6 = Julho, 5 = Junho
+      monthIdx: 7, // 7 = Agosto
       visaoTempo: "yoy",
       focoEspaco: "Lightbox",
       selectedSegments: new Set(['Especial', 'Select', 'Private']),
@@ -1062,12 +968,11 @@
       }
     };
 
-    // PRODUCT SYNCHRONIZATION
     function mudarProdutoGlobal(novoProd) {
       appState.product = novoProd;
       document.getElementById('sim-produto').value = novoProd;
       document.getElementById('triade-produto').value = novoProd;
-      document.getElementById('pacing-title').innerText = `⏱️ Torre de Pacing MTD (Dias 1 a 31) - ${novoProd}`;
+      document.getElementById('pacing-title').innerText = `⏱️ Curva de Pacing MTD (Dias 1 a 31) - ${novoProd}`;
       atualizarTudo();
       showToast(`📦 Produto alterado para ${novoProd}. Todo o Dashboard foi recalculado!`);
     }
@@ -1086,10 +991,12 @@
 
     function mudarEspacoFoco(novoEspaco) {
       appState.focoEspaco = novoEspaco;
+      document.getElementById('sim-espaco-foco').value = novoEspaco;
       rodarSimulacao();
+      renderSugestoesIA();
+      showToast(`🎯 Espaço comercial alterado para ${novoEspaco}.`);
     }
 
-    // MASTER REACTIVE FUNCTION: UPDATES EVERYTHING
     function atualizarTudo() {
       renderRulesList();
       rodarSimulacao();
@@ -1098,33 +1005,79 @@
       atualizarPacingChart();
     }
 
-    // CONTEXTUAL AI SUGGESTIONS GENERATOR
+    // DYNAMIC & RESPONSIVE AI SUGGESTIONS
     function renderSugestoesIA() {
       const container = document.getElementById('ai-suggestions-list');
       const tag = document.getElementById('ai-sug-prod-tag');
       const prod = appState.product;
+      const focoEspaco = appState.focoEspaco;
 
       tag.innerText = `${prod} Ativo`;
 
+      let hasOpenFinance = appState.activeRules.some(r => r.attrId === 'open_finance');
+      let hasArpac = appState.activeRules.some(r => r.attrId === 'score_arpac');
+      let arpacVal = (appState.activeRules.find(r => r.attrId === 'score_arpac') || {}).val || "7.0";
+
       let suggestions = [];
-      if (prod === 'Pix' || prod === 'Pix Automatico') {
-        suggestions = [
-          { icon: "📈", title: "Aumentar Alcance:", text: "Remover a restrição <em>'Consentimento Open Finance'</em> amplia o público em <strong>+840.000 (+24.5%)</strong>.", action: "remover_open_finance", btn: "Aplicar" },
-          { icon: "⭐", title: "Qualificar Fundo:", text: "Manter <strong>'Score ARPAC > 7.0'</strong> eleva a conversão final em <strong>+5.2%</strong> com menor inadimplência.", action: "manter_arpac", btn: "Priorizar" },
-          { icon: "🎯", title: "Espaço Contextual:", text: "O <strong>Lightbox</strong> converte <strong>2.8x mais</strong> que Banner para este perfil de transações.", action: "trocar_lightbox", btn: "Usar Lightbox" }
-        ];
-      } else if (prod === 'Cartao de Credito' || prod === 'Upgrade') {
-        suggestions = [
-          { icon: "💳", title: "Flexibilizar Fatura:", text: "Ajustar <em>'Gasto Cartão > 2500'</em> para <strong>> 1500</strong> aumenta o Topo de Funil em <strong>+310.000 clientes</strong>.", action: "flexibilizar_cartao", btn: "Ajustar R$ 1.500" },
-          { icon: "💎", title: "Foco Alta Renda:", text: "Segmentar clientes com <strong>'ARPAC > 7.5'</strong> triplica a taxa de adesão de cartões Black/Infinite.", action: "manter_arpac_alto", btn: "Foco Black" },
-          { icon: "📱", title: "Canal Recomendado:", text: "<strong>Push Notification</strong> após compra em e-commerce tem CTR de <strong>22.4%</strong> para upgrade.", action: "trocar_push", btn: "Usar Push" }
-        ];
+
+      if (hasOpenFinance) {
+        suggestions.push({
+          icon: "📈",
+          title: "Aumentar Alcance do Público:",
+          text: `Remover a restrição <em>'Consentimento Open Finance'</em> amplia o público em <strong>+840.000 clientes (+24.5%)</strong>.`,
+          action: "remover_open_finance",
+          btn: "Aplicar",
+          isActive: false
+        });
       } else {
-        suggestions = [
-          { icon: "🏦", title: "Expansão de Limite:", text: "Clientes com <em>'Uso Limite da Conta > 30%'</em> respondem <strong>3.2x mais rápido</strong> à renegociação.", action: "uso_limite_regra", btn: "Aplicar Regra" },
-          { icon: "👑", title: "Conversão Select:", text: "Manter foco nos segmentos <strong>Select e Especial</strong> garante <strong>88% da liquidação</strong> Core.", action: "foco_select", btn: "Ajustar Segmentos" },
-          { icon: "🟨", title: "Canal Alert:", text: "O <strong>Alert no Extrato</strong> do App atinge <strong>68.5% de conversão</strong> para ampliação de limite.", action: "trocar_alert", btn: "Usar Alert" }
-        ];
+        suggestions.push({
+          icon: "🔒",
+          title: "Filtrar por Open Finance:",
+          text: `Adicionar restrição de <em>'Open Finance'</em> foca em clientes com dados externos compartilhados.`,
+          action: "adicionar_open_finance",
+          btn: "+ Adicionar Regra",
+          isActive: false
+        });
+      }
+
+      if (hasArpac && parseFloat(arpacVal) >= 7.0) {
+        suggestions.push({
+          icon: "⭐",
+          title: "Qualificação de Rentabilidade:",
+          text: `Regra <strong>'Score ARPAC > ${arpacVal}'</strong> ativa! Garante <strong>+5.2% de conversão</strong> e menor inadimplência no Core.`,
+          action: "manter_arpac",
+          btn: "✓ Otimizado",
+          isActive: true
+        });
+      } else {
+        suggestions.push({
+          icon: "⭐",
+          title: "Qualificar Fundo de Funil:",
+          text: `Ajustar <strong>'Score ARPAC para > 7.0'</strong> aumenta o ticket médio e a rentabilidade do público.`,
+          action: "manter_arpac",
+          btn: "Priorizar ARPAC",
+          isActive: false
+        });
+      }
+
+      if (focoEspaco === 'Lightbox') {
+        suggestions.push({
+          icon: "🎯",
+          title: "Espaço Recomendado Ativo:",
+          text: `O <strong>Lightbox</strong> está selecionado e atinge a <strong>maior conversão do produto (74.2%)</strong>.`,
+          action: "trocar_lightbox",
+          btn: "✓ Canal Selecionado",
+          isActive: true
+        });
+      } else {
+        suggestions.push({
+          icon: "🎯",
+          title: "Otimizar Espaço Comercial:",
+          text: `O <strong>Lightbox contextual</strong> converte <strong>2.8x mais</strong> que ${focoEspaco} para este perfil.`,
+          action: "trocar_lightbox",
+          btn: "Mudar para Lightbox",
+          isActive: false
+        });
       }
 
       container.innerHTML = suggestions.map(s => `
@@ -1132,7 +1085,7 @@
           <div class="sug-text">
             ${s.icon} <strong>${s.title}</strong> ${s.text}
           </div>
-          <button class="btn-apply" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>
+          <button class="btn-apply ${s.isActive ? 'active' : ''}" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>
         </div>
       `).join('');
     }
@@ -1140,34 +1093,20 @@
     function executarSugestaoIA(action) {
       if (action === 'remover_open_finance') {
         appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'open_finance');
+        showToast('✓ Restrição de Open Finance removida. O público aumentou na hora!');
+      } else if (action === 'adicionar_open_finance') {
+        appState.activeRules.push({ attrId: "open_finance", val: "Não Possui" });
+        showToast('✓ Regra de Open Finance adicionada.');
       } else if (action === 'manter_arpac') {
         let r = appState.activeRules.find(x => x.attrId === 'score_arpac');
         if (!r) appState.activeRules.push({ attrId: "score_arpac", op: ">", val: "7.0" });
         else { r.op = ">"; r.val = "7.0"; }
-      } else if (action === 'manter_arpac_alto') {
-        let r = appState.activeRules.find(x => x.attrId === 'score_arpac');
-        if (!r) appState.activeRules.push({ attrId: "score_arpac", op: ">", val: "7.5" });
-        else { r.op = ">"; r.val = "7.5"; }
-      } else if (action === 'flexibilizar_cartao') {
-        let r = appState.activeRules.find(x => x.attrId === 'gasto_cartao');
-        if (!r) appState.activeRules.push({ attrId: "gasto_cartao", op: ">", val: "1500" });
-        else { r.val = "1500"; }
-      } else if (action === 'uso_limite_regra') {
-        let r = appState.activeRules.find(x => x.attrId === 'uso_limite_conta');
-        if (!r) appState.activeRules.push({ attrId: "uso_limite_conta", op: ">", val: "30" });
-        else { r.val = "30"; }
+        showToast('✓ ARPAC ajustado para > 7.0 (Qualificação prioritária).');
       } else if (action === 'trocar_lightbox') {
-        appState.focoEspaco = 'Lightbox';
-        document.getElementById('sim-espaco-foco').value = 'Lightbox';
-      } else if (action === 'trocar_push') {
-        appState.focoEspaco = 'Push';
-        document.getElementById('sim-espaco-foco').value = 'Push';
-      } else if (action === 'trocar_alert') {
-        appState.focoEspaco = 'Alert';
-        document.getElementById('sim-espaco-foco').value = 'Alert';
+        mudarEspacoFoco('Lightbox');
+        return;
       }
       atualizarTudo();
-      showToast('✓ Sugestão da IA aplicada! Todo o painel foi atualizado.');
     }
 
     // UPDATE TRIAD VIEW
@@ -1319,7 +1258,7 @@
       }
     }
 
-    // DICIONÁRIO E BUSCA
+    // DICIONÁRIO
     let santanderDataDictionary = [
       { id: "open_finance_evasao", label: "Evasão Detectada via Open Finance", category: "Open Finance / Evasão", type: "categorical", options: ["Detectada Evasão", "Sem Evasão Detectada"], defaultVal: "Detectada Evasão", keywords: ["open finance", "evasao", "outflow", "concorrente", "fintech", "saldo externo"], desc: "Identifica envio de recursos para contas de outras instituições ou fintechs compartilhadas pelo Open Finance." },
       { id: "score_arpac", label: "Score ARPAC (Rentabilidade)", category: "Rentabilidade", type: "numeric", defaultOp: ">", defaultVal: "7.0", keywords: ["arpac", "score", "rentabilidade", "lucro", "margem", "receita"], desc: "Índice interno do Santander que pontua a rentabilidade e margem anualizada gerada pelo cliente (0 a 10)." },
@@ -1451,7 +1390,7 @@
       reader.readAsText(file);
     }
 
-    // SIMULADOR LOGIC
+    // SIMULADOR
     function toggleSegment(element, segName) {
       if (appState.selectedSegments.has(segName)) {
         if (appState.selectedSegments.size === 1) return;
@@ -1541,14 +1480,6 @@
       showToast('✓ Regra removida.');
     }
 
-    const spaceProfiles = {
-      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, meioRate: 0.82, fundoRate: 0.742 },
-      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, meioRate: 0.80, fundoRate: 0.685 },
-      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, meioRate: 0.75, fundoRate: 0.420 },
-      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, meioRate: 0.70, fundoRate: 0.380 },
-      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220 }
-    };
-
     function rodarSimulacao() {
       const prod = appState.product;
       const focoEspaco = appState.focoEspaco;
@@ -1619,6 +1550,8 @@
       document.getElementById('sim-kpi-fundo-tx').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
 
       if (chartEspacosInst) {
+        const bgColors = ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'].map(s => s === focoEspaco ? '#ec0000' : '#cbd5e1');
+        chartEspacosInst.data.datasets[0].backgroundColor = bgColors;
         chartEspacosInst.data.datasets[0].data = [
           Math.round(spaceProfiles["Lightbox"].fundoRate * prodFundoMult * 100),
           Math.round(spaceProfiles["Alert"].fundoRate * prodFundoMult * 100),
@@ -1639,13 +1572,20 @@
           datasets: [{
             label: 'Conversão (%)',
             data: [74.2, 68.5, 42.0, 38.0, 22.0],
-            backgroundColor: ['#ec0000', '#f59e0b', '#0284c7', '#64748b', '#94a3b8'],
+            backgroundColor: ['#ec0000', '#cbd5e1', '#cbd5e1', '#cbd5e1', '#cbd5e1'],
             borderRadius: 4
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          onClick: (evt, activeEls) => {
+            if (activeEls.length > 0) {
+              const clickedIdx = activeEls[0].index;
+              const espacosList = ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'];
+              mudarEspacoFoco(espacosList[clickedIdx]);
+            }
+          },
           plugins: { legend: { display: false } },
           scales: { y: { beginAtZero: true, max: 85, ticks: { callback: v => v + '%' } } }
         }
