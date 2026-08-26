@@ -103,10 +103,10 @@
       border-radius: 8px;
       padding: 10px 16px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
       margin-bottom: 16px;
     }
     .control-item { display: flex; align-items: center; gap: 8px; }
@@ -285,7 +285,7 @@
     .btn-add-rule { background: white; border: 1.5px dashed #cbd5e1; color: #475569; padding: 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-add-rule:hover { background: #f8fafc; border-color: #94a3b8; }
 
-    /* BOTÃO PRINCIPAL: OK, CALCULE COM IA */
+    /* BOTÃO PRINCIPAL */
     .btn-calcular-master {
       background: var(--santander-red);
       color: white;
@@ -344,7 +344,7 @@
 
     @keyframes lateralHighlight {
       0% { box-shadow: 0 0 0 rgba(236, 0, 0, 0); border-color: var(--border); }
-      50% { box-shadow: 0 0 16px rgba(236, 0, 0, 0.2); border-color: var(--santander-red); }
+      50% { box-shadow: 0 0 16px rgba(236, 0, 0, 0.25); border-color: var(--santander-red); }
       100% { box-shadow: 0 0 0 rgba(236, 0, 0, 0); border-color: var(--border); }
     }
     .lateral-calc-pulse { animation: lateralHighlight 0.6s ease-out; }
@@ -360,7 +360,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Pacing MTD</p>
+        <p>Simulador Inteligente · Cálculo Dinâmico com IA · Filtros Reativos de Mês e Ano</p>
       </div>
     </div>
     <div class="nav-links">
@@ -375,17 +375,16 @@
     <!-- Tab Navigation -->
     <div class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Botão Calcule IA</button>
-      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
+      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Filtros de Mês/Ano & Reconciliação</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD (Ritmo de Vendas)</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR COM CÁLCULO DINÂMICO DAS SUGESTÕES NA LATERAL            -->
+    <!-- ABA 1: SIMULADOR COM CÁLCULO DINÂMICO DE KPIS, GRÁFICO E SUGESTÕES        -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
-      <!-- Top 5 KPIs recalculated by IA button -->
       <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
         <div class="kpi-card" id="card-sim-1" style="padding:10px 12px; text-align:center;">
           <div class="kpi-title">1. Views nos Espaços</div>
@@ -463,7 +462,7 @@
 
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; border-top:1px solid var(--border); padding-top:12px;">
             <div>
-              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Produto Sincronizado:</span>
+              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Produto:</span>
               <select id="sim-produto" onchange="mudarProdutoGlobal(this.value)" class="control-select" style="width:100%;">
                 <option value="Pix" selected>⚡ Pix</option>
                 <option value="Boleto">📄 Boleto</option>
@@ -486,13 +485,13 @@
             </div>
           </div>
 
-          <!-- BOTÃO PRINCIPAL: CALCULA KPIs, GRÁFICO E SUGESTÕES DA LATERAL -->
+          <!-- BOTÃO PRINCIPAL -->
           <button class="btn-calcular-master" onclick="clicarCalcularMaster()">
             <span>⚡ OK, Calcule com IA!</span>
           </button>
         </div>
 
-        <!-- Right: Real-Time Dynamic AI Suggestions (Calculated by OK, Calcule) -->
+        <!-- Right: Real-Time Dynamic AI Suggestions & Dynamic Volume Chart -->
         <div class="card" id="card-ai-sug">
           <div class="card-header">
             <h2>💡 Sugestões Calculadas pela IA (Lateral)</h2>
@@ -504,12 +503,11 @@
             <span style="font-size:0.7rem; color:var(--santander-red); font-weight:700;" id="ai-calc-status">● Pronto</span>
           </div>
 
-          <!-- Suggestions generated dynamically with exact math -->
           <div id="ai-suggestions-list"></div>
 
           <div style="margin-top:14px; border-top:1px solid var(--border-subtle); padding-top:10px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Conversão Final por Espaço Comercial:</span>
+              <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Volume Estimado por Canal (Contratos Finais):</span>
               <span style="font-size:0.7rem; color:var(--org-blue); font-weight:600;">(Clique nas barras para alternar)</span>
             </div>
             <div style="height: 140px;">
@@ -523,10 +521,11 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE                                                           -->
+    <!-- ABA 2: A TRÍADE COM FILTROS 100% FUNCIONAIS DE MÊS, ANO E PRODUTO        -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content" style="display: none;">
       
+      <!-- CONTROLES TOTALMENTE SEPARADOS E FUNCIONAIS -->
       <div class="control-strip">
         <div class="control-item">
           <label>📦 Produto:</label>
@@ -544,47 +543,56 @@
         <div class="control-item">
           <label>📅 Mês de Análise:</label>
           <select id="triade-mes-foco" class="control-select" onchange="mudarMesFoco(parseInt(this.value))">
-            <option value="7" selected>Agosto / 2026 (vs Julho)</option>
-            <option value="6">Julho / 2026 (vs Junho)</option>
-            <option value="5">Junho / 2026 (vs Maio)</option>
+            <option value="0">Janeiro</option>
+            <option value="1">Fevereiro</option>
+            <option value="2">Março</option>
+            <option value="3">Abril</option>
+            <option value="4">Maio</option>
+            <option value="5">Junho</option>
+            <option value="6">Julho</option>
+            <option value="7" selected>Agosto</option>
+            <option value="8">Setembro (Forecast)</option>
+            <option value="9">Outubro (Forecast)</option>
+            <option value="10">Novembro (Forecast)</option>
+            <option value="11">Dezembro (Forecast)</option>
           </select>
         </div>
 
         <div class="control-item">
-          <label>⏱️ Comparativo:</label>
-          <select id="triade-visao-tempo" class="control-select" onchange="mudarVisaoTempo(this.value)">
-            <option value="yoy" selected>Ano contra Ano (YoY 2025 vs 2026)</option>
-            <option value="mom">Mês a Mês (MoM) + Forecast</option>
+          <label>🗓️ Ano:</label>
+          <select id="triade-ano-foco" class="control-select" onchange="mudarAnoFoco(parseInt(this.value))">
+            <option value="2026" selected>2026 (Ano Corrente / Forecast)</option>
+            <option value="2025">2025 (Ano Anterior / Realizado)</option>
           </select>
         </div>
       </div>
 
       <div class="mom-diagnostics-box">
         <div class="diag-item">
-          <span class="diag-title" style="color:#15803d;">🚀 Maior Evolução do Funil no Mês:</span>
+          <span class="diag-title" style="color:#15803d;" id="diag-best-title">🚀 Maior Evolução do Funil no Mês:</span>
           <span class="diag-desc" id="diag-best-step"><strong>Etapa 2 (Cliques / Interações)</strong> subiu <strong>+15.0% MoM</strong>.</span>
         </div>
         <div class="diag-item">
-          <span class="diag-title" style="color:#b91c1c;">⚠️ Ponto de Atenção / Queda:</span>
+          <span class="diag-title" style="color:#b91c1c;" id="diag-drop-title">⚠️ Ponto de Atenção / Queda:</span>
           <span class="diag-desc" id="diag-drop-step"><strong>Etapa 4 (Simulação)</strong> recuou <strong>-1.8% MoM</strong>.</span>
         </div>
       </div>
 
       <div class="kpi-row">
         <div class="kpi-card">
-          <div class="kpi-title" id="kpi-mtd-label">📍 Realizado MTD (Dia 20)</div>
+          <div class="kpi-title" id="kpi-mtd-label">📍 Realizado MTD (Dia 20 Ago/26)</div>
           <div class="kpi-val" id="kpi-mtd-real">362.400</div>
-          <div class="kpi-sub positive" id="kpi-mtd-mom">+13.8% vs período anterior</div>
+          <div class="kpi-sub positive" id="kpi-mtd-mom">+13.8% vs Jul/26 homólogo</div>
         </div>
 
         <div class="kpi-card highlight">
-          <div class="kpi-title">🔮 Forecast Fechamento Mês</div>
+          <div class="kpi-title" id="kpi-forecast-label">🔮 Fechamento do Mês (Ago/26)</div>
           <div class="kpi-val" id="kpi-mtd-forecast">478.900</div>
           <div class="kpi-sub positive" id="kpi-meta-pct">🎯 102.4% da Meta do Mês</div>
         </div>
 
         <div class="kpi-card">
-          <div class="kpi-title" id="kpi-ano-passado-label">📅 Mesmo Mês Ano Anterior</div>
+          <div class="kpi-title" id="kpi-ano-passado-label">📅 Mesmo Mês Ano Anterior (Ago/25)</div>
           <div class="kpi-val" id="kpi-ano-passado">398.200</div>
           <div class="kpi-sub positive" id="kpi-crescimento-yoy">↑ +20.3% YoY</div>
         </div>
@@ -592,7 +600,7 @@
         <div class="kpi-card">
           <div class="kpi-title">⚖️ Mix de Origem</div>
           <div class="kpi-val" id="kpi-mix-mes">38% / 62%</div>
-          <div class="kpi-sub"><span style="color:var(--camp-red);font-weight:700;">Campanha</span> · <span style="color:var(--org-blue);font-weight:700;">Orgânico</span></div>
+          <div class="kpi-sub"><span style="color:var(--camp-red);font-weight:700;" id="kpi-camp-pct-label">38% Campanha</span> · <span style="color:var(--org-blue);font-weight:700;" id="kpi-org-pct-label">62% Orgânico</span></div>
         </div>
       </div>
 
@@ -600,7 +608,7 @@
         
         <div class="card">
           <div class="card-header">
-            <h2>🔻 Funil de 7 Etapas com Variação MoM (Subiu / Caiu)</h2>
+            <h2 id="funnel-title">🔻 Funil de 7 Etapas - Agosto / 2026</h2>
             <div style="font-size:0.75rem; display:flex; gap:8px;">
               <span style="color:var(--org-blue); font-weight:700;">🟦 Orgânico</span>
               <span style="color:var(--camp-red); font-weight:700;">🟥 Campanha</span>
@@ -761,7 +769,7 @@
 
           <div class="card" style="flex:1; margin-bottom:0;">
             <div class="card-header">
-              <h2>📈 Evolução Mensal & Forecast</h2>
+              <h2 id="chart-evolution-title">📈 Curva Mensal Histórica e Pacing</h2>
             </div>
             <div style="height: 190px;">
               <canvas id="chartTriadeEvolucao"></canvas>
@@ -774,7 +782,7 @@
 
       <div class="card">
         <div class="card-header">
-          <h2>📊 Matriz Comparativa Mês a Mês do Funil</h2>
+          <h2 id="matrix-title">📊 Matriz Comparativa Mês a Mês do Funil</h2>
           <span style="font-size:0.74rem; color:var(--text-muted);">Valores em milhares de contratos / acessos</span>
         </div>
         <table class="matrix-table">
@@ -857,8 +865,8 @@
     // GLOBAL STATE
     const appState = {
       product: "Pix",
-      monthIdx: 7, // 7 = Agosto
-      visaoTempo: "yoy",
+      monthIdx: 7, // 7 = Agosto (0 a 11)
+      year: 2026,  // 2026 ou 2025
       focoEspaco: "Lightbox",
       selectedSegments: new Set(['Especial', 'Select', 'Private']),
       activeRules: [
@@ -890,148 +898,75 @@
     const mesesNomes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
     const mesesLabels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
+    // BASELINE HISTÓRICA COMPLETA DE 12 MESES PARA TODOS OS PRODUTOS
     const triadProductData = {
       "Pix": {
         base2025: [280000, 290000, 310000, 315000, 330000, 340000, 355000, 398200, 370000, 385000, 400000, 430000],
-        vJul2026: 420320,
         yoyGrowth: 0.203,
         mixCampanha: 0.38,
         mixOrganico: 0.62,
-        metaMes: 467500,
-        stages7: [
-          { name: "1. Visualização nos Espaços", vJun: 4100000, vJul: 4444000, vForecast: 5000000, passRate: 24.0 },
-          { name: "2. Cliques / Interações", vJun: 920000, vJul: 1043000, vForecast: 1200000, passRate: 83.3 },
-          { name: "3. Topo de Funil (App)", vJun: 770000, vJul: 875000, vForecast: 1000000, passRate: 78.0 },
-          { name: "4. Step do Meio: Simulação", vJun: 620000, vJul: 794000, vForecast: 780000, passRate: 82.1 },
-          { name: "5. Step do Meio: Autenticação ID", vJun: 500000, vJul: 615000, vForecast: 640000, passRate: 79.7 },
-          { name: "6. Fechamento de Funil (App)", vJun: 400000, vJul: 471000, vForecast: 510000, passRate: 93.9 },
-          { name: "7. Fundo de Funil: Produção Core", vJun: 375000, vJul: 420320, vForecast: 478900, passRate: 100.0 }
-        ],
-        losses: { antifraude: 14200, saldo: 9800, timeout: 7100 },
-        bestStep: "Etapa 2 (Cliques / Interações) subiu +15.0% MoM com criativos de Lightbox.",
-        dropStep: "Etapa 4 (Simulação) teve leve retração de -1.8% MoM no avanço."
+        stageFactors: [10.44, 2.50, 2.08, 1.63, 1.34, 1.065, 1.0],
+        passRates: [24.0, 83.3, 78.0, 82.1, 79.7, 93.9, 100.0]
       },
       "Boleto": {
         base2025: [180000, 185000, 195000, 190000, 200000, 205000, 210000, 240000, 220000, 225000, 235000, 250000],
-        vJul2026: 239800,
         yoyGrowth: 0.142,
         mixCampanha: 0.28,
         mixOrganico: 0.72,
-        metaMes: 265000,
-        stages7: [
-          { name: "1. Visualização nos Espaços", vJun: 3100000, vJul: 3250000, vForecast: 3444000, passRate: 21.5 },
-          { name: "2. Cliques / Interações", vJun: 650000, vJul: 690000, vForecast: 740460, passRate: 85.0 },
-          { name: "3. Topo de Funil (App)", vJun: 560000, vJul: 595000, vForecast: 629390, passRate: 72.0 },
-          { name: "4. Step do Meio: Simulação", vJun: 410000, vJul: 440000, vForecast: 453160, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID", vJun: 330000, vJul: 350000, vForecast: 362500, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (App)", vJun: 260000, vJul: 278000, vForecast: 290000, passRate: 94.5 },
-          { name: "7. Fundo de Funil: Produção Core", vJun: 228000, vJul: 239800, vForecast: 274100, passRate: 100.0 }
-        ],
-        losses: { antifraude: 6200, saldo: 5800, timeout: 3900 },
-        bestStep: "Etapa 7 (Produção Core) expandiu +14.3% MoM com liquidação de DDA.",
-        dropStep: "Etapa 1 (Views) teve crescimento menor de +6.0% MoM por saturação de Banner."
+        stageFactors: [12.56, 2.70, 2.29, 1.65, 1.32, 1.058, 1.0],
+        passRates: [21.5, 85.0, 72.0, 80.0, 80.0, 94.5, 100.0]
       },
       "Pix Automatico": {
         base2025: [45000, 52000, 60000, 68000, 78000, 89000, 98000, 115000, 122000, 135000, 150000, 175000],
-        vJul2026: 158700,
         yoyGrowth: 0.620,
         mixCampanha: 0.58,
         mixOrganico: 0.42,
-        metaMes: 180000,
-        stages7: [
-          { name: "1. Visualização nos Espaços", vJun: 1650000, vJul: 1850000, vForecast: 2200000, passRate: 28.0 },
-          { name: "2. Cliques / Interações", vJun: 440000, vJul: 510000, vForecast: 616000, passRate: 79.0 },
-          { name: "3. Topo de Funil (App)", vJun: 345000, vJul: 405000, vForecast: 486640, passRate: 68.0 },
-          { name: "4. Step do Meio: Simulação", vJun: 240000, vJul: 285000, vForecast: 330910, passRate: 75.0 },
-          { name: "5. Step do Meio: Autenticação ID", vJun: 180000, vJul: 215000, vForecast: 248180, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (App)", vJun: 142000, vJul: 170000, vForecast: 198500, passRate: 93.8 },
-          { name: "7. Fundo de Funil: Produção Core", vJun: 132000, vJul: 158700, vForecast: 186300, passRate: 100.0 }
-        ],
-        losses: { antifraude: 4800, saldo: 4500, timeout: 2900 },
-        bestStep: "Etapa 2 (Cliques) disparou +20.8% MoM impulsionado por Push contextual.",
-        dropStep: "Etapa 3 (Topo App) tem taxa de entrada de 68%, demandando menos atrito."
+        stageFactors: [11.80, 3.30, 2.61, 1.77, 1.33, 1.066, 1.0],
+        passRates: [28.0, 79.0, 68.0, 75.0, 80.0, 93.8, 100.0]
       },
       "Pix Parcelado": {
         base2025: [60000, 65000, 72000, 78000, 85000, 92000, 99000, 118000, 115000, 124000, 135000, 155000],
-        vJul2026: 142100,
         yoyGrowth: 0.385,
         mixCampanha: 0.52,
         mixOrganico: 0.48,
-        metaMes: 160000,
-        stages7: [
-          { name: "1. Visualização nos Espaços", vJun: 1900000, vJul: 2100000, vForecast: 2394000, passRate: 22.0 },
-          { name: "2. Cliques / Interações", vJun: 410000, vJul: 460000, vForecast: 526680, passRate: 82.0 },
-          { name: "3. Topo de Funil (App)", vJun: 330000, vJul: 375000, vForecast: 431870, passRate: 64.0 },
-          { name: "4. Step do Meio: Simulação", vJun: 220000, vJul: 250000, vForecast: 276400, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID", vJun: 175000, vJul: 200000, vForecast: 221120, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (App)", vJun: 140000, vJul: 160000, vForecast: 176800, passRate: 92.4 },
-          { name: "7. Fundo de Funil: Produção Core", vJun: 125000, vJul: 142100, vForecast: 163400, passRate: 100.0 }
-        ],
-        losses: { antifraude: 6400, saldo: 4200, timeout: 2800 },
-        bestStep: "Etapa 7 (Produção Core) cresceu +15.0% MoM com oferta pré-aprovada.",
-        dropStep: "Etapa 4 (Simulação de Parcelas) recuou -2.1% MoM em conversão de taxa."
+        stageFactors: [14.65, 3.22, 2.64, 1.69, 1.35, 1.082, 1.0],
+        passRates: [22.0, 82.0, 64.0, 80.0, 80.0, 92.4, 100.0]
       },
       "Upgrade": {
         base2025: [18000, 19000, 21000, 20500, 22000, 23500, 24000, 27500, 26000, 27500, 29000, 32000],
-        vJul2026: 30100,
         yoyGrowth: 0.255,
         mixCampanha: 0.68,
         mixOrganico: 0.32,
-        metaMes: 34000,
-        stages7: [
-          { name: "1. Visualização nos Espaços", vJun: 880000, vJul: 950000, vForecast: 1056000, passRate: 16.5 },
-          { name: "2. Cliques / Interações", vJun: 140000, vJul: 155000, vForecast: 174240, passRate: 76.0 },
-          { name: "3. Topo de Funil (App)", vJun: 105000, vJul: 118000, vForecast: 132420, passRate: 58.0 },
-          { name: "4. Step do Meio: Simulação", vJun: 65000, vJul: 72000, vForecast: 76800, passRate: 65.0 },
-          { name: "5. Step do Meio: Autenticação ID", vJun: 42000, vJul: 46000, vForecast: 49920, passRate: 73.8 },
-          { name: "6. Fechamento de Funil (App)", vJun: 31000, vJul: 34000, vForecast: 36860, passRate: 93.6 },
-          { name: "7. Fundo de Funil: Produção Core", vJun: 26500, vJul: 30100, vForecast: 34500, passRate: 100.0 }
-        ],
-        losses: { antifraude: 1200, saldo: 600, timeout: 560 },
-        bestStep: "Etapa 7 (Produção Core) avançou +14.6% MoM na conversão Select/Private.",
-        dropStep: "Etapa 1 (Views) teve queda de CTR (-0.8% MoM) em clientes Especial."
+        stageFactors: [30.60, 5.05, 3.84, 2.22, 1.45, 1.068, 1.0],
+        passRates: [16.5, 76.0, 58.0, 65.0, 73.8, 93.6, 100.0]
       },
       "Cartao de Credito": {
         base2025: [85000, 88000, 94000, 92000, 98000, 102000, 106000, 122000, 118000, 124000, 132000, 148000],
-        vJul2026: 129850,
         yoyGrowth: 0.225,
         mixCampanha: 0.62,
         mixOrganico: 0.38,
-        metaMes: 145000,
-        stages7: [
-          { name: "1. Visualização nos Espaços", vJun: 2400000, vJul: 2600000, vForecast: 2870000, passRate: 19.0 },
-          { name: "2. Cliques / Interações", vJun: 450000, vJul: 490000, vForecast: 545300, passRate: 74.0 },
-          { name: "3. Topo de Funil (App)", vJun: 330000, vJul: 360000, vForecast: 403520, passRate: 62.0 },
-          { name: "4. Step do Meio: Simulação", vJun: 210000, vJul: 230000, vForecast: 250180, passRate: 80.0 },
-          { name: "5. Step do Meio: Autenticação ID", vJun: 168000, vJul: 184000, vForecast: 200140, passRate: 80.0 },
-          { name: "6. Fechamento de Funil (App)", vJun: 135000, vJul: 147000, vForecast: 160100, passRate: 93.4 },
-          { name: "7. Fundo de Funil: Produção Core", vJun: 118000, vJul: 129850, vForecast: 149500, passRate: 100.0 }
-        ],
-        losses: { antifraude: 5200, saldo: 3100, timeout: 2300 },
-        bestStep: "Etapa 3 (Topo App) cresceu +12.1% MoM com notificações push de limite.",
-        dropStep: "Etapa 4 (Simulação de Anuidade) teve queda de -2.5% MoM no fechamento."
+        stageFactors: [19.20, 3.65, 2.70, 1.67, 1.34, 1.071, 1.0],
+        passRates: [19.0, 74.0, 62.0, 80.0, 80.0, 93.4, 100.0]
       },
       "Limite da Conta": {
         base2025: [35000, 37000, 40000, 39000, 42000, 44000, 46000, 52000, 50000, 53000, 57000, 62000],
-        vJul2026: 58900,
         yoyGrowth: 0.280,
         mixCampanha: 0.45,
         mixOrganico: 0.55,
-        metaMes: 65000,
-        stages7: [
-          { name: "1. Visualização nos Espaços", vJun: 1450000, vJul: 1580000, vForecast: 1722000, passRate: 20.0 },
-          { name: "2. Cliques / Interações", vJun: 290000, vJul: 315000, vForecast: 344400, passRate: 78.0 },
-          { name: "3. Topo de Funil (App)", vJun: 225000, vJul: 245000, vForecast: 268630, passRate: 60.0 },
-          { name: "4. Step do Meio: Simulação", vJun: 135000, vJul: 147000, vForecast: 161180, passRate: 65.0 },
-          { name: "5. Step do Meio: Autenticação ID", vJun: 88000, vJul: 96000, vForecast: 104760, passRate: 67.7 },
-          { name: "6. Fechamento de Funil (App)", vJun: 59000, vJul: 65000, vForecast: 70920, passRate: 93.9 },
-          { name: "7. Fundo de Funil: Produção Core", vJun: 51000, vJul: 58900, vForecast: 66600, passRate: 100.0 }
-        ],
-        losses: { antifraude: 2100, saldo: 1300, timeout: 920 },
-        bestStep: "Etapa 7 (Produção Core) acelerou +13.1% MoM em renovação de contrato.",
-        dropStep: "Etapa 5 (Autenticação ID) teve leve queda de -1.1% MoM por fricção de biometria."
+        stageFactors: [25.85, 5.17, 4.03, 2.42, 1.57, 1.065, 1.0],
+        passRates: [20.0, 78.0, 60.0, 65.0, 67.7, 93.9, 100.0]
       }
     };
+
+    const stageNames = [
+      "1. Visualização nos Espaços",
+      "2. Cliques / Interações",
+      "3. Topo de Funil (Entrada no App)",
+      "4. Step do Meio: Simulação",
+      "5. Step do Meio: Autenticação ID",
+      "6. Fechamento de Funil (App)",
+      "7. Fundo de Funil: Produção Core"
+    ];
 
     function mudarProdutoGlobal(novoProd) {
       appState.product = novoProd;
@@ -1039,19 +974,23 @@
       document.getElementById('triade-produto').value = novoProd;
       document.getElementById('pacing-title').innerText = `⏱️ Curva de Pacing MTD (Dias 1 a 31) - ${novoProd}`;
       atualizarTudo();
-      showToast(`📦 Produto alterado para ${novoProd}. Todo o Dashboard foi recalculado!`);
+      showToast(`📦 Produto alterado para ${novoProd}. Todo o Dashboard recalculou!`);
     }
 
+    // FILTRO DE MÊS DA ABA 2 (TOTALMENTE FUNCIONAL)
     function mudarMesFoco(novoMesIdx) {
       appState.monthIdx = novoMesIdx;
       document.getElementById('triade-mes-foco').value = novoMesIdx;
-      atualizarTudo();
-      showToast(`📅 Mês de análise ajustado para ${mesesNomes[novoMesIdx]}/2026.`);
+      atualizarTriade();
+      showToast(`📅 Mês de análise ajustado para ${mesesNomes[novoMesIdx]} de ${appState.year}.`);
     }
 
-    function mudarVisaoTempo(novaVisao) {
-      appState.visaoTempo = novaVisao;
+    // FILTRO DE ANO DA ABA 2 (TOTALMENTE FUNCIONAL)
+    function mudarAnoFoco(novoAno) {
+      appState.year = novoAno;
+      document.getElementById('triade-ano-foco').value = novoAno;
       atualizarTriade();
+      showToast(`🗓️ Ano ajustado para ${novoAno}. Todos os dados do funil e comparativos foram recalculados!`);
     }
 
     function mudarEspacoFoco(novoEspaco) {
@@ -1062,12 +1001,10 @@
       showToast(`🎯 Espaço comercial alterado para ${novoEspaco}.`);
     }
 
-    // BOTÃO PRINCIPAL: CALCULA EXPLICITAMENTE AS SUGESTÕES NA LATERAL E ATUALIZA TUDO
+    // BOTÃO PRINCIPAL: CALCULA KPIS, GRÁFICO E SUGESTÕES DA LATERAL
     function clicarCalcularMaster() {
-      // 1. Recalcula a simulação e KPIs
       rodarSimulacao();
 
-      // 2. Anima os cartões de KPI
       for (let i = 1; i <= 5; i++) {
         let el = document.getElementById(`card-sim-${i}`);
         if (el) {
@@ -1077,7 +1014,6 @@
         }
       }
 
-      // 3. Anima o card lateral e calcula as sugestões da IA com deltas matemáticos
       const cardSug = document.getElementById('card-ai-sug');
       if (cardSug) {
         cardSug.classList.remove('lateral-calc-pulse');
@@ -1092,7 +1028,7 @@
         atualizarTriade();
         atualizarPacingChart();
         document.getElementById('ai-calc-status').innerText = '✓ Calculado agora';
-        showToast(`⚡ Sugestões da lateral calculadas com sucesso com base nas regras ativas!`);
+        showToast(`⚡ Gráfico de canais e sugestões da lateral recalculados com sucesso!`);
       }, 150);
     }
 
@@ -1117,12 +1053,9 @@
       let hasOpenFinance = appState.activeRules.some(r => r.attrId === 'open_finance');
       let hasArpac = appState.activeRules.some(r => r.attrId === 'score_arpac');
       let arpacRule = appState.activeRules.find(r => r.attrId === 'score_arpac') || { val: "7.0" };
-      let hasEvasao = appState.activeRules.some(r => r.attrId === 'evasao_recursos');
-      let hasCartao = appState.activeRules.some(r => r.attrId === 'gasto_cartao');
 
       let suggestions = [];
 
-      // 1. Sugestão Matemática de Alcance / Volume
       if (hasOpenFinance) {
         let ganhoEstimado = Math.round(publicoAtual * 0.28);
         suggestions.push({
@@ -1146,7 +1079,6 @@
         });
       }
 
-      // 2. Sugestão Matemática de Qualificação / Rentabilidade (ARPAC)
       if (hasArpac && parseFloat(arpacRule.val) >= 7.0) {
         suggestions.push({
           icon: "⭐",
@@ -1169,7 +1101,6 @@
         });
       }
 
-      // 3. Sugestão de Canal / Espaço Comercial
       if (focoEspaco === 'Lightbox') {
         suggestions.push({
           icon: "🎯",
@@ -1223,82 +1154,144 @@
       clicarCalcularMaster();
     }
 
-    // UPDATE TRIAD VIEW
+    // UPDATE TRIAD VIEW REAGINDO AOS FILTROS DE MÊS, ANO E PRODUTO
     function atualizarTriade() {
       const pData = triadProductData[appState.product] || triadProductData["Pix"];
       const mIdx = appState.monthIdx;
+      const ano = appState.year;
 
-      const stages = pData.stages7;
-      const vForecast = stages[6].vForecast;
-      const v2025 = pData.base2025[mIdx];
-      const vJul2026 = pData.vJul2026;
-      const vMTD = Math.round(vForecast * 0.756);
+      const mesNome = mesesNomes[mIdx];
+      const mesSigla = mesesLabels[mIdx];
 
-      const yoyForecastPct = ((vForecast - v2025) / v2025 * 100).toFixed(1);
-      const metaPct = ((vForecast / pData.metaMes) * 100).toFixed(1);
-      const mtdJulHomologo = Math.round(vJul2026 * 0.758);
-      const mtdMomPct = ((vMTD - mtdJulHomologo) / mtdJulHomologo * 100).toFixed(1);
+      // Volume de produção final do mês selecionado
+      let vCoreAtual = 0;
+      let vCoreAnt = 0;
+      let vCoreAnoPassado = pData.base2025[mIdx];
 
-      document.getElementById('diag-best-step').innerHTML = pData.bestStep;
-      document.getElementById('diag-drop-step').innerHTML = pData.dropStep;
+      if (ano === 2026) {
+        vCoreAtual = Math.round(pData.base2025[mIdx] * (1 + pData.yoyGrowth));
+        let prevMIdx = (mIdx === 0) ? 11 : mIdx - 1;
+        let prevYearMult = (mIdx === 0) ? 1.0 : (1 + pData.yoyGrowth);
+        vCoreAnt = Math.round(pData.base2025[prevMIdx] * prevYearMult);
+      } else {
+        // Ano 2025
+        vCoreAtual = pData.base2025[mIdx];
+        let prevMIdx = (mIdx === 0) ? 11 : mIdx - 1;
+        vCoreAnt = pData.base2025[prevMIdx];
+        vCoreAnoPassado = Math.round(vCoreAtual * 0.85); // 2024
+      }
 
-      document.getElementById('kpi-mtd-label').innerText = `📍 Realizado MTD (Dia 20 ${mesesLabels[mIdx]})`;
+      const metaMes = Math.round(vCoreAtual * 0.98);
+      const vMTD = Math.round(vCoreAtual * 0.756);
+      const yoyGrowthPct = ((vCoreAtual - vCoreAnoPassado) / vCoreAnoPassado * 100).toFixed(1);
+      const metaPct = ((vCoreAtual / metaMes) * 100).toFixed(1);
+      const momGrowthPct = ((vCoreAtual - vCoreAnt) / vCoreAnt * 100).toFixed(1);
+
+      // Atualiza Título do Funil
+      document.getElementById('funnel-title').innerText = `🔻 Funil de 7 Etapas - ${mesNome} / ${ano}`;
+      document.getElementById('chart-evolution-title').innerText = `📈 Curva Mensal (${appState.product} - ${ano})`;
+      document.getElementById('matrix-title').innerText = `📊 Matriz Comparativa Mês a Mês do Funil (${mesNome}/${ano})`;
+
+      // 1. Top KPI Cards
+      document.getElementById('kpi-mtd-label').innerText = `📍 Realizado MTD (Dia 20 ${mesSigla}/${ano.toString().slice(2)})`;
       document.getElementById('kpi-mtd-real').innerText = vMTD.toLocaleString('pt-BR');
-      document.getElementById('kpi-mtd-mom').innerText = `+${mtdMomPct}% vs ${mesesLabels[mIdx-1]}/26`;
+      document.getElementById('kpi-mtd-mom').innerText = `${parseFloat(momGrowthPct) >= 0 ? '+' : ''}${momGrowthPct}% vs mês anterior`;
 
-      document.getElementById('kpi-mtd-forecast').innerText = vForecast.toLocaleString('pt-BR');
-      document.getElementById('kpi-meta-pct').innerText = `🎯 ${metaPct}% da Meta (${pData.metaMes.toLocaleString('pt-BR')})`;
+      document.getElementById('kpi-forecast-label').innerText = `🔮 Fechamento do Mês (${mesSigla}/${ano.toString().slice(2)})`;
+      document.getElementById('kpi-mtd-forecast').innerText = vCoreAtual.toLocaleString('pt-BR');
+      document.getElementById('kpi-meta-pct').innerText = `🎯 ${metaPct}% da Meta (${metaMes.toLocaleString('pt-BR')})`;
 
-      document.getElementById('kpi-ano-passado-label').innerText = `📅 Mesmo Mês Ano Anterior (${mesesLabels[mIdx]}/25)`;
-      document.getElementById('kpi-ano-passado').innerText = v2025.toLocaleString('pt-BR');
-      document.getElementById('kpi-crescimento-yoy').innerText = `↑ +${yoyForecastPct}% YoY`;
-      document.getElementById('kpi-mix-mes').innerText = `${Math.round(pData.mixCampanha*100)}% / ${Math.round(pData.mixOrganico*100)}%`;
+      document.getElementById('kpi-ano-passado-label').innerText = `📅 Mesmo Mês Ano Anterior (${mesSigla}/${(ano-1).toString().slice(2)})`;
+      document.getElementById('kpi-ano-passado').innerText = vCoreAnoPassado.toLocaleString('pt-BR');
+      document.getElementById('kpi-crescimento-yoy').innerText = `↑ +${yoyGrowthPct}% YoY`;
 
       const cRatio = pData.mixCampanha;
       const oRatio = pData.mixOrganico;
-      const cPct = Math.round(cRatio * 100);
-      const oPct = Math.round(oRatio * 100);
+      document.getElementById('kpi-mix-mes').innerText = `${Math.round(cRatio*100)}% / ${Math.round(oRatio*100)}%`;
+      document.getElementById('kpi-camp-pct-label').innerText = `${Math.round(cRatio*100)}% Campanha`;
+      document.getElementById('kpi-org-pct-label').innerText = `${Math.round(oRatio*100)}% Orgânico`;
 
-      let tableHtml = '';
-      const mesAtualNome = mesesLabels[mIdx];
-      const mesAntNome = mesesLabels[mIdx - 1];
-      const mesAnt2Nome = mesesLabels[mIdx - 2];
+      // 2. Calcula as 7 Etapas do Funil para o Mês Selecionado
+      const factors = pData.stageFactors;
+      let stageVolsAtual = factors.map(f => Math.round(vCoreAtual * f));
+      let stageVolsAnt = factors.map(f => Math.round(vCoreAnt * f));
 
-      document.getElementById('matrix-head-row').innerHTML = `
-        <th>Etapa do Funil</th>
-        <th>${mesAnt2Nome}/26</th>
-        <th>${mesAntNome}/26</th>
-        <th>${mesAtualNome}/26 (Foco)</th>
-        <th>Variação MoM</th>
-        <th>Status</th>
-      `;
+      let bestIdx = 1;
+      let dropIdx = 3;
+      let maxMoM = -999;
+      let minMoM = 999;
 
       for (let i = 0; i < 7; i++) {
-        let totAgo = stages[i].vForecast;
-        let totJul = stages[i].vJul;
-        let totJun = stages[i].vJun;
-        let orgVal = Math.round(totAgo * oRatio);
-        let campVal = Math.round(totAgo * cRatio);
+        let totAtual = stageVolsAtual[i];
+        let totAnt = stageVolsAnt[i];
+        let orgVal = Math.round(totAtual * oRatio);
+        let campVal = Math.round(totAtual * cRatio);
 
-        let momPct = ((totAgo - totJul) / totJul * 100).toFixed(1);
-        let isUp = parseFloat(momPct) >= 0;
+        let momStepPct = ((totAtual - totAnt) / totAnt * 100).toFixed(1);
+        let isUp = parseFloat(momStepPct) >= 0;
 
-        document.getElementById(`fn-tot-${i+1}`).innerText = totAgo.toLocaleString('pt-BR');
+        if (parseFloat(momStepPct) > maxMoM) { maxMoM = parseFloat(momStepPct); bestIdx = i; }
+        if (parseFloat(momStepPct) < minMoM) { minMoM = parseFloat(momStepPct); dropIdx = i; }
+
+        document.getElementById(`fn-tot-${i+1}`).innerText = totAtual.toLocaleString('pt-BR');
         
         let momBadge = document.getElementById(`fn-mom-${i+1}`);
         momBadge.className = isUp ? 'badge-mom up' : 'badge-mom down';
-        momBadge.innerText = isUp ? `↑ +${momPct}% MoM` : `↓ ${momPct}% MoM`;
+        momBadge.innerText = isUp ? `↑ +${momStepPct}% MoM` : `↓ ${momStepPct}% MoM`;
 
         let barOrg = document.getElementById(`bar-org-${i+1}`);
         let barCamp = document.getElementById(`bar-camp-${i+1}`);
-        barOrg.style.width = oPct + '%';
-        barCamp.style.width = cPct + '%';
+        barOrg.style.width = Math.round(oRatio * 100) + '%';
+        barCamp.style.width = Math.round(cRatio * 100) + '%';
         barOrg.innerText = `${orgVal.toLocaleString('pt-BR')}`;
         barCamp.innerText = `${campVal.toLocaleString('pt-BR')}`;
 
         if (i < 6) {
-          document.getElementById(`fn-pass-${i+1}`).innerText = `${stages[i].passRate}%`;
+          document.getElementById(`fn-pass-${i+1}`).innerText = `${pData.passRates[i]}%`;
         }
+      }
+
+      // 3. Atualiza Diagnóstico de Quedas e Ganhos
+      document.getElementById('diag-best-step').innerHTML = `<strong>${stageNames[bestIdx]}</strong> registrou o maior avanço no mês (<strong>+${maxMoM.toFixed(1)}% MoM</strong>).`;
+      document.getElementById('diag-drop-step').innerHTML = `<strong>${stageNames[dropIdx]}</strong> teve a menor taxa relativa de passagem no fluxo intermediário.`;
+
+      // 4. Reconciliação App vs Core
+      let vAppFechamento = stageVolsAtual[5];
+      let vCoreFinal = stageVolsAtual[6];
+      let diffPerdas = vAppFechamento - vCoreFinal;
+
+      let lossAntifraude = Math.round(diffPerdas * 0.45);
+      let lossSaldo = Math.round(diffPerdas * 0.32);
+      let lossTimeout = diffPerdas - (lossAntifraude + lossSaldo);
+
+      document.getElementById('box-funil-val').innerText = vAppFechamento.toLocaleString('pt-BR');
+      document.getElementById('box-prod-val').innerText = vCoreFinal.toLocaleString('pt-BR');
+      document.getElementById('loss-antifraude').innerText = `-${lossAntifraude.toLocaleString('pt-BR')}`;
+      document.getElementById('loss-saldo').innerText = `-${lossSaldo.toLocaleString('pt-BR')}`;
+      document.getElementById('loss-timeout').innerText = `-${lossTimeout.toLocaleString('pt-BR')}`;
+
+      // 5. Matriz Comparativa Mês a Mês (3 Meses)
+      let prev1Idx = (mIdx === 0) ? 11 : mIdx - 1;
+      let prev2Idx = (prev1Idx === 0) ? 11 : prev1Idx - 1;
+      let stageVolsAnt2 = factors.map(f => Math.round(pData.base2025[prev2Idx] * (ano === 2026 ? (1 + pData.yoyGrowth) : 1.0) * f));
+
+      document.getElementById('matrix-head-row').innerHTML = `
+        <th>Etapa do Funil</th>
+        <th>${mesesLabels[prev2Idx]}/${ano.toString().slice(2)}</th>
+        <th>${mesesLabels[prev1Idx]}/${ano.toString().slice(2)}</th>
+        <th>${mesSigla}/${ano.toString().slice(2)} (Foco)</th>
+        <th>Variação MoM</th>
+        <th>Status</th>
+      `;
+
+      let tableHtml = '';
+      for (let i = 0; i < 7; i++) {
+        let totAtual = stageVolsAtual[i];
+        let totAnt1 = stageVolsAnt[i];
+        let totAnt2 = stageVolsAnt2[i];
+
+        let momStepPct = ((totAtual - totAnt1) / totAnt1 * 100).toFixed(1);
+        let isUp = parseFloat(momStepPct) >= 0;
 
         let statusBadge = isUp 
           ? `<span style="background:var(--success-bg); color:#15803d; font-weight:700; padding:2px 6px; border-radius:4px;">Crescimento</span>`
@@ -1306,51 +1299,46 @@
 
         tableHtml += `
           <tr>
-            <td><strong>${stages[i].name}</strong></td>
-            <td>${totJun.toLocaleString('pt-BR')}</td>
-            <td>${totJul.toLocaleString('pt-BR')}</td>
-            <td><strong style="color:var(--text);">${totAgo.toLocaleString('pt-BR')}</strong></td>
-            <td><strong style="color:${isUp ? '#15803d' : '#b91c1c'};">${isUp ? '↑ +' : '↓ '}${momPct}%</strong></td>
+            <td><strong>${stageNames[i]}</strong></td>
+            <td>${totAnt2.toLocaleString('pt-BR')}</td>
+            <td>${totAnt1.toLocaleString('pt-BR')}</td>
+            <td><strong style="color:var(--text);">${totAtual.toLocaleString('pt-BR')}</strong></td>
+            <td><strong style="color:${isUp ? '#15803d' : '#b91c1c'};">${isUp ? '↑ +' : '↓ '}${momStepPct}%</strong></td>
             <td>${statusBadge}</td>
           </tr>
         `;
       }
-
       document.getElementById('matrix-table-body').innerHTML = tableHtml;
 
-      document.getElementById('box-funil-val').innerText = stages[5].vForecast.toLocaleString('pt-BR');
-      document.getElementById('box-prod-val').innerText = stages[6].vForecast.toLocaleString('pt-BR');
-
-      let l = pData.losses;
-      document.getElementById('loss-antifraude').innerText = `-${l.antifraude.toLocaleString('pt-BR')}`;
-      document.getElementById('loss-saldo').innerText = `-${l.saldo.toLocaleString('pt-BR')}`;
-      document.getElementById('loss-timeout').innerText = `-${l.timeout.toLocaleString('pt-BR')}`;
-
+      // 6. Atualiza Gráfico de Linha Mensal
       if (chartTriadeEvolucaoInst) {
         let vals2025 = pData.base2025;
         let vals2026Real = [];
-        for (let i = 0; i < 8; i++) vals2026Real.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth)));
-        let vals2026Forecast = [];
-        for (let i = 8; i < 12; i++) vals2026Forecast.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth * 1.06)));
+        for (let i = 0; i < 12; i++) {
+          let val = Math.round(vals2025[i] * (1 + pData.yoyGrowth));
+          vals2026Real.push(val);
+        }
 
         chartTriadeEvolucaoInst.data.datasets[0].label = '2025';
         chartTriadeEvolucaoInst.data.datasets[0].data = vals2025;
-        chartTriadeEvolucaoInst.data.datasets[1].label = '2026 Real';
-        chartTriadeEvolucaoInst.data.datasets[1].data = [...vals2026Real, null, null, null, null];
-        chartTriadeEvolucaoInst.data.datasets[2].label = 'Forecast';
-        chartTriadeEvolucaoInst.data.datasets[2].data = [null, null, null, null, null, null, null, vals2026Real[7], ...vals2026Forecast];
+        chartTriadeEvolucaoInst.data.datasets[1].label = '2026 Real / Forecast';
+        chartTriadeEvolucaoInst.data.datasets[1].data = (ano === 2026) ? vals2026Real : Array(12).fill(null);
+        chartTriadeEvolucaoInst.data.datasets[2].label = `Mês Foco (${mesSigla}/${ano.toString().slice(2)})`;
+        let pointData = Array(12).fill(null);
+        pointData[mIdx] = (ano === 2026) ? vals2026Real[mIdx] : vals2025[mIdx];
+        chartTriadeEvolucaoInst.data.datasets[2].data = pointData;
         chartTriadeEvolucaoInst.update();
       }
     }
 
     function atualizarPacingChart() {
       const pData = triadProductData[appState.product] || triadProductData["Pix"];
-      const vForecast = pData.stages7[6].vForecast;
+      const vCore = Math.round(pData.base2025[appState.monthIdx] * (1 + pData.yoyGrowth));
 
       if (chartPacingInst) {
         let dailyReal = [];
         let cur = 0;
-        let dailyStep = (vForecast * 0.756) / 20;
+        let dailyStep = (vCore * 0.756) / 20;
         for (let d = 1; d <= 20; d++) {
           cur += dailyStep * (0.85 + Math.random() * 0.3);
           dailyReal.push(Math.round(cur));
@@ -1358,7 +1346,7 @@
 
         let dailyFore = Array(20).fill(null);
         dailyFore.push(dailyReal[19]);
-        let remaining = vForecast - dailyReal[19];
+        let remaining = vCore - dailyReal[19];
         let foreStep = remaining / 11;
         let cFore = dailyReal[19];
         for (let d = 21; d <= 31; d++) {
@@ -1676,16 +1664,18 @@
       document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
       document.getElementById('sim-kpi-fundo-tx').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
 
+      // ATUALIZAÇÃO DINÂMICA DO GRÁFICO DE ESPAÇOS COM VOLUMES REAIS DE CONVERSÃO
       if (chartEspacosInst) {
         const bgColors = ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'].map(s => s === focoEspaco ? '#ec0000' : '#cbd5e1');
+        
+        let estLightbox = Math.round(alcanceTotal * 0.70 * 0.18 * 0.80 * 0.82 * (0.742 * prodFundoMult));
+        let estAlert = Math.round(alcanceTotal * 0.82 * 0.14 * 0.76 * 0.80 * (0.685 * prodFundoMult));
+        let estBanner = Math.round(alcanceTotal * 0.50 * 0.08 * 0.70 * 0.75 * (0.420 * prodFundoMult));
+        let estPush = Math.round(alcanceTotal * 0.38 * 0.06 * 0.65 * 0.70 * (0.380 * prodFundoMult));
+        let estEmail = Math.round(alcanceTotal * 0.25 * 0.035 * 0.58 * 0.65 * (0.220 * prodFundoMult));
+
         chartEspacosInst.data.datasets[0].backgroundColor = bgColors;
-        chartEspacosInst.data.datasets[0].data = [
-          Math.round(spaceProfiles["Lightbox"].fundoRate * prodFundoMult * 100),
-          Math.round(spaceProfiles["Alert"].fundoRate * prodFundoMult * 100),
-          Math.round(spaceProfiles["Banner"].fundoRate * prodFundoMult * 100),
-          Math.round(spaceProfiles["Push"].fundoRate * prodFundoMult * 100),
-          Math.round(spaceProfiles["Email"].fundoRate * prodFundoMult * 100)
-        ];
+        chartEspacosInst.data.datasets[0].data = [estLightbox, estAlert, estBanner, estPush, estEmail];
         chartEspacosInst.update();
       }
     }
@@ -1697,8 +1687,8 @@
         data: {
           labels: ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'],
           datasets: [{
-            label: 'Conversão (%)',
-            data: [74.2, 68.5, 42.0, 38.0, 22.0],
+            label: 'Contratos Finais Estimados',
+            data: [255794, 192800, 78400, 52100, 21400],
             backgroundColor: ['#ec0000', '#cbd5e1', '#cbd5e1', '#cbd5e1', '#cbd5e1'],
             borderRadius: 4
           }]
@@ -1713,8 +1703,20 @@
               mudarEspacoFoco(espacosList[clickedIdx]);
             }
           },
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, max: 85, ticks: { callback: v => v + '%' } } }
+          plugins: { 
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` Estimativa: ${ctx.raw.toLocaleString('pt-BR')} contratos finais`
+              }
+            }
+          },
+          scales: { 
+            y: { 
+              beginAtZero: true,
+              ticks: { callback: v => (v >= 1000 ? (v/1000) + 'k' : v) }
+            } 
+          }
         }
       });
 
@@ -1725,8 +1727,8 @@
           labels: mesesLabels,
           datasets: [
             { label: '2025', data: [], borderColor: '#94a3b8', borderDash: [3, 3], borderWidth: 1.5, pointRadius: 0 },
-            { label: '2026 Real', data: [], borderColor: '#ec0000', backgroundColor: '#ec0000', borderWidth: 2, pointRadius: 2.5 },
-            { label: 'Forecast', data: [], borderColor: '#0284c7', borderDash: [3, 3], borderWidth: 2, pointRadius: 2.5 }
+            { label: '2026 Real / Forecast', data: [], borderColor: '#ec0000', backgroundColor: '#ec0000', borderWidth: 2, pointRadius: 2.5 },
+            { label: 'Mês Foco', data: [], borderColor: '#0284c7', backgroundColor: '#0284c7', pointRadius: 6, showLine: false }
           ]
         },
         options: {
