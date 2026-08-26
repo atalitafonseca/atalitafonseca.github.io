@@ -153,6 +153,7 @@
       border-radius: 8px;
       padding: 18px;
       margin-bottom: 16px;
+      transition: all 0.25s;
     }
     .card-header {
       display: flex;
@@ -167,7 +168,7 @@
     /* Two-Column Grid */
     .two-col-grid {
       display: grid;
-      grid-template-columns: 1.35fr 1fr;
+      grid-template-columns: 1.3fr 1.1fr;
       gap: 16px;
       margin-bottom: 16px;
     }
@@ -225,23 +226,37 @@
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* Dynamic AI Suggestions Panel */
+    /* Dynamic Lateral AI Suggestions Panel */
     .sug-card {
       background: #f8fafc;
       border: 1px solid var(--border);
-      border-left: 3.5px solid var(--success);
+      border-left: 4px solid var(--santander-red);
       border-radius: 6px;
-      padding: 9px 12px;
+      padding: 10px 12px;
       margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      transition: all 0.15s;
+      transition: all 0.2s;
     }
-    .sug-card:hover { border-color: #cbd5e1; background: #ffffff; }
-    .sug-text { font-size: 0.77rem; color: var(--text); line-height: 1.35; flex: 1; }
-    .sug-text strong { color: #166534; }
+    .sug-card.optimized {
+      border-left-color: var(--success);
+      background: #f0fdf4;
+    }
+    .sug-text { font-size: 0.77rem; color: var(--text); line-height: 1.4; flex: 1; }
+    .sug-text strong { color: #0f172a; }
+    .sug-text em { color: #475569; font-style: normal; font-weight: 600; }
+    .sug-impact-tag {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #15803d;
+      background: #dcfce7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 3px;
+    }
     .btn-apply {
       background: #ffffff;
       color: #166534;
@@ -294,9 +309,7 @@
       box-shadow: 0 4px 12px rgba(236, 0, 0, 0.35);
       transform: translateY(-1px);
     }
-    .btn-calcular-master:active {
-      transform: translateY(0);
-    }
+    .btn-calcular-master:active { transform: translateY(0); }
 
     /* Segment Pills */
     .seg-pills { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -321,13 +334,20 @@
 
     .toast-msg { position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: white; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 100; display: none; align-items: center; gap: 8px; }
 
-    /* Flash animation for calculation */
+    /* Flash animations */
     @keyframes kpiFlash {
       0% { transform: scale(1); background-color: #fff; }
       50% { transform: scale(1.02); background-color: var(--santander-light); }
       100% { transform: scale(1); background-color: #fff; }
     }
     .kpi-pulse { animation: kpiFlash 0.4s ease-out; }
+
+    @keyframes lateralHighlight {
+      0% { box-shadow: 0 0 0 rgba(236, 0, 0, 0); border-color: var(--border); }
+      50% { box-shadow: 0 0 16px rgba(236, 0, 0, 0.2); border-color: var(--santander-red); }
+      100% { box-shadow: 0 0 0 rgba(236, 0, 0, 0); border-color: var(--border); }
+    }
+    .lateral-calc-pulse { animation: lateralHighlight 0.6s ease-out; }
   </style>
 </head>
 <body>
@@ -361,7 +381,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR COM BOTÃO 'OK, CALCULE COM IA!'                          -->
+    <!-- ABA 1: SIMULADOR COM CÁLCULO DINÂMICO DAS SUGESTÕES NA LATERAL            -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
@@ -466,23 +486,25 @@
             </div>
           </div>
 
-          <!-- BOTÃO PRINCIPAL PEDIDO PELO USUÁRIO -->
+          <!-- BOTÃO PRINCIPAL: CALCULA KPIs, GRÁFICO E SUGESTÕES DA LATERAL -->
           <button class="btn-calcular-master" onclick="clicarCalcularMaster()">
             <span>⚡ OK, Calcule com IA!</span>
           </button>
         </div>
 
-        <!-- Right: Real-Time Dynamic AI Suggestions & Interactive Space Chart -->
+        <!-- Right: Real-Time Dynamic AI Suggestions (Calculated by OK, Calcule) -->
         <div class="card" id="card-ai-sug">
           <div class="card-header">
-            <h2>💡 Sugestões Contextuais da IA</h2>
+            <h2>💡 Sugestões Calculadas pela IA (Lateral)</h2>
             <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;" id="ai-sug-prod-tag">Pix Ativo</span>
           </div>
 
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">
-            Insights e otimizações gerados pela Inteligência Artificial:
-          </p>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:0.74rem; color:var(--text-muted); font-weight:600;">Otimizações calculadas para este cenário:</span>
+            <span style="font-size:0.7rem; color:var(--santander-red); font-weight:700;" id="ai-calc-status">● Pronto</span>
+          </div>
 
+          <!-- Suggestions generated dynamically with exact math -->
           <div id="ai-suggestions-list"></div>
 
           <div style="margin-top:14px; border-top:1px solid var(--border-subtle); padding-top:10px;">
@@ -844,7 +866,8 @@
         { attrId: "evasao_recursos", op: ">", val: "3000" },
         { attrId: "principalidade", val: "Não é Principal" },
         { attrId: "open_finance", val: "Não Possui" }
-      ]
+      ],
+      currentAudienceSize: 3420000
     };
 
     function switchTab(tabId) {
@@ -1035,116 +1058,148 @@
       appState.focoEspaco = novoEspaco;
       document.getElementById('sim-espaco-foco').value = novoEspaco;
       rodarSimulacao();
-      renderSugestoesIA();
+      calcularSugestoesLateralIA();
       showToast(`🎯 Espaço comercial alterado para ${novoEspaco}.`);
     }
 
-    // AÇÃO EXECUTIVA DO BOTÃO 'OK, CALCULE COM IA!'
+    // BOTÃO PRINCIPAL: CALCULA EXPLICITAMENTE AS SUGESTÕES NA LATERAL E ATUALIZA TUDO
     function clicarCalcularMaster() {
-      atualizarTudo();
+      // 1. Recalcula a simulação e KPIs
+      rodarSimulacao();
 
-      // Trigger highlight animations on KPI cards & suggestions
+      // 2. Anima os cartões de KPI
       for (let i = 1; i <= 5; i++) {
         let el = document.getElementById(`card-sim-${i}`);
         if (el) {
           el.classList.remove('kpi-pulse');
-          void el.offsetWidth; // trigger reflow
+          void el.offsetWidth;
           el.classList.add('kpi-pulse');
         }
       }
 
-      showToast(`⚡ Simulação Concluída! KPIs, Funil, Gráfico e Sugestões da IA Atualizados.`);
+      // 3. Anima o card lateral e calcula as sugestões da IA com deltas matemáticos
+      const cardSug = document.getElementById('card-ai-sug');
+      if (cardSug) {
+        cardSug.classList.remove('lateral-calc-pulse');
+        void cardSug.offsetWidth;
+        cardSug.classList.add('lateral-calc-pulse');
+      }
+
+      document.getElementById('ai-calc-status').innerText = '⏳ Calculando...';
+
+      setTimeout(() => {
+        calcularSugestoesLateralIA();
+        atualizarTriade();
+        atualizarPacingChart();
+        document.getElementById('ai-calc-status').innerText = '✓ Calculado agora';
+        showToast(`⚡ Sugestões da lateral calculadas com sucesso com base nas regras ativas!`);
+      }, 150);
     }
 
     function atualizarTudo() {
       renderRulesList();
       rodarSimulacao();
-      renderSugestoesIA();
+      calcularSugestoesLateralIA();
       atualizarTriade();
       atualizarPacingChart();
     }
 
-    // DYNAMIC & RESPONSIVE AI SUGGESTIONS
-    function renderSugestoesIA() {
+    // MOTOR DE CÁLCULO DINÂMICO DAS SUGESTÕES DA LATERAL
+    function calcularSugestoesLateralIA() {
       const container = document.getElementById('ai-suggestions-list');
       const tag = document.getElementById('ai-sug-prod-tag');
       const prod = appState.product;
       const focoEspaco = appState.focoEspaco;
+      const publicoAtual = appState.currentAudienceSize;
 
       tag.innerText = `${prod} Ativo`;
 
       let hasOpenFinance = appState.activeRules.some(r => r.attrId === 'open_finance');
       let hasArpac = appState.activeRules.some(r => r.attrId === 'score_arpac');
-      let arpacVal = (appState.activeRules.find(r => r.attrId === 'score_arpac') || {}).val || "7.0";
+      let arpacRule = appState.activeRules.find(r => r.attrId === 'score_arpac') || { val: "7.0" };
+      let hasEvasao = appState.activeRules.some(r => r.attrId === 'evasao_recursos');
+      let hasCartao = appState.activeRules.some(r => r.attrId === 'gasto_cartao');
 
       let suggestions = [];
 
+      // 1. Sugestão Matemática de Alcance / Volume
       if (hasOpenFinance) {
+        let ganhoEstimado = Math.round(publicoAtual * 0.28);
         suggestions.push({
           icon: "📈",
-          title: "Aumentar Alcance do Público:",
-          text: `Remover a restrição <em>'Consentimento Open Finance'</em> amplia o público em <strong>+840.000 clientes (+24.5%)</strong>.`,
+          title: "Expansão de Público Elegível:",
+          text: `Remover a restrição <em>'Consentimento Open Finance'</em> desbloqueia <strong>+${ganhoEstimado.toLocaleString('pt-BR')} clientes elegíveis</strong> (+28% de alcance).`,
+          impact: `+${ganhoEstimado.toLocaleString('pt-BR')} público`,
           action: "remover_open_finance",
-          btn: "Aplicar",
-          isActive: false
+          btn: "Aplicar Otimização",
+          isOptimized: false
         });
       } else {
         suggestions.push({
           icon: "🔒",
-          title: "Filtrar por Open Finance:",
-          text: `Adicionar restrição de <em>'Open Finance'</em> foca em clientes com dados externos compartilhados.`,
+          title: "Segmentação de Dados Abertos:",
+          text: `Adicionar filtro de <em>'Open Finance'</em> refina a lista em clientes com histórico bancário cruzado.`,
+          impact: "Qualificação externa",
           action: "adicionar_open_finance",
           btn: "+ Adicionar Regra",
-          isActive: false
+          isOptimized: false
         });
       }
 
-      if (hasArpac && parseFloat(arpacVal) >= 7.0) {
+      // 2. Sugestão Matemática de Qualificação / Rentabilidade (ARPAC)
+      if (hasArpac && parseFloat(arpacRule.val) >= 7.0) {
         suggestions.push({
           icon: "⭐",
-          title: "Qualificação de Rentabilidade:",
-          text: `Regra <strong>'Score ARPAC > ${arpacVal}'</strong> ativa! Garante <strong>+5.2% de conversão</strong> e menor inadimplência no Core.`,
+          title: "Qualificação de Rentabilidade Otimizada:",
+          text: `Regra <strong>'Score ARPAC > ${arpacRule.val}'</strong> ativa! Maximiza o ticket médio e reduz o risco de liquidação no Core.`,
+          impact: "Conversão Core 93.9%",
           action: "manter_arpac",
           btn: "✓ Otimizado",
-          isActive: true
+          isOptimized: true
         });
       } else {
         suggestions.push({
           icon: "⭐",
-          title: "Qualificar Fundo de Funil:",
-          text: `Ajustar <strong>'Score ARPAC para > 7.0'</strong> aumenta o ticket médio e a rentabilidade do público.`,
+          title: "Qualificar Fundo de Funil (ARPAC):",
+          text: `Ajustar <strong>'Score ARPAC para > 7.0'</strong> eleva a conversão final em <strong>+5.2%</strong> com menor inadimplência.`,
+          impact: "+5.2% na conversão",
           action: "manter_arpac",
-          btn: "Priorizar ARPAC",
-          isActive: false
+          btn: "Priorizar ARPAC > 7.0",
+          isOptimized: false
         });
       }
 
+      // 3. Sugestão de Canal / Espaço Comercial
       if (focoEspaco === 'Lightbox') {
         suggestions.push({
           icon: "🎯",
-          title: "Espaço Recomendado Ativo:",
-          text: `O <strong>Lightbox</strong> está selecionado e atinge a <strong>maior conversão do produto (74.2%)</strong>.`,
+          title: "Canal de Máxima Eficiência Ativo:",
+          text: `O <strong>Lightbox contextual</strong> está selecionado, gerando a maior taxa de conversão final para <em>${prod}</em>.`,
+          impact: "Maior ROI Comercial",
           action: "trocar_lightbox",
           btn: "✓ Canal Selecionado",
-          isActive: true
+          isOptimized: true
         });
       } else {
+        let diffPct = (focoEspaco === 'Banner') ? "2.8x" : (focoEspaco === 'Push') ? "1.9x" : "3.4x";
         suggestions.push({
           icon: "🎯",
-          title: "Otimizar Espaço Comercial:",
-          text: `O <strong>Lightbox contextual</strong> converte <strong>2.8x mais</strong> que ${focoEspaco} para este perfil.`,
+          title: "Recomendação de Canal Contextual:",
+          text: `Mudar de <em>${focoEspaco}</em> para <strong>Lightbox Contextual</strong> converte <strong>${diffPct} mais</strong> no fechamento do App.`,
+          impact: `${diffPct} mais conversão`,
           action: "trocar_lightbox",
           btn: "Mudar para Lightbox",
-          isActive: false
+          isOptimized: false
         });
       }
 
       container.innerHTML = suggestions.map(s => `
-        <div class="sug-card">
+        <div class="sug-card ${s.isOptimized ? 'optimized' : ''}">
           <div class="sug-text">
-            ${s.icon} <strong>${s.title}</strong> ${s.text}
+            <div>${s.icon} <strong>${s.title}</strong> ${s.text}</div>
+            <div class="sug-impact-tag">${s.impact}</div>
           </div>
-          <button class="btn-apply ${s.isActive ? 'active' : ''}" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>
+          <button class="btn-apply ${s.isOptimized ? 'active' : ''}" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>
         </div>
       `).join('');
     }
@@ -1152,7 +1207,7 @@
     function executarSugestaoIA(action) {
       if (action === 'remover_open_finance') {
         appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'open_finance');
-        showToast('✓ Restrição de Open Finance removida. O público aumentou na hora!');
+        showToast('✓ Restrição de Open Finance removida. O público aumentou!');
       } else if (action === 'adicionar_open_finance') {
         appState.activeRules.push({ attrId: "open_finance", val: "Não Possui" });
         showToast('✓ Regra de Open Finance adicionada.');
@@ -1165,7 +1220,7 @@
         mudarEspacoFoco('Lightbox');
         return;
       }
-      atualizarTudo();
+      clicarCalcularMaster();
     }
 
     // UPDATE TRIAD VIEW
@@ -1421,9 +1476,10 @@
         appState.activeRules.push({ attrId: attrDef.id, val: attrDef.defaultVal });
       }
 
-      atualizarTudo();
       fecharResultadosDicionario();
-      showToast(`✓ "${attrDef.label}" adicionado! Clique em 'Calcular' para atualizar tudo.`);
+      renderRulesList();
+      clicarCalcularMaster();
+      showToast(`✓ "${attrDef.label}" adicionado e recalculado!`);
     }
 
     function uploadDicionario(event) {
@@ -1459,7 +1515,7 @@
         appState.selectedSegments.add(segName);
         element.classList.add('active');
       }
-      atualizarTudo();
+      rodarSimulacao();
     }
 
     function renderRulesList() {
@@ -1514,7 +1570,8 @@
         delete appState.activeRules[index].op;
         appState.activeRules[index].val = attrDef.defaultVal;
       }
-      atualizarTudo();
+      renderRulesList();
+      rodarSimulacao();
     }
 
     function onOpChange(index, newOp) {
@@ -1529,14 +1586,16 @@
 
     function adicionarNovaRegra() {
       appState.activeRules.push({ attrId: "gasto_cartao", op: ">", val: "2500" });
-      atualizarTudo();
-      showToast('✓ Nova regra adicionada.');
+      renderRulesList();
+      clicarCalcularMaster();
+      showToast('✓ Nova regra adicionada e calculada.');
     }
 
     function deletarRegra(index) {
       appState.activeRules.splice(index, 1);
-      atualizarTudo();
-      showToast('✓ Regra removida.');
+      renderRulesList();
+      clicarCalcularMaster();
+      showToast('✓ Regra removida e recalculada.');
     }
 
     const spaceProfiles = {
@@ -1589,6 +1648,7 @@
 
       let alcanceTotal = Math.round(baseUniverse * compositeFactor);
       alcanceTotal = Math.max(1200, Math.min(baseUniverse, alcanceTotal));
+      appState.currentAudienceSize = alcanceTotal;
 
       document.getElementById('rules-alcance-badge').innerText = `Público: ${alcanceTotal.toLocaleString('pt-BR')} elegíveis`;
 
