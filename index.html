@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Santander Campaign Intelligence | Torre de Controle da Tríade & IA</title>
+  <title>Santander Campaign Intelligence | Torre de Controle & Funil Visual</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -130,7 +130,7 @@
     .dashboard-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; margin-bottom: 20px; }
     @media (max-width: 1100px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
-    /* Controls Bar */
+    /* Controls Strip */
     .control-strip {
       background: #f1f5f9;
       border: 1px solid #e2e8f0;
@@ -157,28 +157,80 @@
     }
     .control-select:focus { border-color: var(--santander-red); }
 
-    /* Segment Checkboxes */
-    .segment-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-    .segment-chip {
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #334155;
-      cursor: pointer;
-      display: inline-flex;
+    /* ========================================================================= */
+    /* REAL GEOMETRIC FUNNEL DESIGN (DESENHO DE FUNIL REAL)                      */
+    /* ========================================================================= */
+    .funnel-visual-container {
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 6px;
-      user-select: none;
-      transition: all 0.15s;
+      gap: 8px;
+      padding: 10px 0;
+      width: 100%;
     }
-    .segment-chip:hover { border-color: var(--santander-red); }
-    .segment-chip.selected {
-      background: var(--santander-light);
-      border-color: var(--santander-red);
-      color: var(--santander-red);
+
+    .funnel-tier {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .funnel-trapezoid {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      color: white;
+      font-weight: 700;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .funnel-trapezoid:hover { transform: scale(1.02); filter: brightness(1.05); }
+
+    /* Funnel Tier Specific Widths & Colors */
+    .funnel-tier-1 .funnel-trapezoid { width: 100%; background: linear-gradient(135deg, #1e293b, #334155); }
+    .funnel-tier-2 .funnel-trapezoid { width: 84%; background: linear-gradient(135deg, #0369a1, #0ea5e9); }
+    .funnel-tier-3 .funnel-trapezoid { width: 68%; background: linear-gradient(135deg, #d97706, #f59e0b); }
+    .funnel-tier-4 .funnel-trapezoid { width: 52%; background: linear-gradient(135deg, #6d28d9, #8b5cf6); }
+    .funnel-tier-5 .funnel-trapezoid { width: 36%; background: linear-gradient(135deg, var(--santander-dark), var(--santander-red)); box-shadow: 0 6px 16px rgba(236, 0, 0, 0.3); }
+
+    .funnel-label { font-size: 0.84rem; display: flex; align-items: center; gap: 8px; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+    .funnel-val { font-size: 1.05rem; font-weight: 800; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+
+    /* Internal split progress bar (Orgânico vs Campanha) */
+    .funnel-split-bar {
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      display: flex;
+      opacity: 0.25;
+      z-index: 1;
+    }
+    .split-org { background: #38bdf8; height: 100%; }
+    .split-camp { background: #f87171; height: 100%; }
+
+    /* Connecting drop-off arrows */
+    .funnel-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin: 2px 0;
+    }
+    .funnel-connector span {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 12px;
+      color: #334155;
     }
 
     /* Rules Engine */
@@ -199,15 +251,25 @@
     .btn-delete-rule { background: #fee2e2; color: #991b1b; border: none; width: 32px; height: 32px; border-radius: 6px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .btn-add-rule { background: #f1f5f9; border: 1.5px dashed #cbd5e1; color: #334155; padding: 8px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; width: 100%; justify-content: center; margin-top: 4px; }
 
-    /* Funnel Top KPIs */
-    .funnel-kpi-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
-    @media (max-width: 900px) { .funnel-kpi-bar { grid-template-columns: repeat(2, 1fr); } }
-    .funnel-step-card { background: white; border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 10px; text-align: center; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02); }
-    .funnel-step-card.final { border-color: var(--santander-red); background: var(--santander-light); }
-    .funnel-step-tag { font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-    .funnel-step-val { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
-    .funnel-step-card.final .funnel-step-val { color: var(--santander-red); }
-    .funnel-step-conv { font-size: 0.72rem; font-weight: 700; color: var(--success); margin-top: 4px; }
+    /* Segment Checkboxes */
+    .segment-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+    .segment-chip {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .segment-chip:hover { border-color: var(--santander-red); }
+    .segment-chip.selected { background: var(--santander-light); border-color: var(--santander-red); color: var(--santander-red); }
 
     /* Table styling */
     table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.84rem; }
@@ -225,8 +287,8 @@
     <div class="brand-area">
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
-        <h1>Torre de Controle de Jornadas & Previsor da Tríade com IA</h1>
-        <p>A Tríade Unificada: Campanhas de CRM ➔ Funis no App ➔ Produção & Vendas (MoM, YoY e Forecast)</p>
+        <h1>Torre de Controle de Jornadas & Previsor de Funil com IA</h1>
+        <p>Desenho de Funil Real: Campanhas de CRM ➔ Funis no App ➔ Produção & Vendas (MoM, YoY e Forecast)</p>
       </div>
     </div>
     <div class="nav-links">
@@ -247,7 +309,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE REFORMULADA (CAMPANHAS ➔ FUNIL ➔ PRODUÇÃO)                -->
+    <!-- ABA 2: A TRÍADE (COM DESENHO DE FUNIL REAL ORGÂNICO VS CAMPANHA)          -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content">
       
@@ -268,7 +330,7 @@
         </div>
 
         <div class="control-item">
-          <label>📈 Camada da Tríade em Análise:</label>
+          <label>📈 Camada da Tríade:</label>
           <select id="triade-camada" class="control-select" onchange="atualizarTriade()">
             <option value="producao" selected>🔴 3. Produção & Vendas Liquidadas (Contratos)</option>
             <option value="funil">🟣 2. Funil no App (Sessões & Simulações)</option>
@@ -296,7 +358,7 @@
         <div class="kpi-card">
           <div class="kpi-title">Mix de Origem: Campanha vs Orgânico</div>
           <div class="kpi-value" id="triade-kpi-mix">38% / 62%</div>
-          <div class="kpi-sub"><span class="badge-camp">38% Campanha</span> <span class="badge-org">62% Orgânico</span></div>
+          <div class="kpi-sub"><span class="badge-camp" id="badge-pct-camp">38% Campanha</span> <span class="badge-org" id="badge-pct-org">62% Orgânico</span></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-title">Conversão do Funil no App</div>
@@ -310,23 +372,85 @@
         </div>
       </div>
 
-      <!-- 2 Main Charts Grid: Funnel (Org vs Camp) and Time Series (YoY/MoM/Forecast) -->
+      <!-- Grid with Real Visual Funnel and Time Series Chart -->
       <div class="dashboard-grid">
         
-        <!-- Chart 1: Funnel with Organic vs Campaign Breakdown -->
+        <!-- REAL FUNNEL SHAPE CONTAINER (DESENHO DE FUNIL GEOMÉTRICO) -->
         <div class="card">
           <div class="card-header">
-            <h2>🌊 Funil da Tríade: Origem Orgânica vs Campanhas de CRM</h2>
+            <h2>🔻 Desenho de Funil da Tríade (Orgânico vs Campanha)</h2>
+            <div style="font-size: 0.78rem; display:flex; gap:10px;">
+              <span style="color:#0ea5e9; font-weight:700;">🟦 Orgânico</span>
+              <span style="color:#ec0000; font-weight:700;">🟥 Campanha CRM</span>
+            </div>
           </div>
-          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">
-            Rastreamento de passagem de clientes em cada etapa, separando tráfego induzido por <strong>Campanhas</strong> e tráfego <strong>Orgânico Puro</strong>:
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+            Afunilamento geométrico com a passagem de clientes e a proporção de origem em cada nível:
           </p>
-          <div style="height: 310px;">
-            <canvas id="chartTriadeFunil"></canvas>
+
+          <div class="funnel-visual-container" id="triade-funnel-draw">
+            
+            <!-- Tier 1: Exposição / Contato -->
+            <div class="funnel-tier funnel-tier-1" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-split-bar">
+                  <div class="split-org" id="split-f1-org" style="width: 62%;"></div>
+                  <div class="split-camp" id="split-f1-camp" style="width: 38%;"></div>
+                </div>
+                <div class="funnel-label">👁️ 1. Exposição / Contato Total</div>
+                <div class="funnel-val" id="fn-v1">5.200.000</div>
+              </div>
+              <div class="funnel-connector">
+                <span>↓ 78.8% passagem ao App</span>
+              </div>
+            </div>
+
+            <!-- Tier 2: Entrada no Funil (App) -->
+            <div class="funnel-tier funnel-tier-2" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-split-bar">
+                  <div class="split-org" id="split-f2-org" style="width: 62%;"></div>
+                  <div class="split-camp" id="split-f2-camp" style="width: 38%;"></div>
+                </div>
+                <div class="funnel-label">📱 2. Entrada no Funil (App)</div>
+                <div class="funnel-val" id="fn-v2">4.100.000</div>
+              </div>
+              <div class="funnel-connector">
+                <span>↓ 87.8% avançam para Simulação</span>
+              </div>
+            </div>
+
+            <!-- Tier 3: Simulação de Oferta -->
+            <div class="funnel-tier funnel-tier-3" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-split-bar">
+                  <div class="split-org" id="split-f3-org" style="width: 62%;"></div>
+                  <div class="split-camp" id="split-f3-camp" style="width: 38%;"></div>
+                </div>
+                <div class="funnel-label">⚙️ 3. Simulação / Configuração</div>
+                <div class="funnel-val" id="fn-v3">3.600.000</div>
+              </div>
+              <div class="funnel-connector">
+                <span>↓ 78.9% liquidação final</span>
+              </div>
+            </div>
+
+            <!-- Tier 4: Produção (Venda Final) -->
+            <div class="funnel-tier funnel-tier-5" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-split-bar">
+                  <div class="split-org" id="split-f4-org" style="width: 62%;"></div>
+                  <div class="split-camp" id="split-f4-camp" style="width: 38%;"></div>
+                </div>
+                <div class="funnel-label">🎯 4. Produção (Vendas)</div>
+                <div class="funnel-val" id="fn-v4">2.840.500</div>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- Chart 2: Time Evolution (YoY 2025 vs 2026 + Forecast) -->
+        <!-- Chart 2: Time Series YoY / MoM + Forecast -->
         <div class="card">
           <div class="card-header">
             <h2>📈 Evolução Mês a Mês, Comparativo YoY e Forecast com IA</h2>
@@ -369,39 +493,13 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: CONSTRUTOR DE HÁBITOS & PREVISOR DE FUNIL                          -->
+    <!-- ABA 1: CONSTRUTOR DE HÁBITOS & PREVISOR COM DESENHO DE FUNIL DE 5 ETAPAS   -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content" style="display: none;">
       
-      <div class="funnel-kpi-bar">
-        <div class="funnel-step-card">
-          <div class="funnel-step-tag">1. Alcance (Sizing)</div>
-          <div class="funnel-step-val" id="kpi-alcance">3.420.000</div>
-          <div class="funnel-step-conv">Base Elegível</div>
-        </div>
-        <div class="funnel-step-card">
-          <div class="funnel-step-tag">2. Visualizações (Views)</div>
-          <div class="funnel-step-val" id="kpi-views">2.394.000</div>
-          <div class="funnel-step-conv" id="kpi-tx-view">70.0% de exibição</div>
-        </div>
-        <div class="funnel-step-card">
-          <div class="funnel-step-tag">3. Cliques (Engajamento)</div>
-          <div class="funnel-step-val" id="kpi-cliques">430.920</div>
-          <div class="funnel-step-conv" id="kpi-ctr">18.0% CTR</div>
-        </div>
-        <div class="funnel-step-card">
-          <div class="funnel-step-tag">4. Topo de Funil (Início)</div>
-          <div class="funnel-step-val" id="kpi-topo">344.736</div>
-          <div class="funnel-step-conv" id="kpi-tx-topo">80.0% entrada app</div>
-        </div>
-        <div class="funnel-step-card final">
-          <div class="funnel-step-tag" style="color: var(--santander-red);">5. Fundo de Funil (Vendas)</div>
-          <div class="funnel-step-val" id="kpi-fundo">255.794</div>
-          <div class="funnel-step-conv" style="color: var(--santander-red);" id="kpi-tx-fundo">74.2% conversão final</div>
-        </div>
-      </div>
-
       <div class="dashboard-grid">
+        
+        <!-- Left: Rule Builder Panel -->
         <div class="card">
           <div class="config-panel" style="background: #fafbfc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px;">
             <div class="config-group" style="display:flex; flex-direction:column; gap:6px;">
@@ -447,19 +545,62 @@
           </div>
         </div>
 
+        <!-- Right: 5-Stage Real Geometric Funnel Drawing -->
         <div class="card">
           <div class="card-header">
-            <h2>📊 Cascata de Funil Preditivo (Waterfall IA)</h2>
+            <h2>🔻 Desenho de Funil Preditivo com IA (5 Etapas)</h2>
           </div>
-          <div style="height: 280px;">
-            <canvas id="chartFunilEstagios"></canvas>
-          </div>
-          <div style="background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid var(--border); margin-top:14px; font-size:0.82rem; color:var(--text-main);" id="insight-box">
-            💡 <strong>Diagnóstico de Funil:</strong> O gargalo principal ocorre entre <strong>Visualizações ➔ Cliques (Drop-off de 82%)</strong>.
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+            Afunilamento de passagem em cascata previsto pela Rede Neural:
+          </p>
+
+          <div class="funnel-visual-container">
+            
+            <div class="funnel-tier funnel-tier-1" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-label">👥 1. Alcance (Sizing)</div>
+                <div class="funnel-val" id="fn5-v1">3.420.000</div>
+              </div>
+              <div class="funnel-connector"><span id="fn5-c1">↓ 70.0% visualizam</span></div>
+            </div>
+
+            <div class="funnel-tier funnel-tier-2" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-label">👁️ 2. Visualizações (Views)</div>
+                <div class="funnel-val" id="fn5-v2">2.394.000</div>
+              </div>
+              <div class="funnel-connector"><span id="fn5-c2">↓ 18.0% CTR</span></div>
+            </div>
+
+            <div class="funnel-tier funnel-tier-3" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-label">🖱️ 3. Cliques (Engajamento)</div>
+                <div class="funnel-val" id="fn5-v3">430.920</div>
+              </div>
+              <div class="funnel-connector"><span id="fn5-c3">↓ 80.0% entram no App</span></div>
+            </div>
+
+            <div class="funnel-tier funnel-tier-4" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-label">🚀 4. Topo de Funil (Início)</div>
+                <div class="funnel-val" id="fn5-v4">344.736</div>
+              </div>
+              <div class="funnel-connector"><span id="fn5-c4">↓ 74.2% conversão final</span></div>
+            </div>
+
+            <div class="funnel-tier funnel-tier-5" style="width:100%;">
+              <div class="funnel-trapezoid">
+                <div class="funnel-label">🎯 5. Fundo de Funil (Vendas)</div>
+                <div class="funnel-val" id="fn5-v5">255.794</div>
+              </div>
+            </div>
+
           </div>
         </div>
+
       </div>
 
+      <!-- Matrix of 5 Spaces -->
       <div class="card">
         <div class="card-header">
           <h2>📋 Matriz Comparativa do Funil nos 5 Espaços Comerciais</h2>
@@ -565,12 +706,8 @@
       event.currentTarget.classList.add('active');
     }
 
-    // =========================================================================
-    // LÓGICA DA TRÍADE (PRODUTOS, ORGÂNICO VS CAMPANHA, MOM, YOY & FORECAST)
-    // =========================================================================
-    let chartTriadeFunilInst, chartTriadeEvolucaoInst;
+    let chartTriadeEvolucaoInst;
 
-    // Monthly baseline data generator per product for 2025, 2026 YTD, and 2026 Forecast
     const triadProductData = {
       "Pix": {
         base2025: [280000, 290000, 310000, 315000, 330000, 340000, 355000, 365000, 370000, 385000, 400000, 430000],
@@ -638,51 +775,40 @@
       const visaoTempo = document.getElementById('triade-visao-tempo').value;
 
       const pData = triadProductData[prodKey] || triadProductData["Pix"];
-
-      // Multiplier depending on layer (Campaign vs Funnel vs Production)
       let layerMult = (camada === 'campanhas') ? 4.5 : (camada === 'funil') ? 2.8 : 1.0;
 
-      // 2025 base values
       let vals2025 = pData.base2025.map(v => Math.round(v * layerMult));
-
-      // 2026 Realized values (Jan a Ago - 8 meses)
       let vals2026Real = [];
-      for (let i = 0; i < 8; i++) {
-        vals2026Real.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth)));
-      }
+      for (let i = 0; i < 8; i++) vals2026Real.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth)));
 
-      // 2026 Forecast values (Set a Dez - 4 meses)
       let vals2026Forecast = [];
-      for (let i = 8; i < 12; i++) {
-        vals2026Forecast.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth * 1.08)));
-      }
+      for (let i = 8; i < 12; i++) vals2026Forecast.push(Math.round(vals2025[i] * (1 + pData.yoyGrowth * 1.08)));
 
       let totalYTD2026 = vals2026Real.reduce((a, b) => a + b, 0);
       let totalAnoForecast = totalYTD2026 + vals2026Forecast.reduce((a, b) => a + b, 0);
 
-      // Update KPI Cards
       document.getElementById('triade-kpi-prod').innerText = totalYTD2026.toLocaleString('pt-BR');
       document.getElementById('triade-kpi-yoy').innerText = `↑ +${(pData.yoyGrowth * 100).toFixed(1)}% YoY vs 2025`;
       document.getElementById('triade-kpi-mix').innerText = `${Math.round(pData.mixCampanha * 100)}% / ${Math.round(pData.mixOrganico * 100)}%`;
+      document.getElementById('badge-pct-camp').innerText = `${Math.round(pData.mixCampanha * 100)}% Campanha`;
+      document.getElementById('badge-pct-org').innerText = `${Math.round(pData.mixOrganico * 100)}% Orgânico`;
       document.getElementById('triade-kpi-conv').innerText = pData.convFunil;
       document.getElementById('triade-kpi-forecast').innerText = totalAnoForecast.toLocaleString('pt-BR');
 
-      // Update Chart 1: Funnel with Campaign vs Organic Breakdown
-      if (chartTriadeFunilInst) {
-        let f = pData.funnelSteps;
-        let cRatio = pData.mixCampanha;
-        let oRatio = pData.mixOrganico;
+      // Update Real Visual Funnel Tiers (Desenho de Funil Geométrico)
+      let f = pData.funnelSteps;
+      let cPct = Math.round(pData.mixCampanha * 100);
+      let oPct = Math.round(pData.mixOrganico * 100);
 
-        chartTriadeFunilInst.data.datasets[0].data = [
-          Math.round(f.exp * oRatio), Math.round(f.entrada * oRatio), Math.round(f.sim * oRatio), Math.round(f.prod * oRatio)
-        ];
-        chartTriadeFunilInst.data.datasets[1].data = [
-          Math.round(f.exp * cRatio), Math.round(f.entrada * cRatio), Math.round(f.sim * cRatio), Math.round(f.prod * cRatio)
-        ];
-        chartTriadeFunilInst.update();
-      }
+      document.getElementById('fn-v1').innerText = f.exp.toLocaleString('pt-BR');
+      document.getElementById('fn-v2').innerText = f.entrada.toLocaleString('pt-BR');
+      document.getElementById('fn-v3').innerText = f.sim.toLocaleString('pt-BR');
+      document.getElementById('fn-v4').innerText = f.prod.toLocaleString('pt-BR');
 
-      // Update Chart 2: Time Series YoY / MoM + Forecast
+      ['split-f1-org', 'split-f2-org', 'split-f3-org', 'split-f4-org'].forEach(id => document.getElementById(id).style.width = oPct + '%');
+      ['split-f1-camp', 'split-f2-camp', 'split-f3-camp', 'split-f4-camp'].forEach(id => document.getElementById(id).style.width = cPct + '%');
+
+      // Update Time Series Chart
       if (chartTriadeEvolucaoInst) {
         if (visaoTempo === 'yoy') {
           document.getElementById('triade-chart-desc').innerText = `Comparativo Ano contra Ano (2025 vs 2026 Realizado + Forecast) para ${prodKey}:`;
@@ -701,12 +827,12 @@
         } else {
           document.getElementById('triade-chart-desc').innerText = `Evolução Mês a Mês (MoM) e Parcela de Origem para ${prodKey} em 2026:`;
           let full2026 = [...vals2026Real, ...vals2026Forecast];
-          chartTriadeEvolucaoInst.data.datasets[0].label = 'Parcela Orgânica (62%)';
+          chartTriadeEvolucaoInst.data.datasets[0].label = 'Parcela Orgânica';
           chartTriadeEvolucaoInst.data.datasets[0].data = full2026.map(v => Math.round(v * pData.mixOrganico));
           chartTriadeEvolucaoInst.data.datasets[0].borderColor = '#0ea5e9';
           chartTriadeEvolucaoInst.data.datasets[0].borderDash = [];
 
-          chartTriadeEvolucaoInst.data.datasets[1].label = 'Parcela Campanha (38%)';
+          chartTriadeEvolucaoInst.data.datasets[1].label = 'Parcela Campanha';
           chartTriadeEvolucaoInst.data.datasets[1].data = full2026.map(v => Math.round(v * pData.mixCampanha));
           chartTriadeEvolucaoInst.data.datasets[1].borderColor = '#ec0000';
 
@@ -747,7 +873,7 @@
     }
 
     // =========================================================================
-    // LÓGICA DO CONSTRUTOR DE HÁBITOS E PREVISOR DE ESPAÇOS (ABA 1)
+    // LÓGICA DO CONSTRUTOR DE HÁBITOS E PREVISOR DE FUNIL 5 ETAPAS (ABA 1)
     // =========================================================================
     let selectedSegments = new Set(['Especial', 'Select', 'Private']);
 
@@ -888,8 +1014,6 @@
       rodarSimulacao();
     }
 
-    let chartFunilEstagiosInst, chartPacingInst, chartRocInst;
-
     const spaceProfiles = {
       "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, fundoRate: 0.742 },
       "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, fundoRate: 0.685 },
@@ -920,24 +1044,19 @@
       let topo = Math.round(cliques * prof.topoRate);
       let fundo = Math.round(topo * (prof.fundoRate * prodFundoMult));
 
-      document.getElementById('kpi-alcance').innerText = alcanceTotal.toLocaleString('pt-BR');
-      document.getElementById('kpi-views').innerText = views.toLocaleString('pt-BR');
-      document.getElementById('kpi-tx-view').innerText = (prof.viewRate * 100).toFixed(1) + '% de exibição';
+      // Update 5-stage Visual Funnel Values
+      document.getElementById('fn5-v1').innerText = alcanceTotal.toLocaleString('pt-BR');
+      document.getElementById('fn5-v2').innerText = views.toLocaleString('pt-BR');
+      document.getElementById('fn5-v3').innerText = cliques.toLocaleString('pt-BR');
+      document.getElementById('fn5-v4').innerText = topo.toLocaleString('pt-BR');
+      document.getElementById('fn5-v5').innerText = fundo.toLocaleString('pt-BR');
 
-      document.getElementById('kpi-cliques').innerText = cliques.toLocaleString('pt-BR');
-      document.getElementById('kpi-ctr').innerText = (prof.ctr * 100).toFixed(1) + '% CTR';
+      document.getElementById('fn5-c1').innerText = `↓ ${(prof.viewRate * 100).toFixed(1)}% visualizam`;
+      document.getElementById('fn5-c2').innerText = `↓ ${(prof.ctr * 100).toFixed(1)}% CTR`;
+      document.getElementById('fn5-c3').innerText = `↓ ${(prof.topoRate * 100).toFixed(1)}% entram no App`;
+      document.getElementById('fn5-c4').innerText = `↓ ${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão final`;
 
-      document.getElementById('kpi-topo').innerText = topo.toLocaleString('pt-BR');
-      document.getElementById('kpi-tx-topo').innerText = (prof.topoRate * 100).toFixed(1) + '% entrada app';
-
-      document.getElementById('kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
-      document.getElementById('kpi-tx-fundo').innerText = (prof.fundoRate * prodFundoMult * 100).toFixed(1) + '% conversão final';
-
-      if (chartFunilEstagiosInst) {
-        chartFunilEstagiosInst.data.datasets[0].data = [alcanceTotal, views, cliques, topo, fundo];
-        chartFunilEstagiosInst.update();
-      }
-
+      // Populate Table
       const tableBody = document.getElementById('table-funil-espacos');
       tableBody.innerHTML = '';
 
@@ -963,39 +1082,10 @@
       });
     }
 
-    // Initialize all Charts
     window.addEventListener('DOMContentLoaded', () => {
       renderRulesList();
 
-      // 1. Chart Triade Funnel (Orgânico vs Campanha)
-      const ctxTriadeF = document.getElementById('chartTriadeFunil').getContext('2d');
-      chartTriadeFunilInst = new Chart(ctxTriadeF, {
-        type: 'bar',
-        data: {
-          labels: ['1. Exposição / Contato', '2. Entrada no Funil', '3. Simulação', '4. Produção (Venda)'],
-          datasets: [
-            {
-              label: 'Tráfego Orgânico Puro (62%)',
-              data: [3224000, 2542000, 2232000, 1761110],
-              backgroundColor: '#0ea5e9',
-              borderRadius: 6
-            },
-            {
-              label: 'Induzido por Campanhas (38%)',
-              data: [1976000, 1558000, 1368000, 1079390],
-              backgroundColor: '#ec0000',
-              borderRadius: 6
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: { x: { stacked: true }, y: { stacked: true } }
-        }
-      });
-
-      // 2. Chart Triade Time Series (YoY & MoM + Forecast)
+      // Time Series YoY / MoM Chart
       const ctxTriadeE = document.getElementById('chartTriadeEvolucao').getContext('2d');
       chartTriadeEvolucaoInst = new Chart(ctxTriadeE, {
         type: 'line',
@@ -1028,63 +1118,10 @@
             }
           ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
-      });
-
-      // 3. Chart Waterfall Funnel (Aba 1)
-      const ctxFunilEst = document.getElementById('chartFunilEstagios').getContext('2d');
-      chartFunilEstagiosInst = new Chart(ctxFunilEst, {
-        type: 'bar',
-        data: {
-          labels: ['1. Alcance', '2. Views', '3. Cliques', '4. Topo Funil', '5. Fundo (Vendas)'],
-          datasets: [{
-            label: 'Volume de Clientes',
-            data: [3420000, 2394000, 430920, 344736, 255794],
-            backgroundColor: ['#64748b', '#2a75d3', '#f59e0b', '#8b5cf6', '#ec0000'],
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true } }
-        }
-      });
-
-      // 4. Pacing & Forecast (Aba 3)
-      const ctxPacing = document.getElementById('chartPacingForecast').getContext('2d');
-      chartPacingInst = new Chart(ctxPacing, {
-        type: 'line',
-        data: {
-          labels: Array.from({length: 31}, (_, i) => 'Dia ' + (i+1)),
-          datasets: [
-            {
-              label: 'Realizado MTD (Dias 1 a 20)',
-              data: [420, 850, 1310, 1800, 2350, 2900, 3420, 3980, 4520, 5100, 5700, 6290, 6890, 7490, 8080, 8690, 9280, 9890, 10480, 11090],
-              borderColor: '#ec0000',
-              backgroundColor: '#ec0000',
-              borderWidth: 3,
-              tension: 0.1,
-              pointRadius: 4
-            },
-            {
-              label: 'Forecast Preditivo com IA (Dias 21 a 31)',
-              data: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 11090, 11700, 12300, 12910, 13520, 14130, 14750, 15370, 15990, 16620, 17250, 17880],
-              borderColor: '#2a75d3',
-              borderDash: [5, 5],
-              borderWidth: 3,
-              pointRadius: 4
-            }
-          ]
-        },
         options: { responsive: true, maintainAspectRatio: false }
       });
 
-      // 5. ROC (Aba 4)
+      // ROC
       const ctxRoc = document.getElementById('chartRoc').getContext('2d');
       chartRocInst = new Chart(ctxRoc, {
         type: 'line',
