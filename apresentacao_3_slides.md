@@ -1,40 +1,90 @@
-# 📊 Roteiro de Apresentação Executiva (Padrão Gamma.app / 3 Slides)
-## Projeto: Torre de Controle de Jornadas e Previsor de Público & Resultado com Redes Neurais no Santander
-**Autora:** Talita Fonseca | **Curso:** MBA em Inteligência Artificial & Analytics (FGV)
+# 📊 Apresentação Executiva: Torre de Controle de Campanhas & Funis Santander
+## Estudo de Caso FGV: Inteligência Artificial, Analytics de Jornadas e Previsão com Redes Neurais
+**Autora:** Talita Fonseca  
+**Instituição:** Fundação Getulio Vargas (FGV) — MBA em Inteligência Artificial & Analytics  
+**Professor Responsável:** Prof. Marcelo Fidos Jr.  
+**Dashboard Online Interativo:** [atalitafonseca.github.io](https://atalitafonseca.github.io/)  
+**Repositório GitHub:** [github.com/atalitafonseca/atalitafonseca.github.io](https://github.com/atalitafonseca/atalitafonseca.github.io)
 
 ---
 
-# Slide 1: Do Disparo no Escuro à Previsão Exata: A Nova Gestão de Públicos e Funis no Santander
-**Subtítulo:** Como o time de Produto pode simular audiências, prever vendas por espaço e unificar a jornada sem depender de processos manuais lentos.
+# Slide 1: Do Caos dos Silos à Torre de Controle: IA Preditiva no Santander
+**Subtítulo:** Como a Rede Neural Densa (MLP) e a Engenharia de Dados conectam 19M+ de clientes, unificando CRM, Funis no App e Produção Core.
 
-* **O Desafio Atual (Disparos no Escuro):** Hoje, o time de Produto tem o domínio do negócio para criar campanhas e ofertas, mas não consegue estimar com precisão o **tamanho real do público elegível** nem **prever o volume de vendas** que a campanha vai gerar antes de colocá-la no ar.
-* **A Limitação Atual (Silos e Falta de Padrão):** As bases ricas de atributos dos 19M de clientes ficam isoladas no CRM. Para testar um público, o time depende de solicitações manuais que demoram semanas, gerando funis isolados que não se conectam com a produção e métricas de atribuição distorcidas.
-* **A Visão com Inteligência Artificial (O Previsor Inteligente):** Uma plataforma onde o time de Produto seleciona atributos, a IA calcula o **Sizing do público na hora**, prevê a **taxa de conversão em cada espaço do app** e projeta o **resultado final de vendas**, conectando Campanha $\rightarrow$ Funil $\rightarrow$ Produção.
+* **O Desafio de Negócio (Disparos no Escuro & Silos):**
+  * Hoje, o especialista de Produto tem o domínio de negócio para desenhar campanhas, mas opera às cegas: não sabe o **tamanho real do público elegível** nem o **volume de conversão em cada espaço do App** antes de colocar a campanha no ar.
+  * O time de CRM monitora impressões/cliques em tabelas isoladas; o time de Produto acompanha telas no App; e o time Financeiro acompanha a liquidação de contratos no Core Bancário. Não havia conexão de ponta a ponta.
+  * Solicitações manuais de audiência demoravam **semanas**, com regras de atribuição de 10 dias que superatribuíam transações orgânicas normais do cliente.
 
----
+* **A Solução com Inteligência Artificial (FGV):**
+  * Uma **Torre de Controle Integrada** equipada com **Rede Neural MLP (Multi-Layer Perceptron)** treinada para prever a probabilidade de conversão individualizada cruzando *(Hábito do Cliente $\times$ Vocação do Espaço $\times$ Fricção da Jornada $\times$ Produto)*.
+  * **Atribuição Causal sem Grupo de Controle:** Desconto dinâmico da propensão orgânica base do cliente ($w = e^{-\lambda \Delta t} \times (1 - P_{\text{org}})$), preservando 100% da receita comercial sem necessidade de travar clientes em grupos de controle fixos.
 
-# Slide 2: Por Dentro da Solução: O Simulador Preditivo de Público, Espaços e Resultado
-**Subtítulo:** Como a Rede Neural e a Engenharia de Dados transformam o Dicionário de Atributos em previsões precisas de vendas.
-
-* **Nossos Dados (Dicionário de Atributos Integrado):** Unificação da base de atributos de clientes (gastos, saldo, score, hábitos de Pix/Boleto e nível de engajamento) com os eventos de navegação no app e a produção via `nrpess`.
-* **A Abordagem Inteligente (A IA como Previsora de Vendas):** 
-  * *Previsor de Público & Sizing Instantâneo:* O especialista de produto combina atributos no painel e a ferramenta calcula imediatamente o tamanho do público elegível.
-  * *Previsor de Resultado por Espaço:* A Rede Neural (MLPClassifier) cruza o perfil do público com a vocação de cada espaço do app (Home, Pós-Pix, Push) e prevê a taxa de conversão e o faturamento esperado antes do disparo.
-  * *Atribuição Causal por Desconto Orgânico:* Mede o ganho incremental real descontando o comportamento que o cliente já teria sozinho, sem necessidade de travar grupos de controle.
-* **Integração Fluida (Self-Service de Produto):** O especialista de produto simula cenários em minutos, escolhe o espaço de maior retorno e envia a audiência validada diretamente para execução do CRM.
+* **Performance Oficial e Validação Multi-Seed (Padrão FGV):**
+  * **Uplift de F1-Score:** A Rede Neural MLP atingiu **0.4202 (+19.8% de ganho sobre o Baseline de Regressão Logística de 0.3505)**, comprovando a capacidade de capturar relações não-lineares complexas.
+  * **Robustez Estocástica Multi-Seed:** Avaliação em 3 sementes aleatórias obrigatórias (`seed 42`, `seed 7`, `seed 123`) com média $0.4094 \pm 0.0064$, garantindo estabilidade e ausência de overfitting.
 
 ---
 
-# Slide 3: Impacto de Negócio: Pacing em Tempo Real, Forecast e Decisões Ágeis
-**Subtítulo:** Metas batidas com previsibilidade, fim do retrabalho analítico e economia de custos de CRM.
+# Slide 2: A Tríade de Funis & A Torre de Pacing MTD (Comparativo MoM 2026)
+**Subtítulo:** Visão unificada de 7 etapas da visualização até a liquidação bancária, reconciliação App vs Core e ritmo de vendas diário.
 
-* **Impacto Esperado:** 
-  * **Previsibilidade Total:** Saber exatamente quantas vendas cada campanha vai gerar antes de gastar orçamento.
-  * **Agilidade Máxima:** Redução de **3 semanas para segundos** na montagem de públicos e criação de funis.
-  * **Torre de Pacing & Forecast:** Acompanhamento do ritmo diário de cada funil (MTD) com projeção de fechamento do mês (MAPE < 5%) e recomendação de campanhas para cobrir gaps.
-  * **Economia de 30% em CRM:** Fim do disparo de mensagens para clientes com altíssima probabilidade orgânica.
-* **Validação Segura:** Modelo com **ROC-AUC superior a 0.88**, estabilidade comprovada na validação Multi-Seed oficial da FGV (seeds: 42, 7, 123) e período de testes em *Shadow Mode*.
-* **Próximos Passos (Roadmap):**
-  1. *Mês 1:* Piloto do Previsor de Público e Espaços para os funis de Pix e Boletos.
-  2. *Mês 2:* Implementação da Torre de Pacing e Forecast MTD.
-  3. *Mês 3:* Expansão para produtos de Cartões, Seguros e Empréstimos.
+* **O Funil Unificado de 7 Etapas (Aba 2 do Dashboard):**
+  1. *Visualização nos Espaços Comerciais* (Lightbox, Alert, Banner, Push, Email)
+  2. *Cliques / Interações (CTR)*
+  3. *Topo de Funil: Entrada no Fluxo do App*
+  4. *Step do Meio: Simulação do Produto*
+  5. *Step do Meio: Autenticação de Segurança (ID Santander)*
+  6. *Fechamento no App (Conclusão pelo Usuário)*
+  7. *Fundo de Funil: Produção Efetiva no Core Bancário*
+  * **Evolução Mês a Mês (MoM 2026):** Badges dinâmicos indicam variações percentuais em relação ao mês anterior (ex: *Cliques subindo +15.0% MoM* e identificação de gargalos no meio do funil).
+
+* **Reconciliação e Perdas Técnicas (App $\rightarrow$ Core):**
+  * O dashboard isola por que nem todo fechamento de tela vira contrato: perdas por **Antifraude / Risco em Tempo Real (45%)**, **Saldo/Limite Insuficiente (32%)** e **Time-out de Conciliação Bancária**.
+
+* **Torre de Pacing MTD & Forecast da IA (Aba 3 do Dashboard):**
+  * **Comparativo Dia a Dia (Dias 1 a 31):** Gráfico de 4 curvas comparando:
+    * 🔴 *Realizado Mês Atual (Dias 1 a 20)*
+    * 🔵 *Projeção Preditiva da IA (Dias 21 a 31)*
+    * ⚪ *Mês Anterior Homólogo Completo (Dias 1 a 31)*
+    * 🟢 *Meta Linear Contratada*
+  * **Tabela por Decêndios:** Acompanhamento do ritmo a cada 10 dias com cálculo automático do gap e recomendação de alavanca de CRM (*ex: Manter Lightbox vs Ativar Push D-5*).
+
+---
+
+# Slide 3: O Simulador Inteligente de Audiências & Alavancas de IA
+**Subtítulo:** Self-service para o especialista de Produto: modulação de público com switches Ativo/Desativo, modos Conversão vs Awareness e Dicionário de Hábitos.
+
+* **Seletor de Objetivo Estratégico da Campanha:**
+  * **🎯 Modo Conversão & Vendas (Fundo de Funil):** Foco em Contratos Finais, ROI e Produção Core. O gráfico projeta o volume exato de contratos liquidados por canal comercial.
+  * **📢 Modo Awareness & Alcance de Marca (Topo de Funil / Lançamentos):** Foco em Pessoas Únicas Alcançadas, Frequência Média de Exibição, Cobertura da Base de Correntistas e Eficiência de CPM (R$ 4,80 por 1.000 impactos).
+
+* **Alavancas Inteligentes com Switches `[ 🟢 Ativo | ⚪ Desativo ]`:**
+  * Cada recomendação da IA possui um botão interativo de alternância direta:
+    * **Alavanca Open Finance:** Ligar a alavanca remove as travas de consentimento e **expande o público imediatamente em +28% (+957.600 clientes elegíveis)**.
+    * **Qualificação ARPAC:** Ligar prioriza clientes com Score ARPAC > 7.0, elevando a liquidação no Core para 93.9%; desligar abre o público para massa.
+    * **Canal Comercial:** Alterna instantaneamente entre Lightbox (alta conversão) e Banner/Push (ampla distribuição).
+  * **Recálculo Instantâneo & Datalabels:** Qualquer alteração pisca os 5 KPIs do topo e atualiza os **rótulos numéricos diretos no topo das barras do gráfico** (`255,8k contr.` ou `2,39M pessoas`).
+
+* **Dicionário de Hábitos Santander com Busca Semântica:**
+  * Busca inteligente por linguagem natural (*"evasão open finance"*, *"salário fopa"*, *"gasto cartão"*) permitindo adicionar condições com 1 clique.
+
+---
+
+# Slide 4: Acesso ao Dashboard Interativo & Entregáveis Oficiais da FGV
+**Subtítulo:** Como o professor e a banca avaliadora podem navegar, testar e auditar todas as funcionalidades ao vivo.
+
+* **🌐 Acesso Online Direto (Sem Instalação):**
+  * O dashboard completo está hospedado e disponível em: **[https://atalitafonseca.github.io/](https://atalitafonseca.github.io/)**
+  * Totalmente responsivo para Desktop e Mobile, com recálculo instantâneo de IA no navegador.
+
+* **📦 Pacote Completo de Entregáveis FGV:**
+  1. **Dashboard Interativo em Produção (`index.html`):** Torre de Controle com as 4 abas funcionais (Simulador IA, Tríade de Funil, Torre de Pacing MTD e Performance da Rede Neural).
+  2. **Notebook Jupyter Executável (`projeto_santander_jornadas_redes_neurais.ipynb`):** Código-fonte completo em Python com geração de dados, pré-processamento, pipeline de Redes Neurais (MLP), matrizes de confusão, validação Multi-Seed e modelo de atribuição causal.
+  3. **Documento Técnico de Planejamento e Arquitetura (`plano_projeto_santander_ia.pdf` / `.md`):** Relatório detalhado com formulação matemática, arquitetura Medallion Lakehouse e governança MLOps.
+  4. **Repositório Versionado no GitHub:** [github.com/atalitafonseca/atalitafonseca.github.io](https://github.com/atalitafonseca/atalitafonseca.github.io)
+
+* **Impacto Consolidado:**
+  * ⚡ Redução de **3 semanas para < 1 segundo** na montagem de públicos e análise de funis.
+  * 💰 Economia de **30% em custos de disparos de CRM** eliminando desperdício orgânico.
+  * 🎯 **Previsibilidade total de Pacing** com erro de Forecast (MAPE) inferior a 5%.

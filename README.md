@@ -1,103 +1,86 @@
-# 🏦 Torre de Controle de Jornadas e Previsor de Público & Resultado com Redes Neurais
-### Estudo de Caso: Unificação de Campanhas de CRM, Funis no App e Produção no Santander
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/atalitafonseca/atalitafonseca.github.io/blob/main/projeto_santander_jornadas_redes_neurais.ipynb)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-red.svg)](https://www.python.org/downloads/)
-[![Status](https://img.shields.io/badge/status-conclu%C3%ADdo-brightgreen.svg)]()
-
-**Autora:** Talita Fonseca  
-**Instituição:** Fundação Getulio Vargas (FGV) — MBA em Inteligência Artificial & Analytics  
-**Repositório Oficial:** [atalitafonseca/atalitafonseca.github.io](https://github.com/atalitafonseca/atalitafonseca.github.io)  
-**Notebook do Projeto:** [](projeto_santander_jornadas_redes_neurais.ipynb)  
-**Plano do Projeto (PDF):** [](plano_projeto_santander_ia.pdf)  
-**Apresentação Executiva (3 Slides):** [](apresentacao_3_slides.md)
+# 🏦 Torre de Controle de Campanhas & Funis Santander
+### MBA em Inteligência Artificial & Analytics — FGV
+**Autora:** Talita Fonseca ([atalitafonseca](https://github.com/atalitafonseca))  
+**Professor Responsável:** Prof. Marcelo Fidos Jr.  
+**Aplicação Online:** [https://atalitafonseca.github.io/](https://atalitafonseca.github.io/)
 
 ---
 
-## 📌 1. Visão Geral do Problema de Negócio
-
-No ecossistema de canais digitais do **Santander**, mais de **19 milhões de clientes ativos diários** navegam no aplicativo bancário. Três grandes desafios operacionais foram diagnosticados:
-
-1. **Disparos no Escuro e Falta de Previsibilidade:** O time de Produto cria campanhas e ofertas, mas não tem como estimar com precisão o **tamanho real do público elegível (Sizing)** nem **prever o volume de vendas** antes de veicular a campanha.
-2. **Silos e Demora de Semanas:** O time de CRM é o único com acesso às tabelas ricas de atributos dos clientes (). Cada analista constrói queries manuais e isoladas, demorando **semanas** para colocar um dashboard no ar.
-3. **Superatribuição de 10 Dias sem Grupo de Controle:** A regra legada de 10 dias do CRM gera falsos positivos de atribuição ao creditar pagamentos orgânicos como sucesso de marketing. Travar clientes em **grupos de controle é comercialmente inviável**, pois priva o banco de faturamento imediato.
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Online-2ea44f?style=for-the-badge&logo=github)](https://atalitafonseca.github.io/)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-MLP_Neural_Net-orange?style=for-the-badge&logo=scikit-learn)](https://scikit-learn.org/)
+[![FGV MBA](https://img.shields.io/badge/FGV-MBA_IA_%26_Analytics-red?style=for-the-badge)](https://eaesp.fgv.br/)
 
 ---
 
-## 🏗️ 2. A Solução: Arquitetura Medallion & IA como Previsora
+## 🎯 Sobre o Projeto
 
-```
-[ 1. Dicionário de Atributos de Clientes (CRM) ] ──┐
-[ 2. Base de Campanhas & Espaços Comerciais ]   ──┼──► [ Camada Gold Unificada (por nrpess) ]
-[ 3. Logs de Clickstream & Produção no App ]   ──┘                 │
-                                                                   ▼
-                                            [ Previsor de Público & Resultado com IA ]
-                                            • Sizing Instantâneo de Audiência
-                                            • Predição de Vendas por Espaço (MLP)
-                                            • Atribuição Causal sem Grupo de Controle
-```
+Este projeto desenvolve uma **Torre de Controle Unificada de Campanhas, Funis de Navegação e Produção Bancária** para o **Santander**, aplicando **Redes Neurais Artificiais (Multi-Layer Perceptron - MLP)**, **Atribuição Causal sem Grupo de Controle**, **Simulação de Audiências em Tempo Real** e **Torre de Pacing MTD com Forecast Preditivo**.
+
+A aplicação resolve a dor histórica de silos analíticos entre CRM, Produto e Financeiro, permitindo que o especialista de produto simule audiências, module alavancas de IA com switches `[ 🟢 Ativo | ⚪ Desativo ]`, alterne entre estratégias de **Conversão** e **Awareness**, e acompanhe o ritmo de vendas diário comparado com o mês anterior.
 
 ---
 
-## 🤖 3. Modelagem de IA: Baseline vs Rede Neural Densa (MLP)
+## 🌐 Acesso Online & Navegação no Dashboard
 
-Conforme a metodologia oficial da FGV, comparamos o modelo linear baseline com uma **Rede Neural Densa (Multi-Layer Perceptron)**:
+O dashboard interativo está hospedado via GitHub Pages e pode ser acessado diretamente em:  
+👉 **[https://atalitafonseca.github.io/](https://atalitafonseca.github.io/)**
 
-| Métrica | Regressão Logística (Baseline) | Rede Neural MLP (Campeão) |
-| :--- | :---: | :---: |
-| **ROC-AUC** | zsh.7064$ | **zsh.7023* |
-| **Acurácia** | .67\%$ | **.28\%* |
-| **F1-Score** | zsh.3505$ | **zsh.4202* |
-| **Robustez Multi-Seed (F1)** | zsh.3518 \pm 0.0028$ | **zsh.4094 \pm 0.0064* |
-
----
-
-## 🎯 4. Resultados da Simulação Preditiva (Exemplo: Seguro Pix)
-
-Para um público filtrado de clientes *Especial* e *Select* com *Gasto em Cartão $\ge$ R$ 1.200*:
-
-* 👥 **Público Elegível (Sizing Instantâneo):** 
-* 📊 **Previsão de Conversão por Espaço Comercial:**
-  * 🥇 **Pós-Pix Transacional:**  de conversão $ightarrow$ **4.820 vendas estimadas** ($	ext{R$} 144.600,00$) ⭐ *Espaço Recomendado*
-  * 🥈 **Banner Home:**  de conversão $ightarrow$ **3.054 vendas estimadas** ($	ext{R$} 91.620,00$)
-  * 🥉 **Carrossel Ofertas:**  de conversão $ightarrow$ **2.358 vendas estimadas** ($	ext{R$} 70.740,00$)
-  * 📱 **Push Notification:**  de conversão $ightarrow$ **2.322 vendas estimadas** ($	ext{R$} 69.660,00$)
+### 🧭 Estrutura das 4 Abas da Aplicação:
+1. **🎯 1. Simulador & Botão Calcule IA:**
+   * **Seletor de Objetivo Estratégico:** Alternância imediata entre **🎯 Conversão & Vendas** e **📢 Awareness & Alcance de Marca**.
+   * **Alavancas de IA Interativas:** Switches `[ 🟢 Ativo | ⚪ Desativo ]` para Open Finance (+28% de público), Qualificação ARPAC > 7.0 (93.9% liquidação), Espaço Comercial e Conta Salário (FOPA).
+   * **Rótulos Numéricos no Gráfico (Datalabels):** Valores diretos no topo das barras com destaque visual para o canal ativo.
+   * **Dicionário de Hábitos Santander:** Busca semântica em linguagem natural com adição rápida de atributos às regras.
+2. **🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação:**
+   * Funil completo de 7 etapas da visualização até o Core Bancário com variações Mês a Mês (MoM 2026).
+   * Painel de reconciliação com isolamento de perdas técnicas (Antifraude, Saldo insuficiente e Time-out).
+3. **⏱️ 3. Torre de Pacing MTD (Comparativo Mês a Mês & IA):**
+   * Gráfico diário (Dias 1 a 31) com 4 curvas comparando Mês Atual Realizado (1-20), Forecast IA (21-31), Mês Anterior Completo (1-31) e Meta Linear.
+   * Tabela executiva de acompanhamento por Decêndios (1º, 2º e 3º Decêndio) e recomendação de alavanca de CRM.
+4. **🧠 4. Performance da Rede Neural (FGV):**
+   * Curva ROC, matriz de confusão e resultados da validação estocástica Multi-Seed.
 
 ---
 
-## 📂 5. Estrutura do Repositório
+## 📦 Entregáveis do Projeto (Estrutura de Arquivos)
 
-```
-atalitafonseca.github.io/
-├── data/                                             # Bases sintéticas realistas (CSV)
-│   ├── atributos_clientes.csv                        # 25.000 clientes com score, gastos e engajamento
-│   ├── campanhas_crm.csv                             # 35.000 interações de campanhas e espaços
-│   ├── jornadas_producao.csv                         # 40.000 sessões de navegação no app
-│   └── camada_gold_unificada.csv                     # 29.280 sessões unificadas por nrpess
-├── assets/                                           # Gráficos gerados pelos modelos
-│   └── avaliacao_modelos_e_espacos.png
-├── projeto_santander_jornadas_redes_neurais.ipynb     # Jupyter Notebook completo com código e modelos
-├── plano_projeto_santander_ia.pdf                    # PDF oficial do Plano de Projeto (Template FGV)
-├── plano_projeto_santander_ia.md                     # Plano de Projeto em Markdown
-├── apresentacao_3_slides.md                          # Roteiro dos 3 Slides Executivos (Gamma.app)
-├── index.html                                        # Landing Page no GitHub Pages
-└── README.md                                         # Documentação oficial
-```
+| Arquivo | Descrição |
+| :--- | :--- |
+| **`index.html`** | Aplicação web completa e responsiva da Torre de Controle e Simulador. |
+| **`projeto_santander_jornadas_redes_neurais.ipynb`** | Notebook Jupyter com todo o pipeline de Redes Neurais (MLP), EDA, baseline e atribuição causal. |
+| **`apresentacao_3_slides.md`** | Roteiro executivo de apresentação (4 slides) pronto para apresentação executiva ou importação no Gamma.app. |
+| **`plano_projeto_santander_ia.md`** | Documentação técnica completa de arquitetura, formulação matemática e MLOps. |
+| **`plano_projeto_santander_ia.pdf`** | Documento oficial formatado em PDF para submissão acadêmica. |
+| **`data/`** | Bases sintéticas realistas geradas para experimentação e modelagem. |
+
+---
+
+## 🏆 Performance do Modelo de IA (Padrão Oficial FGV)
+
+* **Uplift de F1-Score:** **+19.8%** da Rede Neural MLP ($0.4202$) em relação ao Baseline de Regressão Logística ($0.3505$).
+* **Validação Multi-Seed:** Avaliação em 3 sementes obrigatórias (`seed 42`, `seed 7`, `seed 123`):
+  * **MLP Neural Net:** F1-Score Médio de $0.4094 \pm 0.0064$ e ROC-AUC de $0.7023 \pm 0.0041$.
+  * **Baseline LogReg:** F1-Score Médio de $0.3518 \pm 0.0028$ e ROC-AUC de $0.7064 \pm 0.0035$.
 
 ---
 
 ## 🚀 Como Executar Localmente
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/atalitafonseca/atalitafonseca.github.io.git
-   cd atalitafonseca.github.io
-   ```
-2. Instale as dependências:
-   ```bash
-   pip install numpy pandas matplotlib seaborn scikit-learn jupyter
-   ```
-3. Abra o Jupyter Notebook:
-   ```bash
-   jupyter notebook projeto_santander_jornadas_redes_neurais.ipynb
-   ```
+```bash
+# 1. Clone o repositório
+git clone https://github.com/atalitafonseca/atalitafonseca.github.io.git
+
+# 2. Acesse a pasta
+cd atalitafonseca.github.io
+
+# 3. Abra o dashboard no navegador
+open index.html
+
+# 4. Para executar o notebook de Redes Neurais
+jupyter notebook projeto_santander_jornadas_redes_neurais.ipynb
+```
+
+---
+**Autora:** Talita Fonseca  
+*MBA em Inteligência Artificial & Analytics — FGV*

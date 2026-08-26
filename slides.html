@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apresentação Executiva | Torre de Controle Santander & IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --santander-red: #ec0000;
+      --santander-dark: #cc0000;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-light: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-green: #4ade80;
+      --accent-yellow: #facc15;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; overflow-x: hidden; }
+
+    /* Top Nav */
+    header {
+      padding: 18px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .brand-logo {
+      background: var(--santander-red);
+      color: white;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .deck-info { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+    .btn-live-dash {
+      background: rgba(236, 0, 0, 0.15);
+      border: 1px solid var(--santander-red);
+      color: #ff6b6b;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-live-dash:hover { background: var(--santander-red); color: white; }
+
+    /* Slides Container */
+    .slide-viewport {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .slide-card {
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 40px 48px;
+      width: 100%;
+      min-height: 520px;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.3s ease-out;
+    }
+    .slide-card.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-header { margin-bottom: 24px; }
+    .slide-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--santander-red);
+      background: rgba(236, 0, 0, 0.12);
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .slide-title { font-size: 1.65rem; font-weight: 800; color: #ffffff; line-height: 1.25; }
+    .slide-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-top: 6px; font-weight: 500; }
+
+    .slide-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 900px) { .slide-body { grid-template-columns: 1fr; } }
+
+    .content-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .content-box h3 { font-size: 1.05rem; font-weight: 700; color: var(--accent-blue); display: flex; align-items: center; gap: 8px; }
+    .content-box ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .content-box li { font-size: 0.88rem; color: #cbd5e1; line-height: 1.45; position: relative; padding-left: 18px; }
+    .content-box li::before { content: "•"; color: var(--santander-red); position: absolute; left: 0; font-size: 1.2rem; line-height: 1; }
+    .content-box strong { color: #ffffff; }
+
+    .highlight-stat-box {
+      background: linear-gradient(135deg, rgba(236, 0, 0, 0.15), rgba(2, 132, 199, 0.15));
+      border: 1px solid rgba(236, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .stat-val { font-size: 1.4rem; font-weight: 800; color: #ffffff; }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+
+    /* Footer Controls */
+    footer {
+      padding: 16px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .progress-bar { display: flex; gap: 8px; }
+    .progress-dot {
+      width: 32px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .progress-dot.active { background: var(--santander-red); width: 48px; }
+
+    .nav-buttons { display: flex; gap: 12px; }
+    .btn-nav {
+      background: var(--surface-light);
+      border: none;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-nav:hover { background: #475569; }
+    .btn-nav.primary { background: var(--santander-red); }
+    .btn-nav.primary:hover { background: var(--santander-dark); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="brand-logo">Santander</span>
+      <span class="deck-info">MBA Inteligência Artificial & Analytics (FGV) · Prof. Marcelo Fidos Jr.</span>
+    </div>
+    <a href="index.html" class="btn-live-dash">🚀 Abrir Dashboard Interativo</a>
+  </header>
+
+  <div class="slide-viewport">
+    
+    <!-- SLIDE 1 -->
+    <div class="slide-card active" id="slide-1">
+      <div class="slide-header">
+        <span class="slide-tag">Slide 1 de 4 · Contexto & Arquitetura</span>
+        <h1 class="slide-title">Do Caos dos Silos à Torre de Controle com Redes Neurais</h1>
+        <p class="slide-subtitle">Como conectamos 19M+ de clientes unificando CRM, Funis no App e Produção Core</p>
+      </div>
+      <div class="slide-body">
+        <div class="content-box">
+          <h3>📌 O Desafio de Negócio</h3>
+          <ul>
+            <li><strong>Disparos no Escuro:</strong> O especialista de Produto não sabia o tamanho real do público nem a conversão prevista antes de subir a campanha.</li>
+            <li><strong>Silos Analíticos:</strong> CRM media cliques, Produto media telas no App e Financeiro media contratos no Core Bancário, sem conexão.</li>
+            <li><strong>Lentidão Operacional:</strong> Solicitações manuais de audiência demoravam <strong>semanas</strong>, com regras de atribuição de 10 dias que superatribuíam transações orgânicas normais.</li>
+          </ul>
+        </div>
+        <div class="content-box">
+          <h3>🧠 A Solução com Redes Neurais (FGV)</h3>
+          <ul>
+            <li><strong>Rede Neural MLP (Multi-Layer Perceptron):</strong> Modela a propensão individual cruzando <em>(Hábito × Espaço Comercial × Fricção do App × Produto)</em>.</li>
+            <li><strong>Atribuição Causal sem Grupo de Controle:</strong> Desconto da probabilidade orgânica individual ($w = e^{-\lambda \Delta t} \times (1 - P_{\text{org}})$), preservando 100% da receita comercial.</li>
+            <li><strong>Uplift de F1-Score:</strong> Atingiu <strong>0.4202 (+19.8% sobre o baseline linear)</strong> com robustez Multi-Seed (seeds 42, 7, 123).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-stat-box">
+        <div><div class="stat-val">+19.8%</div><div class="stat-label">Uplift F1-Score vs Baseline</div></div>
+        <div><div class="stat-val">&lt; 1 seg</div><div class="stat-label">Tempo de Simulação de Público</div></div>
+        <div><div class="stat-val">30%</div><div class="stat-label">Economia em Disparos de CRM</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide-card" id="slide-2">
+      <div class="slide-header">
+        <span class="slide-tag">Slide 2 de 4 · A Tríade & Torre de Pacing</span>
+        <h1 class="slide-title">A Tríade de Funis & A Torre de Pacing MTD (MoM 2026)</h1>
+        <p class="slide-subtitle">Visão de 7 etapas da visualização à liquidação, reconciliação e ritmo de vendas diário</p>
+      </div>
+      <div class="slide-body">
+        <div class="content-box">
+          <h3>🔻 O Funil Unificado de 7 Etapas</h3>
+          <ul>
+            <li><strong>1. Visualização nos Espaços:</strong> Lightbox, Alert, Banner, Push, Email.</li>
+            <li><strong>2. Cliques / CTR:</strong> Engajamento inicial na peça comercial.</li>
+            <li><strong>3. Topo App:</strong> Entrada efetiva no fluxo da transação.</li>
+            <li><strong>4. Simulação & ID:</strong> Avanço pelo fluxo com autenticação de segurança.</li>
+            <li><strong>5. Fechamento App ➔ Produção Core:</strong> Reconciliação isolando perdas por Antifraude (45%), Limite (32%) e Time-out.</li>
+          </ul>
+        </div>
+        <div class="content-box">
+          <h3>⏱️ Torre de Pacing & Forecast IA</h3>
+          <ul>
+            <li><strong>Gráfico Comparativo de 4 Curvas:</strong> Mês Atual Realizado (1-20), Forecast IA (21-31), Mês Anterior Completo (1-31) e Meta Linear.</li>
+            <li><strong>Acompanhamento por Decêndios:</strong> Tabela de ritmo a cada 10 dias com alerta de gap e recomendação automática de alavanca de CRM.</li>
+            <li><strong>Previsão Conclusiva:</strong> Diagnóstico executivo indicando saldo de contratos e percentual de alcance da meta.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-stat-box">
+        <div><div class="stat-val">7 Etapas</div><div class="stat-label">Funil Ponta a Ponta</div></div>
+        <div><div class="stat-val">93.9%</div><div class="stat-label">Taxa de Liquidação Core</div></div>
+        <div><div class="stat-val">&lt; 5%</div><div class="stat-label">Erro MAPE de Forecast</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide-card" id="slide-3">
+      <div class="slide-header">
+        <span class="slide-tag">Slide 3 de 4 · Simulador & Alavancas de IA</span>
+        <h1 class="slide-title">O Simulador de Audiências & Alavancas Estratégicas</h1>
+        <p class="slide-subtitle">Modulação de público com switches Ativo/Desativo, modos Conversão vs Awareness e Dicionário</p>
+      </div>
+      <div class="slide-body">
+        <div class="content-box">
+          <h3>🎯 Seletor de Objetivo de Campanha</h3>
+          <ul>
+            <li><strong>🎯 Modo Conversão & Vendas:</strong> Foco em contratos liquidados, ROI e volume de fundo de funil.</li>
+            <li><strong>📢 Modo Awareness & Alcance de Marca:</strong> Foco em pessoas únicas impactadas, frequência média de exibição, cobertura da base e CPM (R$ 4,80).</li>
+            <li><strong>Rótulos Diretos nas Barras (Datalabels):</strong> Números exatos visíveis no gráfico (ex: <em>255,8k contr.</em> ou <em>2,39M pessoas</em>).</li>
+          </ul>
+        </div>
+        <div class="content-box">
+          <h3>🟢 Alavancas com Switches [ Ativo | Desativo ]</h3>
+          <ul>
+            <li><strong>Alavanca Open Finance:</strong> Ligar remove restrições e <strong>expande o público em +28% (+957.600 clientes)</strong> na hora.</li>
+            <li><strong>Qualificação ARPAC:</strong> Prioriza clientes de alta rentabilidade (Score > 7.0) garantindo 93.9% de liquidação no Core.</li>
+            <li><strong>Dicionário de Hábitos Santander:</strong> Consulta em linguagem natural (<em>"salário FOPA"</em>, <em>"evasão open finance"</em>) com adição de regras em 1 clique.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-stat-box">
+        <div><div class="stat-val">+957k</div><div class="stat-label">Ganho com Alavanca Open Finance</div></div>
+        <div><div class="stat-val">2.8x</div><div class="stat-label">Mais Conversão no Lightbox</div></div>
+        <div><div class="stat-val">100%</div><div class="stat-label">Reatividade no Navegador</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide-card" id="slide-4">
+      <div class="slide-header">
+        <span class="slide-tag">Slide 4 de 4 · Acesso Online & Entregáveis FGV</span>
+        <h1 class="slide-title">Acesso ao Dashboard Interativo & Entregáveis Oficiais</h1>
+        <p class="slide-subtitle">Links diretos e instruções para a banca avaliadora testar a solução ao vivo</p>
+      </div>
+      <div class="slide-body">
+        <div class="content-box">
+          <h3>🌐 Dashboard Interativo Online</h3>
+          <ul>
+            <li><strong>Link Direto no GitHub Pages:</strong> <br><a href="https://atalitafonseca.github.io/" target="_blank" style="color:var(--accent-blue); font-weight:700; text-decoration:underline;">https://atalitafonseca.github.io/</a></li>
+            <li><strong>Navegação sem Instalação:</strong> 100% executável em qualquer navegador ou smartphone.</li>
+            <li><strong>4 Abas Completas:</strong> Simulador IA, A Tríade de Funis, Torre de Pacing e Performance da Rede Neural.</li>
+          </ul>
+        </div>
+        <div class="content-box">
+          <h3>📦 Repositório & Documentação</h3>
+          <ul>
+            <li><strong>Repositório GitHub:</strong> <a href="https://github.com/atalitafonseca/atalitafonseca.github.io" target="_blank" style="color:var(--accent-blue); font-weight:700;">github.com/atalitafonseca/atalitafonseca.github.io</a></li>
+            <li><strong>Notebook (.ipynb):</strong> `projeto_santander_jornadas_redes_neurais.ipynb` com pipeline scikit-learn/MLP completo e Multi-Seed.</li>
+            <li><strong>Relatório Técnico:</strong> `plano_projeto_santander_ia.pdf` / `.md` detalhando a formulação matemática e governança MLOps.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-stat-box">
+        <div><div class="stat-val">Online</div><div class="stat-label">GitHub Pages Ativo</div></div>
+        <div><div class="stat-val">FGV</div><div class="stat-label">Padrão MBA Analytics & AI</div></div>
+        <div><div class="stat-val">100%</div><div class="stat-label">Código Aberto & Auditável</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="progress-bar">
+      <div class="progress-dot active" onclick="goToSlide(1)"></div>
+      <div class="progress-dot" onclick="goToSlide(2)"></div>
+      <div class="progress-dot" onclick="goToSlide(3)"></div>
+      <div class="progress-dot" onclick="goToSlide(4)"></div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">◀ Anterior</button>
+      <button class="btn-nav primary" id="btn-next" onclick="nextSlide()">Próximo ▶</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 4;
+
+    function updateSlide() {
+      document.querySelectorAll('.slide-card').forEach((card, idx) => {
+        card.classList.toggle('active', idx + 1 === currentSlide);
+      });
+      document.querySelectorAll('.progress-dot').forEach((dot, idx) => {
+        dot.classList.toggle('active', idx + 1 === currentSlide);
+      });
+      document.getElementById('btn-prev').disabled = (currentSlide === 1);
+      document.getElementById('btn-next').innerText = (currentSlide === totalSlides) ? 'Reiniciar ↺' : 'Próximo ▶';
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) currentSlide++;
+      else currentSlide = 1;
+      updateSlide();
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) currentSlide--;
+      updateSlide();
+    }
+
+    function goToSlide(n) {
+      currentSlide = n;
+      updateSlide();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+      else if (e.key === 'ArrowLeft') prevSlide();
+    });
+  </script>
+</body>
+</html>
