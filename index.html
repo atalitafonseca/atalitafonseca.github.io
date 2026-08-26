@@ -227,7 +227,7 @@
     .matrix-table th { background: #f8fafc; font-weight: 700; color: var(--text-muted); }
     .matrix-table tr:hover { background: #f8fafc; }
 
-    /* Dynamic Lateral AI Suggestions Panel (Com Botão de Dispensar) */
+    /* Dynamic Lateral AI Suggestions Panel */
     .sug-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -239,7 +239,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      transition: all 0.2s;
+      transition: all 0.25s ease;
     }
     .sug-card.optimized {
       border-left-color: var(--success);
@@ -296,6 +296,7 @@
       background: #fee2e2;
       border-color: #fca5a5;
       color: #b91c1c;
+      transform: scale(1.08);
     }
 
     /* Rules Builder */
@@ -306,8 +307,8 @@
     .rule-op-select { width: 60px; padding: 6px 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 700; text-align: center; background: white; outline: none; }
     .rule-val-input { width: 100px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 600; background: white; outline: none; }
     .rule-val-select { flex: 1; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; font-weight: 600; background: white; outline: none; }
-    .btn-del-rule { background: #fee2e2; color: #991b1b; border: none; width: 26px; height: 26px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .btn-del-rule:hover { background: #fecaca; }
+    .btn-del-rule { background: #fee2e2; color: #991b1b; border: none; width: 26px; height: 26px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .btn-del-rule:hover { background: #fecaca; transform: scale(1.08); }
     .btn-add-rule { background: white; border: 1.5px dashed #cbd5e1; color: #475569; padding: 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-add-rule:hover { background: #f8fafc; border-color: #94a3b8; }
 
@@ -407,7 +408,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR COM SUGESTÕES DISPENSÁVEIS                               -->
+    <!-- ABA 1: SIMULADOR COM CÁLCULO INSTANTÂNEO AO DISPENSAR                     -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content">
       
@@ -826,7 +827,6 @@
     <!-- ========================================================================= -->
     <div id="tab-pacing" class="tab-content" style="display: none;">
       
-      <!-- CONTROLE ESPECÍFICO DE PRODUTO E MÊS NA TORRE DE PACING -->
       <div class="control-strip">
         <div class="control-item">
           <label>📦 Produto:</label>
@@ -860,7 +860,6 @@
         </div>
       </div>
 
-      <!-- DIAGNÓSTICO CONCLUSIVO EXECUTIVO DA TORRE DE PACING -->
       <div style="background:#ffffff; border:1.5px solid #bae6fd; border-radius:8px; padding:14px 18px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
         <div style="flex:1; min-width:280px;">
           <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
@@ -877,7 +876,6 @@
         </div>
       </div>
 
-      <!-- 4 KPIS CONCLUSIVOS DE PACING -->
       <div class="kpi-row">
         <div class="kpi-card highlight">
           <div class="kpi-title" id="pacing-kpi-mtd-label">📍 Realizado MTD (Dias 1 a 20)</div>
@@ -904,7 +902,6 @@
         </div>
       </div>
 
-      <!-- GRÁFICO MULTI-LINHAS COMPARATIVO COMPLETO DIA A DIA -->
       <div class="card">
         <div class="card-header">
           <h2 id="pacing-title">⏱️ Curva de Pacing MTD (Dias 1 a 31) - Comparativo com Mês Anterior e Meta</h2>
@@ -920,7 +917,6 @@
         </div>
       </div>
 
-      <!-- TABELA CONCLUSIVA POR DECÊNDIO -->
       <div class="card">
         <div class="card-header">
           <h2>📊 Acompanhamento por Decêndio (Ritmo de Vendas a cada 10 Dias)</h2>
@@ -1114,6 +1110,7 @@
       showToast(`🎯 Espaço comercial alterado para ${novoEspaco}.`);
     }
 
+    // BOTÃO PRINCIPAL & RECALCULO DE EVENTOS
     function clicarCalcularMaster() {
       rodarSimulacao();
 
@@ -1140,8 +1137,7 @@
         atualizarTriade();
         atualizarPacingView();
         document.getElementById('ai-calc-status').innerText = '✓ Calculado agora';
-        showToast(`⚡ Gráfico de canais e sugestões da lateral recalculados com sucesso!`);
-      }, 150);
+      }, 100);
     }
 
     function atualizarTudo() {
@@ -1152,18 +1148,20 @@
       atualizarPacingView();
     }
 
+    // DISPENSAR SUGESTÃO COM RECÁLCULO IMEDIATO
     function descartarSugestao(sugId) {
       appState.dismissedSuggestions.add(sugId);
-      calcularSugestoesLateralIA();
-      showToast('✓ Sugestão dispensada.');
+      clicarCalcularMaster();
+      showToast('✓ Sugestão removida. Cenário, KPIs e gráficos recalculados!');
     }
 
     function restaurarSugestoes() {
       appState.dismissedSuggestions.clear();
-      calcularSugestoesLateralIA();
-      showToast('✓ Sugestões restauradas!');
+      clicarCalcularMaster();
+      showToast('✓ Todas as sugestões foram restauradas e recalculadas!');
     }
 
+    // ENGINE DE SUGESTÕES DINÂMICAS COM POOL DE ALTERNATIVAS
     function calcularSugestoesLateralIA() {
       const container = document.getElementById('ai-suggestions-list');
       const tag = document.getElementById('ai-sug-prod-tag');
@@ -1176,17 +1174,19 @@
       let hasOpenFinance = appState.activeRules.some(r => r.attrId === 'open_finance');
       let hasArpac = appState.activeRules.some(r => r.attrId === 'score_arpac');
       let arpacRule = appState.activeRules.find(r => r.attrId === 'score_arpac') || { val: "7.0" };
+      let hasFopa = appState.activeRules.some(r => r.attrId === 'cliente_fopa');
+      let hasCartao = appState.activeRules.some(r => r.attrId === 'gasto_cartao');
 
-      let suggestions = [];
+      let suggestionsPool = [];
 
-      // Sugestão 1: Alcance / Open Finance
+      // 1. OPEN FINANCE
       if (hasOpenFinance) {
         let ganhoEstimado = Math.round(publicoAtual * 0.28);
-        suggestions.push({
-          id: "sug_open_finance_remover",
+        suggestionsPool.push({
+          id: "sug_open_finance",
           icon: "💡",
           title: "Alavanca de Alcance (Open Finance):",
-          text: `Você possui um filtro restritivo de <em>'Consentimento Open Finance'</em>. Se quiser <strong>aumentar o público elegível</strong> para atingir mais pessoas, remover essa trava adiciona <strong>+${ganhoEstimado.toLocaleString('pt-BR')} clientes (+28%)</strong>.`,
+          text: `Você possui um filtro restritivo de <em>'Consentimento Open Finance'</em>. Remover essa trava adiciona <strong>+${ganhoEstimado.toLocaleString('pt-BR')} clientes (+28%)</strong> ao público elegível.`,
           impact: `+${ganhoEstimado.toLocaleString('pt-BR')} novos clientes`,
           tagClass: "tag-gain",
           action: "remover_open_finance",
@@ -1194,11 +1194,11 @@
           isOptimized: false
         });
       } else {
-        suggestions.push({
-          id: "sug_open_finance_ok",
+        suggestionsPool.push({
+          id: "sug_open_finance",
           icon: "✓",
           title: "Alcance Máximo de Público Ativo:",
-          text: `Seu público está sem travas restritivas de Open Finance, atingindo o <strong>potencial máximo de ${publicoAtual.toLocaleString('pt-BR')} clientes elegíveis</strong>.`,
+          text: `Seu público está sem travas de Open Finance, atingindo o <strong>potencial máximo de ${publicoAtual.toLocaleString('pt-BR')} clientes</strong>.`,
           impact: "Amplo Alcance",
           tagClass: "tag-ok",
           action: "none",
@@ -1207,13 +1207,13 @@
         });
       }
 
-      // Sugestão 2: ARPAC / Rentabilidade
+      // 2. ARPAC / RENTABILIDADE
       if (hasArpac && parseFloat(arpacRule.val) >= 7.0) {
-        suggestions.push({
-          id: "sug_arpac_ok",
+        suggestionsPool.push({
+          id: "sug_arpac",
           icon: "✓",
           title: "Qualificação de Rentabilidade Ativa:",
-          text: `Regra <strong>'Score ARPAC > ${arpacRule.val}'</strong> aplicada com sucesso. Isso garante clientes mais rentáveis e taxa de liquidação de <strong>93.9% no Core Bancário</strong>.`,
+          text: `Regra <strong>'Score ARPAC > ${arpacRule.val}'</strong> aplicada. Garante taxa de liquidação de <strong>93.9% no Core Bancário</strong>.`,
           impact: "Alta Rentabilidade",
           tagClass: "tag-ok",
           action: "none",
@@ -1221,11 +1221,11 @@
           isOptimized: true
         });
       } else {
-        suggestions.push({
-          id: "sug_arpac_adicionar",
+        suggestionsPool.push({
+          id: "sug_arpac",
           icon: "⭐",
           title: "Alavanca de Rentabilidade (ARPAC):",
-          text: `Adicionar ou manter <strong>'Score ARPAC > 7.0'</strong> qualifica os clientes para tickets mais altos e reduz o risco de inadimplência.`,
+          text: `Ajustar <strong>'Score ARPAC > 7.0'</strong> qualifica os clientes para contratos com menor inadimplência.`,
           impact: "+5.2% na conversão final",
           tagClass: "tag-gain",
           action: "manter_arpac",
@@ -1234,10 +1234,10 @@
         });
       }
 
-      // Sugestão 3: Canal / Espaço Comercial
+      // 3. ESPAÇO COMERCIAL
       if (focoEspaco === 'Lightbox') {
-        suggestions.push({
-          id: "sug_espaco_ok",
+        suggestionsPool.push({
+          id: "sug_espaco",
           icon: "✓",
           title: "Espaço Comercial de Alta Performance:",
           text: `O <strong>Lightbox contextual</strong> está ativo e é o canal com maior taxa de conversão final para <em>${prod}</em>.`,
@@ -1249,11 +1249,11 @@
         });
       } else {
         let diff = (focoEspaco === 'Banner') ? "2.8x" : (focoEspaco === 'Push') ? "1.9x" : "3.4x";
-        suggestions.push({
-          id: "sug_espaco_mudar",
+        suggestionsPool.push({
+          id: "sug_espaco",
           icon: "🎯",
           title: "Otimização de Canal Comercial:",
-          text: `O canal <em>${focoEspaco}</em> está selecionado. Mudar para <strong>Lightbox Contextual</strong> converte <strong>${diff} mais</strong> no fechamento do App.`,
+          text: `O canal <em>${focoEspaco}</em> está selecionado. Mudar para <strong>Lightbox Contextual</strong> converte <strong>${diff} mais</strong> no App.`,
           impact: `${diff} mais conversão`,
           tagClass: "tag-gain",
           action: "trocar_lightbox",
@@ -1262,14 +1262,45 @@
         });
       }
 
-      // Filtra as sugestões que o usuário dispensou
-      let activeSugList = suggestions.filter(s => !appState.dismissedSuggestions.has(s.id));
+      // SUGESTÕES COMPLEMENTARES (Aparecem quando o usuário descarta as anteriores)
+      if (!hasFopa) {
+        suggestionsPool.push({
+          id: "sug_fopa_alternativa",
+          icon: "💼",
+          title: "Alavanca de Vínculo (Conta Salário / FOPA):",
+          text: `Filtrar clientes <em>'Recebe Salário (FOPA)'</em> eleva a retenção do produto <em>${prod}</em> em <strong>+18.4%</strong>.`,
+          impact: "+18.4% retenção",
+          tagClass: "tag-gain",
+          action: "adicionar_fopa",
+          btn: "+ Adicionar FOPA",
+          isOptimized: false
+        });
+      }
+
+      if (!hasCartao) {
+        suggestionsPool.push({
+          id: "sug_cartao_alternativa",
+          icon: "💳",
+          title: "Qualificação por Gasto em Cartão:",
+          text: `Adicionar <em>'Gasto Cartão > R$ 2.500'</em> direciona a oferta para o público de maior poder de liquidação.`,
+          impact: "Ticket Médio +24%",
+          tagClass: "tag-gain",
+          action: "adicionar_cartao",
+          btn: "+ Adicionar Gasto Cartão",
+          isOptimized: false
+        });
+      }
+
+      // Filtra apenas as que não foram dispensadas
+      let activeSugList = suggestionsPool.filter(s => !appState.dismissedSuggestions.has(s.id)).slice(0, 3);
 
       if (activeSugList.length === 0) {
         container.innerHTML = `
-          <div style="background:#f8fafc; border:1px dashed var(--border); border-radius:6px; padding:14px; text-align:center; color:var(--text-muted); font-size:0.78rem;">
-            ✨ Nenhuma sugestão ativa no momento. 
-            <div style="margin-top:6px;"><button onclick="restaurarSugestoes()" style="background:#ffffff; border:1px solid var(--border); padding:4px 10px; border-radius:4px; font-size:0.72rem; font-weight:700; color:var(--org-blue); cursor:pointer;">↺ Restaurar Sugestões</button></div>
+          <div style="background:#f8fafc; border:1.5px dashed var(--border); border-radius:6px; padding:16px; text-align:center; color:var(--text-muted); font-size:0.78rem;">
+            ✨ Você revisou ou dispensou todas as sugestões ativas.
+            <div style="margin-top:8px;">
+              <button onclick="restaurarSugestoes()" style="background:#ffffff; border:1.5px solid var(--border); padding:5px 12px; border-radius:5px; font-size:0.75rem; font-weight:700; color:var(--santander-red); cursor:pointer;">↺ Restaurar Todas as Sugestões</button>
+            </div>
           </div>
         `;
         return;
@@ -1286,7 +1317,7 @@
               ? `<span style="font-size:0.75rem; color:#15803d; font-weight:800; padding:5px 8px; background:#dcfce7; border-radius:5px; white-space:nowrap;">✓ Ativo</span>`
               : `<button class="btn-apply" onclick="executarSugestaoIA('${s.action}')">${s.btn}</button>`
             }
-            <button class="btn-dismiss-sug" onclick="descartarSugestao('${s.id}')" title="Dispensar sugestão">✕</button>
+            <button class="btn-dismiss-sug" onclick="descartarSugestao('${s.id}')" title="Dispensar / Tirar esta sugestão">✕</button>
           </div>
         </div>
       `).join('');
@@ -1295,15 +1326,214 @@
     function executarSugestaoIA(action) {
       if (action === 'remover_open_finance') {
         appState.activeRules = appState.activeRules.filter(r => r.attrId !== 'open_finance');
-        showToast('✓ Restrição de Open Finance removida. O público aumentou na hora!');
+        renderRulesList();
+        clicarCalcularMaster();
+        showToast('✓ Restrição de Open Finance removida. Público e KPIs recalculados!');
       } else if (action === 'manter_arpac') {
         let r = appState.activeRules.find(x => x.attrId === 'score_arpac');
         if (!r) appState.activeRules.push({ attrId: "score_arpac", op: ">", val: "7.0" });
         else { r.op = ">"; r.val = "7.0"; }
+        renderRulesList();
+        clicarCalcularMaster();
         showToast('✓ ARPAC ajustado para > 7.0 (Qualificação prioritária).');
       } else if (action === 'trocar_lightbox') {
         mudarEspacoFoco('Lightbox');
-        return;
+        clicarCalcularMaster();
+      } else if (action === 'adicionar_fopa') {
+        appState.activeRules.push({ attrId: "cliente_fopa", val: "Sim (É Folha)" });
+        renderRulesList();
+        clicarCalcularMaster();
+        showToast('✓ Condição de Folha/FOPA adicionada e calculada!');
+      } else if (action === 'adicionar_cartao') {
+        appState.activeRules.push({ attrId: "gasto_cartao", op: ">", val: "2500" });
+        renderRulesList();
+        clicarCalcularMaster();
+        showToast('✓ Condição de Gasto no Cartão adicionada e calculada!');
+      }
+    }
+
+    // EXCLUIR REGRA COM RECÁLCULO IMEDIATO
+    function deletarRegra(index) {
+      appState.activeRules.splice(index, 1);
+      renderRulesList();
+      clicarCalcularMaster();
+      showToast('✓ Regra removida. Público elegível, KPIs e gráficos recalculados!');
+    }
+
+    function renderRulesList() {
+      const container = document.getElementById('rules-list-container');
+      const countEl = document.getElementById('rules-count-badge');
+      container.innerHTML = '';
+      countEl.innerText = appState.activeRules.length + (appState.activeRules.length === 1 ? ' regra ativa' : ' regras ativas');
+
+      appState.activeRules.forEach((rule, index) => {
+        const attrDef = santanderDataDictionary.find(a => a.id === rule.attrId) || santanderDataDictionary[0];
+        const row = document.createElement('div');
+        row.className = 'rule-item-box';
+
+        let attrOptions = santanderDataDictionary.map(a => 
+          `<option value="${a.id}" ${a.id === rule.attrId ? 'selected' : ''}>${a.label}</option>`
+        ).join('');
+
+        if (attrDef.type === 'numeric') {
+          row.innerHTML = `
+            <select class="rule-attr-select" onchange="onAttrChange(${index}, this.value)">${attrOptions}</select>
+            <select class="rule-op-select" onchange="onOpChange(${index}, this.value)">
+              <option value=">" ${rule.op === '>' ? 'selected' : ''}>&gt;</option>
+              <option value="<" ${rule.op === '<' ? 'selected' : ''}>&lt;</option>
+              <option value="=" ${rule.op === '=' ? 'selected' : ''}>=</option>
+            </select>
+            <input type="text" class="rule-val-input" value="${rule.val}" oninput="onValChange(${index}, this.value)">
+            <button class="btn-del-rule" onclick="deletarRegra(${index})" title="Remover condição">×</button>
+          `;
+        } else {
+          let catOptions = attrDef.options.map(opt => 
+            `<option value="${opt}" ${rule.val === opt ? 'selected' : ''}>${opt}</option>`
+          ).join('');
+
+          row.innerHTML = `
+            <select class="rule-attr-select" onchange="onAttrChange(${index}, this.value)">${attrOptions}</select>
+            <select class="rule-val-select" onchange="onValChange(${index}, this.value)">${catOptions}</select>
+            <button class="btn-del-rule" onclick="deletarRegra(${index})" title="Remover condição">×</button>
+          `;
+        }
+
+        container.appendChild(row);
+      });
+    }
+
+    function onAttrChange(index, newAttrId) {
+      const attrDef = santanderDataDictionary.find(a => a.id === newAttrId);
+      appState.activeRules[index].attrId = newAttrId;
+      if (attrDef.type === 'numeric') {
+        appState.activeRules[index].op = attrDef.defaultOp;
+        appState.activeRules[index].val = attrDef.defaultVal;
+      } else {
+        delete appState.activeRules[index].op;
+        appState.activeRules[index].val = attrDef.defaultVal;
+      }
+      renderRulesList();
+      clicarCalcularMaster();
+    }
+
+    function onOpChange(index, newOp) {
+      appState.activeRules[index].op = newOp;
+      clicarCalcularMaster();
+    }
+
+    function onValChange(index, newVal) {
+      appState.activeRules[index].val = newVal;
+      clicarCalcularMaster();
+    }
+
+    function adicionarNovaRegra() {
+      appState.activeRules.push({ attrId: "gasto_cartao", op: ">", val: "2500" });
+      renderRulesList();
+      clicarCalcularMaster();
+      showToast('✓ Nova regra adicionada e calculada.');
+    }
+
+    const spaceProfiles = {
+      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, meioRate: 0.82, fundoRate: 0.742 },
+      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, meioRate: 0.80, fundoRate: 0.685 },
+      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, meioRate: 0.75, fundoRate: 0.420 },
+      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, meioRate: 0.70, fundoRate: 0.380 },
+      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220 }
+    };
+
+    function rodarSimulacao() {
+      const prod = appState.product;
+      const focoEspaco = appState.focoEspaco;
+
+      let baseUniverse = 0;
+      if (appState.selectedSegments.has('Especial')) baseUniverse += 5500000;
+      if (appState.selectedSegments.has('Select')) baseUniverse += 2400000;
+      if (appState.selectedSegments.has('Private')) baseUniverse += 600000;
+
+      let compositeFactor = 1.0;
+      appState.activeRules.forEach(rule => {
+        let ruleFactor = 0.68;
+        if (rule.attrId === 'score_arpac') {
+          let num = parseFloat(rule.val) || 7.0;
+          ruleFactor = (num >= 8.5) ? 0.35 : (num >= 7.0) ? 0.62 : (num >= 5.0) ? 0.80 : 0.95;
+        } else if (rule.attrId === 'evasao_recursos') {
+          let num = parseFloat(rule.val) || 3000;
+          ruleFactor = (num >= 10000) ? 0.20 : (num >= 5000) ? 0.40 : (num >= 3000) ? 0.55 : 0.75;
+        } else if (rule.attrId === 'gasto_cartao') {
+          let num = parseFloat(rule.val) || 2500;
+          ruleFactor = (num >= 5000) ? 0.25 : (num >= 2500) ? 0.50 : 0.78;
+        } else if (rule.attrId === 'principalidade') {
+          ruleFactor = (rule.val === 'É Principal') ? 0.45 : 0.55;
+        } else if (rule.attrId === 'open_finance') {
+          ruleFactor = (rule.val === 'Possui Ativo') ? 0.38 : 0.62;
+        } else if (rule.attrId === 'cliente_fopa') {
+          ruleFactor = (rule.val.includes('Sim')) ? 0.48 : 0.52;
+        } else if (rule.attrId === 'freq_pix') {
+          let num = parseFloat(rule.val) || 10;
+          ruleFactor = (num >= 20) ? 0.35 : 0.60;
+        } else if (rule.attrId === 'uso_limite_conta') {
+          let num = parseFloat(rule.val) || 30;
+          ruleFactor = (num >= 60) ? 0.22 : 0.45;
+        }
+        compositeFactor *= ruleFactor;
+      });
+
+      if (appState.activeRules.length === 0) compositeFactor = 1.0;
+      else compositeFactor = Math.min(0.95, compositeFactor * Math.pow(1.15, appState.activeRules.length - 1));
+
+      let alcanceTotal = Math.round(baseUniverse * compositeFactor);
+      alcanceTotal = Math.max(1200, Math.min(baseUniverse, alcanceTotal));
+      appState.currentAudienceSize = alcanceTotal;
+
+      document.getElementById('rules-alcance-badge').innerText = `Público: ${alcanceTotal.toLocaleString('pt-BR')} elegíveis`;
+
+      const prof = spaceProfiles[focoEspaco] || spaceProfiles["Lightbox"];
+      let prodFundoMult = (prod === 'Pix') ? 1.0 : (prod === 'Boleto') ? 0.92 : (prod === 'Pix Automatico') ? 0.88 : (prod === 'Upgrade') ? 0.70 : (prod === 'Cartao de Credito') ? 0.82 : 0.65;
+
+      let views = Math.round(alcanceTotal * prof.viewRate);
+      let cliques = Math.round(views * prof.ctr);
+      let topo = Math.round(cliques * prof.topoRate);
+      let meio = Math.round(topo * prof.meioRate);
+      let fundo = Math.round(meio * (prof.fundoRate * prodFundoMult));
+
+      document.getElementById('sim-kpi-views').innerText = views.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-views-tx').innerText = `${Math.round(prof.viewRate*100)}% exibição`;
+
+      document.getElementById('sim-kpi-cliques').innerText = cliques.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-cliques-tx').innerText = `${Math.round(prof.ctr*100)}% CTR`;
+
+      document.getElementById('sim-kpi-topo').innerText = topo.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-topo-tx').innerText = `${Math.round(prof.topoRate*100)}% entrada`;
+
+      document.getElementById('sim-kpi-meio').innerText = meio.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-meio-tx').innerText = `${Math.round(prof.meioRate*100)}% avanço`;
+
+      document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-fundo-tx').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
+
+      if (chartEspacosInst) {
+        const bgColors = ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'].map(s => s === focoEspaco ? '#ec0000' : '#cbd5e1');
+        
+        let estLightbox = Math.round(alcanceTotal * 0.70 * 0.18 * 0.80 * 0.82 * (0.742 * prodFundoMult));
+        let estAlert = Math.round(alcanceTotal * 0.82 * 0.14 * 0.76 * 0.80 * (0.685 * prodFundoMult));
+        let estBanner = Math.round(alcanceTotal * 0.50 * 0.08 * 0.70 * 0.75 * (0.420 * prodFundoMult));
+        let estPush = Math.round(alcanceTotal * 0.38 * 0.06 * 0.65 * 0.70 * (0.380 * prodFundoMult));
+        let estEmail = Math.round(alcanceTotal * 0.25 * 0.035 * 0.58 * 0.65 * (0.220 * prodFundoMult));
+
+        chartEspacosInst.data.datasets[0].backgroundColor = bgColors;
+        chartEspacosInst.data.datasets[0].data = [estLightbox, estAlert, estBanner, estPush, estEmail];
+        chartEspacosInst.update();
+      }
+    }
+
+    function toggleSegment(element, segName) {
+      if (appState.selectedSegments.has(segName)) {
+        if (appState.selectedSegments.size === 1) return;
+        appState.selectedSegments.delete(segName);
+        element.classList.remove('active');
+      } else {
+        appState.selectedSegments.add(segName);
+        element.classList.add('active');
       }
       clicarCalcularMaster();
     }
@@ -1751,191 +1981,6 @@
         }
       };
       reader.readAsText(file);
-    }
-
-    function toggleSegment(element, segName) {
-      if (appState.selectedSegments.has(segName)) {
-        if (appState.selectedSegments.size === 1) return;
-        appState.selectedSegments.delete(segName);
-        element.classList.remove('active');
-      } else {
-        appState.selectedSegments.add(segName);
-        element.classList.add('active');
-      }
-      rodarSimulacao();
-    }
-
-    function renderRulesList() {
-      const container = document.getElementById('rules-list-container');
-      const countEl = document.getElementById('rules-count-badge');
-      container.innerHTML = '';
-      countEl.innerText = appState.activeRules.length + (appState.activeRules.length === 1 ? ' regra ativa' : ' regras ativas');
-
-      appState.activeRules.forEach((rule, index) => {
-        const attrDef = santanderDataDictionary.find(a => a.id === rule.attrId) || santanderDataDictionary[0];
-        const row = document.createElement('div');
-        row.className = 'rule-item-box';
-
-        let attrOptions = santanderDataDictionary.map(a => 
-          `<option value="${a.id}" ${a.id === rule.attrId ? 'selected' : ''}>${a.label}</option>`
-        ).join('');
-
-        if (attrDef.type === 'numeric') {
-          row.innerHTML = `
-            <select class="rule-attr-select" onchange="onAttrChange(${index}, this.value)">${attrOptions}</select>
-            <select class="rule-op-select" onchange="onOpChange(${index}, this.value)">
-              <option value=">" ${rule.op === '>' ? 'selected' : ''}>&gt;</option>
-              <option value="<" ${rule.op === '<' ? 'selected' : ''}>&lt;</option>
-              <option value="=" ${rule.op === '=' ? 'selected' : ''}>=</option>
-            </select>
-            <input type="text" class="rule-val-input" value="${rule.val}" oninput="onValChange(${index}, this.value)">
-            <button class="btn-del-rule" onclick="deletarRegra(${index})" title="Remover">×</button>
-          `;
-        } else {
-          let catOptions = attrDef.options.map(opt => 
-            `<option value="${opt}" ${rule.val === opt ? 'selected' : ''}>${opt}</option>`
-          ).join('');
-
-          row.innerHTML = `
-            <select class="rule-attr-select" onchange="onAttrChange(${index}, this.value)">${attrOptions}</select>
-            <select class="rule-val-select" onchange="onValChange(${index}, this.value)">${catOptions}</select>
-            <button class="btn-del-rule" onclick="deletarRegra(${index})" title="Remover">×</button>
-          `;
-        }
-
-        container.appendChild(row);
-      });
-    }
-
-    function onAttrChange(index, newAttrId) {
-      const attrDef = santanderDataDictionary.find(a => a.id === newAttrId);
-      appState.activeRules[index].attrId = newAttrId;
-      if (attrDef.type === 'numeric') {
-        appState.activeRules[index].op = attrDef.defaultOp;
-        appState.activeRules[index].val = attrDef.defaultVal;
-      } else {
-        delete appState.activeRules[index].op;
-        appState.activeRules[index].val = attrDef.defaultVal;
-      }
-      renderRulesList();
-      rodarSimulacao();
-    }
-
-    function onOpChange(index, newOp) {
-      appState.activeRules[index].op = newOp;
-      rodarSimulacao();
-    }
-
-    function onValChange(index, newVal) {
-      appState.activeRules[index].val = newVal;
-      rodarSimulacao();
-    }
-
-    function adicionarNovaRegra() {
-      appState.activeRules.push({ attrId: "gasto_cartao", op: ">", val: "2500" });
-      renderRulesList();
-      clicarCalcularMaster();
-      showToast('✓ Nova regra adicionada e calculada.');
-    }
-
-    function deletarRegra(index) {
-      appState.activeRules.splice(index, 1);
-      renderRulesList();
-      clicarCalcularMaster();
-      showToast('✓ Regra removida e recalculada.');
-    }
-
-    const spaceProfiles = {
-      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, meioRate: 0.82, fundoRate: 0.742 },
-      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, meioRate: 0.80, fundoRate: 0.685 },
-      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, meioRate: 0.75, fundoRate: 0.420 },
-      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, meioRate: 0.70, fundoRate: 0.380 },
-      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220 }
-    };
-
-    function rodarSimulacao() {
-      const prod = appState.product;
-      const focoEspaco = appState.focoEspaco;
-
-      let baseUniverse = 0;
-      if (appState.selectedSegments.has('Especial')) baseUniverse += 5500000;
-      if (appState.selectedSegments.has('Select')) baseUniverse += 2400000;
-      if (appState.selectedSegments.has('Private')) baseUniverse += 600000;
-
-      let compositeFactor = 1.0;
-      appState.activeRules.forEach(rule => {
-        let ruleFactor = 0.68;
-        if (rule.attrId === 'score_arpac') {
-          let num = parseFloat(rule.val) || 7.0;
-          ruleFactor = (num >= 8.5) ? 0.35 : (num >= 7.0) ? 0.62 : (num >= 5.0) ? 0.80 : 0.95;
-        } else if (rule.attrId === 'evasao_recursos') {
-          let num = parseFloat(rule.val) || 3000;
-          ruleFactor = (num >= 10000) ? 0.20 : (num >= 5000) ? 0.40 : (num >= 3000) ? 0.55 : 0.75;
-        } else if (rule.attrId === 'gasto_cartao') {
-          let num = parseFloat(rule.val) || 2500;
-          ruleFactor = (num >= 5000) ? 0.25 : (num >= 2500) ? 0.50 : 0.78;
-        } else if (rule.attrId === 'principalidade') {
-          ruleFactor = (rule.val === 'É Principal') ? 0.45 : 0.55;
-        } else if (rule.attrId === 'open_finance') {
-          ruleFactor = (rule.val === 'Possui Ativo') ? 0.38 : 0.62;
-        } else if (rule.attrId === 'cliente_fopa') {
-          ruleFactor = (rule.val.includes('Sim')) ? 0.48 : 0.52;
-        } else if (rule.attrId === 'freq_pix') {
-          let num = parseFloat(rule.val) || 10;
-          ruleFactor = (num >= 20) ? 0.35 : 0.60;
-        } else if (rule.attrId === 'uso_limite_conta') {
-          let num = parseFloat(rule.val) || 30;
-          ruleFactor = (num >= 60) ? 0.22 : 0.45;
-        }
-        compositeFactor *= ruleFactor;
-      });
-
-      if (appState.activeRules.length === 0) compositeFactor = 1.0;
-      else compositeFactor = Math.min(0.95, compositeFactor * Math.pow(1.15, appState.activeRules.length - 1));
-
-      let alcanceTotal = Math.round(baseUniverse * compositeFactor);
-      alcanceTotal = Math.max(1200, Math.min(baseUniverse, alcanceTotal));
-      appState.currentAudienceSize = alcanceTotal;
-
-      document.getElementById('rules-alcance-badge').innerText = `Público: ${alcanceTotal.toLocaleString('pt-BR')} elegíveis`;
-
-      const prof = spaceProfiles[focoEspaco] || spaceProfiles["Lightbox"];
-      let prodFundoMult = (prod === 'Pix') ? 1.0 : (prod === 'Boleto') ? 0.92 : (prod === 'Pix Automatico') ? 0.88 : (prod === 'Upgrade') ? 0.70 : (prod === 'Cartao de Credito') ? 0.82 : 0.65;
-
-      let views = Math.round(alcanceTotal * prof.viewRate);
-      let cliques = Math.round(views * prof.ctr);
-      let topo = Math.round(cliques * prof.topoRate);
-      let meio = Math.round(topo * prof.meioRate);
-      let fundo = Math.round(meio * (prof.fundoRate * prodFundoMult));
-
-      document.getElementById('sim-kpi-views').innerText = views.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-views-tx').innerText = `${Math.round(prof.viewRate*100)}% exibição`;
-
-      document.getElementById('sim-kpi-cliques').innerText = cliques.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-cliques-tx').innerText = `${Math.round(prof.ctr*100)}% CTR`;
-
-      document.getElementById('sim-kpi-topo').innerText = topo.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-topo-tx').innerText = `${Math.round(prof.topoRate*100)}% entrada`;
-
-      document.getElementById('sim-kpi-meio').innerText = meio.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-meio-tx').innerText = `${Math.round(prof.meioRate*100)}% avanço`;
-
-      document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-fundo-tx').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
-
-      if (chartEspacosInst) {
-        const bgColors = ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'].map(s => s === focoEspaco ? '#ec0000' : '#cbd5e1');
-        
-        let estLightbox = Math.round(alcanceTotal * 0.70 * 0.18 * 0.80 * 0.82 * (0.742 * prodFundoMult));
-        let estAlert = Math.round(alcanceTotal * 0.82 * 0.14 * 0.76 * 0.80 * (0.685 * prodFundoMult));
-        let estBanner = Math.round(alcanceTotal * 0.50 * 0.08 * 0.70 * 0.75 * (0.420 * prodFundoMult));
-        let estPush = Math.round(alcanceTotal * 0.38 * 0.06 * 0.65 * 0.70 * (0.380 * prodFundoMult));
-        let estEmail = Math.round(alcanceTotal * 0.25 * 0.035 * 0.58 * 0.65 * (0.220 * prodFundoMult));
-
-        chartEspacosInst.data.datasets[0].backgroundColor = bgColors;
-        chartEspacosInst.data.datasets[0].data = [estLightbox, estAlert, estBanner, estPush, estEmail];
-        chartEspacosInst.update();
-      }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
