@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Santander Campaign Intelligence | Torre de Controle & Funil Executivo</title>
+  <title>Santander Campaign Intelligence | Torre de Controle da Tríade & IA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -151,7 +151,7 @@
     .control-select:focus { border-color: var(--santander-red); }
 
     /* ========================================================================= */
-    /* ULTRA-PREMIUM EXECUTIVE FUNNEL DESIGN (VISUALIZAÇÃO DE FUNIL APRIMORADA)  */
+    /* ULTRA-PREMIUM EXECUTIVE FUNNEL DESIGN                                     */
     /* ========================================================================= */
     .funnel-executive-wrapper {
       display: flex;
@@ -195,7 +195,6 @@
     .tier-w6 { width: 65%; border-left: 6px solid #7c3aed; background: #faf5ff; }
     .tier-w7 { width: 58%; border-left: 6px solid var(--santander-red); background: var(--santander-light); border-color: #fca5a5; }
 
-    /* Top row inside capsule: Title & Main Volume */
     .capsule-header-row {
       display: flex;
       justify-content: space-between;
@@ -254,7 +253,6 @@
       transition: width 0.3s ease;
     }
 
-    /* Connecting pass-through badges */
     .connector-badge-wrap {
       display: flex;
       align-items: center;
@@ -278,14 +276,85 @@
     .connector-badge strong { color: var(--success); }
 
     /* ========================================================================= */
-    /* EXECUTIVE SIDE PANEL: FORECAST YoY/MoM & MTD ATÉ O MOMENTO                */
+    /* MONTHLY FUNNEL PERFORMANCE & DIAGNOSTICS BAR                             */
     /* ========================================================================= */
-    .side-comparison-panel {
+    .funnel-insights-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 900px) { .funnel-insights-grid { grid-template-columns: 1fr; } }
+
+    .insight-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 4px;
+    }
+    .insight-card-title { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+    .insight-card-val { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+    .insight-card-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; }
+
+    /* ========================================================================= */
+    /* AI PRESCRIPTIVE SUGGESTIONS (RECOMENDAÇÕES INTELIGENTES DE ATRIBUTOS)     */
+    /* ========================================================================= */
+    .ai-suggester-box {
+      background: linear-gradient(135deg, #f0fdf4, #f8fafc);
+      border: 1.5px solid #86efac;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .ai-suggester-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .ai-suggester-header h3 {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #15803d;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
+    .suggestion-item {
+      background: white;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+    .suggestion-item:hover { border-color: #22c55e; transform: translateX(2px); }
+    .sug-text { font-size: 0.8rem; color: var(--text-main); flex: 1; }
+    .sug-text strong { color: #166534; }
+    .btn-apply-sug {
+      background: #15803d;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-apply-sug:hover { background: #166534; }
+
+    /* Side Panel */
+    .side-comparison-panel { display: flex; flex-direction: column; gap: 16px; }
     .side-metric-card {
       background: white;
       border-radius: 10px;
@@ -297,7 +366,6 @@
       border-color: var(--santander-red);
       background: linear-gradient(135deg, #fffafa, #ffffff);
     }
-
     .side-card-title {
       font-size: 0.78rem;
       font-weight: 800;
@@ -309,9 +377,7 @@
       align-items: center;
       justify-content: space-between;
     }
-
     .side-main-val { font-size: 1.65rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px; }
-
     .side-metric-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -324,12 +390,7 @@
     .grid-cell-label { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); }
     .grid-cell-val { font-size: 0.95rem; font-weight: 800; }
 
-    .mtd-comp-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
+    .mtd-comp-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
     .mtd-comp-item {
       display: flex;
       justify-content: space-between;
@@ -395,7 +456,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Jornadas & Previsor da Tríade com IA</h1>
-        <p>Funil Executivo: Visualização ➔ Cliques ➔ Topo ➔ Steps do Meio (Simulação & ID) ➔ Fechamento ➔ Produção</p>
+        <p>Performance Mês a Mês do Funil (Topo vs Fundo) & Assistente Prescritivo de Otimização de Atributos</p>
       </div>
     </div>
     <div class="nav-links">
@@ -409,14 +470,14 @@
     
     <!-- Navigation Tabs -->
     <div class="tab-bar">
-      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Previsor de Funil & Hábitos de Consumo</button>
-      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Funil da Jornada & Comparativos</button>
+      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Previsor de Funil & Assistente de Atributos (IA)</button>
+      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Performance Mês a Mês & Funil</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD & Forecast</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE COM TAXONOMIA EXATA DO FUNIL BANCÁRIO                     -->
+    <!-- ABA 2: A TRÍADE COM PERFORMANCE MÊS A MÊS E INSIGHTS DE TOPO VS FUNDO    -->
     <!-- ========================================================================= -->
     <div id="tab-triade" class="tab-content">
       
@@ -453,6 +514,27 @@
         </div>
       </div>
 
+      <!-- FUNNEL PERFORMANCE INSIGHTS BAR (TOPO VS FUNDO MoM) -->
+      <div class="funnel-insights-grid">
+        <div class="insight-card" style="border-left: 4px solid #0284c7;">
+          <div class="insight-card-title">🚀 Topo de Funil (MoM)</div>
+          <div class="insight-card-val" style="color: #0284c7;" id="ins-topo-val">↑ +14.2% (1.000.000)</div>
+          <div class="insight-card-desc" id="ins-topo-desc">Expansão de acessos induzida por campanhas de Lightbox contextual no app.</div>
+        </div>
+
+        <div class="insight-card" style="border-left: 4px solid #8b5cf6;">
+          <div class="insight-card-title">⚙️ Step do Meio / Passagem (MoM)</div>
+          <div class="insight-card-val" style="color: #8b5cf6;" id="ins-meio-val">↔ +2.3% (78.0% tx)</div>
+          <div class="insight-card-desc" id="ins-meio-desc">Estabilidade na passagem de simulação para autenticação ID Santander.</div>
+        </div>
+
+        <div class="insight-card" style="border-left: 4px solid var(--santander-red);">
+          <div class="insight-card-title">🏦 Fundo de Funil / Produção (MoM)</div>
+          <div class="insight-card-val" style="color: var(--santander-red);" id="ins-fundo-val">↑ +13.9% (478.900)</div>
+          <div class="insight-card-desc" id="ins-fundo-desc">Crescimento acelerado com taxa de liquidação de 93.9% no core bancário.</div>
+        </div>
+      </div>
+
       <!-- MAIN SPLIT LAYOUT -->
       <div class="triad-split-layout">
         
@@ -465,13 +547,10 @@
               <span class="badge-camp">🟥 Campanha CRM</span>
             </div>
           </div>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
-            Afunilamento de 7 etapas da jornada digital no Santander com divisão de origem:
-          </p>
 
           <div class="funnel-executive-wrapper">
             
-            <!-- Etapa 1: Visualização da Campanha / Exposição -->
+            <!-- Etapa 1 -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w1">
                 <div class="capsule-header-row">
@@ -492,7 +571,7 @@
               </div>
             </div>
 
-            <!-- Etapa 2: Cliques / Interação -->
+            <!-- Etapa 2 -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w2">
                 <div class="capsule-header-row">
@@ -513,7 +592,7 @@
               </div>
             </div>
 
-            <!-- Etapa 3: Topo de Funil / Entrada na Jornada -->
+            <!-- Etapa 3 -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w3">
                 <div class="capsule-header-row">
@@ -534,7 +613,7 @@
               </div>
             </div>
 
-            <!-- Etapa 4: Step do Meio - Simulação & Condições -->
+            <!-- Etapa 4 -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w4">
                 <div class="capsule-header-row">
@@ -555,7 +634,7 @@
               </div>
             </div>
 
-            <!-- Etapa 5: Step do Meio - Autenticação ID Santander -->
+            <!-- Etapa 5 -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w5">
                 <div class="capsule-header-row">
@@ -576,7 +655,7 @@
               </div>
             </div>
 
-            <!-- Etapa 6: Fechamento de Funil no App -->
+            <!-- Etapa 6 -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w6">
                 <div class="capsule-header-row">
@@ -597,7 +676,7 @@
               </div>
             </div>
 
-            <!-- Etapa 7: Fundo de Funil / Produção Efetiva Core -->
+            <!-- Etapa 7 -->
             <div class="funnel-tier-item">
               <div class="funnel-capsule tier-w7">
                 <div class="capsule-header-row">
@@ -618,7 +697,7 @@
           </div>
         </div>
 
-        <!-- RIGHT COLUMN: EXECUTIVE COMPARISON PANEL (FORECAST YoY/MoM & MTD ATÉ O MOMENTO) -->
+        <!-- RIGHT COLUMN: EXECUTIVE COMPARISON PANEL -->
         <div class="side-comparison-panel">
           
           <!-- Card 1: Forecast de Fechamento do Mês (YoY e MoM) -->
@@ -729,10 +808,42 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: CONSTRUTOR DE HÁBITOS & PREVISOR DE ESPAÇOS                        -->
+    <!-- ABA 1: CONSTRUTOR DE HÁBITOS, PREVISOR E ASSISTENTE DE SUGESTÕES DA IA   -->
     <!-- ========================================================================= -->
     <div id="tab-simulador" class="tab-content" style="display: none;">
+      
+      <!-- Top Forecast KPI Bar for Simulator -->
+      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 18px;">
+        <div style="background:white; border:1.5px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
+          <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">1. Visualizações</div>
+          <div style="font-size:1.15rem; font-weight:800; color:#0284c7;" id="sim-kpi-views">2.394.000</div>
+          <div style="font-size:0.7rem; color:var(--success); font-weight:700;">70% exibição</div>
+        </div>
+        <div style="background:white; border:1.5px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
+          <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">2. Cliques</div>
+          <div style="font-size:1.15rem; font-weight:800; color:#f59e0b;" id="sim-kpi-cliques">430.920</div>
+          <div style="font-size:0.7rem; color:var(--success); font-weight:700;">18% CTR</div>
+        </div>
+        <div style="background:white; border:1.5px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
+          <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">3. Topo de Funil</div>
+          <div style="font-size:1.15rem; font-weight:800; color:#475569;" id="sim-kpi-topo">344.736</div>
+          <div style="font-size:0.7rem; color:var(--success); font-weight:700;">80% entrada app</div>
+        </div>
+        <div style="background:white; border:1.5px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
+          <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">4. Step do Meio</div>
+          <div style="font-size:1.15rem; font-weight:800; color:#8b5cf6;" id="sim-kpi-meio">282.683</div>
+          <div style="font-size:0.7rem; color:var(--success); font-weight:700;">82% simulação</div>
+        </div>
+        <div style="background:var(--santander-light); border:1.5px solid var(--santander-red); border-radius:8px; padding:10px; text-align:center;">
+          <div style="font-size:0.7rem; font-weight:800; color:var(--santander-red); text-transform:uppercase;">5. Fundo / Vendas</div>
+          <div style="font-size:1.15rem; font-weight:800; color:var(--santander-red);" id="sim-kpi-fundo">255.794</div>
+          <div style="font-size:0.7rem; color:var(--santander-red); font-weight:700;">74.2% conversão final</div>
+        </div>
+      </div>
+
       <div class="dashboard-grid">
+        
+        <!-- Left: Rule Builder & Segments -->
         <div class="card">
           <div class="config-panel" style="background: #fafbfc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px;">
             <div class="config-group" style="display:flex; flex-direction:column; gap:6px;">
@@ -778,18 +889,54 @@
           </div>
         </div>
 
+        <!-- Right: AI Prescriptive Suggestions Assistant -->
         <div class="card">
           <div class="card-header">
-            <h2>📊 Previsão de Conversão nos 5 Espaços Comerciais</h2>
+            <h2>💡 Assistente Prescritivo de IA (Otimização de Público)</h2>
+            <span class="badge-win">Recomendações Ativas</span>
           </div>
-          <div style="height: 290px;">
+
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+            A inteligência artificial analisa as regras e sugere ajustes para maximizar o equilíbrio entre <strong>Volume de Público</strong> e <strong>Qualificação de Conversão</strong>:
+          </p>
+
+          <div class="ai-suggester-box">
+            <div class="ai-suggester-header">
+              <h3>🤖 Sugestões de Ajuste de Atributos:</h3>
+            </div>
+
+            <!-- Sugestão 1: Volume / Tirar restrição -->
+            <div class="suggestion-item">
+              <div class="sug-text">
+                📈 <strong>Aumentar Alcance do Público:</strong> Se você remover a restrição <em>"Não Possui Open Finance"</em>, o público elegível aumentará em <strong>+840.000 clientes (+24.5%)</strong> no topo de funil.
+              </div>
+              <button class="btn-apply-sug" onclick="aplicarSugestao('remover_open_finance')">Aplicar Ajuste</button>
+            </div>
+
+            <!-- Sugestão 2: Qualificação / ARPAC -->
+            <div class="suggestion-item">
+              <div class="sug-text">
+                ⭐ <strong>Manter Qualificação Alta:</strong> Manter a regra <strong>"ARPAC > 7.0"</strong> reduz o público bruto em 18%, porém <strong>aumenta a taxa de conversão final no fundo de funil em +5.2%</strong>.
+              </div>
+              <button class="btn-apply-sug" onclick="aplicarSugestao('manter_arpac')">Priorizar ARPAC</button>
+            </div>
+
+            <!-- Sugestão 3: Canal / Espaço Comercial -->
+            <div class="suggestion-item">
+              <div class="sug-text">
+                🎯 <strong>Otimização de Canal:</strong> Para este perfil de clientes com evasão, o espaço <strong>Lightbox</strong> converte <strong>2.8x mais</strong> do que Banner tradicional.
+              </div>
+              <button class="btn-apply-sug" onclick="aplicarSugestao('trocar_lightbox')">Usar Lightbox</button>
+            </div>
+          </div>
+
+          <div style="height: 180px; margin-top: 14px;">
             <canvas id="chartEspacos"></canvas>
           </div>
-          <div style="background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid var(--border); margin-top:14px; font-size:0.82rem; color:var(--text-main);" id="insight-box">
-            💡 <strong>Recomendação da IA:</strong> Para o produto selecionado, o <strong>Lightbox</strong> contextual atinge a maior conversão.
-          </div>
         </div>
+
       </div>
+
     </div>
 
     <!-- ========================================================================= -->
@@ -894,7 +1041,10 @@
           { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 382500, vForecast: 510000, passRate: 93.9 },
           { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 362400, vForecast: 478900, passRate: 100.0 }
         ],
-        losses: { antifraude: 14200, saldo: 9800, timeout: 7100 }
+        losses: { antifraude: 14200, saldo: 9800, timeout: 7100 },
+        topoMoM: "+14.2%",
+        meioMoM: "+2.3%",
+        fundoMoM: "+13.9%"
       },
       "Boleto": {
         base2025: [180000, 185000, 195000, 190000, 200000, 205000, 210000, 240000, 220000, 225000, 235000, 250000],
@@ -912,7 +1062,10 @@
           { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 214000, vForecast: 290000, passRate: 94.5 },
           { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 202200, vForecast: 274100, passRate: 100.0 }
         ],
-        losses: { antifraude: 6200, saldo: 5800, timeout: 3900 }
+        losses: { antifraude: 6200, saldo: 5800, timeout: 3900 },
+        topoMoM: "+8.4%",
+        meioMoM: "+1.2%",
+        fundoMoM: "+14.3%"
       },
       "Pix Automatico": {
         base2025: [45000, 52000, 60000, 68000, 78000, 89000, 98000, 115000, 122000, 135000, 150000, 175000],
@@ -930,7 +1083,10 @@
           { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 146800, vForecast: 198500, passRate: 93.8 },
           { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 137800, vForecast: 186300, passRate: 100.0 }
         ],
-        losses: { antifraude: 4800, saldo: 4500, timeout: 2900 }
+        losses: { antifraude: 4800, saldo: 4500, timeout: 2900 },
+        topoMoM: "+26.8%",
+        meioMoM: "+15.4%",
+        fundoMoM: "+17.4%"
       },
       "Pix Parcelado": {
         base2025: [60000, 65000, 72000, 78000, 85000, 92000, 99000, 118000, 115000, 124000, 135000, 155000],
@@ -948,7 +1104,10 @@
           { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 130200, vForecast: 176800, passRate: 92.4 },
           { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 120200, vForecast: 163400, passRate: 100.0 }
         ],
-        losses: { antifraude: 6400, saldo: 4200, timeout: 2800 }
+        losses: { antifraude: 6400, saldo: 4200, timeout: 2800 },
+        topoMoM: "+18.2%",
+        meioMoM: "+5.1%",
+        fundoMoM: "+15.0%"
       },
       "Upgrade": {
         base2025: [18000, 19000, 21000, 20500, 22000, 23500, 24000, 27500, 26000, 27500, 29000, 32000],
@@ -966,7 +1125,10 @@
           { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 27360, vForecast: 36860, passRate: 93.6 },
           { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 25600, vForecast: 34500, passRate: 100.0 }
         ],
-        losses: { antifraude: 1200, saldo: 600, timeout: 560 }
+        losses: { antifraude: 1200, saldo: 600, timeout: 560 },
+        topoMoM: "+12.0%",
+        meioMoM: "+3.8%",
+        fundoMoM: "+14.6%"
       },
       "Cartao de Credito": {
         base2025: [85000, 88000, 94000, 92000, 98000, 102000, 106000, 122000, 118000, 124000, 132000, 148000],
@@ -984,7 +1146,10 @@
           { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 118900, vForecast: 160100, passRate: 93.4 },
           { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 111000, vForecast: 149500, passRate: 100.0 }
         ],
-        losses: { antifraude: 5200, saldo: 3100, timeout: 2300 }
+        losses: { antifraude: 5200, saldo: 3100, timeout: 2300 },
+        topoMoM: "+16.5%",
+        meioMoM: "+6.2%",
+        fundoMoM: "+15.1%"
       },
       "Limite da Conta": {
         base2025: [35000, 37000, 40000, 39000, 42000, 44000, 46000, 52000, 50000, 53000, 57000, 62000],
@@ -1002,7 +1167,10 @@
           { name: "6. Fechamento de Funil (Conclusão App)", vMTD: 51870, vForecast: 70920, passRate: 93.9 },
           { name: "7. Fundo de Funil: Produção Efetiva (Core)", vMTD: 48700, vForecast: 66600, passRate: 100.0 }
         ],
-        losses: { antifraude: 2100, saldo: 1300, timeout: 920 }
+        losses: { antifraude: 2100, saldo: 1300, timeout: 920 },
+        topoMoM: "+11.4%",
+        meioMoM: "+4.0%",
+        fundoMoM: "+13.1%"
       }
     };
 
@@ -1027,7 +1195,12 @@
       const mtdMomPct = ((vMTD - mtdJulHomologo) / mtdJulHomologo * 100).toFixed(1);
       const mtdYoyPct = ((vMTD - mtdAgo25Homologo) / mtdAgo25Homologo * 100).toFixed(1);
 
-      // 1. Update Executive Side Panel Metrics
+      // Update Funnel Performance Insights Bar
+      document.getElementById('ins-topo-val').innerText = `↑ ${pData.topoMoM} (${stages[2].vForecast.toLocaleString('pt-BR')})`;
+      document.getElementById('ins-meio-val').innerText = `↔ ${pData.meioMoM} (${stages[3].passRate}% tx)`;
+      document.getElementById('ins-fundo-val').innerText = `↑ ${pData.fundoMoM} (${vForecast.toLocaleString('pt-BR')})`;
+
+      // Update Executive Side Panel Metrics
       document.getElementById('side-forecast-val').innerText = `${vForecast.toLocaleString('pt-BR')} contratos`;
       document.getElementById('side-meta-badge').innerText = `${metaPct}% da Meta`;
       document.getElementById('side-forecast-yoy').innerText = `↑ +${yoyForecastPct}% YoY`;
@@ -1039,7 +1212,7 @@
       document.getElementById('side-mtd-mom').innerText = `+${mtdMomPct}% MoM`;
       document.getElementById('side-mtd-yoy').innerText = `+${mtdYoyPct}% YoY`;
 
-      // 2. Update Enhanced Executive Funnel Tiers
+      // Update Enhanced Executive Funnel Tiers
       const cRatio = pData.mixCampanha;
       const oRatio = pData.mixOrganico;
       const cPct = Math.round(cRatio * 100);
@@ -1073,7 +1246,7 @@
         }
       }
 
-      // 3. Update Bottom Reconcile Card
+      // Update Bottom Reconcile Card
       document.getElementById('box-funil-val').innerText = stages[5].vForecast.toLocaleString('pt-BR');
       document.getElementById('box-prod-val').innerText = stages[6].vForecast.toLocaleString('pt-BR');
 
@@ -1082,7 +1255,7 @@
       document.getElementById('loss-saldo').innerText = `-${l.saldo.toLocaleString('pt-BR')}`;
       document.getElementById('loss-timeout').innerText = `-${l.timeout.toLocaleString('pt-BR')}`;
 
-      // 4. Update Time Series Chart
+      // Update Time Series Chart
       if (chartTriadeEvolucaoInst) {
         let vals2025 = pData.base2025;
         let vals2026Real = [];
@@ -1101,7 +1274,7 @@
     }
 
     // =========================================================================
-    // LÓGICA DO CONSTRUTOR DE HÁBITOS E PREVISOR DE ESPAÇOS (ABA 1)
+    // LÓGICA DO CONSTRUTOR DE HÁBITOS, PREVISOR E SUGESTÕES DA IA (ABA 1)
     // =========================================================================
     let selectedSegments = new Set(['Especial', 'Select', 'Private']);
 
@@ -1168,7 +1341,7 @@
       { fam: "evasao", attr: "evadiu_recursos", op: ">", val: "3000" },
       { fam: "rentabilidade", attr: "score_arpac", op: ">", val: "7.0" },
       { fam: "rentabilidade", attr: "principalidade_santander", op: "=", val: "Não" },
-      { fam: "rentabilidade", attr: "cliente_fopa", op: "=", val: "Sim" }
+      { fam: "evasao", attr: "open_finance_status", op: "=", val: "Não Possui" }
     ];
 
     function renderRulesList() {
@@ -1242,24 +1415,74 @@
       rodarSimulacao();
     }
 
+    // AI Prescriptive Suggester Actions
+    function aplicarSugestao(tipoSug) {
+      if (tipoSug === 'remover_open_finance') {
+        activeRules = activeRules.filter(r => r.attr !== 'open_finance_status');
+        renderRulesList();
+        rodarSimulacao();
+        alert('✓ Sugestão Aplicada: Restrição de Open Finance removida. O público aumentou imediatamente!');
+      } else if (tipoSug === 'manter_arpac') {
+        let arpacRule = activeRules.find(r => r.attr === 'score_arpac');
+        if (!arpacRule) {
+          activeRules.push({ fam: "rentabilidade", attr: "score_arpac", op: ">", val: "7.0" });
+        } else {
+          arpacRule.val = "7.0";
+        }
+        renderRulesList();
+        rodarSimulacao();
+        alert('✓ Sugestão Aplicada: ARPAC ajustado para > 7.0 (Maior qualificação e menor inadimplência).');
+      } else if (tipoSug === 'trocar_lightbox') {
+        document.getElementById('sim-espaco-foco').value = 'Lightbox';
+        rodarSimulacao();
+        alert('✓ Sugestão Aplicada: Espaço alterado para Lightbox (+74.2% de conversão final prevista).');
+      }
+    }
+
     const spaceProfiles = {
-      "Lightbox": { tx: 74.2 },
-      "Alert":    { tx: 68.5 },
-      "Banner":   { tx: 42.0 },
-      "Push":     { tx: 38.0 },
-      "Email":    { tx: 22.0 }
+      "Lightbox": { viewRate: 0.70, ctr: 0.18, topoRate: 0.80, meioRate: 0.82, fundoRate: 0.742 },
+      "Alert":    { viewRate: 0.82, ctr: 0.14, topoRate: 0.76, meioRate: 0.80, fundoRate: 0.685 },
+      "Banner":   { viewRate: 0.50, ctr: 0.08, topoRate: 0.70, meioRate: 0.75, fundoRate: 0.420 },
+      "Push":     { viewRate: 0.38, ctr: 0.06, topoRate: 0.65, meioRate: 0.70, fundoRate: 0.380 },
+      "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220 }
     };
 
     function rodarSimulacao() {
       const prod = document.getElementById('sim-produto').value;
+      const focoEspaco = document.getElementById('sim-espaco-foco').value;
+      const numRules = activeRules.length;
+
+      let baseUniverse = 0;
+      if (selectedSegments.has('Especial')) baseUniverse += 5500000;
+      if (selectedSegments.has('Select')) baseUniverse += 2400000;
+      if (selectedSegments.has('Private')) baseUniverse += 600000;
+
+      let sizingMultiplier = (numRules === 0) ? 1.0 : Math.pow(0.48, numRules) * 2.2;
+      let alcanceTotal = Math.round(baseUniverse * sizingMultiplier);
+      alcanceTotal = Math.max(2500, Math.min(baseUniverse, alcanceTotal));
+
+      const prof = spaceProfiles[focoEspaco] || spaceProfiles["Lightbox"];
+      let prodFundoMult = (prod === 'Pix') ? 1.0 : (prod === 'Boleto') ? 0.92 : (prod === 'Pix Automatico') ? 0.88 : (prod === 'Upgrade') ? 0.70 : 0.65;
+
+      let views = Math.round(alcanceTotal * prof.viewRate);
+      let cliques = Math.round(views * prof.ctr);
+      let topo = Math.round(cliques * prof.topoRate);
+      let meio = Math.round(topo * prof.meioRate);
+      let fundo = Math.round(meio * (prof.fundoRate * prodFundoMult));
+
+      document.getElementById('sim-kpi-views').innerText = views.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-cliques').innerText = cliques.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-topo').innerText = topo.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-meio').innerText = meio.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
+
       if (chartEspacosInst) {
-        let mult = (prod === 'Pix') ? 1.0 : (prod === 'Boleto') ? 0.92 : (prod === 'Pix Automatico') ? 0.88 : (prod === 'Upgrade') ? 0.70 : 0.65;
         chartEspacosInst.data.datasets[0].data = [
-          Math.round(spaceProfiles["Lightbox"].tx * mult),
-          Math.round(spaceProfiles["Alert"].tx * mult),
-          Math.round(spaceProfiles["Banner"].tx * mult),
-          Math.round(spaceProfiles["Push"].tx * mult),
-          Math.round(spaceProfiles["Email"].tx * mult)
+          Math.round(spaceProfiles["Lightbox"].fundoRate * prodFundoMult * 100),
+          Math.round(spaceProfiles["Alert"].fundoRate * prodFundoMult * 100),
+          Math.round(spaceProfiles["Banner"].fundoRate * prodFundoMult * 100),
+          Math.round(spaceProfiles["Push"].fundoRate * prodFundoMult * 100),
+          Math.round(spaceProfiles["Email"].fundoRate * prodFundoMult * 100)
         ];
         chartEspacosInst.update();
       }
@@ -1274,7 +1497,7 @@
         data: {
           labels: ['Lightbox', 'Alert', 'Banner', 'Push', 'Email'],
           datasets: [{
-            label: 'Conversão Prevista (%)',
+            label: 'Conversão Fundo de Funil (%)',
             data: [74.2, 68.5, 42.0, 38.0, 22.0],
             backgroundColor: ['#ec0000', '#f59e0b', '#2a75d3', '#64748b', '#94a3b8'],
             borderRadius: 6
