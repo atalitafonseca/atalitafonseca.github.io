@@ -424,9 +424,7 @@
       color: var(--santander-red);
     }
 
-    /* ========================================================================= */
-    /* DATA DICTIONARY SEARCH ENGINE & NATURAL LANGUAGE ASSISTANT                */
-    /* ========================================================================= */
+    /* DATA DICTIONARY SEARCH ENGINE */
     .dict-search-wrapper {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -471,9 +469,13 @@
       gap: 8px;
       max-height: 280px;
       overflow-y: auto;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
     }
     .dict-match-card {
-      background: #f8fafc;
+      background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 10px 12px;
@@ -483,7 +485,7 @@
       gap: 12px;
       transition: all 0.15s;
     }
-    .dict-match-card:hover { border-color: #94a3b8; background: #ffffff; }
+    .dict-match-card:hover { border-color: #94a3b8; }
     .dict-info { flex: 1; }
     .dict-name { font-size: 0.82rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px; }
     .dict-tag { font-size: 0.68rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: #e2e8f0; color: #334155; }
@@ -501,9 +503,30 @@
       transition: all 0.15s;
     }
     .btn-dict-add:hover { background: var(--santander-red); color: white; }
+
+    /* Subtle Toast */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Toast Confirmation -->
+  <div id="toast" class="toast-msg">✓ Atributo adicionado! Números recalculados em tempo real.</div>
 
   <!-- Minimal Header -->
   <header>
@@ -511,7 +534,7 @@
       <div class="brand-logo">Santander</div>
       <div class="brand-title">
         <h1>Torre de Controle de Campanhas & Funis</h1>
-        <p>Dicionário de Atributos com IA · Funil de 7 Etapas · Reconciliação Core</p>
+        <p>Recálculo Responsivo em Tempo Real · Dicionário Inteligente · Funil Executivo</p>
       </div>
     </div>
     <div class="nav-links">
@@ -525,18 +548,166 @@
     
     <!-- Tab Navigation -->
     <div class="tab-bar">
-      <button class="tab-btn" onclick="switchTab('simulador')">🎯 1. Simulador & Dicionário de Atributos com IA</button>
-      <button class="tab-btn active" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
+      <button class="tab-btn active" onclick="switchTab('simulador')">🎯 1. Simulador & Dicionário Reativo</button>
+      <button class="tab-btn" onclick="switchTab('triade')">🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação</button>
       <button class="tab-btn" onclick="switchTab('pacing')">⏱️ 3. Torre de Pacing MTD</button>
       <button class="tab-btn" onclick="switchTab('modelos')">🧠 4. Performance da Rede Neural (FGV)</button>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: A TRÍADE (DESIGN LIMPO & EXECUTIVO)                                -->
+    <!-- ABA 1: SIMULADOR & DICIONÁRIO TOTALMENTE REATIVO EM TEMPO REAL           -->
     <!-- ========================================================================= -->
-    <div id="tab-triade" class="tab-content">
+    <div id="tab-simulador" class="tab-content">
       
-      <!-- Unified Control Strip -->
+      <!-- Top Forecast KPI Bar for Simulator (Calculado Dinamicamente) -->
+      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">1. Views nos Espaços</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:var(--org-blue);" id="sim-kpi-views">2.394.000</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-views-tx">70% exibição</div>
+        </div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">2. Cliques / Interação</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:#f59e0b;" id="sim-kpi-cliques">430.920</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-cliques-tx">18% CTR</div>
+        </div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">3. Topo App Santander</div>
+          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-topo">344.736</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-topo-tx">80% entrada</div>
+        </div>
+        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">4. Simulação & ID</div>
+          <div class="kpi-val" style="font-size:1.15rem; color:#8b5cf6;" id="sim-kpi-meio">282.683</div>
+          <div style="font-size:0.68rem; color:var(--text-muted); font-weight:700;" id="sim-kpi-meio-tx">82% avanço</div>
+        </div>
+        <div class="kpi-card highlight" style="padding:10px 12px; text-align:center;">
+          <div class="kpi-title">5. Produção Final Core</div>
+          <div class="kpi-val" style="font-size:1.15rem;" id="sim-kpi-fundo">255.794</div>
+          <div style="font-size:0.68rem; color:var(--santander-red); font-weight:700;" id="sim-kpi-fundo-tx">74.2% conversão</div>
+        </div>
+      </div>
+
+      <!-- DICIONÁRIO DE DADOS & BUSCA INTELIGENTE -->
+      <div class="dict-search-wrapper">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="font-size:0.82rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px;">
+            <span>📖 Dicionário de Atributos Santander</span>
+            <span style="font-size:0.7rem; background:#fee2e2; color:var(--santander-red); padding:1px 6px; border-radius:4px; font-weight:700;">Busca com IA</span>
+          </div>
+          <label style="font-size:0.72rem; color:var(--text-muted); cursor:pointer; font-weight:600; text-decoration:underline;">
+            📁 Subir Dicionário (.csv / .json)
+            <input type="file" style="display:none;" accept=".csv,.json" onchange="uploadDicionario(event)">
+          </label>
+        </div>
+
+        <div class="dict-search-bar">
+          <input type="text" id="dict-query-input" class="dict-input" placeholder="Ex: 'tem dado de evasao de open finance?', 'salário', 'gasto cartão'..." oninput="pesquisarDicionario()" onkeypress="if(event.key==='Enter') pesquisarDicionario()">
+          <button class="btn-dict-search" onclick="pesquisarDicionario()">🔍 Consultar IA</button>
+        </div>
+
+        <!-- Resultados da Busca (com botão fechar manual + auto-fechamento ao adicionar) -->
+        <div id="dict-results" class="dict-results-container" style="display:none;"></div>
+      </div>
+
+      <div class="two-col-grid">
+        
+        <!-- Left: Clean Rule Builder -->
+        <div class="card">
+          <div class="card-header">
+            <h2>🎯 Montagem de Público & Hábitos de Consumo</h2>
+            <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted);" id="rules-alcance-badge">Público: 3.420.000 elegíveis</span>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">Segmentos Elegíveis:</div>
+            <div class="seg-pills">
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Especial')">⭐ Especial</span>
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Select')">👑 Select</span>
+              <span class="seg-pill active" onclick="toggleSegment(this, 'Private')">💎 Private</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Clean Rules List -->
+          <div style="margin-bottom: 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Condições de Hábito Ativas:</span>
+              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras</span>
+            </div>
+            
+            <div class="rules-list" id="rules-list-container"></div>
+            
+            <button class="btn-add-rule" onclick="adicionarNovaRegra()"><span>+ Adicionar Condição de Hábito</span></button>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; border-top:1px solid var(--border); padding-top:12px;">
+            <div>
+              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Produto:</span>
+              <select id="sim-produto" onchange="rodarSimulacao()" class="control-select" style="width:100%;">
+                <option value="Pix" selected>⚡ Pix</option>
+                <option value="Boleto">📄 Boleto</option>
+                <option value="Pix Automatico">🔄 Pix Automático</option>
+                <option value="Pix Parcelado">💳 Pix Parcelado</option>
+                <option value="Upgrade">📈 Upgrade</option>
+                <option value="Cartao de Credito">💳 Cartão de Crédito</option>
+                <option value="Limite da Conta">🏦 Limite da Conta</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Espaço Comercial:</span>
+              <select id="sim-espaco-foco" onchange="rodarSimulacao()" class="control-select" style="width:100%;">
+                <option value="Lightbox" selected>🟥 Lightbox</option>
+                <option value="Alert">🟨 Alert</option>
+                <option value="Banner">🟦 Banner</option>
+                <option value="Push">⬛ Push</option>
+                <option value="Email">⬜ Email</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: AI Prescriptive Suggestions -->
+        <div class="card">
+          <div class="card-header">
+            <h2>💡 Assistente Prescritivo de IA</h2>
+            <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;">Recomendações Vivas</span>
+          </div>
+
+          <div class="sug-card">
+            <div class="sug-text">
+              📈 <strong>Aumentar Alcance:</strong> Remover a restrição <em>"Consentimento Open Finance"</em> aumenta o público elegível em <strong>+840.000 clientes (+24.5%)</strong>.
+            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('remover_open_finance')">Aplicar</button>
+          </div>
+
+          <div class="sug-card">
+            <div class="sug-text">
+              ⭐ <strong>Qualificar Fundo:</strong> Manter <strong>"Score ARPAC > 7.0"</strong> eleva a conversão final em <strong>+5.2%</strong> com clientes mais rentáveis.
+            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('manter_arpac')">Priorizar</button>
+          </div>
+
+          <div class="sug-card">
+            <div class="sug-text">
+              🎯 <strong>Espaço Recomendado:</strong> O <strong>Lightbox contextual</strong> converte <strong>2.8x mais</strong> que Banner para clientes com evasão.
+            </div>
+            <button class="btn-apply" onclick="aplicarSugestao('trocar_lightbox')">Usar</button>
+          </div>
+
+          <div style="height: 160px; margin-top: 10px;">
+            <canvas id="chartEspacos"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- ABA 2: A TRÍADE                                                           -->
+    <!-- ========================================================================= -->
+    <div id="tab-triade" class="tab-content" style="display: none;">
+      
       <div class="control-strip">
         <div class="control-item">
           <label>📦 Produto:</label>
@@ -569,7 +740,6 @@
         </div>
       </div>
 
-      <!-- 4 Essential KPI Cards -->
       <div class="kpi-row">
         <div class="kpi-card">
           <div class="kpi-title">📍 Realizado MTD (Dia 20)</div>
@@ -596,10 +766,8 @@
         </div>
       </div>
 
-      <!-- Two-Column Layout -->
       <div class="two-col-grid">
         
-        <!-- Clean Funnel Column -->
         <div class="card">
           <div class="card-header">
             <h2>🔻 Funil de 7 Etapas (Orgânico vs Campanha)</h2>
@@ -611,7 +779,6 @@
 
           <div class="clean-funnel-container">
             
-            <!-- Etapa 1 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-1">
                 <div class="funnel-row-top">
@@ -626,7 +793,6 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-1">24.0%</strong> CTR de engajamento</div>
             </div>
 
-            <!-- Etapa 2 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-2">
                 <div class="funnel-row-top">
@@ -641,7 +807,6 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-2">83.3%</strong> entram no fluxo do App</div>
             </div>
 
-            <!-- Etapa 3 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-3">
                 <div class="funnel-row-top">
@@ -656,7 +821,6 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-3">78.0%</strong> iniciam simulação</div>
             </div>
 
-            <!-- Etapa 4 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-4">
                 <div class="funnel-row-top">
@@ -671,7 +835,6 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-4">82.1%</strong> autenticam ID Santander</div>
             </div>
 
-            <!-- Etapa 5 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-5">
                 <div class="funnel-row-top">
@@ -686,7 +849,6 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-5">79.7%</strong> concluem no App</div>
             </div>
 
-            <!-- Etapa 6 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-6">
                 <div class="funnel-row-top">
@@ -701,7 +863,6 @@
               <div class="pass-rate-indicator">↓ <strong id="fn-pass-6">93.9%</strong> liquidação efetiva Core</div>
             </div>
 
-            <!-- Etapa 7 -->
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-7">
                 <div class="funnel-row-top">
@@ -718,7 +879,6 @@
           </div>
         </div>
 
-        <!-- Right Side -->
         <div class="side-stack">
           
           <div class="card" style="margin-bottom:0;">
@@ -757,134 +917,6 @@
             </div>
           </div>
 
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ========================================================================= -->
-    <!-- ABA 1: SIMULADOR & DICIONÁRIO DE ATRIBUTOS COM LINGUAGEM NATURAL          -->
-    <!-- ========================================================================= -->
-    <div id="tab-simulador" class="tab-content" style="display: none;">
-      
-      <!-- Top Forecast KPI Bar for Simulator -->
-      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">1. Views</div>
-          <div class="kpi-val" style="font-size:1.1rem; color:var(--org-blue);" id="sim-kpi-views">2.394.000</div>
-        </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">2. Cliques</div>
-          <div class="kpi-val" style="font-size:1.1rem; color:var(--warning);" id="sim-kpi-cliques">430.920</div>
-        </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">3. Topo App</div>
-          <div class="kpi-val" style="font-size:1.1rem;" id="sim-kpi-topo">344.736</div>
-        </div>
-        <div class="kpi-card" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">4. Simulação</div>
-          <div class="kpi-val" style="font-size:1.1rem; color:var(--purple);" id="sim-kpi-meio">282.683</div>
-        </div>
-        <div class="kpi-card highlight" style="padding:10px 12px; text-align:center;">
-          <div class="kpi-title">5. Produção Final</div>
-          <div class="kpi-val" style="font-size:1.1rem;" id="sim-kpi-fundo">255.794</div>
-        </div>
-      </div>
-
-      <!-- NOVO: DICIONÁRIO DE DADOS & BUSCA EM LINGUAGEM NATURAL -->
-      <div class="dict-search-wrapper">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <div style="font-size:0.82rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px;">
-            <span>📖 Dicionário de Atributos Santander</span>
-            <span style="font-size:0.7rem; background:#fee2e2; color:var(--santander-red); padding:1px 6px; border-radius:4px; font-weight:700;">Busca com IA</span>
-          </div>
-          <label style="font-size:0.72rem; color:var(--text-muted); cursor:pointer; font-weight:600; text-decoration:underline;">
-            📁 Subir Dicionário (.csv / .json)
-            <input type="file" style="display:none;" accept=".csv,.json" onchange="uploadDicionario(event)">
-          </label>
-        </div>
-
-        <div class="dict-search-bar">
-          <input type="text" id="dict-query-input" class="dict-input" placeholder="Ex: 'tem dado de evasao de open finance?', 'salário', 'gasto em viagens'..." onkeypress="if(event.key==='Enter') pesquisarDicionario()">
-          <button class="btn-dict-search" onclick="pesquisarDicionario()">🔍 Consultar IA</button>
-        </div>
-
-        <div id="dict-results" class="dict-results-container" style="display:none;"></div>
-      </div>
-
-      <div class="two-col-grid">
-        
-        <!-- Left: Clean Rule Builder -->
-        <div class="card">
-          <div class="card-header">
-            <h2>🎯 Montagem de Público & Hábitos de Consumo</h2>
-          </div>
-
-          <div style="margin-bottom: 14px;">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">Segmentos Elegíveis:</div>
-            <div class="seg-pills">
-              <span class="seg-pill active" onclick="toggleSegment(this, 'Especial')">⭐ Especial</span>
-              <span class="seg-pill active" onclick="toggleSegment(this, 'Select')">👑 Select</span>
-              <span class="seg-pill active" onclick="toggleSegment(this, 'Private')">💎 Private</span>
-            </div>
-          </div>
-
-          <!-- Dynamic Clean Rules List -->
-          <div style="margin-bottom: 14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Condições de Hábito Ativas:</span>
-              <span id="rules-count-badge" style="font-size:0.74rem; color:var(--santander-red); font-weight:700;">4 regras</span>
-            </div>
-            
-            <div class="rules-list" id="rules-list-container"></div>
-            
-            <button class="btn-add-rule" onclick="adicionarNovaRegra()"><span>+ Adicionar Condição de Hábito</span></button>
-          </div>
-
-          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:10px;">
-            <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted);">Espaço Comercial:</span>
-            <select id="sim-espaco-foco" onchange="rodarSimulacao()" class="control-select">
-              <option value="Lightbox" selected>🟥 Lightbox</option>
-              <option value="Alert">🟨 Alert</option>
-              <option value="Banner">🟦 Banner</option>
-              <option value="Push">⬛ Push</option>
-              <option value="Email">⬜ Email</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Right: AI Prescriptive Suggestions -->
-        <div class="card">
-          <div class="card-header">
-            <h2>💡 Assistente Prescritivo de IA</h2>
-            <span style="font-size:0.72rem; color:#15803d; font-weight:700; background:#dcfce7; padding:2px 6px; border-radius:4px;">Ativo</span>
-          </div>
-
-          <div class="sug-card">
-            <div class="sug-text">
-              📈 <strong>Aumentar Alcance:</strong> Remover a restrição <em>"Consentimento Open Finance"</em> aumenta o público elegível em <strong>+840.000 clientes (+24.5%)</strong>.
-            </div>
-            <button class="btn-apply" onclick="aplicarSugestao('remover_open_finance')">Aplicar</button>
-          </div>
-
-          <div class="sug-card">
-            <div class="sug-text">
-              ⭐ <strong>Qualificar Fundo:</strong> Manter <strong>"Score ARPAC > 7.0"</strong> eleva a conversão final em <strong>+5.2%</strong> com clientes mais rentáveis.
-            </div>
-            <button class="btn-apply" onclick="aplicarSugestao('manter_arpac')">Priorizar</button>
-          </div>
-
-          <div class="sug-card">
-            <div class="sug-text">
-              🎯 <strong>Espaço Recomendado:</strong> O <strong>Lightbox contextual</strong> converte <strong>2.8x mais</strong> que Banner para clientes com evasão.
-            </div>
-            <button class="btn-apply" onclick="aplicarSugestao('trocar_lightbox')">Usar</button>
-          </div>
-
-          <div style="height: 160px; margin-top: 10px;">
-            <canvas id="chartEspacos"></canvas>
-          </div>
         </div>
 
       </div>
@@ -946,6 +978,13 @@
       
       document.getElementById('tab-' + tabId).style.display = 'block';
       event.currentTarget.classList.add('active');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'flex';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
     }
 
     let chartTriadeEvolucaoInst, chartEspacosInst;
@@ -1096,7 +1135,6 @@
       const mtdJulHomologo = Math.round(vJul2026 * 0.758);
       const mtdMomPct = ((vMTD - mtdJulHomologo) / mtdJulHomologo * 100).toFixed(1);
 
-      // Top KPI Cards
       document.getElementById('kpi-mtd-real').innerText = vMTD.toLocaleString('pt-BR');
       document.getElementById('kpi-mtd-mom').innerText = `+${mtdMomPct}% vs Jul/26 homólogo`;
       document.getElementById('kpi-mtd-forecast').innerText = vForecast.toLocaleString('pt-BR');
@@ -1105,7 +1143,6 @@
       document.getElementById('kpi-crescimento-yoy').innerText = `↑ +${yoyForecastPct}% de Crescimento YoY`;
       document.getElementById('kpi-mix-mes').innerText = `${Math.round(pData.mixCampanha*100)}% / ${Math.round(pData.mixOrganico*100)}%`;
 
-      // Update Funnel
       const cRatio = pData.mixCampanha;
       const oRatio = pData.mixOrganico;
       const cPct = Math.round(cRatio * 100);
@@ -1130,7 +1167,6 @@
         }
       }
 
-      // Update Reconcile Card
       document.getElementById('box-funil-val').innerText = stages[5].vForecast.toLocaleString('pt-BR');
       document.getElementById('box-prod-val').innerText = stages[6].vForecast.toLocaleString('pt-BR');
 
@@ -1139,7 +1175,6 @@
       document.getElementById('loss-saldo').innerText = `-${l.saldo.toLocaleString('pt-BR')}`;
       document.getElementById('loss-timeout').innerText = `-${l.timeout.toLocaleString('pt-BR')}`;
 
-      // Update Time Series Chart
       if (chartTriadeEvolucaoInst) {
         let vals2025 = pData.base2025;
         let vals2026Real = [];
@@ -1158,7 +1193,7 @@
     }
 
     // =========================================================================
-    // DICIONÁRIO OFICIAL DE ATRIBUTOS SANTANDER & BUSCA EM LINGUAGEM NATURAL
+    // DICIONÁRIO OFICIAL DE ATRIBUTOS & BUSCA INTELIGENTE
     // =========================================================================
     let santanderDataDictionary = [
       { id: "open_finance_evasao", label: "Evasão Detectada via Open Finance", category: "Open Finance / Evasão", type: "categorical", options: ["Detectada Evasão", "Sem Evasão Detectada"], defaultVal: "Detectada Evasão", keywords: ["open finance", "evasao", "outflow", "concorrente", "fintech", "saldo externo"], desc: "Identifica envio de recursos para contas de outras instituições ou fintechs compartilhadas pelo Open Finance." },
@@ -1174,6 +1209,11 @@
       { id: "possui_cartao_black", label: "Possui Cartão Black / Infinite", category: "Cartões", type: "categorical", options: ["Sim", "Não"], defaultVal: "Não", keywords: ["black", "infinite", "unlimited", "cartao alta renda"], desc: "Verifica a posse de cartão Santander Unlimited, Black ou Infinite ativo." }
     ];
 
+    function fecharResultadosDicionario() {
+      document.getElementById('dict-results').style.display = 'none';
+      document.getElementById('dict-query-input').value = '';
+    }
+
     function pesquisarDicionario() {
       const query = document.getElementById('dict-query-input').value.trim().toLowerCase();
       const resContainer = document.getElementById('dict-results');
@@ -1183,7 +1223,6 @@
         return;
       }
 
-      // Smart semantic keyword matching
       const words = query.replace(/[^\w\s]/gi, '').split(/\s+/).filter(w => w.length > 2);
       
       let matches = santanderDataDictionary.map(item => {
@@ -1202,12 +1241,26 @@
 
       resContainer.innerHTML = '';
 
+      // Header with close button
+      const head = document.createElement('div');
+      head.style.display = 'flex';
+      head.style.justifyContent = 'space-between';
+      head.style.alignItems = 'center';
+      head.style.marginBottom = '6px';
+      head.innerHTML = `
+        <span style="font-size:0.74rem; font-weight:700; color:var(--text-muted);">Atributos Encontrados (${matches.length}):</span>
+        <button onclick="fecharResultadosDicionario()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.85rem; font-weight:800;" title="Fechar">✕</button>
+      `;
+      resContainer.appendChild(head);
+
       if (matches.length === 0) {
-        resContainer.innerHTML = `
-          <div style="font-size:0.78rem; color:var(--text-muted); padding:10px; text-align:center; background:#f8fafc; border-radius:6px;">
-            🤖 A IA buscou no dicionário, mas não encontrou um atributo exato para <em>"${query}"</em>. Tente palavras como <strong>open finance, evasão, ARPAC, salário, cartão</strong>.
-          </div>
-        `;
+        const noRes = document.createElement('div');
+        noRes.style.fontSize = '0.78rem';
+        noRes.style.color = 'var(--text-muted)';
+        noRes.style.padding = '8px';
+        noRes.style.textAlign = 'center';
+        noRes.innerHTML = `🤖 Nenhum atributo exato para <em>"${query}"</em>. Tente: <strong>open finance, evasão, ARPAC, salário, cartão</strong>.`;
+        resContainer.appendChild(noRes);
       } else {
         matches.forEach(({ item }) => {
           const card = document.createElement('div');
@@ -1217,7 +1270,6 @@
               <div class="dict-name">
                 <span>${item.label}</span>
                 <span class="dict-tag">${item.category}</span>
-                <span style="font-size:0.68rem; color:var(--text-muted);">(${item.type === 'numeric' ? 'Numérico' : 'Opções Sim/Não'})</span>
               </div>
               <div class="dict-desc">${item.desc}</div>
             </div>
@@ -1234,10 +1286,10 @@
       const attrDef = santanderDataDictionary.find(a => a.id === attrId);
       if (!attrDef) return;
 
-      // Check if already in active rules
       let existing = activeRules.find(r => r.attrId === attrId);
       if (existing) {
-        alert(`O atributo "${attrDef.label}" já está na sua lista de regras ativas!`);
+        showToast(`⚠️ O atributo "${attrDef.label}" já está nas suas regras!`);
+        fecharResultadosDicionario();
         return;
       }
 
@@ -1249,8 +1301,10 @@
 
       renderRulesList();
       rodarSimulacao();
-      document.getElementById('dict-results').style.display = 'none';
-      document.getElementById('dict-query-input').value = '';
+      
+      // AUTO-DISMISS: fecha e limpa os resultados após adicionar
+      fecharResultadosDicionario();
+      showToast(`✓ "${attrDef.label}" adicionado! Números recalculados.`);
     }
 
     function uploadDicionario(event) {
@@ -1264,10 +1318,10 @@
             const customData = JSON.parse(e.target.result);
             if (Array.isArray(customData)) {
               santanderDataDictionary = [...customData, ...santanderDataDictionary];
-              alert(`✓ Dicionário customizado carregado com sucesso! (${customData.length} novos atributos adicionados).`);
+              showToast(`✓ ${customData.length} novos atributos importados!`);
             }
           } else {
-            alert(`✓ Arquivo "${file.name}" importado. O catálogo do Santander foi atualizado com as novas colunas.`);
+            showToast(`✓ Arquivo "${file.name}" importado com sucesso!`);
           }
         } catch (err) {
           alert('Erro ao processar o arquivo. Certifique-se de que é um JSON ou CSV válido.');
@@ -1277,7 +1331,7 @@
     }
 
     // =========================================================================
-    // LÓGICA DO SIMULADOR (ABA 1)
+    // LÓGICA DO SIMULADOR REATIVO EM TEMPO REAL
     // =========================================================================
     let selectedSegments = new Set(['Especial', 'Select', 'Private']);
 
@@ -1293,7 +1347,6 @@
       rodarSimulacao();
     }
 
-    // Current active rules
     let activeRules = [
       { attrId: "score_arpac", op: ">", val: "7.0" },
       { attrId: "evasao_recursos", op: ">", val: "3000" },
@@ -1305,7 +1358,7 @@
       const container = document.getElementById('rules-list-container');
       const countEl = document.getElementById('rules-count-badge');
       container.innerHTML = '';
-      countEl.innerText = activeRules.length + (activeRules.length === 1 ? ' regra' : ' regras');
+      countEl.innerText = activeRules.length + (activeRules.length === 1 ? ' regra ativa' : ' regras ativas');
 
       activeRules.forEach((rule, index) => {
         const attrDef = santanderDataDictionary.find(a => a.id === rule.attrId) || santanderDataDictionary[0];
@@ -1324,7 +1377,7 @@
               <option value="<" ${rule.op === '<' ? 'selected' : ''}>&lt;</option>
               <option value="=" ${rule.op === '=' ? 'selected' : ''}>=</option>
             </select>
-            <input type="text" class="rule-val-input" value="${rule.val}" onchange="onValChange(${index}, this.value)">
+            <input type="text" class="rule-val-input" value="${rule.val}" oninput="onValChange(${index}, this.value)">
             <button class="btn-del-rule" onclick="deletarRegra(${index})" title="Remover">×</button>
           `;
         } else {
@@ -1371,12 +1424,14 @@
       activeRules.push({ attrId: "gasto_cartao", op: ">", val: "2500" });
       renderRulesList();
       rodarSimulacao();
+      showToast('✓ Nova regra adicionada.');
     }
 
     function deletarRegra(index) {
       activeRules.splice(index, 1);
       renderRulesList();
       rodarSimulacao();
+      showToast('✓ Regra removida.');
     }
 
     function aplicarSugestao(tipoSug) {
@@ -1384,15 +1439,18 @@
         activeRules = activeRules.filter(r => r.attrId !== 'open_finance');
         renderRulesList();
         rodarSimulacao();
+        showToast('✓ Restrição de Open Finance removida.');
       } else if (tipoSug === 'manter_arpac') {
         let arpac = activeRules.find(r => r.attrId === 'score_arpac');
         if (!arpac) activeRules.push({ attrId: "score_arpac", op: ">", val: "7.0" });
         else { arpac.op = ">"; arpac.val = "7.0"; }
         renderRulesList();
         rodarSimulacao();
+        showToast('✓ Score ARPAC ajustado para > 7.0.');
       } else if (tipoSug === 'trocar_lightbox') {
         document.getElementById('sim-espaco-foco').value = 'Lightbox';
         rodarSimulacao();
+        showToast('✓ Espaço comercial alterado para Lightbox.');
       }
     }
 
@@ -1404,22 +1462,59 @@
       "Email":    { viewRate: 0.25, ctr: 0.035, topoRate: 0.58, meioRate: 0.65, fundoRate: 0.220 }
     };
 
+    // MOTOR DE CÁLCULO RESPONSIVO EM TEMPO REAL
     function rodarSimulacao() {
       const prod = document.getElementById('sim-produto').value;
       const focoEspaco = document.getElementById('sim-espaco-foco').value;
-      const numRules = activeRules.length;
 
+      // 1. Universo Base dos Segmentos
       let baseUniverse = 0;
       if (selectedSegments.has('Especial')) baseUniverse += 5500000;
       if (selectedSegments.has('Select')) baseUniverse += 2400000;
       if (selectedSegments.has('Private')) baseUniverse += 600000;
 
-      let sizingMultiplier = (numRules === 0) ? 1.0 : Math.pow(0.48, numRules) * 2.2;
-      let alcanceTotal = Math.round(baseUniverse * sizingMultiplier);
-      alcanceTotal = Math.max(2500, Math.min(baseUniverse, alcanceTotal));
+      // 2. Fator de Filtragem Dinâmica por Regra
+      let compositeFactor = 1.0;
+      activeRules.forEach(rule => {
+        let ruleFactor = 0.68;
+        if (rule.attrId === 'score_arpac') {
+          let num = parseFloat(rule.val) || 7.0;
+          ruleFactor = (num >= 8.5) ? 0.35 : (num >= 7.0) ? 0.62 : (num >= 5.0) ? 0.80 : 0.95;
+        } else if (rule.attrId === 'evasao_recursos') {
+          let num = parseFloat(rule.val) || 3000;
+          ruleFactor = (num >= 10000) ? 0.20 : (num >= 5000) ? 0.40 : (num >= 3000) ? 0.55 : 0.75;
+        } else if (rule.attrId === 'gasto_cartao') {
+          let num = parseFloat(rule.val) || 2500;
+          ruleFactor = (num >= 5000) ? 0.25 : (num >= 2500) ? 0.50 : 0.78;
+        } else if (rule.attrId === 'principalidade') {
+          ruleFactor = (rule.val === 'É Principal') ? 0.45 : 0.55;
+        } else if (rule.attrId === 'open_finance') {
+          ruleFactor = (rule.val === 'Possui Ativo') ? 0.38 : 0.62;
+        } else if (rule.attrId === 'cliente_fopa') {
+          ruleFactor = (rule.val.includes('Sim')) ? 0.48 : 0.52;
+        } else if (rule.attrId === 'freq_pix') {
+          let num = parseFloat(rule.val) || 10;
+          ruleFactor = (num >= 20) ? 0.35 : 0.60;
+        } else if (rule.attrId === 'uso_limite_conta') {
+          let num = parseFloat(rule.val) || 30;
+          ruleFactor = (num >= 60) ? 0.22 : 0.45;
+        }
+        compositeFactor *= ruleFactor;
+      });
 
+      // Se não tiver regras, fator é 1. Se tiver várias, aplica ajuste de interseção
+      if (activeRules.length === 0) compositeFactor = 1.0;
+      else compositeFactor = Math.min(0.95, compositeFactor * Math.pow(1.15, activeRules.length - 1));
+
+      let alcanceTotal = Math.round(baseUniverse * compositeFactor);
+      alcanceTotal = Math.max(1200, Math.min(baseUniverse, alcanceTotal));
+
+      // Atualiza badge de público elegível
+      document.getElementById('rules-alcance-badge').innerText = `Público: ${alcanceTotal.toLocaleString('pt-BR')} elegíveis`;
+
+      // 3. Afunilamento com Perfil do Espaço e Sensibilidade do Produto
       const prof = spaceProfiles[focoEspaco] || spaceProfiles["Lightbox"];
-      let prodFundoMult = (prod === 'Pix') ? 1.0 : (prod === 'Boleto') ? 0.92 : (prod === 'Pix Automatico') ? 0.88 : (prod === 'Upgrade') ? 0.70 : 0.65;
+      let prodFundoMult = (prod === 'Pix') ? 1.0 : (prod === 'Boleto') ? 0.92 : (prod === 'Pix Automatico') ? 0.88 : (prod === 'Upgrade') ? 0.70 : (prod === 'Cartao de Credito') ? 0.82 : 0.65;
 
       let views = Math.round(alcanceTotal * prof.viewRate);
       let cliques = Math.round(views * prof.ctr);
@@ -1427,12 +1522,23 @@
       let meio = Math.round(topo * prof.meioRate);
       let fundo = Math.round(meio * (prof.fundoRate * prodFundoMult));
 
+      // Atualiza os 5 KPIs do topo
       document.getElementById('sim-kpi-views').innerText = views.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-cliques').innerText = cliques.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-topo').innerText = topo.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-meio').innerText = meio.toLocaleString('pt-BR');
-      document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-views-tx').innerText = `${Math.round(prof.viewRate*100)}% exibição`;
 
+      document.getElementById('sim-kpi-cliques').innerText = cliques.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-cliques-tx').innerText = `${Math.round(prof.ctr*100)}% CTR`;
+
+      document.getElementById('sim-kpi-topo').innerText = topo.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-topo-tx').innerText = `${Math.round(prof.topoRate*100)}% entrada`;
+
+      document.getElementById('sim-kpi-meio').innerText = meio.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-meio-tx').innerText = `${Math.round(prof.meioRate*100)}% avanço`;
+
+      document.getElementById('sim-kpi-fundo').innerText = fundo.toLocaleString('pt-BR');
+      document.getElementById('sim-kpi-fundo-tx').innerText = `${(prof.fundoRate * prodFundoMult * 100).toFixed(1)}% conversão`;
+
+      // Atualiza gráfico de espaços
       if (chartEspacosInst) {
         chartEspacosInst.data.datasets[0].data = [
           Math.round(spaceProfiles["Lightbox"].fundoRate * prodFundoMult * 100),
@@ -1546,8 +1652,8 @@
         options: { responsive: true, maintainAspectRatio: false }
       });
 
-      atualizarTriade();
       rodarSimulacao();
+      atualizarTriade();
     });
   </script>
 </body>
