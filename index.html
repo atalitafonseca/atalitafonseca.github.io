@@ -714,35 +714,35 @@
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-1">
                 <div class="funnel-row-top">
-                  <span class="funnel-step-name">1. Visualização nos Espaços</span>
+                  <span class="funnel-step-name">1. Visualização nos Espaços (Exclusivo Campanha)</span>
                   <div class="funnel-step-vol-area">
                     <span class="badge-mom up" id="fn-mom-1">↑ +12.5% MoM</span>
                     <span class="funnel-step-total" id="fn-tot-1">5.000.000</span>
                   </div>
                 </div>
                 <div class="funnel-bar-track">
-                  <div class="funnel-bar-org s-bar-org" id="bar-org-1" style="width: 62%;">3.100.000</div>
-                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-1" style="width: 38%;">1.900.000</div>
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-1" style="width: 0%; display:none;">0</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-1" style="width: 100%;">5.000.000 (100% Campanha)</div>
                 </div>
               </div>
-              <div class="pass-rate-indicator">↓ <strong id="fn-pass-1">24.0%</strong> CTR de engajamento</div>
+              <div class="pass-rate-indicator">↓ <strong id="fn-pass-1">24.0%</strong> CTR de cliques na campanha</div>
             </div>
 
             <div class="funnel-tier">
               <div class="funnel-row-box w-step-2">
                 <div class="funnel-row-top">
-                  <span class="funnel-step-name">2. Cliques / Interações</span>
+                  <span class="funnel-step-name">2. Cliques / Interações (Exclusivo Campanha)</span>
                   <div class="funnel-step-vol-area">
                     <span class="badge-mom up" id="fn-mom-2">↑ +15.0% MoM</span>
                     <span class="funnel-step-total" id="fn-tot-2">1.200.000</span>
                   </div>
                 </div>
                 <div class="funnel-bar-track">
-                  <div class="funnel-bar-org s-bar-org" id="bar-org-2" style="width: 62%;">744.000</div>
-                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-2" style="width: 38%;">456.000</div>
+                  <div class="funnel-bar-org s-bar-org" id="bar-org-2" style="width: 0%; display:none;">0</div>
+                  <div class="funnel-bar-camp s-bar-camp" id="bar-camp-2" style="width: 100%;">1.200.000 (100% Campanha)</div>
                 </div>
               </div>
-              <div class="pass-rate-indicator">↓ <strong id="fn-pass-2">83.3%</strong> entram no fluxo do App</div>
+              <div class="pass-rate-indicator">↓ <strong id="fn-pass-2">83.3%</strong> entram no fluxo do App (Convergência com Orgânico)</div>
             </div>
 
             <div class="funnel-tier">
@@ -1750,10 +1750,23 @@
 
         let barOrg = document.getElementById(`bar-org-${i+1}`);
         let barCamp = document.getElementById(`bar-camp-${i+1}`);
-        barOrg.style.width = Math.round(oRatio * 100) + '%';
-        barCamp.style.width = Math.round(cRatio * 100) + '%';
-        barOrg.innerText = `${orgVal.toLocaleString('pt-BR')}`;
-        barCamp.innerText = `${campVal.toLocaleString('pt-BR')}`;
+
+        if (i < 2) {
+          // Etapas 1 e 2: Visualização e Cliques são 100% Campanha
+          barOrg.style.display = 'none';
+          barOrg.style.width = '0%';
+          barCamp.style.display = 'flex';
+          barCamp.style.width = '100%';
+          barCamp.innerText = `${totAtual.toLocaleString('pt-BR')} (100% Campanha)`;
+        } else {
+          // Etapas 3 a 7: Fluxo do produto convergindo Campanha + Orgânico
+          barOrg.style.display = 'flex';
+          barOrg.style.width = Math.round(oRatio * 100) + '%';
+          barCamp.style.display = 'flex';
+          barCamp.style.width = Math.round(cRatio * 100) + '%';
+          barOrg.innerText = `${orgVal.toLocaleString('pt-BR')}`;
+          barCamp.innerText = `${campVal.toLocaleString('pt-BR')}`;
+        }
 
         if (i < 6) {
           document.getElementById(`fn-pass-${i+1}`).innerText = `${pData.passRates[i]}%`;
