@@ -12,17 +12,17 @@
 **Subtítulo:** Como a Rede Neural Densa (MLP) e a Engenharia de Dados conectam 19M+ de clientes, unificando CRM, Funis no App e Produção Core.
 
 * **O Desafio de Negócio (Disparos no Escuro & Silos):**
-  * Hoje, o especialista de Produto tem o domínio de negócio para desenhar campanhas, mas opera às cegas: não sabe o **tamanho real do público elegível** nem o **volume de conversão em cada espaço do App** antes de colocar a campanha no ar.
-  * O time de CRM monitora impressões/cliques em tabelas isoladas; o time de Produto acompanha telas no App; e o time Financeiro acompanha a liquidação de contratos no Core Bancário. Não havia conexão de ponta a ponta.
-  * Solicitações manuais de audiência demoravam **semanas**, com regras de atribuição de 10 dias que superatribuíam transações orgânicas normais do cliente.
+  * O especialista de Produto desenhava campanhas às cegas: não sabia o **tamanho real do público elegível** nem a **conversão em cada espaço do App**.
+  * Silos analíticos: CRM monitorava cliques, Produto monitorava telas e Financeiro monitorava contratos no Core Bancário.
+  * Regra legada de atribuição de 10 dias gerava até **138% de superatribuição** ao creditar transações orgânicas normais do cliente.
 
 * **A Solução com Inteligência Artificial (FGV):**
-  * Uma **Torre de Controle Integrada** equipada com **Rede Neural MLP (Multi-Layer Perceptron)** treinada para prever a probabilidade de conversão individualizada cruzando *(Hábito do Cliente $\times$ Vocação do Espaço $\times$ Fricção da Jornada $\times$ Produto)*.
-  * **Atribuição Causal sem Grupo de Controle:** Desconto dinâmico da propensão orgânica base do cliente ($w = e^{-\lambda \Delta t} \times (1 - P_{\text{org}})$), preservando 100% da receita comercial sem necessidade de travar clientes em grupos de controle fixos.
+  * **Rede Neural Densa (MLPClassifier):** Modela a propensão individual cruzando *(Hábito $\times$ Espaço $\times$ Fricção $\times$ Produto)*.
+  * **Atribuição Causal sem Grupo de Controle:** Desconto dinâmico da propensão orgânica ($w = e^{-\lambda \Delta t} \times (1 - P_{\text{org}})$), preservando 100% da receita comercial sem travar clientes em grupo de controle.
 
 * **Performance Oficial e Validação Multi-Seed (Padrão FGV):**
-  * **Uplift de F1-Score:** A Rede Neural MLP atingiu **0.4202 (+19.8% de ganho sobre o Baseline de Regressão Logística de 0.3505)**, comprovando a capacidade de capturar relações não-lineares complexas.
-  * **Robustez Estocástica Multi-Seed:** Avaliação em 3 sementes aleatórias obrigatórias (`seed 42`, `seed 7`, `seed 123`) com média $0.4094 \pm 0.0064$, garantindo estabilidade e ausência de overfitting.
+  * **Uplift de F1-Score:** A Rede Neural MLP atingiu **0.4202 (+19.8% de ganho sobre o Baseline de Regressão Logística de 0.3505 e +71% sobre a regra heurística de 0.2450)**.
+  * **Robustez Multi-Seed:** Avaliação em 3 sementes obrigatórias (`seeds 42, 7, 123`) com média $0.4094 \pm 0.0064$ e ROC-AUC $0.7023 \pm 0.0041$.
 
 ---
 
@@ -30,61 +30,42 @@
 **Subtítulo:** Visão unificada de 7 etapas da visualização até a liquidação bancária, reconciliação App vs Core e ritmo de vendas diário.
 
 * **O Funil Unificado de 7 Etapas (Aba 2 do Dashboard):**
-  1. *Visualização nos Espaços Comerciais* (Lightbox, Alert, Banner, Push, Email)
-  2. *Cliques / Interações (CTR)*
-  3. *Topo de Funil: Entrada no Fluxo do App*
-  4. *Step do Meio: Simulação do Produto*
-  5. *Step do Meio: Autenticação de Segurança (ID Santander)*
-  6. *Fechamento no App (Conclusão pelo Usuário)*
-  7. *Fundo de Funil: Produção Efetiva no Core Bancário*
-  * **Evolução Mês a Mês (MoM 2026):** Badges dinâmicos indicam variações percentuais em relação ao mês anterior (ex: *Cliques subindo +15.0% MoM* e identificação de gargalos no meio do funil).
-
-* **Reconciliação e Perdas Técnicas (App $\rightarrow$ Core):**
-  * O dashboard isola por que nem todo fechamento de tela vira contrato: perdas por **Antifraude / Risco em Tempo Real (45%)**, **Saldo/Limite Insuficiente (32%)** e **Time-out de Conciliação Bancária**.
+  * **Etapas 1 e 2 (100% Campanha):** *1. Visualização nos Espaços (5,0M)* $\rightarrow$ *2. Cliques / Interações (1,2M)*.
+  * **Etapas 3 a 7 (Convergência com Orgânico):** *3. Topo App* $\rightarrow$ *4. Simulação* $\rightarrow$ *5. Autenticação ID* $\rightarrow$ *6. Fechamento App* $\rightarrow$ *7. Produção Core Bancário*.
+  * **Reconciliação e Perdas Técnicas:** Isola por que nem todo fechamento vira contrato: perdas por **Antifraude / Risco em Tempo Real (45%)**, **Saldo Insuficiente (32%)** e **Time-out de Conciliação**.
 
 * **Torre de Pacing MTD & Forecast da IA (Aba 3 do Dashboard):**
-  * **Comparativo Dia a Dia (Dias 1 a 31):** Gráfico de 4 curvas comparando:
-    * 🔴 *Realizado Mês Atual (Dias 1 a 20)*
-    * 🔵 *Projeção Preditiva da IA (Dias 21 a 31)*
-    * ⚪ *Mês Anterior Homólogo Completo (Dias 1 a 31)*
-    * 🟢 *Meta Linear Contratada*
-  * **Tabela por Decêndios:** Acompanhamento do ritmo a cada 10 dias com cálculo automático do gap e recomendação de alavanca de CRM (*ex: Manter Lightbox vs Ativar Push D-5*).
+  * **Comparativo Dia a Dia (Dias 1 a 31):** 4 curvas comparando *Realizado Mês Atual (D1-20)*, *Forecast IA (D21-31)*, *Mês Anterior Fechado (D1-31)* e *Meta Linear*.
+  * **Acompanhamento por Decêndios:** Análise do ritmo a cada 10 dias com cálculo do gap e recomendação automática de alavanca de CRM.
 
 ---
 
-# Slide 3: O Simulador Inteligente de Audiências & Alavancas de IA
-**Subtítulo:** Self-service para o especialista de Produto: modulação de público com switches Ativo/Desativo, modos Conversão vs Awareness e Dicionário de Hábitos.
+# Slide 3: O Simulador de Audiências & Viabilidade Econômica (ROI)
+**Subtítulo:** Modulação de público com switches Ativo/Desativo, modos Conversão vs Awareness e Retorno Financeiro Consolidado.
 
 * **Seletor de Objetivo Estratégico da Campanha:**
-  * **🎯 Modo Conversão & Vendas (Fundo de Funil):** Foco em Contratos Finais, ROI e Produção Core. O gráfico projeta o volume exato de contratos liquidados por canal comercial.
-  * **📢 Modo Awareness & Alcance de Marca (Topo de Funil / Lançamentos):** Foco em Pessoas Únicas Alcançadas, Frequência Média de Exibição, Cobertura da Base de Correntistas e Eficiência de CPM (R$ 4,80 por 1.000 impactos).
+  * **🎯 Modo Conversão & Vendas:** Projeta contratos finais liquidados no Core e ROI.
+  * **📢 Modo Awareness & Alcance:** Projeta pessoas únicas alcançadas, frequência média (2.2x) e eficiência de CPM (R$ 4,80).
+  * **Alavancas Inteligentes `[ 🟢 Ativo | ⚪ Desativo ]`:** Demonstração do ganho de **+28% de público (+957.600 clientes)** com Open Finance e qualificação ARPAC > 7.0 (93.9% de liquidação no Core).
 
-* **Alavancas Inteligentes com Switches `[ 🟢 Ativo | ⚪ Desativo ]`:**
-  * Cada recomendação da IA possui um botão interativo de alternância direta:
-    * **Alavanca Open Finance:** Ligar a alavanca remove as travas de consentimento e **expande o público imediatamente em +28% (+957.600 clientes elegíveis)**.
-    * **Qualificação ARPAC:** Ligar prioriza clientes com Score ARPAC > 7.0, elevando a liquidação no Core para 93.9%; desligar abre o público para massa.
-    * **Canal Comercial:** Alterna instantaneamente entre Lightbox (alta conversão) e Banner/Push (ampla distribuição).
-  * **Recálculo Instantâneo & Datalabels:** Qualquer alteração pisca os 5 KPIs do topo e atualiza os **rótulos numéricos diretos no topo das barras do gráfico** (`255,8k contr.` ou `2,39M pessoas`).
-
-* **Dicionário de Hábitos Santander com Busca Semântica:**
-  * Busca inteligente por linguagem natural (*"evasão open finance"*, *"salário fopa"*, *"gasto cartão"*) permitindo adicionar condições com 1 clique.
+* **Viabilidade Econômica & Retorno em R$ (Padrão Oficial FGV):**
+  * **Custo de Construção (Capex):** **R$ 380.000,00** (Squad de 3 meses + Cloud GPUs).
+  * **Custo de Sustentação (Opex):** **R$ 28.000,00 / mês** (R$ 336.000,00 / ano em MLOps e scoring).
+  * **Economia em CRM:** **R$ 2.160.000,00 / ano** (4,5M disparos evitados/mês $\times$ R$ 0,04).
+  * **Receita Incremental com MLP:** **R$ 5.396.000,00 / ano** (+142.000 contratações $\times$ R$ 38,00 de margem).
+  * **Retorno Líquido Ano 1:** **R$ 6.840.000,00** $\rightarrow$ **ROI de 955% com Payback em apenas 19 dias**.
 
 ---
 
 # Slide 4: Acesso ao Dashboard Interativo & Entregáveis Oficiais da FGV
 **Subtítulo:** Como o professor e a banca avaliadora podem navegar, testar e auditar todas as funcionalidades ao vivo.
 
-* **🌐 Acesso Online Direto (Sem Instalação):**
+* **🌐 Acesso Online Direto e Resiliente (Com Fallback Local):**
   * O dashboard completo está hospedado e disponível em: **[https://atalitafonseca.github.io/](https://atalitafonseca.github.io/)**
-  * Totalmente responsivo para Desktop e Mobile, com recálculo instantâneo de IA no navegador.
+  * **Resiliência Offline:** Inclui fallback local para `assets/chart.umd.min.js`, garantindo funcionamento em qualquer ambiente.
 
 * **📦 Pacote Completo de Entregáveis FGV:**
-  1. **Dashboard Interativo em Produção (`index.html`):** Torre de Controle com as 4 abas funcionais (Simulador IA, Tríade de Funil, Torre de Pacing MTD e Performance da Rede Neural).
-  2. **Notebook Jupyter Executável (`projeto_santander_jornadas_redes_neurais.ipynb`):** Código-fonte completo em Python com geração de dados, pré-processamento, pipeline de Redes Neurais (MLP), matrizes de confusão, validação Multi-Seed e modelo de atribuição causal.
-  3. **Documento Técnico de Planejamento e Arquitetura (`plano_projeto_santander_ia.pdf` / `.md`):** Relatório detalhado com formulação matemática, arquitetura Medallion Lakehouse e governança MLOps.
+  1. **Dashboard Interativo em Produção (`index.html`):** 4 abas funcionais (Simulador IA, A Tríade de Funil, Torre de Pacing e Métricas MLP).
+  2. **Notebooks Jupyter Executados (.ipynb):** Código Python com saídas gravadas, baseline de regra, regressão logística, MLP, multi-seed e MLOps com PSI.
+  3. **Plano de Projeto nos 7 Blocos Oficiais (`plano_projeto_santander_ia.md`):** Arquitetura Medallion, governança LGPD e planilha completa de ROI.
   4. **Repositório Versionado no GitHub:** [github.com/atalitafonseca/atalitafonseca.github.io](https://github.com/atalitafonseca/atalitafonseca.github.io)
-
-* **Impacto Consolidado:**
-  * ⚡ Redução de **3 semanas para < 1 segundo** na montagem de públicos e análise de funis.
-  * 💰 Economia de **30% em custos de disparos de CRM** eliminando desperdício orgânico.
-  * 🎯 **Previsibilidade total de Pacing** com erro de Forecast (MAPE) inferior a 5%.

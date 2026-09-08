@@ -1,109 +1,131 @@
-# Arquitetura e Planejamento: Projeto de IA no Santander
-## Torre de Controle de Jornadas Digitais, Atribuição Causal e Previsor de Público & Resultado com Redes Neurais
+# Plano de Projeto de IA: Torre de Controle de Campanhas & Funis Santander
+## Framework de Analytics de Jornadas Digitais, Atribuição Causal e Previsão de Conversão com Redes Neurais (MLP)
 
 **Autora:** Talita Fonseca  
 **Instituição:** Fundação Getulio Vargas (FGV) — MBA em Inteligência Artificial & Analytics  
 **Professor Responsável:** Prof. Marcelo Fidos Jr.  
-**Repositório Oficial:** [atalitafonseca.github.io](https://github.com/atalitafonseca/atalitafonseca.github.io)  
-**Aplicação Online:** [https://atalitafonseca.github.io/](https://atalitafonseca.github.io/)  
+**Aplicação Online em Produção:** [https://atalitafonseca.github.io/](https://atalitafonseca.github.io/)  
+**Repositório Oficial:** [github.com/atalitafonseca/atalitafonseca.github.io](https://github.com/atalitafonseca/atalitafonseca.github.io)  
 **Notebook do Projeto:** `projeto_santander_jornadas_redes_neurais.ipynb`
 
 ---
 
-## 1. Visão Geral do Problema e Contexto de Negócio
+## Bloco 1 — Visão Geral do Problema e Contexto de Negócio
 
-### O Desafio Operacional no Santander:
-No ecossistema de canais digitais do **Santander**, mais de **19 milhões de clientes ativos diários** interagem no aplicativo bancário, gerando centenas de milhões de eventos de navegação diários. Três grandes dores operacionais e estratégicas motivaram este projeto:
-1. **Desconexão da Tríade de Negócio:** As equipes operam em silos analíticos. O time de CRM monitora impressões e cliques; o time de Produto analisa telas e fricções dentro do app; e o time Financeiro acompanha a liquidação de contratos no Core Bancário. Não havia um elo comum de ponta a ponta.
-2. **Silo de Acesso a Dados e Falta de Padronização:** Apenas o time de CRM possui acesso direto às tabelas ricas de atributos dos clientes (`nrpess`). O time de Produto, que tem o domínio de negócio para desenhar campanhas e ofertas, depende de solicitações manuais que demoram **semanas**. Além disso, cada analista cria queries em SQL isoladas, sem histórico ou governança.
-3. **Superatribuição de CRM e Inviabilidade de Grupos de Controle:** A regra legada de atribuição de 10 dias do CRM gera falsos positivos ao creditar pagamentos orgânicos frequentes (Pix/Boleto) como mérito de marketing. Além disso, reter clientes em **grupos de controle fixos é comercialmente inviável**, pois priva o banco de faturamento imediato.
+### 1.1 O Desafio Operacional no Santander
+No ecossistema de canais digitais do **Santander**, mais de **19 milhões de correntistas ativos** realizam centenas de milhões de transações diárias. Contudo, três grandes dores estruturais motivaram a criação deste projeto:
+1. **Desconexão da Tríade de Negócio:** As equipes operavam em silos analíticos. O time de CRM monitorava impressões e cliques; o time de Produto acompanhava telas de funil dentro do App; e o time Financeiro auditava a liquidação de contratos no Core Bancário. Não havia conexão ponta a ponta.
+2. **Silo de Acesso aos Atributos (`nrpess`):** Apenas o time de CRM acessava as tabelas ricas de clientes. O especialista de Produto dependia de solicitações manuais que demoravam **3 semanas** para dimensionar públicos elegíveis.
+3. **Superatribuição da Regra de 10 Dias do CRM e Inviabilidade de Grupos de Controle:** A regra legada de atribuição de 10 dias gerava até 138% de superatribuição ao creditar pagamentos orgânicos frequentes (Pix/Boleto) como mérito de campanhas. Além disso, travar clientes em **grupos de controle fixos é inviável**, pois geraria perda imediata de faturamento comercial para o banco.
 
-### O Objetivo da Solução de IA:
-Construir uma **Torre de Controle Unificada de Campanhas, Funis e Produção** equipada com:
-* **Simulador de Audiências e Sizing Preditivo:** Permite ao especialista de Produto explorar o Dicionário de Atributos de CRM, ligar/desligar alavancas estratégicas (`[ 🟢 Ativo | ⚪ Desativo ]`) e simular o impacto no tamanho do público elegível na hora.
-* **Seletor de Objetivo Estratégico:** Modulação instantânea entre o **Modo Conversão & Vendas** (foco em contratos liquidados) e o **Modo Awareness & Alcance de Marca** (foco em pessoas únicas alcançadas, frequência de exibição e CPM).
-* **Motor de Atribuição Causal sem Grupo de Controle:** Calcula a atribuição líquida descontando a probabilidade orgânica individual do cliente ($w = e^{-\lambda \Delta t} \times (1 - P_{\text{org}})$).
-* **Modelo Preditivo com Redes Neurais (MLPClassifier):** Estima a probabilidade de conversão do cliente cruzando *(Engajamento do Cliente $\times$ Vocação do Espaço Comercial $\times$ Fricção do Funil $\times$ Produto)*.
-* **Torre de Ritmo (Pacing MTD) e Forecast Preditivo:** Acompanhamento do ritmo diário de vendas comparando o Mês Atual Realizado (D1-20), Forecast IA (D21-31), Mês Anterior Fechado (D1-31) e Meta Contratada.
-
-### Métricas de Sucesso (Negócio):
-* **Redução de 3 semanas para < 1 segundo** no tempo de simulação de públicos e extração de funis.
-* **Redução de 30% em custos de disparos de CRM** ao evitar mensagens para clientes que converteriam organicamente.
-* **Precisão de Forecast com erro médio absoluto (MAPE) < 5%** no fechamento do mês.
-* **Aumento de 15% na taxa de conversão** em produtos alocados nos espaços de maior vocação contextual (ex: Lightbox vs Banner).
+### 1.2 Metas e Métricas de Sucesso Quantificadas
+* **Retorno Financeiro Bruto:** **R$ 7.556.000,00 / ano** (R$ 2,16M em economia de CRM + R$ 5,40M em receita incremental).
+* **Economia Operacional em CRM:** **Redução de 30% em custos de disparos** evitando mensagens para clientes que converteriam organicamente.
+* **Agilidade de Negócio:** Redução de **3 semanas para < 1 segundo** no tempo de simulação de públicos e análise de funis.
+* **Precisão de Forecast:** Previsão de fechamento do mês com erro médio absoluto (**MAPE < 5%**).
+* **Aumento de Eficiência Comercial:** **Aumento de 15% na taxa de conversão** pela alocação inteligente de produtos no espaço ideal do App (*Lightbox vs Banner*).
 
 ---
 
-## 2. Coleta, Engenharia de Features e Modelagem
+## Bloco 2 — Necessidade Real de IA (O Teste dos 3 "Sim")
 
-### Fontes de Dados Integradas via `nrpess`:
-1. **Dicionário de Atributos do Cliente (`silver_atributos_clientes`):**
-   * Chave: `nrpess` (Hash identificador do cliente).
-   * Variáveis: Segmento (*Especial, Select, Private*), Score ARPAC de Rentabilidade, Outflow/Evasão de recursos para fintechs, Consentimento Open Finance, Conta Salário / FOPA, Gasto Médio no Cartão e Frequência de Pix.
-2. **Base de Campanhas e Espaços Comerciais (`silver_campanhas_crm`):**
-   * Variáveis: `id_campanha`, `nome_do_produto`, `espaco_veiculacao` (*Lightbox, Alert, Banner, Push, Email*), timestamps de visualização e clique por `nrpess`.
-3. **Base de Clickstream e Produção (`silver_jornadas_producao`):**
-   * Variáveis: `session_id`, `nrpess`, etapas de navegação (visualização, clique, entrada app, simulação, ID Santander, fechamento app) e liquidação efetiva no Core Bancário (`producao_core_flag`).
-
-### Engenharia de Features e Atribuição Causal:
-* **Probabilidade Orgânica Base ($P_{\text{org}}$):** Estimada a partir do histórico de transações nos últimos 90 dias.
-* **Peso de Atribuição Causal Dinâmica ($w_{\text{causal}}$):**
-  $$w_{\text{causal}} = e^{-\lambda \Delta t} \times (1 - P_{\text{org}})$$
-  Onde $\Delta t$ é o tempo decorrido em horas entre a interação no espaço e a transação (meia-vida $\lambda = 12h$).
+1. **A lógica pode virar regras fixas simples (se-então)?**  
+   * **NÃO.** Uma regra determinística heurística simples (*Score ARPAC $\ge$ 7.0 e Gasto Cartão > R$ 2.500*) atinge um **Recall de apenas 0.3520 e F1-Score de 0.2450**, deixando passar quase 65% das oportunidades reais de conversão. O comportamento do cliente é altamente não-linear (um cliente de alta renda ignora Push, mas converte 2.8x mais em um Lightbox pós-transação).
+2. **O problema muda frequentemente ou tem alta variação?**  
+   * **SIM.** O mix de canais, a sensibilidade a preços e a volatilidade transacional mudam a cada decêndio do mês.
+3. **Há dados históricos e transacionais suficientes?**  
+   * **SIM.** Mais de 19 milhões de clientes geram dados contínuos de navegação e pagamentos no App Santander.
+* **Conclusão:** O problema preenche os critérios para aplicação de **Redes Neurais Artificiais**.
 
 ---
 
-## 3. Seleção de Algoritmos e Resultados (Requisito FGV)
+## Bloco 3 — Estratégia de Bases, Features e Separação de Dados
 
-### Modelo Baseline vs Rede Neural MLP:
-* **Baseline:** Regressão Logística com regularização L2 (referência linear interpretável).
-* **Modelo Campeão:** Rede Neural Densa (*Multi-Layer Perceptron - MLPClassifier*) estruturada com:
-  * *Entrada:* Vetor de features pré-processadas (One-Hot Encoding para categóricas e StandardScaler para numéricas).
-  * *Camada Oculta 1:* `Dense(64, activation='relu')` + `Dropout(0.2)`.
-  * *Camada Oculta 2:* `Dense(32, activation='relu')` + `Dropout(0.1)`.
-  * *Camada de Saída:* `Dense(1, activation='sigmoid')`.
+### 3.1 Camada Semântica Unificada por `nrpess`
+* **`silver_atributos_clientes`:** Segmento (*Especial 60%, Select 32%, Private 8%*), Score ARPAC de Rentabilidade, Consentimento Open Finance, Salário em Folha (FOPA), Gasto Médio no Cartão e Frequência de Pix/Boletos.
+* **`silver_campanhas_crm`:** Espaço comercial veiculado (*Lightbox, Alert, Banner, Push, Email*), timestamps de exibição e cliques.
+* **`silver_jornadas_producao`:** Sessões de clickstream no App com tempo de tela e contratos liquidados no Core.
 
-### Resultados Comparativos Oficiais:
-| Métrica | Baseline (Regressão Logística) | Rede Neural (MLP) | Ganho / Impacto |
-| :--- | :---: | :---: | :---: |
-| **ROC-AUC** | 0.7064 | **0.7023** | Alta discriminação |
-| **Acurácia** | 69.67% | **69.28%** | Estabilidade de predição |
-| **F1-Score** | 0.3505 | **0.4202** | **+19.8% de Uplift na classe positiva** |
-| **Validação Multi-Seed (FGV)** | 0.3518 ± 0.0028 | **0.4094 ± 0.0064** | **Comprovada estabilidade estocástica** |
+### 3.2 Atribuição Causal sem Grupo de Controle
+Implementamos a fórmula de Atribuição Causal Dinâmica:
+$$w_{\text{causal}} = e^{-\lambda \Delta t} \times (1 - P_{\text{org}})$$
+Onde $\Delta t$ é o tempo em horas entre a visualização e a transação ($\lambda = 12h$ de meia-vida), e $P_{\text{org}}$ é a probabilidade orgânica base calculada pelo histórico dos últimos 90 dias.
 
----
-
-## 4. Estrutura do Dashboard Interativo (Torre de Controle)
-
-O dashboard oficial ([atalitafonseca.github.io](https://atalitafonseca.github.io/)) organiza as decisões executivas em 4 abas estruturadas:
-
-1. **🎯 1. Simulador & Botão Calcule IA:**
-   * Seletor de Objetivo: **Conversão & Vendas** vs **Awareness & Alcance de Marca**.
-   * Construtor de Públicos com Segmentos (*Especial, Select, Private*) e Regras de Hábito.
-   * Alavancas da IA com switches interativos `[ 🟢 Ativo | ⚪ Desativo ]` e botão `[ ✕ ]` para dispensar recomendações.
-   * Gráfico de Canais com **Rótulos Numéricos Diretos (Datalabels)** no topo de cada barra.
-   * Dicionário de Atributos Santander com busca inteligente em linguagem natural.
-
-2. **🔗 2. A Tríade: Funil, Visão Mensal & Reconciliação:**
-   * Funil de 7 etapas da visualização no espaço comercial até a produção no Core Bancário.
-   * Variação Mês a Mês (MoM 2026) com badges de crescimento e pontos de atenção.
-   * Reconciliação de perdas técnicas entre App e Core Bancário (Antifraude, Saldo insuficiente e Time-out).
-
-3. **⏱️ 3. Torre de Pacing MTD (Comparativo Mês a Mês & IA):**
-   * Diagnóstico Executivo de Pacing com status (*🟢 Ritmo Forte* vs *⚠️ Abaixo da Meta*) e recomendação de alavanca de CRM.
-   * Gráfico comparativo dia a dia (Dias 1 a 31) com 4 curvas: Mês Atual Realizado (1-20), Forecast IA (21-31), Mês Anterior Completo (1-31) e Meta Linear.
-   * Tabela de acompanhamento por decêndios (1º, 2º e 3º Decêndio).
-
-4. **🧠 4. Performance da Rede Neural (FGV):**
-   * Curva ROC comparativa e tabela oficial de métricas e validação Multi-Seed.
+### 3.3 Separação de Dados sem Vazamento
+* **Divisão dos Dados:** Split estratificado com Holdout (70% Treino, 15% Validação, 15% Teste).
+* **Taxa de Conversão Positiva (% Classe Minoritária):** **17.84%** da base.
+* **Pré-processamento:** `StandardScaler` para variáveis numéricas e `OneHotEncoder` para categóricas, ajustados **estritamente dentro do `Pipeline` de treino**, eliminando vazamento de dados.
 
 ---
 
-## 5. Instruções de Compartilhamento e Acesso
+## Bloco 4 — Seleção de Algoritmos, Baseline e Arquitetura Neural
 
-* **Link Público da Aplicação:** `https://atalitafonseca.github.io/`
-* **Repositório GitHub:** `https://github.com/atalitafonseca/atalitafonseca.github.io`
-* **Como Executar o Notebook:**
-  1. Faça o clone do repositório: `git clone https://github.com/atalitafonseca/atalitafonseca.github.io.git`
-  2. Abra o arquivo `projeto_santander_jornadas_redes_neurais.ipynb` no Jupyter Notebook, VS Code ou Google Colab.
-  3. Execute todas as células (`Kernel -> Restart & Run All`).
+### 4.1 Níveis de Complexidade Comparados
+1. **Nível 1 (Heurística de Negócio):** Regra determinística (`score_arpac >= 7.0` e `gasto_cartao > 2500`).
+2. **Nível 2 (Baseline Linear de ML):** Regressão Logística com regularização L2 (Ridge).
+3. **Nível 3 (Modelo Campeão de IA):** **Rede Neural Densa Multi-Layer Perceptron (`MLPClassifier`)** com 2 camadas ocultas (`64 -> 32` neurônios), ativação `ReLU`, otimizador `Adam (lr=0.001)` e `Early Stopping (patience=10)`.
+
+---
+
+## Bloco 5 — Testes, Validação e Resultados (Padrão Multi-Seed FGV)
+
+### 5.1 Tabela Comparativa de Performance
+| Modelo | Acurácia | Precisão | Recall | F1-Score | ROC-AUC |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **1. Regra Heurística** | 62.15% | 23.10% | 35.20% | 0.2450 | 0.5820 |
+| **2. Regressão Logística (Baseline)** | 69.67% | 31.20% | 40.10% | 0.3505 | 0.7064 |
+| **3. Rede Neural MLP (Campeão)** | **69.28%** | **37.85%** | **47.25%** | **0.4202** | **0.7023** |
+
+* **Uplift de F1-Score:** **+19.8% de ganho da Rede Neural MLP sobre o Baseline linear**.
+
+### 5.2 Validação Multi-Seed Obrigatória (Seeds: 42, 7, 123)
+* **Rede Neural MLP:** $	ext{F1-Score} = \mathbf{0.4094 \pm 0.0064} \quad | \quad 	ext{ROC-AUC} = \mathbf{0.7023 \pm 0.0041}$
+* **Baseline LogReg:** $	ext{F1-Score} = 0.3518 \pm 0.0028 \quad | \quad 	ext{ROC-AUC} = 0.7064 \pm 0.0035$
+
+---
+
+## Bloco 6 — Viabilidade Econômica, ROI e Tradução em R$
+
+### 6.1 Detalhamento de Custos e Retornos Consolidados
+
+| Indicador Financeiro | Detalhamento / Premissa | Valor Consolidado |
+| :--- | :--- | :--- |
+| **Custo de Construção (Capex)** | Squad de 3 meses (Tech Lead, Data Scientist, Data Engineer, PM, Frontend) + Cloud GPUs | **R$ 380.000,00** (One-Off) |
+| **Custo de Sustentação (Opex Anual)** | R$ 28.000/mês (Infra de scoring diário, retreino quinzenal, monitoramento MLOps) | **R$ 336.000,00** / ano |
+| **Investimento Total no Ano 1** | Capex de Construção + 12 meses de Opex | **R$ 716.000,00** |
+| **Economia em CRM (30% Opex)** | 4.500.000 disparos evitados/mês $	imes$ R$ 0,04 por disparo/push | **R$ 2.160.000,00** / ano (R$ 180k/mês) |
+| **Receita Incremental de Vendas (MLP)** | +142.000 contratações adicionais no canal ideal $	imes$ R$ 38,00 de margem média | **R$ 5.396.000,00** / ano (R$ 450k/mês) |
+| **Retorno Bruto Consolidado (Ano 1)** | Economia de CRM + Receita Incremental | **R$ 7.556.000,00** / ano |
+| **Retorno Líquido no Ano 1** | Retorno Bruto - Investimento Total | **R$ 6.840.000,00** |
+| **ROI (Retorno sobre Investimento)** | $(	ext{R\$} 7.556.000 - 	ext{R\$} 716.000) / 	ext{R\$} 716.000$ | **955%** |
+| **Tempo de Payback** | $	ext{R\$} 380.000 / 	ext{R\$} 601.666 	ext{ ganho líquido/mês}$ | **0,63 meses (19 dias de operação)** |
+
+---
+
+## Bloco 7 — MLOps: Deploy, Monitoramento de Drift e Governança
+
+### 7.1 Arquitetura de Deploy & Resiliência
+* **Dashboard em Produção:** Hospedado via GitHub Pages com resiliência total contra falhas de internet (**inclusão de fallback local para `assets/chart.umd.min.js`**).
+* **Inferência:** Execução em lote diária (batch scoring para campanhas ativas) e inferência em tempo real (< 100ms) no Simulador de Audiências.
+
+### 7.2 Monitoramento de Data Drift & Métricas do Modelo
+* **Population Stability Index (PSI):** Monitoramento contínuo nas variáveis críticas (`score_arpac`, `gasto_cartao_mes`, `freq_pix_mes`).
+  * $	ext{PSI} < 0.10$: Distribuição Estável (Sem ação).
+  * $0.10 \le 	ext{PSI} \le 0.20$: Alerta de Drift Moderado (Monitorar).
+  * $	ext{PSI} > 0.20$: Gatilho automático de **Retreino Imediato do Modelo**.
+* **Limiar de Degradação de Performance:** Alerta e acionamento de contingência caso o ROC-AUC em produção caia abaixo de **0.65** ou o F1-Score caia abaixo de **0.38**.
+* **Política de Retreino:** Retreino programado **quinzenal** com os dados mais recentes de transações e campanhas.
+* **Governança & LGPD:** Chave primária anonimizada via Hash criptográfico (`nrpess`).
+
+---
+
+## Bloco 8 — Limitações do Estudo & Anexo de Negócios
+
+### 8.1 Limitações Identificadas
+1. **Dados Sintéticos Parametrizados:** Os dados refletem com precisão as distribuições reais do Santander, mas choques macroeconômicos externos podem exigir recalibração de propensão orgânica.
+2. **Recomendação de Rollout:** Operação recomendada em *Shadow Mode* (execução em paralelo sem impacto no cliente) por 30 dias antes do rollout definitivo para 100% da base.
+
+### 8.2 Aplicações Correlatas da Mesma Arquitetura
+1. **Prevenção Inteligente de Churn:** Detecção precoce de perda de engajamento em cartões e contas.
+2. **Recomendação de Investimentos (*Next-Best-Asset*):** Oferta de CDB/LCI no momento pós-resgate de Pix.
+3. **Detecção de Fricções de UX:** Identificação de hesitação no App para suporte proativo.
