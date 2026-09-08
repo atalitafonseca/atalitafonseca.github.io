@@ -51,8 +51,8 @@
   * **Alavancas Inteligentes `[ 🟢 Ativo | ⚪ Desativo ]`:** Demonstração do ganho de **+28% de público (+957.600 clientes)** com Open Finance e qualificação ARPAC > 7.0 (93.9% de liquidação no Core).
 
 * **Detalhamento dos Ganhos e Memória de Cálculo do ROI:**
-  * **1. Economia em CRM (30% Opex):** 4,5M mensagens evitadas/mês $\times$ R$ 0,04 = **R$ 2.160.000,00 / ano** (cortando clientes 100% orgânicos e sem propensão).
-  * **2. Receita Incremental (MLP):** +142.000 contratos novos $\times$ R$ 38,00 margem = **R$ 5.396.000,00 / ano** (alocação no espaço ideal sugerido pela IA).
+  * **1. Economia em CRM (30% Opex):** 4,5M msgs evitadas/mês × R$ 0,04 = **R$ 2.160.000,00 / ano** (cortando clientes 100% orgânicos e sem propensão).
+  * **2. Receita Incremental (MLP):** +142.000 novos contratos × R$ 38,00 de margem = **R$ 5.396.000,00 / ano** (alocação no espaço ideal sugerido pela IA).
   * **Investimento Total Ano 1:** Capex de Construção (R$ 380k) + Opex MLOps Sustentação (R$ 336k) = **R$ 716.000,00**.
   * **Retorno Líquido Ano 1:** **R$ 6.840.000,00** $\rightarrow$ **ROI de 955% com Payback em apenas 19 dias**.
 

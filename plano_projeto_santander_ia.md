@@ -56,7 +56,7 @@ O modelo de Inteligência Artificial **não realiza disparos automáticos "no su
 ### 3.2 Atribuição Causal sem Grupo de Controle
 Implementamos a fórmula de Atribuição Causal Dinâmica:
 $$w_{\text{causal}} = e^{-\lambda \Delta t} \times (1 - P_{\text{org}})$$
-Onde $\Delta t$ é o tempo em horas entre a visualização e a transação ($\lambda = 12h$ de meia-vida), e $P_{\text{org}}$ é a probabilidade orgânica base calculada pelo histórico dos últimos 90 dias.
+Onde $\Delta t$ é o tempo em horas entre a visualização e a transação (λ = 12h de meia-vida), e P_org é a probabilidade orgânica base calculada pelo histórico dos últimos 90 dias.
 
 ### 3.3 Separação de Dados sem Vazamento
 * **Divisão dos Dados:** Split estratificado com Holdout (70% Treino, 15% Validação, 15% Teste).
@@ -86,8 +86,8 @@ Onde $\Delta t$ é o tempo em horas entre a visualização e a transação ($\la
 * **Uplift de F1-Score:** **+19.8% de ganho da Rede Neural MLP sobre o Baseline linear** e **+71.5% sobre a Heurística**.
 
 ### 5.2 Validação Multi-Seed Obrigatória (Seeds: 42, 7, 123)
-* **Rede Neural MLP:** $\text{F1-Score} = \mathbf{0.4094 \pm 0.0064} \quad | \quad \text{ROC-AUC} = \mathbf{0.7023 \pm 0.0041}$
-* **Baseline LogReg:** $\text{F1-Score} = 0.3518 \pm 0.0028 \quad | \quad \text{ROC-AUC} = 0.7064 \pm 0.0035$
+* **Rede Neural MLP:** **F1-Score = 0.4094 ± 0.0064** | **ROC-AUC = 0.7023 ± 0.0041**
+* **Baseline LogReg:** **F1-Score = 0.3518 ± 0.0028** | **ROC-AUC = 0.7064 ± 0.0035**
 
 ---
 
@@ -100,13 +100,13 @@ Onde $\Delta t$ é o tempo em horas entre a visualização e a transação ($\la
 * **Atuação da IA:** O modelo identifica e corta 30% da base ineficiente:
   1. *Clientes 100% Orgânicos ($P_{\text{org}} > 90\%$):* Já realizariam o pagamento espontaneamente; a comunicação seria gasto inútil.
   2. *Clientes sem Propensão (< 2%):* Clientes que ignorariam o disparo e sofreriam fadiga de canal.
-* **Cálculo:** $15.000.000 \text{ msgs/mês} \times 30\% = 4.500.000 \text{ msgs evitadas/mês} \times \text{R\$} 0,04 = \text{R\$} 180.000/\text{mês} \rightarrow \mathbf{\text{R\$} 2.160.000,00 / \text{ano}}$.
+* **Cálculo:** 15.000.000 msgs/mês × 30% = 4.500.000 msgs evitadas/mês × R$ 0,04 = R$ 180.000/mês → **R$ 2.160.000,00 / ano**.
 
 #### B. Receita Incremental em Vendas (Ganho de R$ 5.396.000,00 / ano)
 * **Cenário Anterior:** Ofertas posicionadas no canal errado (ex: oferecer parcelamento por e-mail 3 dias após a transação gera conversão < 0,3%).
 * **Atuação da IA:** O Simulador orienta a pessoa de negócio a alocar a campanha no espaço ideal (*Next-Best-Space*), como um Lightbox contextual no momento de maior atenção do cliente, elevando a taxa de conversão para 4,8%.
 * **Cálculo:** Em uma base de 19 milhões de correntistas, a IA gera **+142.000 novas contratações/ano** com margem média líquida de R$ 38,00 por contrato.
-* **Cálculo:** $142.000 \text{ novos contratos} \times \text{R\$} 38,00 = \mathbf{\text{R\$} 5.396.000,00 / \text{ano}}$ (~R$ 450.000/mês).
+* **Cálculo:** 142.000 novos contratos × R$ 38,00 = **R$ 5.396.000,00 / ano** (~R$ 450.000/mês).
 
 ### 6.2 Planilha Financeira Consolidada (Ano 1)
 
@@ -115,12 +115,12 @@ Onde $\Delta t$ é o tempo em horas entre a visualização e a transação ($\la
 | **Custo de Construção (Capex)** | Squad de 3 meses (Tech Lead, Data Scientist, Data Engineer, PM, Frontend) + Cloud GPUs | **R$ 380.000,00** (One-Off) |
 | **Custo de Sustentação (Opex Anual)** | R$ 28.000/mês (Infra de scoring diário, retreino quinzenal, monitoramento MLOps) | **R$ 336.000,00** / ano |
 | **Investimento Total no Ano 1** | Capex de Construção + 12 meses de Opex | **R$ 716.000,00** |
-| **Economia em CRM (30% Opex)** | 4.500.000 disparos evitados/mês $\times$ R$ 0,04 por disparo/push | **R$ 2.160.000,00** / ano (R$ 180k/mês) |
-| **Receita Incremental de Vendas (MLP)** | +142.000 contratações adicionais no canal ideal $\times$ R$ 38,00 de margem média | **R$ 5.396.000,00** / ano (R$ 450k/mês) |
+| **Economia em CRM (30% Opex)** | 4.500.000 disparos evitados/mês × R$ 0,04 por disparo | **R$ 2.160.000,00** / ano (R$ 180k/mês) |
+| **Receita Incremental de Vendas (MLP)** | +142.000 contratações adicionais no canal ideal × R$ 38,00 de margem | **R$ 5.396.000,00** / ano (R$ 450k/mês) |
 | **Retorno Bruto Consolidado (Ano 1)** | Economia de CRM + Receita Incremental | **R$ 7.556.000,00** / ano |
 | **Retorno Líquido no Ano 1** | Retorno Bruto - Investimento Total | **R$ 6.840.000,00** |
-| **ROI (Retorno sobre Investimento)** | $(\text{R\$} 7.556.000 - \text{R\$} 716.000) / \text{R\$} 716.000$ | **955%** |
-| **Tempo de Payback** | $\text{R\$} 380.000 / \text{R\$} 601.666 \text{ ganho líquido/mês}$ | **0,63 meses (19 dias de operação)** |
+| **ROI (Retorno sobre Investimento)** | (R$ 7.556.000 - R$ 716.000) / R$ 716.000 | **955%** |
+| **Tempo de Payback** | R$ 380.000 / R$ 601.666 ganho líquido mensal | **0,63 meses (19 dias de operação)** |
 
 ---
 
@@ -132,9 +132,9 @@ Onde $\Delta t$ é o tempo em horas entre a visualização e a transação ($\la
 
 ### 7.2 Monitoramento de Data Drift & Métricas do Modelo
 * **Population Stability Index (PSI):** Monitoramento contínuo nas variáveis críticas (`score_arpac`, `gasto_cartao_mes`, `freq_pix_mes`).
-  * $\text{PSI} < 0.10$: Distribuição Estável (Sem ação).
-  * $0.10 \le \text{PSI} \le 0.20$: Alerta de Drift Moderado (Monitorar).
-  * $\text{PSI} > 0.20$: Gatilho automático de **Retreino Imediato do Modelo**.
+  * PSI < 0.10: Distribuição Estável (Sem ação).
+  * 0.10 ≤ PSI ≤ 0.20: Alerta de Drift Moderado (Monitorar).
+  * PSI > 0.20: Gatilho automático de **Retreino Imediato do Modelo**.
 * **Limiar de Degradação de Performance:** Alerta e acionamento de contingência caso o ROC-AUC em produção caia abaixo de **0.65** ou o F1-Score caia abaixo de **0.38**.
 * **Política de Retreino:** Retreino programado **quinzenal** com os dados mais recentes de transações e campanhas.
 * **Governança & LGPD:** Chave primária anonimizada via Hash criptográfico (`nrpess`).

@@ -58,12 +58,12 @@ O dashboard interativo está hospedado via GitHub Pages e pode ser acessado dire
 | **Custo de Construção (Capex)** | Squad de 3 meses (Tech Lead, Data Scientist, Data Engineer, PM, Frontend) + Cloud GPUs | **R$ 380.000,00** (One-Off) |
 | **Custo de Sustentação (Opex Anual)** | R$ 28.000/mês (Infra de scoring diário, retreino quinzenal, monitoramento MLOps) | **R$ 336.000,00** / ano |
 | **Investimento Total no Ano 1** | Capex de Construção + 12 meses de Opex | **R$ 716.000,00** |
-| **Economia em CRM (30% Opex Evitado)** | 4.500.000 disparos evitados/mês $\times$ R$ 0,04 por disparo/push (corta orgânicos e ruído) | **R$ 2.160.000,00** / ano (R$ 180k/mês) |
-| **Receita Incremental de Vendas (MLP)** | +142.000 contratações adicionais no canal ideal $\times$ R$ 38,00 de margem média líquida | **R$ 5.396.000,00** / ano (R$ 450k/mês) |
+| **Economia em CRM (30% Opex Evitado)** | 4.500.000 disparos evitados/mês × R$ 0,04 por disparo (corta orgânicos e ruído) | **R$ 2.160.000,00** / ano (R$ 180k/mês) |
+| **Receita Incremental de Vendas (MLP)** | +142.000 contratações adicionais no canal ideal × R$ 38,00 de margem | **R$ 5.396.000,00** / ano (R$ 450k/mês) |
 | **Retorno Bruto Consolidado (Ano 1)** | Economia de CRM + Receita Incremental | **R$ 7.556.000,00** / ano |
 | **Retorno Líquido no Ano 1** | Retorno Bruto (R$ 7.556.000) - Investimento Total (R$ 716.000) | **R$ 6.840.000,00** |
-| **ROI (Retorno sobre Investimento)** | $(\text{R\$} 7.556.000 - \text{R\$} 716.000) / \text{R\$} 716.000$ | **955,3%** |
-| **Tempo de Payback** | $\text{R\$} 380.000 / \text{R\$} 601.666 \text{ ganho líquido/mês}$ | **0,63 meses (19 dias de operação)** |
+| **ROI (Retorno sobre Investimento)** | (R$ 7.556.000 - R$ 716.000) / R$ 716.000 | **955,3%** |
+| **Tempo de Payback** | R$ 380.000 / R$ 601.666 ganho líquido mensal | **0,63 meses (19 dias de operação)** |
 
 ---
 
