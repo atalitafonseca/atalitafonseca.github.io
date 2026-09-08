@@ -15,22 +15,29 @@
 ### 1.1 O Desafio Operacional no Santander
 No ecossistema de canais digitais do **Santander**, mais de **19 milhões de correntistas ativos** realizam centenas de milhões de transações diárias. Contudo, três grandes dores estruturais motivaram a criação deste projeto:
 1. **Desconexão da Tríade de Negócio:** As equipes operavam em silos analíticos. O time de CRM monitorava impressões e cliques; o time de Produto acompanhava telas de funil dentro do App; e o time Financeiro auditava a liquidação de contratos no Core Bancário. Não havia conexão ponta a ponta.
-2. **Silo de Acesso aos Atributos (`nrpess`):** Apenas o time de CRM acessava as tabelas ricas de clientes. O especialista de Produto dependia de solicitações e jobs que demoravam cerca de **2 horas** para rodar (sujeito à fila de prioridade de processamento no cluster de dados).
+2. **Silo de Acesso aos Atributos (`nrpess`):** Apenas o time de CRM acessava as tabelas ricas de clientes. O especialista de Produto dependia de solicitações e queries que demoravam cerca de **2 horas** para rodar (sujeito à fila de prioridade de processamento no cluster de dados).
 3. **Superatribuição da Regra de 10 Dias do CRM e Inviabilidade de Grupos de Controle:** A regra legada de atribuição de 10 dias gerava até 138% de superatribuição ao creditar pagamentos orgânicos frequentes (Pix/Boleto) como mérito de campanhas. Além disso, travar clientes em **grupos de controle fixos é inviável**, pois geraria perda imediata de faturamento comercial para o banco.
 
-### 1.2 Metas e Métricas de Sucesso Quantificadas
+### 1.2 O Papel da IA como Copiloto de Decisão (Human-in-the-Loop)
+O modelo de Inteligência Artificial **não realiza disparos automáticos "no susto"** nem altera a esteira transacional do cliente. Ele atua como um **motor de diagnóstico e recomendação para o usuário de negócio**:
+1. **Pessoa de Negócio (Estratégia):** O Product Manager ou especialista de canal define o público-alvo inicial no Simulador (ex: *Clientes Select, produto Pix Parcelado, espaço inicial Banner*).
+2. **Simulador com Rede Neural (< 1 segundo):** Avalia instantaneamente a regra proposta, calculando o volume de público qualificado e prevendo a taxa de conversão esperada.
+3. **Sugestão Proativa de Otimização pela IA:** O modelo identifica gargalos e sugere melhorias imediatas (ex: *"Para este perfil Select, alterar de Banner para Lightbox aumenta a conversão em +45% e remover 28% de clientes orgânicos economiza R$ 45.000 em disparos de CRM sem perda de vendas"*).
+4. **Decisão do Usuário:** A pessoa de negócio valida a recomendação com 1 clique e publica a campanha com máxima eficiência.
+
+### 1.3 Metas e Métricas de Sucesso Quantificadas
 * **Retorno Financeiro Bruto:** **R$ 7.556.000,00 / ano** (R$ 2,16M em economia de CRM + R$ 5,40M em receita incremental).
-* **Economia Operacional em CRM:** **Redução de 30% em custos de disparos** evitando mensagens para clientes que converteriam organicamente.
+* **Economia Operacional em CRM:** **Redução de 30% em custos de disparos** (4,5M mensagens/mês evitadas $\times$ R$ 0,04 = R$ 2,16M/ano).
 * **Agilidade de Negócio:** Redução de **~2 horas (fila de prioridades do cluster) para < 1 segundo instantâneo** no tempo de simulação de públicos e análise de funis.
 * **Precisão de Forecast:** Previsão de fechamento do mês com erro médio absoluto (**MAPE < 5%**).
-* **Aumento de Eficiência Comercial:** **Aumento de 15% na taxa de conversão** pela alocação inteligente de produtos no espaço ideal do App (*Lightbox vs Banner*).
+* **Aumento de Eficiência Comercial:** **Aumento de 15% na taxa média de conversão** pela alocação inteligente de produtos no espaço ideal do App (*Lightbox vs Banner*).
 
 ---
 
 ## Bloco 2 — Necessidade Real de IA (O Teste dos 3 "Sim")
 
 1. **A lógica pode virar regras fixas simples (se-então)?**  
-   * **NÃO.** Uma regra determinística heurística simples (*Score ARPAC $\ge$ 7.0 e Gasto Cartão > R$ 2.500*) atinge um **Recall de apenas 0.3520 e F1-Score de 0.2450**, deixando passar quase 65% das oportunidades reais de conversão. O comportamento do cliente é altamente não-linear (um cliente de alta renda ignora Push, mas converte 2.8x mais em um Lightbox pós-transação).
+   * **NÃO.** Uma regra determinística heurística simples (*Score ARPAC $\ge$ 7.0 e Gasto Cartão > R$ 2.500*) atinge um **Recall de apenas 0.3520 e F1-Score de 0.2450**, deixando passar quase 65% das oportunidades reais de conversão. O comportamento do cliente é altamente não-linear (um cliente de alta renda ignora Push, mas converte 2.8x mais em um Lightbox contextual).
 2. **O problema muda frequentemente ou tem alta variação?**  
    * **SIM.** O mix de canais, a sensibilidade a preços e a volatilidade transacional mudam a cada decêndio do mês.
 3. **Há dados históricos e transacionais suficientes?**  
@@ -76,29 +83,44 @@ Onde $\Delta t$ é o tempo em horas entre a visualização e a transação ($\la
 | **2. Regressão Logística (Baseline)** | 69.67% | 31.20% | 40.10% | 0.3505 | 0.7064 |
 | **3. Rede Neural MLP (Campeão)** | **69.28%** | **37.85%** | **47.25%** | **0.4202** | **0.7023** |
 
-* **Uplift de F1-Score:** **+19.8% de ganho da Rede Neural MLP sobre o Baseline linear**.
+* **Uplift de F1-Score:** **+19.8% de ganho da Rede Neural MLP sobre o Baseline linear** e **+71.5% sobre a Heurística**.
 
 ### 5.2 Validação Multi-Seed Obrigatória (Seeds: 42, 7, 123)
-* **Rede Neural MLP:** $	ext{F1-Score} = \mathbf{0.4094 \pm 0.0064} \quad | \quad 	ext{ROC-AUC} = \mathbf{0.7023 \pm 0.0041}$
-* **Baseline LogReg:** $	ext{F1-Score} = 0.3518 \pm 0.0028 \quad | \quad 	ext{ROC-AUC} = 0.7064 \pm 0.0035$
+* **Rede Neural MLP:** $\text{F1-Score} = \mathbf{0.4094 \pm 0.0064} \quad | \quad \text{ROC-AUC} = \mathbf{0.7023 \pm 0.0041}$
+* **Baseline LogReg:** $\text{F1-Score} = 0.3518 \pm 0.0028 \quad | \quad \text{ROC-AUC} = 0.7064 \pm 0.0035$
 
 ---
 
 ## Bloco 6 — Viabilidade Econômica, ROI e Tradução em R$
 
-### 6.1 Detalhamento de Custos e Retornos Consolidados
+### 6.1 Detalhamento da Lógica de Negócio dos Ganhos
+
+#### A. Envios Evitados em CRM (Economia de R$ 2.160.000,00 / ano)
+* **Cenário Anterior:** Disparo massivo de cerca de 15.000.000 mensagens/mês (Push, SMS, E-mail, Alertas) a um custo unitário de R$ 0,04.
+* **Atuação da IA:** O modelo identifica e corta 30% da base ineficiente:
+  1. *Clientes 100% Orgânicos ($P_{\text{org}} > 90\%$):* Já realizariam o pagamento espontaneamente; a comunicação seria gasto inútil.
+  2. *Clientes sem Propensão (< 2%):* Clientes que ignorariam o disparo e sofreriam fadiga de canal.
+* **Cálculo:** $15.000.000 \text{ msgs/mês} \times 30\% = 4.500.000 \text{ msgs evitadas/mês} \times \text{R\$} 0,04 = \text{R\$} 180.000/\text{mês} \rightarrow \mathbf{\text{R\$} 2.160.000,00 / \text{ano}}$.
+
+#### B. Receita Incremental em Vendas (Ganho de R$ 5.396.000,00 / ano)
+* **Cenário Anterior:** Ofertas posicionadas no canal errado (ex: oferecer parcelamento por e-mail 3 dias após a transação gera conversão < 0,3%).
+* **Atuação da IA:** O Simulador orienta a pessoa de negócio a alocar a campanha no espaço ideal (*Next-Best-Space*), como um Lightbox contextual no momento de maior atenção do cliente, elevando a taxa de conversão para 4,8%.
+* **Cálculo:** Em uma base de 19 milhões de correntistas, a IA gera **+142.000 novas contratações/ano** com margem média líquida de R$ 38,00 por contrato.
+* **Cálculo:** $142.000 \text{ novos contratos} \times \text{R\$} 38,00 = \mathbf{\text{R\$} 5.396.000,00 / \text{ano}}$ (~R$ 450.000/mês).
+
+### 6.2 Planilha Financeira Consolidada (Ano 1)
 
 | Indicador Financeiro | Detalhamento / Premissa | Valor Consolidado |
 | :--- | :--- | :--- |
 | **Custo de Construção (Capex)** | Squad de 3 meses (Tech Lead, Data Scientist, Data Engineer, PM, Frontend) + Cloud GPUs | **R$ 380.000,00** (One-Off) |
 | **Custo de Sustentação (Opex Anual)** | R$ 28.000/mês (Infra de scoring diário, retreino quinzenal, monitoramento MLOps) | **R$ 336.000,00** / ano |
 | **Investimento Total no Ano 1** | Capex de Construção + 12 meses de Opex | **R$ 716.000,00** |
-| **Economia em CRM (30% Opex)** | 4.500.000 disparos evitados/mês $	imes$ R$ 0,04 por disparo/push | **R$ 2.160.000,00** / ano (R$ 180k/mês) |
-| **Receita Incremental de Vendas (MLP)** | +142.000 contratações adicionais no canal ideal $	imes$ R$ 38,00 de margem média | **R$ 5.396.000,00** / ano (R$ 450k/mês) |
+| **Economia em CRM (30% Opex)** | 4.500.000 disparos evitados/mês $\times$ R$ 0,04 por disparo/push | **R$ 2.160.000,00** / ano (R$ 180k/mês) |
+| **Receita Incremental de Vendas (MLP)** | +142.000 contratações adicionais no canal ideal $\times$ R$ 38,00 de margem média | **R$ 5.396.000,00** / ano (R$ 450k/mês) |
 | **Retorno Bruto Consolidado (Ano 1)** | Economia de CRM + Receita Incremental | **R$ 7.556.000,00** / ano |
 | **Retorno Líquido no Ano 1** | Retorno Bruto - Investimento Total | **R$ 6.840.000,00** |
-| **ROI (Retorno sobre Investimento)** | $(	ext{R\$} 7.556.000 - 	ext{R\$} 716.000) / 	ext{R\$} 716.000$ | **955%** |
-| **Tempo de Payback** | $	ext{R\$} 380.000 / 	ext{R\$} 601.666 	ext{ ganho líquido/mês}$ | **0,63 meses (19 dias de operação)** |
+| **ROI (Retorno sobre Investimento)** | $(\text{R\$} 7.556.000 - \text{R\$} 716.000) / \text{R\$} 716.000$ | **955%** |
+| **Tempo de Payback** | $\text{R\$} 380.000 / \text{R\$} 601.666 \text{ ganho líquido/mês}$ | **0,63 meses (19 dias de operação)** |
 
 ---
 
@@ -110,9 +132,9 @@ Onde $\Delta t$ é o tempo em horas entre a visualização e a transação ($\la
 
 ### 7.2 Monitoramento de Data Drift & Métricas do Modelo
 * **Population Stability Index (PSI):** Monitoramento contínuo nas variáveis críticas (`score_arpac`, `gasto_cartao_mes`, `freq_pix_mes`).
-  * $	ext{PSI} < 0.10$: Distribuição Estável (Sem ação).
-  * $0.10 \le 	ext{PSI} \le 0.20$: Alerta de Drift Moderado (Monitorar).
-  * $	ext{PSI} > 0.20$: Gatilho automático de **Retreino Imediato do Modelo**.
+  * $\text{PSI} < 0.10$: Distribuição Estável (Sem ação).
+  * $0.10 \le \text{PSI} \le 0.20$: Alerta de Drift Moderado (Monitorar).
+  * $\text{PSI} > 0.20$: Gatilho automático de **Retreino Imediato do Modelo**.
 * **Limiar de Degradação de Performance:** Alerta e acionamento de contingência caso o ROC-AUC em produção caia abaixo de **0.65** ou o F1-Score caia abaixo de **0.38**.
 * **Política de Retreino:** Retreino programado **quinzenal** com os dados mais recentes de transações e campanhas.
 * **Governança & LGPD:** Chave primária anonimizada via Hash criptográfico (`nrpess`).
