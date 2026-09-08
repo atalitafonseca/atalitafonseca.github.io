@@ -15,13 +15,13 @@
 ### 1.1 O Desafio Operacional no Santander
 No ecossistema de canais digitais do **Santander**, mais de **19 milhões de correntistas ativos** realizam centenas de milhões de transações diárias. Contudo, três grandes dores estruturais motivaram a criação deste projeto:
 1. **Desconexão da Tríade de Negócio:** As equipes operavam em silos analíticos. O time de CRM monitorava impressões e cliques; o time de Produto acompanhava telas de funil dentro do App; e o time Financeiro auditava a liquidação de contratos no Core Bancário. Não havia conexão ponta a ponta.
-2. **Silo de Acesso aos Atributos (`nrpess`):** Apenas o time de CRM acessava as tabelas ricas de clientes. O especialista de Produto dependia de solicitações manuais que demoravam **3 semanas** para dimensionar públicos elegíveis.
+2. **Silo de Acesso aos Atributos (`nrpess`):** Apenas o time de CRM acessava as tabelas ricas de clientes. O especialista de Produto dependia de solicitações e jobs que demoravam cerca de **2 horas** para rodar (sujeito à fila de prioridade de processamento no cluster de dados).
 3. **Superatribuição da Regra de 10 Dias do CRM e Inviabilidade de Grupos de Controle:** A regra legada de atribuição de 10 dias gerava até 138% de superatribuição ao creditar pagamentos orgânicos frequentes (Pix/Boleto) como mérito de campanhas. Além disso, travar clientes em **grupos de controle fixos é inviável**, pois geraria perda imediata de faturamento comercial para o banco.
 
 ### 1.2 Metas e Métricas de Sucesso Quantificadas
 * **Retorno Financeiro Bruto:** **R$ 7.556.000,00 / ano** (R$ 2,16M em economia de CRM + R$ 5,40M em receita incremental).
 * **Economia Operacional em CRM:** **Redução de 30% em custos de disparos** evitando mensagens para clientes que converteriam organicamente.
-* **Agilidade de Negócio:** Redução de **3 semanas para < 1 segundo** no tempo de simulação de públicos e análise de funis.
+* **Agilidade de Negócio:** Redução de **~2 horas (fila de prioridades do cluster) para < 1 segundo instantâneo** no tempo de simulação de públicos e análise de funis.
 * **Precisão de Forecast:** Previsão de fechamento do mês com erro médio absoluto (**MAPE < 5%**).
 * **Aumento de Eficiência Comercial:** **Aumento de 15% na taxa de conversão** pela alocação inteligente de produtos no espaço ideal do App (*Lightbox vs Banner*).
 

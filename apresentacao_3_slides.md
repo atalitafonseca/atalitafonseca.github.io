@@ -14,6 +14,7 @@
 * **O Desafio de Negócio (Disparos no Escuro & Silos):**
   * O especialista de Produto desenhava campanhas às cegas: não sabia o **tamanho real do público elegível** nem a **conversão em cada espaço do App**.
   * Silos analíticos: CRM monitorava cliques, Produto monitorava telas e Financeiro monitorava contratos no Core Bancário.
+  * Consultas de público demoravam cerca de **2 horas** (sujeito à fila de prioridade de cluster/CRM).
   * Regra legada de atribuição de 10 dias gerava até **138% de superatribuição** ao creditar transações orgânicas normais do cliente.
 
 * **A Solução com Inteligência Artificial (FGV):**
